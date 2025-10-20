@@ -31,7 +31,7 @@ internal class ProgressBarMenuOption(string text, Func<float> progressProvider, 
 
         var bar = "";
         for (int i = 0; i < filledCount; i++)
-            bar += $"<font color='#{Menu!.RenderColor.ToHex(true)}'>{FilledChar}</font>";
+            bar += $"<font color='{Menu!.RenderColor.ToHex(true)}'>{FilledChar}</font>";
         for (int i = 0; i < emptyCount; i++)
             bar += $"<font color='#666666'>{EmptyChar}</font>";
 

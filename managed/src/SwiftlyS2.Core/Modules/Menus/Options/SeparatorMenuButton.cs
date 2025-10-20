@@ -21,7 +21,7 @@ internal class SeparatorMenuOption : IOption
 
     public string GetDisplayText(IPlayer player)
     {
-        return $"<font color='#444444'>{Text}</font>";
+        return $"<font color='{Menu!.RenderColor.ToHex(true)}'>{Text}</font>";
     }
 
     public IMenuTextSize GetTextSize()

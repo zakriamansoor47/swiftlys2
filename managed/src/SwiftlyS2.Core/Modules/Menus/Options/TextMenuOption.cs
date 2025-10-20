@@ -38,7 +38,7 @@ public class TextMenuOption : IOption
 
     public bool CanInteract(IPlayer player)
     {
-        return false;
+        return true;
     }
 
     public string GetDisplayText(IPlayer player)

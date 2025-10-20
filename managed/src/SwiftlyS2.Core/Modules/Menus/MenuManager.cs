@@ -1,8 +1,11 @@
 using System.Collections.Concurrent;
 using System.Globalization;
 using SwiftlyS2.Core.Natives;
+using SwiftlyS2.Shared;
+using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
+using SwiftlyS2.Shared.Sounds;
 
 namespace SwiftlyS2.Core.Menus;
 
@@ -14,10 +17,39 @@ internal class MenuManager : IMenuManager
     public event Action<IPlayer, IMenu>? OnMenuOpened;
     public event Action<IPlayer, IMenu>? OnMenuRendered;
 
-    private ConcurrentDictionary<IPlayer, IMenu> OpenMenus { get; set; } = new();
-
-    public MenuManager()
+    private static readonly Dictionary<string, KeyKind> StringToKeyKind = new()
     {
+        { "mouse1", KeyKind.Mouse1 },
+        { "mouse2", KeyKind.Mouse2 },
+        { "space", KeyKind.Space },
+        { "ctrl", KeyKind.Ctrl },
+        { "w", KeyKind.W },
+        { "a", KeyKind.A },
+        { "s", KeyKind.S },
+        { "d", KeyKind.D },
+        { "e", KeyKind.E },
+        { "esc", KeyKind.Esc },
+        { "r", KeyKind.R },
+        { "alt", KeyKind.Alt },
+        { "shift", KeyKind.Shift },
+        { "weapon1", KeyKind.Weapon1 },
+        { "weapon2", KeyKind.Weapon2 },
+        { "grenade1", KeyKind.Grenade1 },
+        { "grenade2", KeyKind.Grenade2 },
+        { "tab", KeyKind.Tab },
+        { "f", KeyKind.F },
+    };
+
+    private ConcurrentDictionary<IPlayer, IMenu> OpenMenus { get; set; } = new();
+    private ISwiftlyCore _Core { get; set; }
+
+    private SoundEvent _useSound = new();
+    private SoundEvent _exitSound = new();
+    private SoundEvent _scrollSound = new();
+
+    public MenuManager(ISwiftlyCore core)
+    {
+        _Core = core;
         var settings = NativeEngineHelpers.GetMenuSettings();
         var parts = settings.Split('\x01');
         Settings = new MenuSettings
@@ -35,6 +67,76 @@ internal class MenuManager : IMenuManager
             SoundExitVolume = float.Parse(parts[10], CultureInfo.InvariantCulture),
             ItemsPerPage = int.Parse(parts[11]),
         };
+
+        _scrollSound.Name = Settings.SoundScrollName;
+        _scrollSound.Volume = Settings.SoundScrollVolume;
+
+        _useSound.Name = Settings.SoundUseName;
+        _useSound.Volume = Settings.SoundUseVolume;
+
+        _exitSound.Name = Settings.SoundExitName;
+        _exitSound.Volume = Settings.SoundExitVolume;
+
+        _Core.Event.OnClientKeyStateChanged += KeyStateChange;
+    }
+
+    ~MenuManager()
+    {
+        foreach (var kvp in OpenMenus)
+        {
+            var player = kvp.Key;
+            var menu = kvp.Value;
+            menu.Close(player);
+        }
+
+        _Core.Event.OnClientKeyStateChanged -= KeyStateChange;
+    }
+
+    void KeyStateChange(IOnClientKeyStateChangedEvent @event)
+    {
+        var player = _Core.PlayerManager.GetPlayer(@event.PlayerId);
+        var menu = GetMenu(player);
+        if (menu == null) return;
+
+        if (Settings.InputMode == "button")
+        {
+            var scrollKey = StringToKeyKind.GetValueOrDefault(_Core.Menus.Settings.ButtonsScroll);
+            var exitKey = StringToKeyKind.GetValueOrDefault(_Core.Menus.Settings.ButtonsExit);
+            var useKey = StringToKeyKind.GetValueOrDefault(_Core.Menus.Settings.ButtonsUse);
+
+            if (@event.Key == scrollKey && @event.Pressed)
+            {
+                menu.MoveSelection(player, 1);
+
+                if (menu.HasSound)
+                {
+                    _scrollSound.Recipients.AddRecipient(@event.PlayerId);
+                    _scrollSound.Emit();
+                    _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == exitKey && @event.Pressed)
+            {
+                _Core.Menus.CloseMenuForPlayer(player);
+
+                if (menu.HasSound)
+                {
+                    _exitSound.Recipients.AddRecipient(@event.PlayerId);
+                    _exitSound.Emit();
+                    _exitSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == useKey && @event.Pressed)
+            {
+                menu.UseSelection(player);
+                if (menu.HasSound)
+                {
+                    _useSound.Recipients.AddRecipient(@event.PlayerId);
+                    _useSound.Emit();
+                    _useSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+        }
     }
 
     public void CloseMenu(IMenu menu)
@@ -71,7 +173,7 @@ internal class MenuManager : IMenuManager
         {
             menu.Close(player);
             OnMenuClosed?.Invoke(player, menu);
-            if(menu.Parent != null)
+            if (menu.Parent != null)
             {
                 OpenMenu(player, menu.Parent);
             }
@@ -80,7 +182,7 @@ internal class MenuManager : IMenuManager
 
     public IMenu CreateMenu(string title)
     {
-        return new Menu { Title = title, MenuManager = this, MaxVisibleOptions = Settings.ItemsPerPage };
+        return new Menu { Title = title, MenuManager = this, MaxVisibleOptions = Settings.ItemsPerPage, _Core = _Core };
     }
 
     public IMenu? GetMenu(IPlayer player)

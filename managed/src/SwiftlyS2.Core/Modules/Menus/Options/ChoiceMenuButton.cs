@@ -51,7 +51,7 @@ internal class ChoiceMenuOption : IOption
     {
         var sizeClass = MenuSizeHelper.GetSizeClass(Size);
 
-        var choice = $"<font color='#{Menu!.RenderColor.ToHex(true)}'>[</font>{SelectedChoice}<font color='#{Menu.RenderColor.ToHex(true)}'>]</font>";
+        var choice = $"<font color='{Menu!.RenderColor.ToHex(true)}'>[</font>{SelectedChoice}<font color='#{Menu.RenderColor.ToHex(true)}'>]</font>";
 
         if (!CanInteract(player))
         {

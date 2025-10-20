@@ -45,7 +45,7 @@ public class SubmenuMenuOption : IOption
     {
         var sizeClass = MenuSizeHelper.GetSizeClass(Size);
 
-        var arrow = $" <font color='#{Menu!.RenderColor.ToHex(true)}' class='{sizeClass}'>{Menu!.MenuManager.Settings.NavigationPrefix}</font>";
+        var arrow = $" <font color='{Menu!.RenderColor.ToHex(true)}' class='{sizeClass}'>{Menu!.MenuManager.Settings.NavigationPrefix}</font>";
 
         if (!CanInteract(player))
         {

@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Text;
 using SwiftlyS2.Core.Menu.Options;
 using SwiftlyS2.Core.Natives;
+using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Natives;
 using SwiftlyS2.Shared.Players;
@@ -38,6 +39,8 @@ internal class Menu : IMenu
 
     private ConcurrentDictionary<IPlayer, string> RenderedText { get; set; } = new();
     private ConcurrentDictionary<IPlayer, int> SelectedIndex { get; set; } = new();
+    internal ISwiftlyCore _Core { get; set; }
+    public bool HasSound { get; set; } = true;
 
     public void Close(IPlayer player)
     {
@@ -54,6 +57,15 @@ internal class Menu : IMenu
         }
 
         SelectedIndex[player] += offset;
+        if (SelectedIndex[player] < 0) SelectedIndex[player] = -SelectedIndex[player] % Options.Count;
+        if (SelectedIndex[player] >= Options.Count) SelectedIndex[player] %= Options.Count;
+
+        while (!Options[SelectedIndex[player]].CanInteract(player))
+        {
+            SelectedIndex[player]++;
+            if (SelectedIndex[player] < 0) SelectedIndex[player] = -SelectedIndex[player] % Options.Count;
+            if (SelectedIndex[player] >= Options.Count) SelectedIndex[player] %= Options.Count;
+        }
 
         if (SelectedIndex[player] < 0) SelectedIndex[player] = -SelectedIndex[player] % Options.Count;
         if (SelectedIndex[player] >= Options.Count) SelectedIndex[player] %= Options.Count;
@@ -85,38 +97,67 @@ internal class Menu : IMenu
             }
         }
 
-        var startIndex = SelectedIndex[player];
-        var endIndex = Math.Min(startIndex + maxVisibleOptions, Options.Count);
-
         var html = new StringBuilder();
 
-        html.Append($"<font class='fontSize-m' color='#{RenderColor.ToHex(true)}'>{Title}</font>");
+        html.Append($"<font class='fontSize-m' color='{RenderColor.ToHex(true)}'>{Title}</font>");
 
         if (totalOptions > maxVisibleOptions)
         {
-            html.Append($"<font class='fontSize-s' color='#FFFFFF'> [{SelectedIndex[player] + 1}/{Options.Count}]</font>");
+            html.Append($"<font class='fontSize-s' color='#FFFFFF'> [{SelectedIndex[player] + 1}/{totalOptions}]</font>");
         }
 
         html.Append("<font color='#FFFFFF' class='fontSize-sm'><br>");
 
-        for (int i = startIndex; i < endIndex; i++)
+        if (totalOptions > 0)
         {
-            var option = visibleOptions[i];
-            var isSelected = i == SelectedIndex[player];
-            var arrowSizeClass = MenuSizeHelper.GetSizeClass(option.GetTextSize());
-
-            if (isSelected)
+            if (totalOptions > maxVisibleOptions)
             {
-                html.Append($"<font color='#{RenderColor.ToHex(true)}' class='{arrowSizeClass}'>{MenuManager.Settings.NavigationPrefix} </font>");
+                var selectedIdx = SelectedIndex[player];
+                var halfVisible = maxVisibleOptions / 2;
+
+                for (int offset = -halfVisible; offset <= halfVisible && offset < maxVisibleOptions - halfVisible; offset++)
+                {
+                    var actualIndex = (selectedIdx + offset + totalOptions) % totalOptions;
+                    var option = visibleOptions[actualIndex];
+                    var isSelected = offset == 0;
+                    var arrowSizeClass = MenuSizeHelper.GetSizeClass(option.GetTextSize());
+
+                    if (isSelected)
+                    {
+                        html.Append($"<font color='{RenderColor.ToHex(true)}' class='{arrowSizeClass}'>{MenuManager.Settings.NavigationPrefix} </font>");
+                    }
+                    else
+                    {
+                        html.Append("\u00A0\u00A0\u00A0 ");
+                    }
+
+                    html.Append(option.GetDisplayText(player));
+
+                    html.Append("<br>");
+                }
             }
             else
             {
-                html.Append("\u00A0\u00A0\u00A0 ");
+                for (int i = 0; i < totalOptions; i++)
+                {
+                    var option = visibleOptions[i];
+                    var isSelected = i == SelectedIndex[player];
+                    var arrowSizeClass = MenuSizeHelper.GetSizeClass(option.GetTextSize());
+
+                    if (isSelected)
+                    {
+                        html.Append($"<font color='{RenderColor.ToHex(true)}' class='{arrowSizeClass}'>{MenuManager.Settings.NavigationPrefix} </font>");
+                    }
+                    else
+                    {
+                        html.Append("\u00A0\u00A0\u00A0 ");
+                    }
+
+                    html.Append(option.GetDisplayText(player));
+
+                    html.Append("<br>");
+                }
             }
-
-            html.Append(option.GetDisplayText(player));
-
-            html.Append("<br>");
         }
 
         html.Append("<br>");
@@ -131,7 +172,7 @@ internal class Menu : IMenu
 
         AfterRender?.Invoke(player);
     }
-    
+
     private string BuildFooter()
     {
         var footer = new StringBuilder("<font color='#ffffff' class='fontSize-s'>");
@@ -141,11 +182,11 @@ internal class Menu : IMenu
         var scrollDisplay = isWASD ? "W/S" : MenuManager.Settings.ButtonsScroll.ToUpper();
         var exitDisplay = isWASD ? "A" : MenuManager.Settings.ButtonsExit.ToUpper();
 
-        footer.Append($"Move: <font color='#{RenderColor.ToHex(true)}'>{scrollDisplay}</font>");
+        footer.Append($"Move: <font color='{RenderColor.ToHex(true)}'>{scrollDisplay}</font>");
 
-        footer.Append($" | Use: <font color='#{RenderColor.ToHex(true)}'>{selectDisplay}</font>");
+        footer.Append($" | Use: <font color='{RenderColor.ToHex(true)}'>{selectDisplay}</font>");
 
-        footer.Append($" | Exit: <font color='#{RenderColor.ToHex(true)}'>{exitDisplay}</font>");
+        footer.Append($" | Exit: <font color='{RenderColor.ToHex(true)}'>{exitDisplay}</font>");
 
         footer.Append("</font><br>");
         return footer.ToString();
@@ -153,9 +194,22 @@ internal class Menu : IMenu
 
     public void Show(IPlayer player)
     {
+        if (!SelectedIndex.TryAdd(player, 0))
+        {
+            SelectedIndex[player] = 0;
+        }
+
         Rerender(player);
         OnOpen?.Invoke(player);
         if (ShouldFreeze == true) SetFreezeState(player, true);
+
+        if (AutoCloseAfter != 0f)
+        {
+            AutoCloseCancelTokens[player] = _Core.Scheduler.DelayBySeconds(AutoCloseAfter, () =>
+            {
+                Close(player);
+            });
+        }
     }
 
     public void UseSelection(IPlayer player)
@@ -251,6 +305,12 @@ internal class Menu : IMenu
         }
 
         Rerender(player);
+    }
+
+    public bool IsOptionSlider(IPlayer player)
+    {
+        var option = Options[SelectedIndex[player]];
+        return option is SliderMenuButton || option is ChoiceMenuOption;
     }
 
     public bool IsCurrentOptionSelectable(IPlayer player)

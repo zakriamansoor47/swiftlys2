@@ -399,67 +399,50 @@ public class TestPlugin : BasePlugin
   [Command("menu")]
   public void MenuCommand(ICommandContext context)
   {
-    var menu = Core.Menus.CreateMenu(Core.Localizer["hello"], true, true, true);
+    var player = context.Sender!;
+    var menu = Core.Menus.CreateMenu("Test Menu");
 
-    menu.AddBoolOption("Test Bool", true, (player, option, menu) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Bool option changed to {option.Value}");
-    });
+    menu.Builder
+      .AddButton("Button 1", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 1");
+      })
+      .AddButton("Button 2", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 2");
+      })
+      .AddButton("Button 3", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 3");
+      })
+      .AddButton("Button 4", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 4");
+      })
+      .AddButton("Button 5", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 5");
+      })
+      .AddButton("Button 6", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 6");
+      })
+      .AddButton("Button 7", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 7");
+      })
+      .AddButton("Button 8", (ctx) =>
+      {
+        player.SendMessage(MessageType.Chat, "You clicked Button 8");
+      })
+      .AddSeparator()
+      .AddText("hello!", size: SwiftlyS2.Shared.Menus.IMenuTextSize.ExtraLarge)
+      .SetColor(new(0, 186, 105, 255))
+      .AutoClose(15f)
+      .HasSound(true)
+      .ForceFreeze();
 
-    menu.AddOption("Test Option", (player, option, menu) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Option pressed, hello!");
-    });
-
-    menu.AddSliderOption("Test Slider", ["One", "Two", "Three", "Four", "Five"], "Three", 3, (player, option, menu, index, value) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Slider changed to {value} at index {index}");
-    });
-
-    menu.AddInputOption("Test Input", "Default Text", "Please add a message mate", (player, option, menu, text) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Input changed to {text}");
-    });
-    menu.AddBoolOption("Test Bool", true, (player, option, menu) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Bool option changed to {option.Value}");
-    });
-
-    menu.AddOption("Test Option", (player, option, menu) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Option pressed, hello!");
-    });
-
-    menu.AddSliderOption("Test Slider", ["One", "Two", "Three", "Four", "Five"], "Three", 3, (player, option, menu, index, value) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Slider changed to {value} at index {index}");
-    });
-
-    menu.AddInputOption("Test Input", "Default Text", "Please add a message mate", (player, option, menu, text) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Input changed to {text}");
-    });
-    menu.AddBoolOption("Test Bool", true, (player, option, menu) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Bool option changed to {option.Value}");
-    });
-
-    menu.AddOption("Test Option", (player, option, menu) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Option pressed, hello!");
-    });
-
-    menu.AddSliderOption("Test Slider", ["One", "Two", "Three", "Four", "Five"], "Three", 3, (player, option, menu, index, value) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Slider changed to {value} at index {index}");
-    });
-
-    menu.AddInputOption("Test Input", "Default Text", "Please add a message mate", (player, option, menu, text) =>
-    {
-      player.SendMessage(MessageType.Chat, $"Input changed to {text}");
-    });
-
-    Core.Menus.OpenMenu(context.Sender!, menu, 15f);
+    Core.Menus.OpenMenu(player, menu);
   }
 
   public override void Unload()

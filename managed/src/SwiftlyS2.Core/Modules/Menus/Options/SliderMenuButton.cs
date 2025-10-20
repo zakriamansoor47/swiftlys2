@@ -39,11 +39,11 @@ internal class SliderMenuButton(string text, float min = 0, float max = 10, floa
         float percentage = (Value - Min) / (Max - Min);
         int filledBars = (int)(percentage * totalBars);
 
-        string slider = $"<font color='#{Menu!.RenderColor.ToHex(true)}'>(</font>";
+        string slider = $"<font color='{Menu!.RenderColor.ToHex(true)}'>(</font>";
         for (int i = 0; i < totalBars; i++)
         {
             if (i < filledBars)
-                slider += $"<font color='#{Menu!.RenderColor.ToHex(true)}'>■</font>";
+                slider += $"<font color='{Menu!.RenderColor.ToHex(true)}'>■</font>";
             else
                 slider += "<font color='#666666'>□</font>";
         }
