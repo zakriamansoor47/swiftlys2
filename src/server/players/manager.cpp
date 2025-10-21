@@ -28,21 +28,6 @@
 
 #include <s2binlib/s2binlib.h>
 
-class EntityCheckTransmit
-{
-public:
-    CBitVec<MAX_EDICTS>* m_pTransmitEntity;	// 0
-    CBitVec<MAX_EDICTS>* m_pUnkBitVec;		// 8
-    CBitVec<MAX_EDICTS>* m_pUnkBitVec2;		// 16
-    CBitVec<MAX_EDICTS>* m_pUnkBitVec3;		// 24
-    CBitVec<MAX_EDICTS>* m_pTransmitAlways; // 32
-    CUtlVector<int> m_unk40;				// 40
-    vis_info_t* m_VisInfo;					// 64
-    [[maybe_unused]] byte m_unk72[0x1F8];	// 72
-    CEntityIndex m_nClientEntityIndex;		// 576
-    bool m_bFullUpdate;						// 580
-};
-
 class CUserCmd
 {
 public:
@@ -70,7 +55,7 @@ void OnGameFramePlayerHook(void* _this, bool simulate, bool first, bool last);
 void OnClientPutInServerHook(void* _this, CPlayerSlot slot, char const* pszName, int type, uint64 xuid);
 bool ClientConnectHook(void* _this, CPlayerSlot slot, const char* pszName, uint64 xuid, const char* pszNetworkID, bool unk1, CBufferString* pRejectReason);
 void OnClientConnectedHook(void* _this, CPlayerSlot slot, const char* pszName, uint64 xuid, const char* pszNetworkID, const char* pszAddress, bool bFakePlayer);
-void ClientDisconnectHook(void* _this, CPlayerSlot slot, ENetworkDisconnectionReason reason, const char* pszName, uint64 xuid, const char* pszNetworkID);
+void ClientDisconnectHook(void* _this, CPlayerSlot slot, int reason, const char* pszName, uint64 xuid, const char* pszNetworkID);
 void CheckTransmitHook(void* _this, CCheckTransmitInfo** ppInfoList, int infoCount, CBitVec<16384>& unionTransmitEdicts, CBitVec<16384>& unk, const Entity2Networkable_t** pNetworkables, const uint16_t* pEntityIndicies, int nEntities);
 
 void CPlayerManager::Initialize()
@@ -218,8 +203,8 @@ void CheckTransmitHook(void* _this, CCheckTransmitInfo** ppInfoList, int infoCou
     static auto playermanager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
     for (int i = 0; i < infoCount; i++)
     {
-        auto& pInfo = (EntityCheckTransmit*&)ppInfoList[i];
-        int playerid = pInfo->m_nClientEntityIndex.Get();
+        auto& pInfo = ppInfoList[i];
+        int playerid = pInfo->m_nPlayerSlot.Get();
         if (!playermanager->IsPlayerOnline(playerid)) continue;
         auto player = playermanager->GetPlayer(playerid);
 
@@ -284,8 +269,6 @@ bool ClientConnectHook(void* _this, CPlayerSlot slot, const char* pszName, uint6
     player->Initialize(playerid);
     player->SetUnauthorizedSteamID(xuid);
 
-    printf("%s -> %d\n", pszName, playerid);
-
     if (g_pOnClientConnectCallback)
         if (reinterpret_cast<bool(*)(int)>(g_pOnClientConnectCallback)(playerid) == false)
             return false;
@@ -311,7 +294,7 @@ void OnClientConnectedHook(void* _this, CPlayerSlot slot, const char* pszName, u
 
 extern void* g_pOnClientDisconnectCallback;
 
-void ClientDisconnectHook(void* _this, CPlayerSlot slot, ENetworkDisconnectionReason reason, const char* pszName, uint64 xuid, const char* pszNetworkID)
+void ClientDisconnectHook(void* _this, CPlayerSlot slot, int reason, const char* pszName, uint64 xuid, const char* pszNetworkID)
 {
     reinterpret_cast<decltype(&ClientDisconnectHook)>(g_pClientDisconnectHook->GetOriginal())(_this, slot, reason, pszName, xuid, pszNetworkID);
 

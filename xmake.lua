@@ -14,7 +14,7 @@ add_includedirs("external/include")
 local GITHUB_SHA = os.getenv("GITHUB_SHA") or "Local"
 local SWIFTLY_VERSION = os.getenv("SWIFTLY_VERSION") or "Local"
 
-local sdk_path = "vendor/hl2sdk-cs2"
+local sdk_path = "vendor/s2sdk"
 local metamod_path = "vendor/metamod"
 
 function GetDistDirName()
@@ -33,11 +33,11 @@ target("swiftlys2")
     add_files({
         "src/**/*.cpp",
 
-        sdk_path.."/tier1/keyvalues3.cpp",
-        sdk_path.."/entity2/entitysystem.cpp",
-        sdk_path.."/entity2/entityidentity.cpp",
-        sdk_path.."/tier1/convar.cpp",
-        sdk_path.."/entity2/entitykeyvalues.cpp",
+        sdk_path.."/public/tier1/keyvalues3.cpp",
+        sdk_path.."/public/entity2/entitysystem.cpp",
+        sdk_path.."/public/entity2/entityidentity.cpp",
+        sdk_path.."/public/tier1/convar.cpp",
+        sdk_path.."/public/entity2/entitykeyvalues.cpp",
         sdk_path.."/public/tier0/memoverride.cpp",
     }, { cxxflags = "-rdynamic -g1" })
 
@@ -131,12 +131,15 @@ target("swiftlys2")
 
     --[[ -------------------------------- HL2SDK Mandatory Libs Section -------------------------------- ]]
 
+    add_files({
+        sdk_path.."/mathlib/mathlib.cpp"
+    })
+
     if is_plat("windows") then
         add_links({
             sdk_path.."/lib/public/win64/tier0.lib",
             sdk_path.."/lib/public/win64/tier1.lib",
             sdk_path.."/lib/public/win64/interfaces.lib",
-            sdk_path.."/lib/public/win64/mathlib.lib",
             sdk_path.."/lib/public/win64/2015/libprotobuf.lib",
             sdk_path.."/lib/public/win64/steam_api64.lib",
             "vendor/s2binlib/s2binlib.lib"
@@ -146,7 +149,6 @@ target("swiftlys2")
             sdk_path.."/lib/linux64/libtier0.so",
             sdk_path.."/lib/linux64/tier1.a",
             sdk_path.."/lib/linux64/interfaces.a",
-            sdk_path.."/lib/linux64/mathlib.a",
             sdk_path.."/lib/linux64/release/libprotobuf.a",
             sdk_path.."/lib/linux64/libsteam_api.so",
             "vendor/s2binlib/libs2binlib.a"
@@ -281,7 +283,7 @@ target("swiftlys2")
         end
 
         local protoc = is_plat("windows") and sdk_path.."/devtools/bin/protoc.exe" or sdk_path.."/devtools/bin/linux/protoc" 
-        local args = "--proto_path="..sdk_path.."/thirdparty/protobuf-3.21.8/src --proto_path=./protobufs/cs2 --proto_path="..sdk_path.."/public --proto_path="..sdk_path.."/public/engine --proto_path="..sdk_path.."/public/mathlib --proto_path="..sdk_path.."/public/tier0 --proto_path="..sdk_path.."/public/tier1 --proto_path="..sdk_path.."/public/entity2 --proto_path="..sdk_path.."/public/game/server --proto_path="..sdk_path.."/game/shared --proto_path="..sdk_path.."/game/server --proto_path="..sdk_path.."/common --cpp_out=build/proto"
+        local args = "--proto_path="..sdk_path.."/thirdparty/protobuf-3.21.8/src --proto_path=./protobufs/cs2 --cpp_out=build/proto"
 
         function mysplit (inputstr, sep)
             if sep == nil then sep = "%s" end

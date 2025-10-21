@@ -145,6 +145,12 @@
         "windows": "48 8B C4 44 88 48 20 44 89 40 18 48 89 50 10 53",
         "linux": "55 48 89 E5 41 57 41 56 41 55 41 54 53 48 89 FB 48 83 EC ? 89 4D"
     },
+    // Find strng "gameeventmanager->Init()".
+    "CSource2Server::g_GameEventManager": {
+        "lib": "server",
+        "windows": "48 83 EC ? 48 83 3D ? ? ? ? ? 74 ? 33 C9 E8 ? ? ? ? FF 15 ? ? ? ?",
+        "linux": "55 48 89 E5 41 55 41 54 53 48 83 EC 08 48 8D 05 ? ? ? ? 48 83 38 00"
+    },
     // There's a reference with "SetPosition" as argument
     "CEntitySystem::AddEntityIOEvent": {
         "lib": "server",

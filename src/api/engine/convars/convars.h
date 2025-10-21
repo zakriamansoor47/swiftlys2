@@ -57,6 +57,15 @@ public:
     virtual void RemoveFlags(std::string cvar_name, uint64_t flags) = 0;
     virtual void ClearFlags(std::string cvar_name) = 0;
     virtual uint64_t GetFlags(std::string cvar_name) = 0;
+
+    virtual uint64_t AddGlobalChangeListener(std::function<void(const char*, int, const char*, const char*)> callback) = 0;
+    virtual void RemoveGlobalChangeListener(uint64_t callback_id) = 0;
+
+    virtual uint64_t AddConvarCreatedListener(std::function<void(const char*)> callback) = 0;
+    virtual void RemoveConvarCreatedListener(uint64_t callback_id) = 0;
+
+    virtual uint64_t AddConCommandCreatedListener(std::function<void(const char*)> callback) = 0;
+    virtual void RemoveConCommandCreatedListener(uint64_t callback_id) = 0;
 };
 
 #endif

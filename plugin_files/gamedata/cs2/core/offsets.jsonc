@@ -155,10 +155,6 @@
         "windows": 12,
         "linux": 13
     },
-    "IGameEventManager2::LoadEventsFromFile": {
-        "windows": 2,
-        "linux": 2
-    },
     "IEngineServiceMgr::RegisterLoopMode": {
         "windows": 13,
         "linux": 13
@@ -184,7 +180,7 @@
         "linux": 1
     },
     "IGameEventManager2::FireEvent": {
-        "windows": 8,
+        "windows": 7,
         "linux": 8
     },
     "CServerSideClient::ProcessRespondCvarValue": {

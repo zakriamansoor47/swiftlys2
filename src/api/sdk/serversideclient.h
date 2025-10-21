@@ -14,7 +14,6 @@
 #include <networksystem/inetworksystem.h>
 
 #include "netmessages.pb.h"
-#include "network_connection.pb.h"
 #include "networkbasetypes.pb.h"
 #include "networksystem_protomessages.pb.h"
 #include "clientframe.h"
@@ -169,7 +168,7 @@ public:
     virtual void Reactivate(CPlayerSlot nSlot) = 0;
     virtual void SetServer(CNetworkGameServer* pNetServer) = 0;
     virtual void Reconnect() = 0;
-    virtual void Disconnect(ENetworkDisconnectionReason reason) = 0;
+    virtual void Disconnect(int reason) = 0;
     virtual bool CheckConnect() = 0;
 
 private:

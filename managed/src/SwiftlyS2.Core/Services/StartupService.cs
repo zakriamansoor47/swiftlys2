@@ -16,7 +16,6 @@ internal class StartupService : IHostedService
     provider.UseCoreHookService();
     provider.UsePermissionManager();
     provider.UsePluginManager();
-    provider.UseMenuService();
     provider.UseCommandTrackerService();
     provider.UseTestService();
   }

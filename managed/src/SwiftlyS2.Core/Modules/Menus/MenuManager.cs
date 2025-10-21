@@ -1,30 +1,55 @@
+using System.Collections.Concurrent;
 using System.Globalization;
 using SwiftlyS2.Core.Natives;
+using SwiftlyS2.Shared;
+using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
-using SwiftlyS2.Shared.Services;
-using SwiftlyS2.Shared.Scheduler;
-using SwiftlyS2.Shared.SchemaDefinitions;
+using SwiftlyS2.Shared.Sounds;
 
 namespace SwiftlyS2.Core.Menus;
 
 internal class MenuManager : IMenuManager
 {
-    private static readonly Dictionary<IPlayer, IMenu> OpenMenus = new();
-    private static readonly Dictionary<IPlayer, Stack<IMenu>> MenuHistories = new();
-    private static readonly Dictionary<IPlayer, Action<IPlayer, IMenuOption, IMenu, string>?> InputState = new();
-    private static readonly Dictionary<IPlayer, CancellationTokenSource> AutoCloseTimers = new();
+    public MenuSettings Settings { get; set; } = new MenuSettings();
 
-    private readonly ISchedulerService schedulerService;
-
-    public event Action<IPlayer, IMenu>? OnMenuOpened;
     public event Action<IPlayer, IMenu>? OnMenuClosed;
-    public MenuSettings Settings { get; private set; }
+    public event Action<IPlayer, IMenu>? OnMenuOpened;
+    public event Action<IPlayer, IMenu>? OnMenuRendered;
 
-    public MenuManager(ISchedulerService schedulerService)
+    private static readonly Dictionary<string, KeyKind> StringToKeyKind = new()
     {
-        this.schedulerService = schedulerService;
+        { "mouse1", KeyKind.Mouse1 },
+        { "mouse2", KeyKind.Mouse2 },
+        { "space", KeyKind.Space },
+        { "ctrl", KeyKind.Ctrl },
+        { "w", KeyKind.W },
+        { "a", KeyKind.A },
+        { "s", KeyKind.S },
+        { "d", KeyKind.D },
+        { "e", KeyKind.E },
+        { "esc", KeyKind.Esc },
+        { "r", KeyKind.R },
+        { "alt", KeyKind.Alt },
+        { "shift", KeyKind.Shift },
+        { "weapon1", KeyKind.Weapon1 },
+        { "weapon2", KeyKind.Weapon2 },
+        { "grenade1", KeyKind.Grenade1 },
+        { "grenade2", KeyKind.Grenade2 },
+        { "tab", KeyKind.Tab },
+        { "f", KeyKind.F },
+    };
 
+    private static ConcurrentDictionary<IPlayer, IMenu> OpenMenus { get; set; } = new();
+    private ISwiftlyCore _Core { get; set; }
+
+    private SoundEvent _useSound = new();
+    private SoundEvent _exitSound = new();
+    private SoundEvent _scrollSound = new();
+
+    public MenuManager(ISwiftlyCore core)
+    {
+        _Core = core;
         var settings = NativeEngineHelpers.GetMenuSettings();
         var parts = settings.Split('\x01');
         Settings = new MenuSettings
@@ -43,218 +68,186 @@ internal class MenuManager : IMenuManager
             ItemsPerPage = int.Parse(parts[11]),
         };
 
-        OnMenuOpened += (IPlayer player, IMenu menu) =>
-        {
-            var pawn = player.Pawn;
-            if (pawn == null) return;
+        _scrollSound.Name = Settings.SoundScrollName;
+        _scrollSound.Volume = Settings.SoundScrollVolume;
 
-            if (menu.FreezePlayer == true)
-            {
-                pawn.MoveType = MoveType_t.MOVETYPE_INVALID;
-                pawn.ActualMoveType = MoveType_t.MOVETYPE_INVALID;
-                pawn.MoveTypeUpdated();
-            }
-        };
+        _useSound.Name = Settings.SoundUseName;
+        _useSound.Volume = Settings.SoundUseVolume;
 
-        OnMenuClosed += (IPlayer player, IMenu menu) =>
-        {
-            var pawn = player.Pawn;
-            if (pawn == null) return;
+        _exitSound.Name = Settings.SoundExitName;
+        _exitSound.Volume = Settings.SoundExitVolume;
 
-            if (menu.FreezePlayer == true)
-            {
-                pawn.MoveType = MoveType_t.MOVETYPE_WALK;
-                pawn.ActualMoveType = MoveType_t.MOVETYPE_WALK;
-                pawn.MoveTypeUpdated();
-            }
-        };
+        _Core.Event.OnClientKeyStateChanged += KeyStateChange;
     }
 
-    public void CloseMenu(IPlayer player)
+    ~MenuManager()
     {
-        if (AutoCloseTimers.TryGetValue(player, out var cancellationTokenSource))
+        foreach (var kvp in OpenMenus)
         {
-            cancellationTokenSource.Cancel();
-            AutoCloseTimers.Remove(player);
+            var player = kvp.Key;
+            var menu = kvp.Value;
+            menu.Close(player);
         }
 
-        if (OpenMenus.TryGetValue(player, out var menu))
+        _Core.Event.OnClientKeyStateChanged -= KeyStateChange;
+    }
+
+    void KeyStateChange(IOnClientKeyStateChangedEvent @event)
+    {
+        var player = _Core.PlayerManager.GetPlayer(@event.PlayerId);
+        var menu = GetMenu(player);
+        if (menu == null) return;
+
+        if (Settings.InputMode == "button")
         {
-            OpenMenus.Remove(player);
-            OnMenuClosed?.Invoke(player, menu);
+            var scrollKey = menu.ButtonOverrides?.Move ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsScroll);
+            var exitKey = menu.ButtonOverrides?.Exit ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsExit);
+            var useKey = menu.ButtonOverrides?.Select ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsUse);
 
-            if (MenuHistories.TryGetValue(player, out var history) && history.Count > 0)
+            if (@event.Key == scrollKey && @event.Pressed)
             {
-                var activeMenu = history.Pop();
-                if (activeMenu != menu)
+                menu.MoveSelection(player, 1);
+
+                if (menu.HasSound)
                 {
-                    OpenMenus[player] = activeMenu;
-                    OnMenuOpened?.Invoke(player, activeMenu);
-                    RenderForPlayer(player);
-                }
-                else
-                {
-                    ClearRenderForPlayer(player);
+                    _scrollSound.Recipients.AddRecipient(@event.PlayerId);
+                    _scrollSound.Emit();
+                    _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
                 }
             }
-            else
+            else if (@event.Key == exitKey && @event.Pressed)
             {
-                ClearRenderForPlayer(player);
-            }
+                _Core.Menus.CloseMenuForPlayer(player);
 
-            InputState.Remove(player);
+                if (menu.HasSound)
+                {
+                    _exitSound.Recipients.AddRecipient(@event.PlayerId);
+                    _exitSound.Emit();
+                    _exitSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == useKey && @event.Pressed)
+            {
+                if (menu.IsOptionSlider(player)) menu.UseSlideOption(player, true);
+                else menu.UseSelection(player);
+
+                if (menu.HasSound)
+                {
+                    _useSound.Recipients.AddRecipient(@event.PlayerId);
+                    _useSound.Emit();
+                    _useSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+        }
+        else if (Settings.InputMode == "wasd")
+        {
+            if (@event.Key == KeyKind.W && @event.Pressed)
+            {
+                menu.MoveSelection(player, -1);
+
+                if (menu.HasSound)
+                {
+                    _scrollSound.Recipients.AddRecipient(@event.PlayerId);
+                    _scrollSound.Emit();
+                    _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == KeyKind.S && @event.Pressed)
+            {
+                menu.MoveSelection(player, 1);
+
+                if (menu.HasSound)
+                {
+                    _scrollSound.Recipients.AddRecipient(@event.PlayerId);
+                    _scrollSound.Emit();
+                    _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == KeyKind.A && @event.Pressed)
+            {
+                CloseMenuForPlayer(player);
+                if (menu.HasSound)
+                {
+                    _exitSound.Recipients.AddRecipient(@event.PlayerId);
+                    _exitSound.Emit();
+                    _exitSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == KeyKind.D && @event.Pressed)
+            {
+                if (menu.IsOptionSlider(player)) menu.UseSlideOption(player, true);
+                else menu.UseSelection(player);
+
+                if (menu.HasSound)
+                {
+                    _useSound.Recipients.AddRecipient(@event.PlayerId);
+                    _useSound.Emit();
+                    _useSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
         }
     }
 
-    public IPlayer? GetPlayerFromMenu(IMenu menu)
+    public void CloseMenu(IMenu menu)
     {
-        foreach (var (player, openMenu) in OpenMenus)
+        foreach (var kvp in OpenMenus)
+        {
+            var player = kvp.Key;
+            var openMenu = kvp.Value;
+
             if (openMenu == menu)
-                return player;
-
-        return null;
+            {
+                CloseMenuForPlayer(player);
+            }
+        }
     }
 
-    public IMenu CreateMenu(string title, bool freezePlayer, bool hasSound, bool canExit)
+    public void CloseMenuByTitle(string title, bool exact = false)
     {
-        return new Menu
+        foreach (var kvp in OpenMenus)
         {
-            Title = title,
-            FreezePlayer = freezePlayer,
-            HasSound = hasSound,
-            CanExit = canExit,
-            Kind = MenuType.CenterMenu,
-            Manager = this,
-        };
+            var player = kvp.Key;
+            var menu = kvp.Value;
+
+            if ((exact && menu.Title == title) || (!exact && menu.Title.Contains(title)))
+            {
+                CloseMenuForPlayer(player);
+            }
+        }
     }
 
-    public IMenu? GetCurrentMenu(IPlayer player)
+    public void CloseMenuForPlayer(IPlayer player)
     {
-        if (!IsMenuOpen(player)) return null;
-        return OpenMenus[player];
+        if (OpenMenus.TryRemove(player, out var menu))
+        {
+            menu.Close(player);
+            OnMenuClosed?.Invoke(player, menu);
+            if (menu.Parent != null)
+            {
+                OpenMenu(player, menu.Parent);
+            }
+        }
     }
 
-    public bool IsMenuOpen(IPlayer player)
+    public IMenu CreateMenu(string title)
     {
-        return OpenMenus.ContainsKey(player);
+        return new Menu { Title = title, MenuManager = this, MaxVisibleOptions = Settings.ItemsPerPage, _Core = _Core };
+    }
+
+    public IMenu? GetMenu(IPlayer player)
+    {
+        return OpenMenus.TryGetValue(player, out var menu) ? menu : null;
     }
 
     public void OpenMenu(IPlayer player, IMenu menu)
     {
-        OpenMenu(player, menu, 0f);
-    }
-
-    public void OpenMenu(IPlayer player, IMenu menu, float autoCloseDelay)
-    {
-        if (IsMenuOpen(player))
-        {
-            MenuHistories.Remove(player);
-            CloseMenu(player);
-        }
-
         OpenMenus[player] = menu;
-        if (!MenuHistories.ContainsKey(player))
-            MenuHistories[player] = new Stack<IMenu>();
-
-        MenuHistories[player].Push(menu);
-
+        menu.Show(player);
         OnMenuOpened?.Invoke(player, menu);
-
-        RenderForPlayer(player);
-
-        if (autoCloseDelay >= 1f / 64f)
-        {
-            var cancellationTokenSource = schedulerService.DelayBySeconds(autoCloseDelay, () =>
-            {
-                if (IsMenuOpen(player))
-                {
-                    CloseMenu(player);
-                }
-            });
-
-            AutoCloseTimers[player] = cancellationTokenSource;
-        }
     }
 
-    public void OpenSubMenu(IPlayer player, IMenu menu)
+    public bool HasMenuOpen(IPlayer player)
     {
-        OpenSubMenu(player, menu, 0f);
-    }
-
-    public void OpenSubMenu(IPlayer player, IMenu menu, float autoCloseDelay)
-    {
-        if (!IsMenuOpen(player))
-        {
-            OpenMenu(player, menu, autoCloseDelay);
-            return;
-        }
-
-        if (AutoCloseTimers.TryGetValue(player, out var existingCancellationTokenSource))
-        {
-            existingCancellationTokenSource.Cancel();
-            AutoCloseTimers.Remove(player);
-        }
-
-        if (OpenMenus.TryGetValue(player, out var currentMenu))
-        {
-            if (!MenuHistories.ContainsKey(player))
-                MenuHistories[player] = new Stack<IMenu>();
-
-            MenuHistories[player].Push(currentMenu);
-            menu.ParentMenu = currentMenu;
-        }
-
-        OpenMenus[player] = menu;
-        OnMenuOpened?.Invoke(player, menu);
-        RenderForPlayer(player);
-
-        if (autoCloseDelay >= 1f / 64f)
-        {
-            var cancellationTokenSource = schedulerService.DelayBySeconds(autoCloseDelay, () =>
-            {
-                if (IsMenuOpen(player))
-                {
-                    CloseMenu(player);
-                }
-            });
-
-            AutoCloseTimers[player] = cancellationTokenSource;
-        }
-    }
-
-    public void SetInputState(IPlayer player, Action<IPlayer, IMenuOption, IMenu, string>? onInput)
-    {
-        if (onInput == null)
-        {
-            InputState.Remove(player);
-            return;
-        }
-
-        InputState[player] = onInput;
-    }
-
-    public bool HasInputState(IPlayer player)
-    {
-        return InputState.ContainsKey(player);
-    }
-
-    public Action<IPlayer, IMenuOption, IMenu, string>? GetInputState(IPlayer player)
-    {
-        return InputState.TryGetValue(player, out var state) ? state : null;
-    }
-
-    public void RenderForPlayer(IPlayer player)
-    {
-        if (OpenMenus.TryGetValue(player, out var menu) && menu.RenderText != null)
-        {
-            if (player.IsFakeClient || !player.IsValid) return;
-            NativePlayer.SetCenterMenuRender(player.PlayerID, menu.RenderText);
-        }
-    }
-
-    public void ClearRenderForPlayer(IPlayer player)
-    {
-        if (player.IsFakeClient || !player.IsValid) return;
-        NativePlayer.ClearCenterMenuRender(player.PlayerID);
+        return NativePlayer.HasMenuShown(player.PlayerID);
     }
 }

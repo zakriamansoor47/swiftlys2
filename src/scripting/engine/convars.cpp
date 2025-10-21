@@ -487,9 +487,57 @@ uint64_t Bridge_Convars_GetFlags(const char* cvarName)
     return cvarmanager->GetFlags(cvarName);
 }
 
+uint64_t Bridge_Convars_AddGlobalChangeListener(void* callback)
+{
+    auto cvarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
+    return cvarmanager->AddGlobalChangeListener([callback](const char* convarName, int slot, const char* newValue, const char* oldValue) -> void {
+        ((void(*)(const char*, int, const char*, const char*))callback)(convarName, slot, newValue, oldValue);
+    });
+}
+
+void Bridge_Convars_RemoveGlobalChangeListener(uint64_t listenerID)
+{
+    auto cvarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
+    cvarmanager->RemoveGlobalChangeListener(listenerID);
+}
+
+uint64_t Bridge_Convars_AddConvarCreatedListener(void* callback)
+{
+    auto cvarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
+    return cvarmanager->AddConvarCreatedListener([callback](const char* convarName) -> void {
+        ((void(*)(const char*))callback)(convarName);
+    });
+}
+
+void Bridge_Convars_RemoveConvarCreatedListener(uint64_t listenerID)
+{
+    auto cvarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
+    cvarmanager->RemoveConvarCreatedListener(listenerID);
+}
+
+uint64_t Bridge_Convars_AddConCommandCreatedListener(void* callback)
+{
+    auto cvarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
+    return cvarmanager->AddConCommandCreatedListener([callback](const char* convarName) -> void {
+        ((void(*)(const char*))callback)(convarName);
+    });
+}
+
+void Bridge_Convars_RemoveConCommandCreatedListener(uint64_t listenerID)
+{
+    auto cvarmanager = g_ifaceService.FetchInterface<IConvarManager>(CONVARMANAGER_INTERFACE_VERSION);
+    cvarmanager->RemoveConCommandCreatedListener(listenerID);
+}
+
 DEFINE_NATIVE("Convars.QueryClientConvar", Bridge_Convars_QueryClientConvar);
 DEFINE_NATIVE("Convars.AddQueryClientCvarCallback", Bridge_Convars_AddQueryClientCvarCallback);
 DEFINE_NATIVE("Convars.RemoveQueryClientCvarCallback", Bridge_Convars_RemoveQueryClientCvarCallback);
+DEFINE_NATIVE("Convars.AddGlobalChangeListener", Bridge_Convars_AddGlobalChangeListener);
+DEFINE_NATIVE("Convars.RemoveGlobalChangeListener", Bridge_Convars_RemoveGlobalChangeListener);
+DEFINE_NATIVE("Convars.AddConvarCreatedListener", Bridge_Convars_AddConvarCreatedListener);
+DEFINE_NATIVE("Convars.RemoveConvarCreatedListener", Bridge_Convars_RemoveConvarCreatedListener);
+DEFINE_NATIVE("Convars.AddConCommandCreatedListener", Bridge_Convars_AddConCommandCreatedListener);
+DEFINE_NATIVE("Convars.RemoveConCommandCreatedListener", Bridge_Convars_RemoveConCommandCreatedListener);
 DEFINE_NATIVE("Convars.CreateConvarInt16", Bridge_Convars_CreateConvarInt16);
 DEFINE_NATIVE("Convars.CreateConvarUInt16", Bridge_Convars_CreateConvarUInt16);
 DEFINE_NATIVE("Convars.CreateConvarInt32", Bridge_Convars_CreateConvarInt32);

@@ -324,7 +324,7 @@ std::string CPlayer::GetIPAddress()
     return explode(pNetChan->GetAddress(), ":")[0];
 }
 
-void CPlayer::Kick(const std::string& sReason, ENetworkDisconnectionReason uReason)
+void CPlayer::Kick(const std::string& sReason, int uReason)
 {
     auto engine = g_ifaceService.FetchInterface<IVEngineServer2>(INTERFACEVERSION_VENGINESERVER);
     engine->DisconnectClient(m_iPlayerId, uReason, sReason.c_str());

@@ -83,7 +83,7 @@ public:
     virtual uint64_t& GetPressedButtons() = 0;
     virtual void PerformCommand(const std::string& command) = 0;
     virtual std::string GetIPAddress() = 0;
-    virtual void Kick(const std::string& sReason, ENetworkDisconnectionReason uReason) = 0;
+    virtual void Kick(const std::string& sReason, int uReason) = 0;
 
     /** Transmit Stuff **/
     virtual BlockedTransmitInfo& GetBlockedTransmittingBits() = 0;

@@ -3,7 +3,8 @@ namespace SwiftlyS2.Shared.Events;
 /// <summary>
 /// Event delegates.
 /// </summary>
-public class EventDelegates {
+public class EventDelegates
+{
 
   /// <summary>
   /// Called when game has processed a tick. Won't be called if the server is in hibernation.
@@ -76,6 +77,21 @@ public class EventDelegates {
   /// This callback is a hot path, be careful with it and don't do anything expensive.
   /// </summary>
   public delegate void OnClientProcessUsercmds(IOnClientProcessUsercmdsEvent @event);
+
+  /// <summary>
+  /// Called when a ConVar value is changed.
+  /// </summary>
+  public delegate void OnConVarValueChanged(IOnConVarValueChanged @event);
+
+  /// <summary>
+  /// Called when a ConCommand is created.
+  /// </summary>
+  public delegate void OnConCommandCreated(IOnConCommandCreated @event);
+
+  /// <summary>
+  /// Called when a ConVar is created.
+  /// </summary>
+  public delegate void OnConVarCreated(IOnConVarCreated @event);
 
   /// <summary>
   /// Called when an entity takes damage.

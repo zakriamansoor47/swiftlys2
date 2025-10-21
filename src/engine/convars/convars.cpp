@@ -63,7 +63,45 @@ std::map<std::string, void*> g_mCvars;
 uint64_t g_uQueryCallbacks = 0;
 std::map<uint64_t, std::function<void(int, std::string, std::string)>> g_mQueryCallbacks;
 
+std::map<uint64_t, std::function<void(const char*, int, const char*, const char*)>> g_mChangeCallbacks;
+uint64_t g_uChangeCallbackId = 0;
+
+std::map<uint64_t, std::function<void(const char*)>> g_mCreatedConvarsCallbacks;
+uint64_t g_uCreatedConvarId = 0;
+
+std::map<uint64_t, std::function<void(const char*)>> g_mCreateConCommandCallbacks;
+uint64_t g_uCreatedConCommandId = 0;
+
 IVFunctionHook* g_pProcessRespondCvarValueHook = nullptr;
+
+class CConvarListener : public IConVarListener
+{
+    virtual void OnConVarCreated(ConVarRefAbstract* pNewCvar) override
+    {
+        for (const auto& [id, callback] : g_mCreatedConvarsCallbacks)
+        {
+            callback(pNewCvar->GetName());
+        }
+    }
+
+    virtual void OnConCommandCreated(ConCommand* pNewCommand) override
+    {
+        for (const auto& [id, callback] : g_mCreateConCommandCallbacks)
+        {
+            callback(pNewCommand->GetName());
+        }
+    }
+};
+
+CConvarListener g_CvarListener;
+
+void ChangedConvarCallback(ConVarRefAbstract* ref, CSplitScreenSlot nSlot, const char* pNewValue, const char* pOldValue, void* __unk01)
+{
+    for (auto it = g_mChangeCallbacks.begin(); it != g_mChangeCallbacks.end(); ++it)
+    {
+        it->second(ref->GetName(), nSlot.Get(), pNewValue, pOldValue);
+    }
+}
 
 bool OnConvarQuery(CServerSideClientBase* client, const CNetMessagePB<CCLCMsg_RespondCvarValue>& msg)
 {
@@ -85,6 +123,10 @@ void CConvarManager::Initialize()
     g_pProcessRespondCvarValueHook = hooksmanager->CreateVFunctionHook();
     g_pProcessRespondCvarValueHook->SetHookFunction(serverSideClientVTable, gamedata->GetOffsets()->Fetch("CServerSideClient::ProcessRespondCvarValue"), reinterpret_cast<void*>(OnConvarQuery), true);
     g_pProcessRespondCvarValueHook->Enable();
+
+    auto cvars = g_ifaceService.FetchInterface<ICvar>(CVAR_INTERFACE_VERSION);
+    cvars->InstallGlobalChangeCallback(ChangedConvarCallback);
+    cvars->RegisterCreationListeners(&g_CvarListener);
 }
 
 void CConvarManager::Shutdown()
@@ -96,6 +138,10 @@ void CConvarManager::Shutdown()
         hooksmanager->DestroyVFunctionHook(g_pProcessRespondCvarValueHook);
         g_pProcessRespondCvarValueHook = nullptr;
     }
+
+    auto cvars = g_ifaceService.FetchInterface<ICvar>(CVAR_INTERFACE_VERSION);
+    cvars->RemoveGlobalChangeCallback(ChangedConvarCallback);
+    cvars->RemoveCreationListeners(&g_CvarListener);
 }
 
 void CConvarManager::QueryClientConvar(int playerid, std::string cvar_name)
@@ -517,4 +563,40 @@ uint64_t CConvarManager::GetFlags(std::string cvar_name)
     if (!cvar.IsConVarDataValid()) return 0;
 
     return cvar.GetFlags();
+}
+
+uint64_t CConvarManager::AddGlobalChangeListener(std::function<void(const char*, int, const char*, const char*)> callback)
+{
+    g_mChangeCallbacks[g_uChangeCallbackId++] = callback;
+    return g_uChangeCallbackId - 1;
+}
+
+void CConvarManager::RemoveGlobalChangeListener(uint64_t callback_id)
+{
+    if (g_mChangeCallbacks.find(callback_id) != g_mChangeCallbacks.end())
+        g_mChangeCallbacks.erase(callback_id);
+}
+
+uint64_t CConvarManager::AddConvarCreatedListener(std::function<void(const char*)> callback)
+{
+    g_mCreatedConvarsCallbacks[g_uCreatedConvarId++] = callback;
+    return g_uCreatedConvarId - 1;
+}
+
+void CConvarManager::RemoveConvarCreatedListener(uint64_t callback_id)
+{
+    if (g_mCreatedConvarsCallbacks.find(callback_id) != g_mCreatedConvarsCallbacks.end())
+        g_mCreatedConvarsCallbacks.erase(callback_id);
+}
+
+uint64_t CConvarManager::AddConCommandCreatedListener(std::function<void(const char*)> callback)
+{
+    g_mCreateConCommandCallbacks[g_uCreatedConCommandId++] = callback;
+    return g_uCreatedConCommandId - 1;
+}
+
+void CConvarManager::RemoveConCommandCreatedListener(uint64_t callback_id)
+{
+    if (g_mCreateConCommandCallbacks.find(callback_id) != g_mCreateConCommandCallbacks.end())
+        g_mCreateConCommandCallbacks.erase(callback_id);
 }

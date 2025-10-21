@@ -3,6 +3,12 @@ class Convars
 void QueryClientConvar = int32 playerid, string cvarName
 int32 AddQueryClientCvarCallback = ptr callback // the callback should receive the following: int32 playerid, string cvarName, string cvarValue
 void RemoveQueryClientCvarCallback = int32 callbackID
+uint64 AddGlobalChangeListener = ptr callback // the callback should receive the following: string convarName, int playerid, string newValue, string oldValue
+void RemoveGlobalChangeListener = uint64 callbackID
+uint64 AddConvarCreatedListener = ptr callback // the callback should receive the following: string convarName
+void RemoveConvarCreatedListener = uint64 callbackID
+uint64 AddConCommandCreatedListener = ptr callback // the callback should receive the following: string commandName
+void RemoveConCommandCreatedListener = uint64 callbackID
 void CreateConvarInt16 = string cvarName, int32 cvarType, uint64 cvarFlags, string helpMessage, int16 defaultValue, ptr minValue, ptr maxValue
 void CreateConvarUInt16 = string cvarName, int32 cvarType, uint64 cvarFlags, string helpMessage, uint16 defaultValue, ptr minValue, ptr maxValue 
 void CreateConvarInt32 = string cvarName, int32 cvarType, uint64 cvarFlags, string helpMessage, int32 defaultValue, ptr minValue, ptr maxValue

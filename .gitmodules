@@ -1,7 +1,7 @@
-[submodule "vendor/hl2sdk-cs2"]
-	path = vendor/hl2sdk-cs2
-	url = https://github.com/swiftly-solution/hl2sdk
-	branch = cs2
 [submodule "vendor/metamod"]
 	path = vendor/metamod
 	url = https://github.com/alliedmodders/metamod-source
+[submodule "vendor/s2sdk"]
+	path = vendor/s2sdk
+	url = https://github.com/swiftly-solution/s2sdk
+	branch = cs2

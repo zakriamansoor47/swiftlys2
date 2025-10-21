@@ -41,6 +41,54 @@ internal static class NativeConvars {
     _RemoveQueryClientCvarCallback(callbackID);
   }
 
+  private unsafe static delegate* unmanaged<nint, ulong> _AddGlobalChangeListener;
+
+  /// <summary>
+  /// the callback should receive the following: string convarName, int playerid, string newValue, string oldValue
+  /// </summary>
+  public unsafe static ulong AddGlobalChangeListener(nint callback) {
+    var ret = _AddGlobalChangeListener(callback);
+    return ret;
+  }
+
+  private unsafe static delegate* unmanaged<ulong, void> _RemoveGlobalChangeListener;
+
+  public unsafe static void RemoveGlobalChangeListener(ulong callbackID) {
+    _RemoveGlobalChangeListener(callbackID);
+  }
+
+  private unsafe static delegate* unmanaged<nint, ulong> _AddConvarCreatedListener;
+
+  /// <summary>
+  /// the callback should receive the following: string convarName
+  /// </summary>
+  public unsafe static ulong AddConvarCreatedListener(nint callback) {
+    var ret = _AddConvarCreatedListener(callback);
+    return ret;
+  }
+
+  private unsafe static delegate* unmanaged<ulong, void> _RemoveConvarCreatedListener;
+
+  public unsafe static void RemoveConvarCreatedListener(ulong callbackID) {
+    _RemoveConvarCreatedListener(callbackID);
+  }
+
+  private unsafe static delegate* unmanaged<nint, ulong> _AddConCommandCreatedListener;
+
+  /// <summary>
+  /// the callback should receive the following: string commandName
+  /// </summary>
+  public unsafe static ulong AddConCommandCreatedListener(nint callback) {
+    var ret = _AddConCommandCreatedListener(callback);
+    return ret;
+  }
+
+  private unsafe static delegate* unmanaged<ulong, void> _RemoveConCommandCreatedListener;
+
+  public unsafe static void RemoveConCommandCreatedListener(ulong callbackID) {
+    _RemoveConCommandCreatedListener(callbackID);
+  }
+
   private unsafe static delegate* unmanaged<byte*, int, ulong, byte*, short, nint, nint, void> _CreateConvarInt16;
 
   public unsafe static void CreateConvarInt16(string cvarName, int cvarType, ulong cvarFlags, string helpMessage, short defaultValue, nint minValue, nint maxValue) {

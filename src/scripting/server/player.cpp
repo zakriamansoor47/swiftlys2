@@ -140,7 +140,7 @@ void Bridge_Player_Kick(int playerid, const char* reason, int gamereason)
     auto player = playerManager->GetPlayer(playerid);
     if (!player) return;
 
-    player->Kick(reason, (ENetworkDisconnectionReason)gamereason);
+    player->Kick(reason, gamereason);
 }
 
 void Bridge_Player_ShouldBlockTransmitEntity(int playerid, int entityidx, bool shouldBlockTransmit)

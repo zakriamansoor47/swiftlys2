@@ -23,6 +23,7 @@
 #include <api/memory/virtual/call.h>
 
 #include <public/entity2/entitykeyvalues.h>
+#include <public/mathlib/vector.h>
 
  /**
   * @todo: implement block transmit for other players using player manager & object

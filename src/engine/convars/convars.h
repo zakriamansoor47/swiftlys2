@@ -48,6 +48,15 @@ public:
     virtual void RemoveFlags(std::string cvar_name, uint64_t flags) override;
     virtual void ClearFlags(std::string cvar_name) override;
     virtual uint64_t GetFlags(std::string cvar_name) override;
+
+    virtual uint64_t AddGlobalChangeListener(std::function<void(const char*, int, const char*, const char*)> callback) override;
+    virtual void RemoveGlobalChangeListener(uint64_t callback_id) override;
+
+    virtual uint64_t AddConvarCreatedListener(std::function<void(const char*)> callback) override;
+    virtual void RemoveConvarCreatedListener(uint64_t callback_id) override;
+
+    virtual uint64_t AddConCommandCreatedListener(std::function<void(const char*)> callback) override;
+    virtual void RemoveConCommandCreatedListener(uint64_t callback_id) override;
 };
 
 #endif

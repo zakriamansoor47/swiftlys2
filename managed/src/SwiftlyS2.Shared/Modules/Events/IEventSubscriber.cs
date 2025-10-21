@@ -3,7 +3,8 @@ namespace SwiftlyS2.Shared.Events;
 /// <summary>
 /// Custom event subscriber interface.
 /// </summary>
-public interface IEventSubscriber {
+public interface IEventSubscriber
+{
 
   /// <summary>
   /// Called when game has processed a tick. Won't be called if the server is in hibernation.
@@ -76,6 +77,21 @@ public interface IEventSubscriber {
   /// This callback is a hot path, be careful with it and don't do anything expensive.
   /// </summary>
   public event EventDelegates.OnClientProcessUsercmds? OnClientProcessUsercmds;
+
+  /// <summary>
+  /// Called when a ConVar value is changed.
+  /// </summary>
+  public event EventDelegates.OnConVarValueChanged? OnConVarValueChanged;
+
+  /// <summary>
+  /// Called when a ConCommand is created.
+  /// </summary>
+  public event EventDelegates.OnConCommandCreated? OnConCommandCreated;
+
+  /// <summary>
+  /// Called when a ConVar is created.
+  /// </summary>
+  public event EventDelegates.OnConVarCreated? OnConVarCreated;
 
   /// <summary>
   /// Called when an entity takes damage.

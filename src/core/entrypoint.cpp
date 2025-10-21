@@ -445,6 +445,16 @@ void* SwiftlyCore::GetInterface(const std::string& interface_name)
         ifaceCreate = get_export(lib, "CreateInterface");
         unload_library(lib);
     }
+    else if (SOUNDSYSTEM_INTERFACE_VERSION == interface_name || SOUNDOPSYSTEM_INTERFACE_VERSION == interface_name) {
+        void* lib = load_library(
+            (const char_t*)WIN_LINUX(
+                StringWide(Plat_GetGameDirectory() + std::string("\\bin\\win64\\soundsystem.dll")).c_str(),
+                (Plat_GetGameDirectory() + std::string("/bin/linuxsteamrt64/libsoundsystem.so")).c_str()
+            )
+        );
+        ifaceCreate = get_export(lib, "CreateInterface");
+        unload_library(lib);
+    }
     else {
         void* lib = load_library(
             (const char_t*)WIN_LINUX(

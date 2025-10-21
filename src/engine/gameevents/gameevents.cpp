@@ -27,6 +27,8 @@
 #include <api/shared/string.h>
 
 #include <memory/gamedata/manager.h>
+#include <api/memory/virtual/call.h>
+#include <api/shared/plat.h>
 
 #include <public/iserver.h>
 #include <public/filesystem.h>
@@ -63,9 +65,6 @@ IVFunctionHook* g_GameFrameHookEventManager = nullptr;
 IVFunctionHook* g_pStartupServerEventHook = nullptr;
 void StartupServerEventHook(void* _this, const GameSessionConfiguration_t& config, ISource2WorldSession* a, const char* b);
 
-IVFunctionHook* g_pLoadEventsFromFileHook = nullptr;
-int LoadEventsFromFileHook(IGameEventManager2* _this, const char* filePath, bool searchAll);
-
 IVFunctionHook* g_pFireEventHook = nullptr;
 bool FireEventHook(IGameEventManager2* _this, IGameEvent* event, bool bDontBroadcast);
 
@@ -78,6 +77,7 @@ void CEventManager::Initialize(std::string game_name)
 
     auto hooksmanager = g_ifaceService.FetchInterface<IHooksManager>(HOOKSMANAGER_INTERFACE_VERSION);
     auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
+    auto server = g_ifaceService.FetchInterface<ISource2Server>(SOURCE2SERVER_INTERFACE_VERSION);
 
     void* netserverservice = nullptr;
     s2binlib_find_vtable("engine2", "CNetworkServerService", &netserverservice);
@@ -86,9 +86,16 @@ void CEventManager::Initialize(std::string game_name)
     g_pStartupServerEventHook->SetHookFunction(netserverservice, gamedata->GetOffsets()->Fetch("INetworkServerService::StartupServer"), reinterpret_cast<void*>(StartupServerEventHook), true);
     g_pStartupServerEventHook->Enable();
 
-    g_pLoadEventsFromFileHook = hooksmanager->CreateVFunctionHook();
-    g_pLoadEventsFromFileHook->SetHookFunction(CGameEventManagerVTable, gamedata->GetOffsets()->Fetch("IGameEventManager2::LoadEventsFromFile"), reinterpret_cast<void*>(LoadEventsFromFileHook), true);
-    g_pLoadEventsFromFileHook->Enable();
+    uintptr_t rawGameEventManager = (uintptr_t)(gamedata->GetSignatures()->Fetch("CSource2Server::g_GameEventManager"));
+
+    rawGameEventManager += WIN_LINUX(95, 103) + 3;
+    rawGameEventManager += 4 + *(int*)(rawGameEventManager);
+
+    g_gameEventManager = *(IGameEventManager2**)(rawGameEventManager);
+
+    g_pFireEventHook = hooksmanager->CreateVFunctionHook();
+    g_pFireEventHook->SetHookFunction(g_gameEventManager, gamedata->GetOffsets()->Fetch("IGameEventManager2::FireEvent"), reinterpret_cast<void*>(FireEventHook), false);
+    g_pFireEventHook->Enable();
 
     void* servervtable = nullptr;
     s2binlib_find_vtable("server", "CSource2Server", &servervtable);
@@ -117,13 +124,6 @@ void CEventManager::Initialize(std::string game_name)
 void CEventManager::Shutdown()
 {
     static auto hooksmanager = g_ifaceService.FetchInterface<IHooksManager>(HOOKSMANAGER_INTERFACE_VERSION);
-
-    if (g_pLoadEventsFromFileHook)
-    {
-        g_pLoadEventsFromFileHook->Disable();
-        hooksmanager->DestroyVFunctionHook(g_pLoadEventsFromFileHook);
-        g_pLoadEventsFromFileHook = nullptr;
-    }
 
     if (g_pStartupServerEventHook)
     {
@@ -167,42 +167,6 @@ void GameFrameEventManager(void* _this, bool simulate, bool first, bool last)
         queueRemoveTimeouts.clear();
         processingTimeouts = (timeoutsArray.size() > 0);
     }
-}
-
-int LoadEventsFromFileHook(IGameEventManager2* _this, const char* filePath, bool searchAll)
-{
-    if (!g_gameEventManager) {
-        g_gameEventManager = _this;
-
-        auto evmanager = g_ifaceService.FetchInterface<IEventManager>(GAMEEVENTMANAGER_INTERFACE_VERSION);
-        evmanager->RegisterGameEventsListeners(false);
-
-        auto hooksmanager = g_ifaceService.FetchInterface<IHooksManager>(HOOKSMANAGER_INTERFACE_VERSION);
-        auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
-
-        g_pFireEventHook = hooksmanager->CreateVFunctionHook();
-        g_pFireEventHook->SetHookFunction(g_gameEventManager, gamedata->GetOffsets()->Fetch("IGameEventManager2::FireEvent"), reinterpret_cast<void*>(FireEventHook), false);
-        g_pFireEventHook->Enable();
-    }
-
-    // We don't need you anymore, stay here as it's free and you don't need to pay rent
-/*
-    if (!g_sDumpedFiles.contains(filePath))
-    {
-        g_sDumpedFiles.insert(filePath);
-
-        auto logger = g_ifaceService.FetchInterface<ILogger>(LOGGER_INTERFACE_VERSION);
-        logger->Info("Game Events", fmt::format("Dumping game events from file: '{}'...\n", filePath));
-
-        auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
-
-        filesystem->CopyAFile(filePath, "GAME", GeneratePath(fmt::format("addons/swiftly/gamedata/cs2/gameevents{}", replace(filePath, Files::getBase(filePath), ""))).c_str(), false);
-
-        logger->Info("Game Events", fmt::format("Dumped game events from file '{}'.\n", filePath));
-    }
-*/
-
-    return reinterpret_cast<decltype(&LoadEventsFromFileHook)>(g_pLoadEventsFromFileHook->GetOriginal())(_this, filePath, searchAll);
 }
 
 bool FireEventHook(IGameEventManager2* _this, IGameEvent* event, bool bDontBroadcast)

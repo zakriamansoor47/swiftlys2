@@ -78,6 +78,7 @@ jobs:
         actions-cache-key: xmake-${{ runner.os }}
     - name: Build
       run: |
+        chmod 777 vendor/s2sdk/devtools/bin/linux/protoc
         xmake f --cc=gcc-14 --cxx=g++-14 -y
         xmake build -y
       env:
