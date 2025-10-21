@@ -40,7 +40,7 @@ internal class MenuManager : IMenuManager
         { "f", KeyKind.F },
     };
 
-    private static ConcurrentDictionary<IPlayer, IMenu> OpenMenus { get; set; } = new();
+    private ConcurrentDictionary<IPlayer, IMenu> OpenMenus { get; set; } = new();
     private ISwiftlyCore _Core { get; set; }
 
     private SoundEvent _useSound = new();
@@ -97,6 +97,7 @@ internal class MenuManager : IMenuManager
         var player = _Core.PlayerManager.GetPlayer(@event.PlayerId);
         var menu = GetMenu(player);
         if (menu == null) return;
+        if (!@event.Pressed) return;
 
         if (Settings.InputMode == "button")
         {
@@ -104,7 +105,7 @@ internal class MenuManager : IMenuManager
             var exitKey = menu.ButtonOverrides?.Exit ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsExit);
             var useKey = menu.ButtonOverrides?.Select ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsUse);
 
-            if (@event.Key == scrollKey && @event.Pressed)
+            if (@event.Key == scrollKey)
             {
                 menu.MoveSelection(player, 1);
 
@@ -115,7 +116,7 @@ internal class MenuManager : IMenuManager
                     _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
                 }
             }
-            else if (@event.Key == exitKey && @event.Pressed)
+            else if (@event.Key == exitKey)
             {
                 _Core.Menus.CloseMenuForPlayer(player);
 
@@ -126,7 +127,7 @@ internal class MenuManager : IMenuManager
                     _exitSound.Recipients.RemoveRecipient(@event.PlayerId);
                 }
             }
-            else if (@event.Key == useKey && @event.Pressed)
+            else if (@event.Key == useKey)
             {
                 if (menu.IsOptionSlider(player)) menu.UseSlideOption(player, true);
                 else menu.UseSelection(player);
@@ -141,7 +142,7 @@ internal class MenuManager : IMenuManager
         }
         else if (Settings.InputMode == "wasd")
         {
-            if (@event.Key == KeyKind.W && @event.Pressed)
+            if (@event.Key == KeyKind.W)
             {
                 menu.MoveSelection(player, -1);
 
@@ -152,7 +153,7 @@ internal class MenuManager : IMenuManager
                     _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
                 }
             }
-            else if (@event.Key == KeyKind.S && @event.Pressed)
+            else if (@event.Key == KeyKind.S)
             {
                 menu.MoveSelection(player, 1);
 
@@ -163,7 +164,7 @@ internal class MenuManager : IMenuManager
                     _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
                 }
             }
-            else if (@event.Key == KeyKind.A && @event.Pressed)
+            else if (@event.Key == KeyKind.A)
             {
                 CloseMenuForPlayer(player);
                 if (menu.HasSound)
@@ -173,7 +174,7 @@ internal class MenuManager : IMenuManager
                     _exitSound.Recipients.RemoveRecipient(@event.PlayerId);
                 }
             }
-            else if (@event.Key == KeyKind.D && @event.Pressed)
+            else if (@event.Key == KeyKind.D)
             {
                 if (menu.IsOptionSlider(player)) menu.UseSlideOption(player, true);
                 else menu.UseSelection(player);
