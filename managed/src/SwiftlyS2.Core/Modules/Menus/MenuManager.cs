@@ -100,9 +100,9 @@ internal class MenuManager : IMenuManager
 
         if (Settings.InputMode == "button")
         {
-            var scrollKey = StringToKeyKind.GetValueOrDefault(_Core.Menus.Settings.ButtonsScroll);
-            var exitKey = StringToKeyKind.GetValueOrDefault(_Core.Menus.Settings.ButtonsExit);
-            var useKey = StringToKeyKind.GetValueOrDefault(_Core.Menus.Settings.ButtonsUse);
+            var scrollKey = menu.ButtonOverrides?.Move ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsScroll);
+            var exitKey = menu.ButtonOverrides?.Exit ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsExit);
+            var useKey = menu.ButtonOverrides?.Select ?? StringToKeyKind.GetValueOrDefault(Settings.ButtonsUse);
 
             if (@event.Key == scrollKey && @event.Pressed)
             {
@@ -128,7 +128,56 @@ internal class MenuManager : IMenuManager
             }
             else if (@event.Key == useKey && @event.Pressed)
             {
-                menu.UseSelection(player);
+                if (menu.IsOptionSlider(player)) menu.UseSlideOption(player, true);
+                else menu.UseSelection(player);
+
+                if (menu.HasSound)
+                {
+                    _useSound.Recipients.AddRecipient(@event.PlayerId);
+                    _useSound.Emit();
+                    _useSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+        }
+        else if (Settings.InputMode == "wasd")
+        {
+            if (@event.Key == KeyKind.W && @event.Pressed)
+            {
+                menu.MoveSelection(player, -1);
+
+                if (menu.HasSound)
+                {
+                    _scrollSound.Recipients.AddRecipient(@event.PlayerId);
+                    _scrollSound.Emit();
+                    _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == KeyKind.S && @event.Pressed)
+            {
+                menu.MoveSelection(player, 1);
+
+                if (menu.HasSound)
+                {
+                    _scrollSound.Recipients.AddRecipient(@event.PlayerId);
+                    _scrollSound.Emit();
+                    _scrollSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == KeyKind.A && @event.Pressed)
+            {
+                CloseMenuForPlayer(player);
+                if (menu.HasSound)
+                {
+                    _exitSound.Recipients.AddRecipient(@event.PlayerId);
+                    _exitSound.Emit();
+                    _exitSound.Recipients.RemoveRecipient(@event.PlayerId);
+                }
+            }
+            else if (@event.Key == KeyKind.D && @event.Pressed)
+            {
+                if (menu.IsOptionSlider(player)) menu.UseSlideOption(player, true);
+                else menu.UseSelection(player);
+
                 if (menu.HasSound)
                 {
                     _useSound.Recipients.AddRecipient(@event.PlayerId);
