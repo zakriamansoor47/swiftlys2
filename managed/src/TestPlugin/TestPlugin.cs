@@ -77,7 +77,7 @@ public class TestPlugin : BasePlugin
 
     // Core.Event.OnCommandExecuteHook += (@event) =>
     // {
-    //   Console.WriteLine($"[TestPlugin] CommandExecute({@event.HookMode}): {@event.OriginalName}");
+    //   Console.WriteLine($"[TestPlugin] CommandExecute({@event.HookMode}): {@event.OriginalName} ({string.Join(" ", @event.OriginalArgs)})");
     //   @event.SetCommandName("test");
     // };
     Core.Engine.ExecuteCommandWithBuffer("@ping", (buffer) =>

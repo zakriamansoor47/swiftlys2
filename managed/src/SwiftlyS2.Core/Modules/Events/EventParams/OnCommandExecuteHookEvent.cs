@@ -6,6 +6,7 @@ namespace SwiftlyS2.Core.Events;
 internal class OnCommandExecuteHookEvent : IOnCommandExecuteHookEvent
 {
   public required string OriginalName { get; init; }
+  public required string[] OriginalArgs { get; init; }
   public string CommandName { get; set; } = string.Empty;
 
   public required HookMode HookMode { get; init; }

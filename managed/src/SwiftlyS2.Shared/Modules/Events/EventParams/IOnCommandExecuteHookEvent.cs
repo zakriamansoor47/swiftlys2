@@ -13,6 +13,11 @@ public interface IOnCommandExecuteHookEvent {
   public string OriginalName { get; }
 
   /// <summary>
+  /// The original command arguments.
+  /// </summary>
+  public string[] OriginalArgs { get; }
+
+  /// <summary>
   /// The command arguments.
   /// </summary>
   public HookMode HookMode { get; }
