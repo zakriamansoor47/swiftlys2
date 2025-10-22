@@ -97,6 +97,30 @@
         "windows": 1088,
         "linux": 1088
     },
+    /*
+    To locate this offset, first refer to my ExecuteCommandDelegate comments in CoreHookService.cs.
+    The function prologue disassembly:
+
+    .text:00000000001C34E0    mov     [rsp-8+arg_8], rbx
+    .text:00000000001C34E5    mov     [rsp-8+arg_18], r9
+    .text:00000000001C34EA    mov     [rsp-8+arg_0], rcx
+    ...
+    .text:00000000001C3509    mov     r14, [rbp+0D00h+arg_20]
+
+    Following the Windows x64 calling convention, parameters a1-a4 are passed via rcx, rdx, r8, r9 respectively,
+    while a5 (the first stack parameter) is loaded into r14 from [rbp+0D00h+arg_20].
+
+    By setting a breakpoint at the mov instruction above and executing an invalid command in the CS2 server console,
+    we can inspect the memory region pointed to by r14.
+    The command string with arguments appears at offset 0x20 from the base address in r14.
+
+    Note: Unlike CommandNameOffset (which points to null-byte ('\0') delimited tokens),
+    CommandArgsOffset points to a space-delimited string containing the full command line.
+    */
+    "CommandArgsOffset": {
+        "windows": 32,
+        "linux": 32
+    },
     /* From sdk */
     "ICvar::FindConCommand": {
         "windows": 17,
