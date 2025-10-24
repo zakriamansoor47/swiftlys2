@@ -69,7 +69,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
   public PermissionManager PermissionManager { get; init; }
   public RegistratorService RegistratorService { get; init; }
   public MenuManager MenuManager { get; init; }
-  public CommandLineService CommandLineManager { get; init; }
+  public CommandLineService CommandLineService { get; init; }
   public string ContextBasePath { get; init; }
   public SwiftlyCore(string contextId, string contextBaseDirectory, PluginMetadata? pluginManifest, Type contextType, IServiceProvider coreProvider)
   {
@@ -110,6 +110,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
       .AddSingleton<Localizer>(provider => provider.GetRequiredService<TranslationService>().GetLocalizer())
       .AddSingleton<RegistratorService>()
       .AddSingleton<MenuManager>()
+      .AddSingleton<CommandLineService>()
       .AddSingleton<IPermissionManager>(provider => provider.GetRequiredService<PermissionManager>())
 
       .AddSingleton<IEventSubscriber>(provider => provider.GetRequiredService<EventSubscriber>())
@@ -166,7 +167,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
     PermissionManager = _ServiceProvider.GetRequiredService<PermissionManager>();
     RegistratorService = _ServiceProvider.GetRequiredService<RegistratorService>();
     MenuManager = _ServiceProvider.GetRequiredService<MenuManager>();
-    CommandLineManager = _ServiceProvider.GetRequiredService<CommandLineService>();
+    CommandLineService = _ServiceProvider.GetRequiredService<CommandLineService>();
     Logger = LoggerFactory.CreateLogger(contextType);
   }
 
@@ -209,5 +210,5 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
   IRegistratorService ISwiftlyCore.Registrator => RegistratorService;
   IMenuManager ISwiftlyCore.Menus => MenuManager;
   string ISwiftlyCore.PluginPath => ContextBasePath;
-  ICommandLine ISwiftlyCore.CommandLine => CommandLineManager;
+  ICommandLine ISwiftlyCore.CommandLine => CommandLineService;
 }
