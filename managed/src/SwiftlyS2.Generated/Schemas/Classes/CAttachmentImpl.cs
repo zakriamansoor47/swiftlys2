@@ -29,16 +29,16 @@ internal partial class CAttachmentImpl : SchemaClass, CAttachment {
     }
     set => Schema.SetString(_Handle, 0x5F09808FFD9B3CB8, value);
   } 
-public ISchemaFixedArray<Quaternion> InfluenceRotations {
+  public ISchemaFixedArray<Quaternion> InfluenceRotations {
     get => new SchemaFixedArray<Quaternion>(_Handle, 0x5F09808FD277168B, 3, 16, 16);
   }
-public ISchemaFixedArray<Vector> InfluenceOffsets {
+  public ISchemaFixedArray<Vector> InfluenceOffsets {
     get => new SchemaFixedArray<Vector>(_Handle, 0x5F09808F767C44DC, 3, 12, 4);
   }
-public ISchemaFixedArray<float> InfluenceWeights {
+  public ISchemaFixedArray<float> InfluenceWeights {
     get => new SchemaFixedArray<float>(_Handle, 0x5F09808F49916951, 3, 4, 4);
   }
-public ISchemaFixedArray<bool> InfluenceRootTransform {
+  public ISchemaFixedArray<bool> InfluenceRootTransform {
     get => new SchemaFixedArray<bool>(_Handle, 0x5F09808F5763011C, 3, 1, 1);
   }
   public ref byte Influences {

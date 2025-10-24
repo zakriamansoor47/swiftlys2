@@ -93,14 +93,14 @@ internal partial class C_OP_RenderModelsImpl : CParticleFunctionRendererImpl, C_
   public ParticleAttributeIndex_t ManualFrameField {
     get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xC58C7B1352FAE698));
   }
-public string ActivityName {
+  public string ActivityName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xC58C7B13BF0C5087);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0xC58C7B13BF0C5087, value, 256);
   } 
-public string SequenceName {
+  public string SequenceName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xC58C7B13A270F66B);
       return Schema.GetString(ptr);
@@ -110,7 +110,7 @@ public string SequenceName {
   public ref bool EnableClothSimulation {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC58C7B13F2B3D0A9));
   }
-public string ClothEffectName {
+  public string ClothEffectName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xC58C7B139D0B2FCD);
       return Schema.GetString(ptr);
@@ -141,7 +141,7 @@ public string ClothEffectName {
   public ref int LOD {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC58C7B138303A434));
   }
-public string EconSlotName {
+  public string EconSlotName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xC58C7B13F7A43C9B);
       return Schema.GetString(ptr);
@@ -175,7 +175,7 @@ public string EconSlotName {
   public ref bool AllowApproximateTransforms {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC58C7B136C6ACC65));
   }
-public string RenderAttribute {
+  public string RenderAttribute {
     get {
       var ptr = _Handle + Schema.GetOffset(0xC58C7B13A343F648);
       return Schema.GetString(ptr);

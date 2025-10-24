@@ -15,21 +15,21 @@ internal partial class CPointWorldTextImpl : CModelPointEntityImpl, CPointWorldT
   public CPointWorldTextImpl(nint handle) : base(handle) {
   }
 
-public string MessageText {
+  public string MessageText {
     get {
       var ptr = _Handle + Schema.GetOffset(0x5BF88697BA6E5D73);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x5BF88697BA6E5D73, value, 512);
   } 
-public string FontName {
+  public string FontName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x5BF88697C241C2B3);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x5BF88697C241C2B3, value, 64);
   } 
-public string BackgroundMaterialName {
+  public string BackgroundMaterialName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x5BF88697ECF8A7AB);
       return Schema.GetString(ptr);

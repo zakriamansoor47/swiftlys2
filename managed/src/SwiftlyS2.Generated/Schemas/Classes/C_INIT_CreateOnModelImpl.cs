@@ -48,7 +48,7 @@ internal partial class C_INIT_CreateOnModelImpl : CParticleFunctionInitializerIm
   public CParticleCollectionVecInput DirectionBias {
     get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xD7E119445A1697CF));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xD7E119446A21BB0E);
       return Schema.GetString(ptr);

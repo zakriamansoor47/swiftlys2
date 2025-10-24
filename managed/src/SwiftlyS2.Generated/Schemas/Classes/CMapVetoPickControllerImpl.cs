@@ -33,34 +33,34 @@ internal partial class CMapVetoPickControllerImpl : CBaseEntityImpl, CMapVetoPic
   public ref int TeamWinningCoinToss {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD5DDD68D45B5B5A2));
   }
-public ISchemaFixedArray<int> TeamWithFirstChoice {
+  public ISchemaFixedArray<int> TeamWithFirstChoice {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68D8887D005, 64, 4, 4);
   }
-public ISchemaFixedArray<int> VoteMapIdsList {
+  public ISchemaFixedArray<int> VoteMapIdsList {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68DE64EA3ED, 7, 4, 4);
   }
-public ISchemaFixedArray<int> AccountIDs {
+  public ISchemaFixedArray<int> AccountIDs {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68D2F303A1A, 64, 4, 4);
   }
-public ISchemaFixedArray<int> MapId0 {
+  public ISchemaFixedArray<int> MapId0 {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68D9E2BC198, 64, 4, 4);
   }
-public ISchemaFixedArray<int> MapId1 {
+  public ISchemaFixedArray<int> MapId1 {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68D9F2BC32B, 64, 4, 4);
   }
-public ISchemaFixedArray<int> MapId2 {
+  public ISchemaFixedArray<int> MapId2 {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68DA02BC4BE, 64, 4, 4);
   }
-public ISchemaFixedArray<int> MapId3 {
+  public ISchemaFixedArray<int> MapId3 {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68DA12BC651, 64, 4, 4);
   }
-public ISchemaFixedArray<int> MapId4 {
+  public ISchemaFixedArray<int> MapId4 {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68DA22BC7E4, 64, 4, 4);
   }
-public ISchemaFixedArray<int> MapId5 {
+  public ISchemaFixedArray<int> MapId5 {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68DA32BC977, 64, 4, 4);
   }
-public ISchemaFixedArray<int> StartingSide0 {
+  public ISchemaFixedArray<int> StartingSide0 {
     get => new SchemaFixedArray<int>(_Handle, 0xD5DDD68DDAE5D5BA, 64, 4, 4);
   }
   public ref int CurrentPhase {

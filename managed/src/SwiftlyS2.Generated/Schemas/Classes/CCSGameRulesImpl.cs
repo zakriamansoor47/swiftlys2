@@ -126,28 +126,28 @@ internal partial class CCSGameRulesImpl : CTeamplayRulesImpl, CCSGameRules {
   public ref int NextMapInMapgroup {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6295CF65C6613F50));
   }
-public string TournamentEventName {
+  public string TournamentEventName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x6295CF65D2FCF8C2);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x6295CF65D2FCF8C2, value, 512);
   } 
-public string TournamentEventStage {
+  public string TournamentEventStage {
     get {
       var ptr = _Handle + Schema.GetOffset(0x6295CF658177EF71);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x6295CF658177EF71, value, 512);
   } 
-public string MatchStatTxt {
+  public string MatchStatTxt {
     get {
       var ptr = _Handle + Schema.GetOffset(0x6295CF65D6472911);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x6295CF65D6472911, value, 512);
   } 
-public string TournamentPredictionsTxt {
+  public string TournamentPredictionsTxt {
     get {
       var ptr = _Handle + Schema.GetOffset(0x6295CF65A974A2B9);
       return Schema.GetString(ptr);
@@ -172,10 +172,10 @@ public string TournamentPredictionsTxt {
   public ref bool IsHltvActive {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6295CF657F4E0DA5));
   }
-public ISchemaFixedArray<ushort> ProhibitedItemIndices {
+  public ISchemaFixedArray<ushort> ProhibitedItemIndices {
     get => new SchemaFixedArray<ushort>(_Handle, 0x6295CF65BFE8D026, 100, 2, 2);
   }
-public ISchemaFixedArray<uint> TournamentActiveCasterAccounts {
+  public ISchemaFixedArray<uint> TournamentActiveCasterAccounts {
     get => new SchemaFixedArray<uint>(_Handle, 0x6295CF6525481301, 4, 4, 4);
   }
   public ref int NumBestOfMaps {
@@ -202,16 +202,16 @@ public ISchemaFixedArray<uint> TournamentActiveCasterAccounts {
   public ref bool CTCantBuy {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6295CF655A190494));
   }
-public ISchemaFixedArray<int> MatchStats_RoundResults {
+  public ISchemaFixedArray<int> MatchStats_RoundResults {
     get => new SchemaFixedArray<int>(_Handle, 0x6295CF652BF6608F, 30, 4, 4);
   }
-public ISchemaFixedArray<int> MatchStats_PlayersAlive_CT {
+  public ISchemaFixedArray<int> MatchStats_PlayersAlive_CT {
     get => new SchemaFixedArray<int>(_Handle, 0x6295CF650A468F9C, 30, 4, 4);
   }
-public ISchemaFixedArray<int> MatchStats_PlayersAlive_T {
+  public ISchemaFixedArray<int> MatchStats_PlayersAlive_T {
     get => new SchemaFixedArray<int>(_Handle, 0x6295CF65DCEE8755, 30, 4, 4);
   }
-public ISchemaFixedArray<float> TeamRespawnWaveTimes {
+  public ISchemaFixedArray<float> TeamRespawnWaveTimes {
     get => new SchemaFixedArray<float>(_Handle, 0x6295CF65A15A30B1, 32, 4, 4);
   }
   public SchemaUntypedField NextRespawnWave {
@@ -223,16 +223,16 @@ public ISchemaFixedArray<float> TeamRespawnWaveTimes {
   public ref Vector MinimapMaxs {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6295CF65F2B86C5F));
   }
-public ISchemaFixedArray<float> MinimapVerticalSectionHeights {
+  public ISchemaFixedArray<float> MinimapVerticalSectionHeights {
     get => new SchemaFixedArray<float>(_Handle, 0x6295CF6537ADB2EF, 8, 4, 4);
   }
   public ref ulong UllLocalMatchID {
     get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x6295CF657D14A239));
   }
-public ISchemaFixedArray<int> EndMatchMapGroupVoteTypes {
+  public ISchemaFixedArray<int> EndMatchMapGroupVoteTypes {
     get => new SchemaFixedArray<int>(_Handle, 0x6295CF65B4DAF10B, 10, 4, 4);
   }
-public ISchemaFixedArray<int> EndMatchMapGroupVoteOptions {
+  public ISchemaFixedArray<int> EndMatchMapGroupVoteOptions {
     get => new SchemaFixedArray<int>(_Handle, 0x6295CF65BCAA50F4, 10, 4, 4);
   }
   public ref int EndMatchMapVoteWinner {
@@ -530,10 +530,10 @@ public ISchemaFixedArray<int> EndMatchMapGroupVoteOptions {
   public CRetakeGameRules RetakeRules {
     get => new CRetakeGameRulesImpl(_Handle + Schema.GetOffset(0x6295CF65DB6D258A));
   }
-public ISchemaFixedArray<CUtlVector<int>> TeamUniqueKillWeaponsMatch {
+  public ISchemaFixedArray<CUtlVector<int>> TeamUniqueKillWeaponsMatch {
     get => new SchemaFixedArray<CUtlVector<int>>(_Handle, 0x6295CF65EB474B78, 4, 24, 8);
   }
-public ISchemaFixedArray<bool> TeamLastKillUsedUniqueWeaponMatch {
+  public ISchemaFixedArray<bool> TeamLastKillUsedUniqueWeaponMatch {
     get => new SchemaFixedArray<bool>(_Handle, 0x6295CF65BCB471EB, 4, 1, 1);
   }
   public ref byte MatchEndCount {

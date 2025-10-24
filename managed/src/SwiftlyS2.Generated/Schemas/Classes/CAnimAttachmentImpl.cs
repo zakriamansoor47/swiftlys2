@@ -15,16 +15,16 @@ internal partial class CAnimAttachmentImpl : SchemaClass, CAnimAttachment {
   public CAnimAttachmentImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<Quaternion> InfluenceRotations {
+  public ISchemaFixedArray<Quaternion> InfluenceRotations {
     get => new SchemaFixedArray<Quaternion>(_Handle, 0xCF918186B393B857, 3, 16, 16);
   }
-public ISchemaFixedArray<Vector> InfluenceOffsets {
+  public ISchemaFixedArray<Vector> InfluenceOffsets {
     get => new SchemaFixedArray<Vector>(_Handle, 0xCF918186E75BDA68, 3, 16, 16);
   }
-public ISchemaFixedArray<int> InfluenceIndices {
+  public ISchemaFixedArray<int> InfluenceIndices {
     get => new SchemaFixedArray<int>(_Handle, 0xCF9181862FA09BA5, 3, 4, 4);
   }
-public ISchemaFixedArray<float> InfluenceWeights {
+  public ISchemaFixedArray<float> InfluenceWeights {
     get => new SchemaFixedArray<float>(_Handle, 0xCF91818649916951, 3, 4, 4);
   }
   public ref byte NumInfluences {

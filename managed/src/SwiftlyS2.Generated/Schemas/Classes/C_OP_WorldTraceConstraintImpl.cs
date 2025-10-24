@@ -30,7 +30,7 @@ internal partial class C_OP_WorldTraceConstraintImpl : CParticleFunctionConstrai
   public ref ParticleTraceSet_t TraceSet {
     get => ref _Handle.AsRef<ParticleTraceSet_t>(Schema.GetOffset(0xD88A859FBD26C5B2));
   }
-public string CollisionGroupName {
+  public string CollisionGroupName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xD88A859FD58A3195);
       return Schema.GetString(ptr);

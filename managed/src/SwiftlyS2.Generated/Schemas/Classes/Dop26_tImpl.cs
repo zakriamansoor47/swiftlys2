@@ -15,7 +15,7 @@ internal partial class Dop26_tImpl : SchemaClass, Dop26_t {
   public Dop26_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> Support {
+  public ISchemaFixedArray<float> Support {
     get => new SchemaFixedArray<float>(_Handle, 0xBBAD032FAD766CEA, 26, 4, 4);
   }
 

@@ -15,7 +15,7 @@ internal partial class CSkillFloatImpl : SchemaClass, CSkillFloat {
   public CSkillFloatImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> Value {
+  public ISchemaFixedArray<float> Value {
     get => new SchemaFixedArray<float>(_Handle, 0x6C22E5377F437844, 4, 4, 4);
   }
 

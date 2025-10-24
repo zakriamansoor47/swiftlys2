@@ -30,7 +30,7 @@ internal partial class C_OP_MovementPlaceOnGroundImpl : CParticleFunctionOperato
   public ref float LerpRate {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x53323DE938B06C64));
   }
-public string CollisionGroupName {
+  public string CollisionGroupName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x53323DE9D58A3195);
       return Schema.GetString(ptr);

@@ -24,7 +24,7 @@ internal partial class CTeamImpl : CBaseEntityImpl, CTeam {
   public ref int Score {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAF5A77E339E7DEAE));
   }
-public string Teamname {
+  public string Teamname {
     get {
       var ptr = _Handle + Schema.GetOffset(0xAF5A77E3AA34880A);
       return Schema.GetString(ptr);

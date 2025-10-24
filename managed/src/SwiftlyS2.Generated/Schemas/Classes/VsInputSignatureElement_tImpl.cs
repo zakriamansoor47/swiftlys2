@@ -15,21 +15,21 @@ internal partial class VsInputSignatureElement_tImpl : SchemaClass, VsInputSigna
   public VsInputSignatureElement_tImpl(nint handle) : base(handle) {
   }
 
-public string Name {
+  public string Name {
     get {
       var ptr = _Handle + Schema.GetOffset(0xFD3BBE5B5B47C92C);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0xFD3BBE5B5B47C92C, value, 64);
   } 
-public string Semantic {
+  public string Semantic {
     get {
       var ptr = _Handle + Schema.GetOffset(0xFD3BBE5B14684E6F);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0xFD3BBE5B14684E6F, value, 64);
   } 
-public string D3DSemanticName {
+  public string D3DSemanticName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xFD3BBE5B66524995);
       return Schema.GetString(ptr);

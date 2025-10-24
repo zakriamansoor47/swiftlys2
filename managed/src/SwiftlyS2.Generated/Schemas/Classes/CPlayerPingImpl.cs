@@ -27,7 +27,7 @@ internal partial class CPlayerPingImpl : CBaseEntityImpl, CPlayerPing {
   public ref bool Urgent {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5943E25F4F5EE9D0));
   }
-public string PlaceName {
+  public string PlaceName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x5943E25F6039F660);
       return Schema.GetString(ptr);

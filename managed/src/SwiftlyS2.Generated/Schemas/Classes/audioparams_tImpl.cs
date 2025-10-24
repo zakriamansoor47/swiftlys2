@@ -15,7 +15,7 @@ internal partial class audioparams_tImpl : SchemaClass, audioparams_t {
   public audioparams_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<Vector> LocalSound {
+  public ISchemaFixedArray<Vector> LocalSound {
     get => new SchemaFixedArray<Vector>(_Handle, 0x6D349E3CCE184A47, 8, 12, 4);
   }
   public ref int SoundscapeIndex {

@@ -25,7 +25,7 @@ internal partial class CFilterMultipleImpl : CBaseFilterImpl, CFilterMultiple {
     }
     set => Schema.SetString(_Handle, 0x6EA0578009C86445, value);
   } 
-public ISchemaFixedArray<CHandle<CBaseEntity>> Filter {
+  public ISchemaFixedArray<CHandle<CBaseEntity>> Filter {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x6EA0578045D9E0B1, 10, 4, 4);
   }
 

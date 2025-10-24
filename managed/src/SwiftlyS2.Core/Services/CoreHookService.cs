@@ -104,22 +104,32 @@ internal class CoreHookService : IDisposable
 
     _Logger.LogInformation("Hooking Cmd_ExecuteCommand at {Address}", address);
     var commandNameOffset = NativeOffsets.Fetch("CommandNameOffset");
+    var commandArgsOffset = NativeOffsets.Fetch("CommandArgsOffset");
 
     _ExecuteCommand = _Core.Memory.GetUnmanagedFunctionByAddress<ExecuteCommandDelegate>(address);
     _ExecuteCommandGuid = _ExecuteCommand.AddHook((next) =>
     {
       return (a1, a2, a3, a4, a5) =>
       {
-        var (commandName, commandPtr) = (a5 != nint.Zero && a5 < nint.MaxValue && commandNameOffset != 0) switch
+        var commandName = (a5 != nint.Zero && a5 < nint.MaxValue && commandNameOffset != 0) switch
         {
           true when Marshal.ReadIntPtr(new nint(a5 + commandNameOffset)) is var basePtr && basePtr != nint.Zero && basePtr < nint.MaxValue
-            => (Marshal.PtrToStringAnsi(Marshal.ReadIntPtr(basePtr)) ?? string.Empty, Marshal.ReadIntPtr(basePtr)),
-          _ => (string.Empty, nint.Zero)
+            => Marshal.PtrToStringAnsi(Marshal.ReadIntPtr(basePtr)) ?? string.Empty,
+          _ => string.Empty
         };
+        var commandArgs = (a5 != nint.Zero && a5 < nint.MaxValue && commandArgsOffset != 0) switch
+        {
+          true => Marshal.PtrToStringAnsi(new nint(a5 + commandArgsOffset)) ?? string.Empty,
+          _ => string.Empty
+        };
+
+        var argsSplit = commandArgs.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var args = argsSplit.Length > 1 ? argsSplit[1..] : [];
 
         var preEvent = new OnCommandExecuteHookEvent
         {
           OriginalName = commandName,
+          OriginalArgs = args,
           HookMode = HookMode.Pre
         };
         EventPublisher.InvokeOnCommandExecuteHook(preEvent);
@@ -142,6 +152,7 @@ internal class CoreHookService : IDisposable
         var postEvent = new OnCommandExecuteHookEvent
         {
           OriginalName = commandName,
+          OriginalArgs = args,
           HookMode = HookMode.Post
         };
         EventPublisher.InvokeOnCommandExecuteHook(postEvent);

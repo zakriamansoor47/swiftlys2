@@ -24,7 +24,7 @@ internal partial class constraint_breakableparams_tImpl : SchemaClass, constrain
   public ref float TorqueLimit {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEDA0F37777EB0DDE));
   }
-public ISchemaFixedArray<float> BodyMassScale {
+  public ISchemaFixedArray<float> BodyMassScale {
     get => new SchemaFixedArray<float>(_Handle, 0xEDA0F3775BED8FB5, 2, 4, 4);
   }
   public ref bool IsActive {

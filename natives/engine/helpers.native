@@ -1,15 +1,12 @@
 class EngineHelpers
 
 string GetServerIP = void
-string GetMap = void
 bool IsMapValid = string map_name // it can be map name, or workshop id
-int32 GetMaxPlayers = void
 void ExecuteCommand = string command
-float GetServerCurrentTime = void
-int32 GetServerTickCount = void // simulation tick
 ptr FindGameSystemByName = string name
 void SendMessageToConsole = string msg
 ptr GetTraceManager = void
 string GetCurrentGame = void
 string GetNativeVersion = void
 string GetMenuSettings = void
+ptr GetGlobalVars = void

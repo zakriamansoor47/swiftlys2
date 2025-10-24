@@ -15,7 +15,7 @@ internal partial class CRangeFloatImpl : SchemaClass, CRangeFloat {
   public CRangeFloatImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> Value {
+  public ISchemaFixedArray<float> Value {
     get => new SchemaFixedArray<float>(_Handle, 0xD3CD83EB7F437844, 2, 4, 4);
   }
 

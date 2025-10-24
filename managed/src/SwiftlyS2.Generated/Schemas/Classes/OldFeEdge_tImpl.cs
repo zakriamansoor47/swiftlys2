@@ -15,7 +15,7 @@ internal partial class OldFeEdge_tImpl : SchemaClass, OldFeEdge_t {
   public OldFeEdge_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> K {
+  public ISchemaFixedArray<float> K {
     get => new SchemaFixedArray<float>(_Handle, 0xBAF074C17C12054C, 3, 4, 4);
   }
   public ref float InvA {
@@ -45,10 +45,10 @@ public ISchemaFixedArray<float> K {
   public ref float AxialModelDist {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBAF074C1E53980E9));
   }
-public ISchemaFixedArray<float> AxialModelWeights {
+  public ISchemaFixedArray<float> AxialModelWeights {
     get => new SchemaFixedArray<float>(_Handle, 0xBAF074C1D9CDB73E, 4, 4, 4);
   }
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0xBAF074C1F6FB9B19, 4, 2, 2);
   }
 

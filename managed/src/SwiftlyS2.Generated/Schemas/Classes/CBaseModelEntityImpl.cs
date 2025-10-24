@@ -141,7 +141,7 @@ internal partial class CBaseModelEntityImpl : CBaseEntityImpl, CBaseModelEntity 
   public CNetworkViewOffsetVector ViewOffset {
     get => new CNetworkViewOffsetVectorImpl(_Handle + Schema.GetOffset(0x517849F739DB834B));
   }
-public ISchemaFixedArray<uint> DisabledHitGroups {
+  public ISchemaFixedArray<uint> DisabledHitGroups {
     get => new SchemaFixedArray<uint>(_Handle, 0x517849F7DDB01736, 1, 4, 4);
   }
 

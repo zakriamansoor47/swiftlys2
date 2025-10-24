@@ -21,10 +21,10 @@ internal partial class FeStiffHingeBuild_tImpl : SchemaClass, FeStiffHingeBuild_
   public ref float Strength {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x41A81A58AFA3323A));
   }
-public ISchemaFixedArray<float> MotionBias {
+  public ISchemaFixedArray<float> MotionBias {
     get => new SchemaFixedArray<float>(_Handle, 0x41A81A582CDDBF14, 3, 4, 4);
   }
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x41A81A58CD6694B9, 3, 2, 2);
   }
 

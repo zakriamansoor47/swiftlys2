@@ -18,7 +18,7 @@ internal partial class SceneObject_tImpl : SchemaClass, SceneObject_t {
   public ref uint ObjectID {
     get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xD71D99937D1B0793));
   }
-public ISchemaFixedArray<Vector4D> Transform {
+  public ISchemaFixedArray<Vector4D> Transform {
     get => new SchemaFixedArray<Vector4D>(_Handle, 0xD71D9993EAAE256F, 3, 16, 4);
   }
   public ref float FadeStartDistance {

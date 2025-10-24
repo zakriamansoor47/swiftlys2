@@ -42,7 +42,7 @@ internal partial class CBeamImpl : CBaseModelEntityImpl, CBeam {
   public ref uint BeamFlags {
     get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x4BCF3CE5BB875091));
   }
-public ISchemaFixedArray<CHandle<CBaseEntity>> AttachEntity {
+  public ISchemaFixedArray<CHandle<CBaseEntity>> AttachEntity {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x4BCF3CE56BCDCAD1, 10, 4, 4);
   }
   public SchemaUntypedField AttachIndex {

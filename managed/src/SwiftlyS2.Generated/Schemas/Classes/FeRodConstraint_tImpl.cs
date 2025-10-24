@@ -15,7 +15,7 @@ internal partial class FeRodConstraint_tImpl : SchemaClass, FeRodConstraint_t {
   public FeRodConstraint_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0xC672146DCD6694B9, 2, 2, 2);
   }
   public ref float MaxDist {

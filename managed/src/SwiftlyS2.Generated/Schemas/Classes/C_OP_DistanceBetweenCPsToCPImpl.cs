@@ -51,7 +51,7 @@ internal partial class C_OP_DistanceBetweenCPsToCPImpl : CParticleFunctionPreEmi
   public ref bool LOS {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x379849D89C25C2ED));
   }
-public string CollisionGroupName {
+  public string CollisionGroupName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x379849D8D58A3195);
       return Schema.GetString(ptr);

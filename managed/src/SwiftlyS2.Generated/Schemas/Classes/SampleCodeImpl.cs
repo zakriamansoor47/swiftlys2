@@ -15,7 +15,7 @@ internal partial class SampleCodeImpl : SchemaClass, SampleCode {
   public SampleCodeImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<byte> SubCode {
+  public ISchemaFixedArray<byte> SubCode {
     get => new SchemaFixedArray<byte>(_Handle, 0x6387E3865AD6C244, 8, 1, 1);
   }
 

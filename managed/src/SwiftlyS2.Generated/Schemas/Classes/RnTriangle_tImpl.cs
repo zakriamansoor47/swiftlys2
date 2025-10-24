@@ -15,7 +15,7 @@ internal partial class RnTriangle_tImpl : SchemaClass, RnTriangle_t {
   public RnTriangle_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<int> Index {
+  public ISchemaFixedArray<int> Index {
     get => new SchemaFixedArray<int>(_Handle, 0x2136F8E2B73DBE67, 3, 4, 4);
   }
 

@@ -15,7 +15,7 @@ internal partial class CParticleSystemImpl : CBaseModelEntityImpl, CParticleSyst
   public CParticleSystemImpl(nint handle) : base(handle) {
   }
 
-public string SnapshotFileName {
+  public string SnapshotFileName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x8F6D2B258D2636C1);
       return Schema.GetString(ptr);
@@ -46,13 +46,13 @@ public string SnapshotFileName {
   public ref float PreSimTime {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8F6D2B25CD67F64E));
   }
-public ISchemaFixedArray<Vector> ServerControlPoints {
+  public ISchemaFixedArray<Vector> ServerControlPoints {
     get => new SchemaFixedArray<Vector>(_Handle, 0x8F6D2B2561386048, 4, 12, 4);
   }
-public ISchemaFixedArray<byte> ServerControlPointAssignments {
+  public ISchemaFixedArray<byte> ServerControlPointAssignments {
     get => new SchemaFixedArray<byte>(_Handle, 0x8F6D2B25E9DEDAC8, 4, 1, 1);
   }
-public ISchemaFixedArray<CHandle<CBaseEntity>> ControlPointEnts {
+  public ISchemaFixedArray<CHandle<CBaseEntity>> ControlPointEnts {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x8F6D2B25ECA36598, 64, 4, 4);
   }
   public ref bool NoSave {

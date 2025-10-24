@@ -166,7 +166,7 @@ internal partial class CBaseRendererSource2Impl : CParticleFunctionRendererImpl,
   public ref bool OnlyRenderInEffecsGameOverlay {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA732A5750293C80E));
   }
-public string StencilTestID {
+  public string StencilTestID {
     get {
       var ptr = _Handle + Schema.GetOffset(0xA732A575115C996A);
       return Schema.GetString(ptr);
@@ -176,7 +176,7 @@ public string StencilTestID {
   public ref bool StencilTestExclude {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA732A57584BFB66B));
   }
-public string StencilWriteID {
+  public string StencilWriteID {
     get {
       var ptr = _Handle + Schema.GetOffset(0xA732A5758FB6505B);
       return Schema.GetString(ptr);

@@ -28,7 +28,7 @@ internal partial class CLogicCaseImpl : CLogicalEntityImpl, CLogicCase {
   public ref int LastShuffleCase {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4B6BB20C053CE392));
   }
-public ISchemaFixedArray<byte> UchShuffleCaseMap {
+  public ISchemaFixedArray<byte> UchShuffleCaseMap {
     get => new SchemaFixedArray<byte>(_Handle, 0x4B6BB20CF9FC41AE, 32, 1, 1);
   }
   public SchemaUntypedField OnCase {

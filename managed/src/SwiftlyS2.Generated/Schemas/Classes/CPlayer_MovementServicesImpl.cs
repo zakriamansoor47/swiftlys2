@@ -30,7 +30,7 @@ internal partial class CPlayer_MovementServicesImpl : CPlayerPawnComponentImpl, 
   public ref ulong ButtonDoublePressed {
     get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0xD5BDF289E6C8CA6E));
   }
-public ISchemaFixedArray<uint> ButtonPressedCmdNumber {
+  public ISchemaFixedArray<uint> ButtonPressedCmdNumber {
     get => new SchemaFixedArray<uint>(_Handle, 0xD5BDF289A7854580, 64, 4, 4);
   }
   public ref uint LastCommandNumberProcessed {
@@ -42,7 +42,7 @@ public ISchemaFixedArray<uint> ButtonPressedCmdNumber {
   public ref float Maxspeed {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD5BDF289468F90F2));
   }
-public ISchemaFixedArray<float> ForceSubtickMoveWhen {
+  public ISchemaFixedArray<float> ForceSubtickMoveWhen {
     get => new SchemaFixedArray<float>(_Handle, 0xD5BDF28999115A07, 4, 4, 4);
   }
   public ref float ForwardMove {

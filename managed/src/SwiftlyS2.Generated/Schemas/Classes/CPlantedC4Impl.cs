@@ -84,7 +84,7 @@ internal partial class CPlantedC4Impl : CBaseAnimGraphImpl, CPlantedC4 {
   public ref bool VoiceAlertFired {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE1614C8139790C5F));
   }
-public ISchemaFixedArray<bool> VoiceAlertPlayed {
+  public ISchemaFixedArray<bool> VoiceAlertPlayed {
     get => new SchemaFixedArray<bool>(_Handle, 0xE1614C812559EA7A, 4, 1, 1);
   }
   public GameTime_t NextBotBeepTime {

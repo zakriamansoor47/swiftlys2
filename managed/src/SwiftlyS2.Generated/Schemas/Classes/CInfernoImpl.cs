@@ -15,16 +15,16 @@ internal partial class CInfernoImpl : CBaseModelEntityImpl, CInferno {
   public CInfernoImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<Vector> FirePositions {
+  public ISchemaFixedArray<Vector> FirePositions {
     get => new SchemaFixedArray<Vector>(_Handle, 0xABE104C91E992007, 64, 12, 4);
   }
-public ISchemaFixedArray<Vector> FireParentPositions {
+  public ISchemaFixedArray<Vector> FireParentPositions {
     get => new SchemaFixedArray<Vector>(_Handle, 0xABE104C9A58B35D7, 64, 12, 4);
   }
-public ISchemaFixedArray<bool> FireIsBurning {
+  public ISchemaFixedArray<bool> FireIsBurning {
     get => new SchemaFixedArray<bool>(_Handle, 0xABE104C9E5CD906C, 64, 1, 1);
   }
-public ISchemaFixedArray<Vector> BurnNormal {
+  public ISchemaFixedArray<Vector> BurnNormal {
     get => new SchemaFixedArray<Vector>(_Handle, 0xABE104C9382663DB, 64, 12, 4);
   }
   public ref int FireCount {

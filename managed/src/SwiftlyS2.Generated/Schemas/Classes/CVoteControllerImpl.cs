@@ -21,7 +21,7 @@ internal partial class CVoteControllerImpl : CBaseEntityImpl, CVoteController {
   public ref int OnlyTeamToVote {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6F560B06C957B8C6));
   }
-public ISchemaFixedArray<int> VoteOptionCount {
+  public ISchemaFixedArray<int> VoteOptionCount {
     get => new SchemaFixedArray<int>(_Handle, 0x6F560B0614DBD0DF, 5, 4, 4);
   }
   public ref int PotentialVotes {
@@ -39,7 +39,7 @@ public ISchemaFixedArray<int> VoteOptionCount {
   public CountdownTimer ResetVoteTimer {
     get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x6F560B06B54CD305));
   }
-public ISchemaFixedArray<int> VotesCast {
+  public ISchemaFixedArray<int> VotesCast {
     get => new SchemaFixedArray<int>(_Handle, 0x6F560B060247527D, 64, 4, 4);
   }
   public ref uint PlayerHoldingVote {

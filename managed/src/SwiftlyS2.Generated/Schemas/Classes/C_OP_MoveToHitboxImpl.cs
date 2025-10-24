@@ -30,7 +30,7 @@ internal partial class C_OP_MoveToHitboxImpl : CParticleFunctionOperatorImpl, C_
   public ref float PrevPosScale {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4ACEA8FF46CED122));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x4ACEA8FF6A21BB0E);
       return Schema.GetString(ptr);

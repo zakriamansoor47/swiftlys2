@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using SwiftlyS2.Core.Services;
+using SwiftlyS2.Shared.CommandLine;
 using SwiftlyS2.Shared.Commands;
 using SwiftlyS2.Shared.ConsoleOutput;
 using SwiftlyS2.Shared.Convars;
@@ -144,4 +145,9 @@ public interface ISwiftlyCore
   /// Menu manager.
   /// </summary>
   public IMenuManager Menus { get; }
+
+  /// <summary>
+  /// Command line.
+  /// </summary>
+  public ICommandLine CommandLine { get; }
 }

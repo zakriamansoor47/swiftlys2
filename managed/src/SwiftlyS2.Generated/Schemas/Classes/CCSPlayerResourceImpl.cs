@@ -15,13 +15,13 @@ internal partial class CCSPlayerResourceImpl : CBaseEntityImpl, CCSPlayerResourc
   public CCSPlayerResourceImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<bool> HostageAlive {
+  public ISchemaFixedArray<bool> HostageAlive {
     get => new SchemaFixedArray<bool>(_Handle, 0xBEE9B9154C5B2E7F, 12, 1, 1);
   }
-public ISchemaFixedArray<bool> IsHostageFollowingSomeone {
+  public ISchemaFixedArray<bool> IsHostageFollowingSomeone {
     get => new SchemaFixedArray<bool>(_Handle, 0xBEE9B9153F8AA9BB, 12, 1, 1);
   }
-public ISchemaFixedArray<uint> HostageEntityIDs {
+  public ISchemaFixedArray<uint> HostageEntityIDs {
     get => new SchemaFixedArray<uint>(_Handle, 0xBEE9B9150EEFA350, 12, 4, 4);
   }
   public ref Vector BombsiteCenterA {
@@ -30,13 +30,13 @@ public ISchemaFixedArray<uint> HostageEntityIDs {
   public ref Vector BombsiteCenterB {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xBEE9B915A01A7227));
   }
-public ISchemaFixedArray<int> HostageRescueX {
+  public ISchemaFixedArray<int> HostageRescueX {
     get => new SchemaFixedArray<int>(_Handle, 0xBEE9B91584FE2109, 4, 4, 4);
   }
-public ISchemaFixedArray<int> HostageRescueY {
+  public ISchemaFixedArray<int> HostageRescueY {
     get => new SchemaFixedArray<int>(_Handle, 0xBEE9B91583FE1F76, 4, 4, 4);
   }
-public ISchemaFixedArray<int> HostageRescueZ {
+  public ISchemaFixedArray<int> HostageRescueZ {
     get => new SchemaFixedArray<int>(_Handle, 0xBEE9B91582FE1DE3, 4, 4, 4);
   }
   public ref bool EndMatchNextMapAllVoted {

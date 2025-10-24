@@ -15,13 +15,13 @@ internal partial class FeQuad_tImpl : SchemaClass, FeQuad_t {
   public FeQuad_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x22A47BB8CD6694B9, 4, 2, 2);
   }
   public ref float Slack {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x22A47BB8C6554869));
   }
-public ISchemaFixedArray<Vector4D> Shape {
+  public ISchemaFixedArray<Vector4D> Shape {
     get => new SchemaFixedArray<Vector4D>(_Handle, 0x22A47BB8E159551A, 4, 16, 4);
   }
 

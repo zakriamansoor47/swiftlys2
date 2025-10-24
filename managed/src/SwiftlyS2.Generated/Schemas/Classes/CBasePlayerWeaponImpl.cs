@@ -33,7 +33,7 @@ internal partial class CBasePlayerWeaponImpl : CEconEntityImpl, CBasePlayerWeapo
   public ref int Clip2 {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4174B75ECD2504B0));
   }
-public ISchemaFixedArray<int> ReserveAmmo {
+  public ISchemaFixedArray<int> ReserveAmmo {
     get => new SchemaFixedArray<int>(_Handle, 0x4174B75EB3FEBB0B, 2, 4, 4);
   }
   public CEntityIOOutput OnPlayerUse {

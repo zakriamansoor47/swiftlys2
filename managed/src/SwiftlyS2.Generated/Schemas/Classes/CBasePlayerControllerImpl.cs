@@ -42,7 +42,7 @@ internal partial class CBasePlayerControllerImpl : CBaseEntityImpl, CBasePlayerC
   public ref PlayerConnectedState Connected {
     get => ref _Handle.AsRef<PlayerConnectedState>(Schema.GetOffset(0x3979FF6E97963D8B));
   }
-public string PlayerName {
+  public string PlayerName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x3979FF6EDE61DD3B);
       return Schema.GetString(ptr);

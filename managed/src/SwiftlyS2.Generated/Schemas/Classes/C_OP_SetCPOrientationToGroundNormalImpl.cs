@@ -27,7 +27,7 @@ internal partial class C_OP_SetCPOrientationToGroundNormalImpl : CParticleFuncti
   public ref float TraceOffset {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7BC52DA37EF6C397));
   }
-public string CollisionGroupName {
+  public string CollisionGroupName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x7BC52DA3D58A3195);
       return Schema.GetString(ptr);

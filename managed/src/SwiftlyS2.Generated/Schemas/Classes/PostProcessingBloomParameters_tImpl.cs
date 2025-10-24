@@ -57,10 +57,10 @@ internal partial class PostProcessingBloomParameters_tImpl : SchemaClass, PostPr
   public ref float ComputeBloomLensDirtBlackLevel {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x30F41F3CB4FB5025));
   }
-public ISchemaFixedArray<float> BlurWeight {
+  public ISchemaFixedArray<float> BlurWeight {
     get => new SchemaFixedArray<float>(_Handle, 0x30F41F3CAF5FB432, 5, 4, 4);
   }
-public ISchemaFixedArray<Vector> BlurTint {
+  public ISchemaFixedArray<Vector> BlurTint {
     get => new SchemaFixedArray<Vector>(_Handle, 0x30F41F3CC8FE1D49, 5, 12, 4);
   }
 

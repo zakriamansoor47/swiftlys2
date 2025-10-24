@@ -15,7 +15,7 @@ internal partial class CPhysLengthImpl : CPhysConstraintImpl, CPhysLength {
   public CPhysLengthImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<Vector> Offset {
+  public ISchemaFixedArray<Vector> Offset {
     get => new SchemaFixedArray<Vector>(_Handle, 0x9203A50AF836806A, 2, 12, 4);
   }
   public ref Vector Attach {

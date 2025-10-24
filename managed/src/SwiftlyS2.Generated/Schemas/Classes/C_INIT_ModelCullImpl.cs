@@ -27,7 +27,7 @@ internal partial class C_INIT_ModelCullImpl : CParticleFunctionInitializerImpl, 
   public ref bool UseBones {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE9ECCC6B10D1938B));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xE9ECCC6B6A21BB0E);
       return Schema.GetString(ptr);

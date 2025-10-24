@@ -25,7 +25,7 @@ internal partial class CSceneListManagerImpl : CLogicalEntityImpl, CSceneListMan
     }
     set => Schema.SetString(_Handle, 0x6DF51C6D967363E8, value);
   } 
-public ISchemaFixedArray<CHandle<CBaseEntity>> Scenes1 {
+  public ISchemaFixedArray<CHandle<CBaseEntity>> Scenes1 {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x6DF51C6D2B7EE872, 16, 4, 4);
   }
 

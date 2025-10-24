@@ -15,7 +15,7 @@ internal partial class RnWing_tImpl : SchemaClass, RnWing_t {
   public RnWing_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<int> Index {
+  public ISchemaFixedArray<int> Index {
     get => new SchemaFixedArray<int>(_Handle, 0xED8A9D45B73DBE67, 3, 4, 4);
   }
 

@@ -15,13 +15,13 @@ internal partial class FeEdgeDesc_tImpl : SchemaClass, FeEdgeDesc_t {
   public FeEdgeDesc_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Edge {
+  public ISchemaFixedArray<ushort> Edge {
     get => new SchemaFixedArray<ushort>(_Handle, 0xD483120F9FB47768, 2, 2, 2);
   }
   public SchemaUntypedField Side {
     get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xD483120FA0D97E1A));
   }
-public ISchemaFixedArray<ushort> VirtElem {
+  public ISchemaFixedArray<ushort> VirtElem {
     get => new SchemaFixedArray<ushort>(_Handle, 0xD483120F64A695A5, 2, 2, 2);
   }
 

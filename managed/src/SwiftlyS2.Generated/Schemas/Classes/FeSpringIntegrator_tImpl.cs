@@ -15,7 +15,7 @@ internal partial class FeSpringIntegrator_tImpl : SchemaClass, FeSpringIntegrato
   public FeSpringIntegrator_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0xFC6DF38BCD6694B9, 2, 2, 2);
   }
   public ref float SpringRestLength {

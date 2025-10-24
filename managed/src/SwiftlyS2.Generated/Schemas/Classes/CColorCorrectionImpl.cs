@@ -60,7 +60,7 @@ internal partial class CColorCorrectionImpl : CBaseEntityImpl, CColorCorrection 
   public ref float CurWeight {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x86645E112EA7ED7F));
   }
-public string NetlookupFilename {
+  public string NetlookupFilename {
     get {
       var ptr = _Handle + Schema.GetOffset(0x86645E11543AB1EB);
       return Schema.GetString(ptr);

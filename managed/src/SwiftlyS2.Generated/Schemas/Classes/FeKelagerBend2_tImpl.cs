@@ -15,13 +15,13 @@ internal partial class FeKelagerBend2_tImpl : SchemaClass, FeKelagerBend2_t {
   public FeKelagerBend2_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> Weight {
+  public ISchemaFixedArray<float> Weight {
     get => new SchemaFixedArray<float>(_Handle, 0x702E10E1CFFC66CB, 3, 4, 4);
   }
   public ref float Height0 {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x702E10E1AA7896A0));
   }
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x702E10E1CD6694B9, 3, 2, 2);
   }
   public ref ushort Reserved {

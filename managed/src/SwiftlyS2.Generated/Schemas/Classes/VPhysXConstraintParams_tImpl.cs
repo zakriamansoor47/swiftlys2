@@ -27,7 +27,7 @@ internal partial class VPhysXConstraintParams_tImpl : SchemaClass, VPhysXConstra
   public ref byte Flags {
     get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xF2BDF6ADCE6E9C28));
   }
-public ISchemaFixedArray<Vector> Anchor {
+  public ISchemaFixedArray<Vector> Anchor {
     get => new SchemaFixedArray<Vector>(_Handle, 0xF2BDF6AD23E10E54, 2, 12, 4);
   }
   public SchemaUntypedField Axes {

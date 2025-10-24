@@ -18,7 +18,7 @@ internal partial class CPhysPulleyImpl : CPhysConstraintImpl, CPhysPulley {
   public ref Vector Position2 {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xDCB3A22333568F48));
   }
-public ISchemaFixedArray<Vector> Offset {
+  public ISchemaFixedArray<Vector> Offset {
     get => new SchemaFixedArray<Vector>(_Handle, 0xDCB3A223F836806A, 2, 12, 4);
   }
   public ref float AddLength {

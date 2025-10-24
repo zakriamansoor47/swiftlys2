@@ -15,7 +15,7 @@ internal partial class FeSourceEdge_tImpl : SchemaClass, FeSourceEdge_t {
   public FeSourceEdge_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x88268BD3CD6694B9, 2, 2, 2);
   }
 

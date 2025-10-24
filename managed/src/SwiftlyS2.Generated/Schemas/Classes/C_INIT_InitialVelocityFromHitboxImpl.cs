@@ -24,7 +24,7 @@ internal partial class C_INIT_InitialVelocityFromHitboxImpl : CParticleFunctionI
   public ref int ControlPointNumber {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x48F25F173F31A6BD));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x48F25F176A21BB0E);
       return Schema.GetString(ptr);

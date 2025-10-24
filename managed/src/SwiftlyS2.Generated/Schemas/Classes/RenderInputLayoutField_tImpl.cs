@@ -15,7 +15,7 @@ internal partial class RenderInputLayoutField_tImpl : SchemaClass, RenderInputLa
   public RenderInputLayoutField_tImpl(nint handle) : base(handle) {
   }
 
-public string SemanticName {
+  public string SemanticName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x752C88F08F25E44C);
       return Schema.GetString(ptr);
@@ -34,7 +34,7 @@ public string SemanticName {
   public ref RenderSlotType_t SlotType {
     get => ref _Handle.AsRef<RenderSlotType_t>(Schema.GetOffset(0x752C88F05072B95D));
   }
-public string ShaderSemantic {
+  public string ShaderSemantic {
     get {
       var ptr = _Handle + Schema.GetOffset(0x752C88F0897CAA95);
       return Schema.GetString(ptr);

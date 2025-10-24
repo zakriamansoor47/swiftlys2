@@ -31,6 +31,41 @@ managed_types = [
   "SchemaFixedString"
 ]
 
+dangerous_fields = [
+  "m_bIsValveDS",
+  "m_bIsQuestEligible",
+  "m_iEntityLevel",
+  "m_iItemIDHigh",
+  "m_iItemIDLow",
+  "m_iAccountID",
+  "m_iEntityQuality",
+  "m_bInitialized",
+  "m_szCustomName",
+  "m_iAttributeDefinitionIndex",
+  "m_iRawValue32",
+  "m_iRawInitialValue32",
+  "m_flValue",
+  "m_flInitialValue",
+  "m_bSetBonus",
+  "m_nRefundableCurrency",
+  "m_OriginalOwnerXuidLow",
+  "m_OriginalOwnerXuidHigh",
+  "m_nFallbackPaintKit",
+  "m_nFallbackSeed",
+  "m_flFallbackWear",
+  "m_nFallbackStatTrak",
+  "m_iCompetitiveWins",
+  "m_iCompetitiveRanking",
+  "m_iCompetitiveRankType",
+  "m_iCompetitiveRankingPredicted_Win",
+  "m_iCompetitiveRankingPredicted_Loss",
+  "m_iCompetitiveRankingPredicted_Tie",
+  "m_nActiveCoinRank",
+  "m_nMusicID"
+]
+
+found_dangerous_fields = []
+
 def render_template(template, params):
   for param, value in params.items():
     template = template.replace(f"${param}$", str(value))
@@ -89,6 +124,12 @@ class Writer():
           names.append(field_info["NAME"])
 
         field_info["REF_METHOD"] = "Deref" if field_info["KIND"] == "ptr" else "AsRef"
+        if field["name"] in dangerous_fields:
+          found_dangerous_fields.append({
+            "class": self.class_name,
+            "field": field["name"],
+            "hash": field_info["HASH"]
+          })
 
         if field_info["IS_NETWORKED"] == "true":
           updators.append(render_template(self.class_updator_template, field_info))
@@ -199,7 +240,7 @@ class Writer():
     for field in self.class_def["fields"]:
       value = field["value"] if field["value"] != -1 else f"{type}.MaxValue"
       value = value if value != -2 else f"{type}.MaxValue - 1"
-      fields.append(f" {field["name"]} = {value},")
+      fields.append(f" {field['name']} = {value},")
 
     params = {
       "ENUM_NAME": self.class_name,
@@ -230,3 +271,10 @@ with open("sdk.json", "r") as f:
 
     writer = Writer(enum_def, all_class_names, all_enum_names)
     writer.write_enum()
+
+  if found_dangerous_fields:
+    print("\n")
+    print("  private static readonly HashSet<ulong> dangerousFields = new() {")
+    for item in found_dangerous_fields:
+      print(f"    {item['hash']}, // {item['class']}.{item['field']}")
+    print("  };")

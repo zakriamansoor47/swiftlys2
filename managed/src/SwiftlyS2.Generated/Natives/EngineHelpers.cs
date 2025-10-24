@@ -25,20 +25,6 @@ internal static class NativeEngineHelpers {
     }
   }
 
-  private unsafe static delegate* unmanaged<byte*, int> _GetMap;
-
-  public unsafe static string GetMap() {
-    var ret = _GetMap(null);
-    var pool = ArrayPool<byte>.Shared;
-    var retBuffer = pool.Rent(ret + 1);
-    fixed (byte* retBufferPtr = retBuffer) {
-      ret = _GetMap(retBufferPtr);
-      var retString = Encoding.UTF8.GetString(retBufferPtr, ret);
-      pool.Return(retBuffer);
-      return retString;
-    }
-  }
-
   private unsafe static delegate* unmanaged<byte*, byte> _IsMapValid;
 
   /// <summary>
@@ -57,13 +43,6 @@ internal static class NativeEngineHelpers {
     }
   }
 
-  private unsafe static delegate* unmanaged<int> _GetMaxPlayers;
-
-  public unsafe static int GetMaxPlayers() {
-    var ret = _GetMaxPlayers();
-    return ret;
-  }
-
   private unsafe static delegate* unmanaged<byte*, void> _ExecuteCommand;
 
   public unsafe static void ExecuteCommand(string command) {
@@ -76,23 +55,6 @@ internal static class NativeEngineHelpers {
       _ExecuteCommand(commandBufferPtr);
       pool.Return(commandBuffer);
     }
-  }
-
-  private unsafe static delegate* unmanaged<float> _GetServerCurrentTime;
-
-  public unsafe static float GetServerCurrentTime() {
-    var ret = _GetServerCurrentTime();
-    return ret;
-  }
-
-  private unsafe static delegate* unmanaged<int> _GetServerTickCount;
-
-  /// <summary>
-  /// simulation tick
-  /// </summary>
-  public unsafe static int GetServerTickCount() {
-    var ret = _GetServerTickCount();
-    return ret;
   }
 
   private unsafe static delegate* unmanaged<byte*, nint> _FindGameSystemByName;
@@ -171,5 +133,12 @@ internal static class NativeEngineHelpers {
       pool.Return(retBuffer);
       return retString;
     }
+  }
+
+  private unsafe static delegate* unmanaged<nint> _GetGlobalVars;
+
+  public unsafe static nint GetGlobalVars() {
+    var ret = _GetGlobalVars();
+    return ret;
   }
 }

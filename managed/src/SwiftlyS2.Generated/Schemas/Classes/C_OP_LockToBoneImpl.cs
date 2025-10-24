@@ -33,7 +33,7 @@ internal partial class C_OP_LockToBoneImpl : CParticleFunctionOperatorImpl, C_OP
   public ref float PrevPosScale {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF6C2B94D46CED122));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xF6C2B94D6A21BB0E);
       return Schema.GetString(ptr);

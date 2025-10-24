@@ -15,10 +15,10 @@ internal partial class CMultiSourceImpl : CLogicalEntityImpl, CMultiSource {
   public CMultiSourceImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<CHandle<CBaseEntity>> RgEntities {
+  public ISchemaFixedArray<CHandle<CBaseEntity>> RgEntities {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x87DC5C660CB2E479, 32, 4, 4);
   }
-public ISchemaFixedArray<int> RgTriggered {
+  public ISchemaFixedArray<int> RgTriggered {
     get => new SchemaFixedArray<int>(_Handle, 0x87DC5C664616C37F, 32, 4, 4);
   }
   public CEntityIOOutput OnTrigger {

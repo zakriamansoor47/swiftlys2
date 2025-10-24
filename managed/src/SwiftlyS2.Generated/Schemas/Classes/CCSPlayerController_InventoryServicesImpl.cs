@@ -18,7 +18,7 @@ internal partial class CCSPlayerController_InventoryServicesImpl : CPlayerContro
   public ref ushort MusicID {
     get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xC1D0078289F71A5C));
   }
-public ISchemaFixedArray<MedalRank_t> Rank {
+  public ISchemaFixedArray<MedalRank_t> Rank {
     get => new SchemaFixedArray<MedalRank_t>(_Handle, 0xC1D007826A7861C7, 6, 4, 4);
   }
   public ref int PersonaDataPublicLevel {
@@ -36,7 +36,7 @@ public ISchemaFixedArray<MedalRank_t> Rank {
   public ref int PersonaDataXpTrailLevel {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC1D0078228192B7D));
   }
-public ISchemaFixedArray<uint> EquippedPlayerSprayIDs {
+  public ISchemaFixedArray<uint> EquippedPlayerSprayIDs {
     get => new SchemaFixedArray<uint>(_Handle, 0xC1D00782CE970C93, 1, 4, 4);
   }
   public ref ulong CurrentLoadoutHash {

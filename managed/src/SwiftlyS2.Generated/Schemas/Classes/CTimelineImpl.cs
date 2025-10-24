@@ -15,10 +15,10 @@ internal partial class CTimelineImpl : IntervalTimerImpl, CTimeline {
   public CTimelineImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> Values {
+  public ISchemaFixedArray<float> Values {
     get => new SchemaFixedArray<float>(_Handle, 0x36D1E6597BD8BFD5, 64, 4, 4);
   }
-public ISchemaFixedArray<int> ValueCounts {
+  public ISchemaFixedArray<int> ValueCounts {
     get => new SchemaFixedArray<int>(_Handle, 0x36D1E65961EF23CA, 64, 4, 4);
   }
   public ref int BucketCount {

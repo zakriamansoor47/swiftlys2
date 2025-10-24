@@ -36,7 +36,7 @@ internal partial class CBoneConstraintDotToMorphImpl : CBoneConstraintBaseImpl, 
     }
     set => Schema.SetString(_Handle, 0x75939F0777272AE4, value);
   } 
-public ISchemaFixedArray<float> Remap {
+  public ISchemaFixedArray<float> Remap {
     get => new SchemaFixedArray<float>(_Handle, 0x75939F07BE3DB1A0, 4, 4, 4);
   }
 

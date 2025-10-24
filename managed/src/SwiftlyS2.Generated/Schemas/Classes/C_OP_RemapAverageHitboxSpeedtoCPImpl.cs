@@ -45,7 +45,7 @@ internal partial class C_OP_RemapAverageHitboxSpeedtoCPImpl : CParticleFunctionP
   public CParticleCollectionVecInput ComparisonVelocity {
     get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xE6055FBC23BF409F));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xE6055FBC6A21BB0E);
       return Schema.GetString(ptr);

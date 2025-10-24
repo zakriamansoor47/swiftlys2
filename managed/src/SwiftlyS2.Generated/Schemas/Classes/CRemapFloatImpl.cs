@@ -15,7 +15,7 @@ internal partial class CRemapFloatImpl : SchemaClass, CRemapFloat {
   public CRemapFloatImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> Value {
+  public ISchemaFixedArray<float> Value {
     get => new SchemaFixedArray<float>(_Handle, 0x49763A6B7F437844, 4, 4, 4);
   }
 

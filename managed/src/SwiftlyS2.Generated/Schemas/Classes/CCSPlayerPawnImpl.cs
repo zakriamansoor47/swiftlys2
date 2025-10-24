@@ -64,7 +64,7 @@ internal partial class CCSPlayerPawnImpl : CCSPlayerPawnBaseImpl, CCSPlayerPawn 
     }
     set => Schema.SetString(_Handle, 0xC7614AAB86FA355B, value);
   } 
-public string LastPlaceName {
+  public string LastPlaceName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xC7614AAB4C28E3A0);
       return Schema.GetString(ptr);
@@ -161,7 +161,7 @@ public string LastPlaceName {
   public ref Vector RagdollDamagePosition {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC7614AAB29671362));
   }
-public string RagdollDamageWeaponName {
+  public string RagdollDamageWeaponName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xC7614AABDAAFA519);
       return Schema.GetString(ptr);
@@ -360,7 +360,7 @@ public string RagdollDamageWeaponName {
   public ref Vector DeathInfoOrigin {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC7614AAB05B549A7));
   }
-public ISchemaFixedArray<uint> PlayerPatchEconIndices {
+  public ISchemaFixedArray<uint> PlayerPatchEconIndices {
     get => new SchemaFixedArray<uint>(_Handle, 0xC7614AABECA447BC, 5, 4, 4);
   }
   public ref Color GunGameImmunityColor {
@@ -381,13 +381,13 @@ public ISchemaFixedArray<uint> PlayerPatchEconIndices {
   public ref Vector StashedVelocity {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC7614AAB577972A4));
   }
-public ISchemaFixedArray<QAngle> ShootAngleHistory {
+  public ISchemaFixedArray<QAngle> ShootAngleHistory {
     get => new SchemaFixedArray<QAngle>(_Handle, 0xC7614AABE9EFCFCF, 2, 12, 4);
   }
-public ISchemaFixedArray<Vector> ThrowPositionHistory {
+  public ISchemaFixedArray<Vector> ThrowPositionHistory {
     get => new SchemaFixedArray<Vector>(_Handle, 0xC7614AAB35A0837C, 2, 12, 4);
   }
-public ISchemaFixedArray<Vector> VelocityHistory {
+  public ISchemaFixedArray<Vector> VelocityHistory {
     get => new SchemaFixedArray<Vector>(_Handle, 0xC7614AAB24AFD9B2, 2, 12, 4);
   }
   public ref CUtlVector<PredictedDamageTag_t> PredictedDamageTags {

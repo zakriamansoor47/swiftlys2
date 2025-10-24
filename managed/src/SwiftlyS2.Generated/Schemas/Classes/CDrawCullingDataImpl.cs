@@ -15,7 +15,7 @@ internal partial class CDrawCullingDataImpl : SchemaClass, CDrawCullingData {
   public CDrawCullingDataImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<byte> ConeAxis {
+  public ISchemaFixedArray<byte> ConeAxis {
     get => new SchemaFixedArray<byte>(_Handle, 0x80665970C59E234F, 3, 1, 1);
   }
   public ref byte ConeCutoff {

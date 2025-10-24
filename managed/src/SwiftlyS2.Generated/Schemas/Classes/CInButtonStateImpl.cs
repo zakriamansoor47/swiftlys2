@@ -15,7 +15,7 @@ internal partial class CInButtonStateImpl : SchemaClass, CInButtonState {
   public CInButtonStateImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ulong> ButtonStates {
+  public ISchemaFixedArray<ulong> ButtonStates {
     get => new SchemaFixedArray<ulong>(_Handle, 0x6C8AF06A00121DF9, 3, 8, 8);
   }
 

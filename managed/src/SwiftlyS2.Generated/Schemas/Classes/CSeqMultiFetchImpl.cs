@@ -21,10 +21,10 @@ internal partial class CSeqMultiFetchImpl : SchemaClass, CSeqMultiFetch {
   public ref CUtlVector<short> LocalReferenceArray {
     get => ref _Handle.AsRef<CUtlVector<short>>(Schema.GetOffset(0x3846FD6290C98686));
   }
-public ISchemaFixedArray<int> GroupSize {
+  public ISchemaFixedArray<int> GroupSize {
     get => new SchemaFixedArray<int>(_Handle, 0x3846FD6258533CF9, 2, 4, 4);
   }
-public ISchemaFixedArray<int> LocalPose {
+  public ISchemaFixedArray<int> LocalPose {
     get => new SchemaFixedArray<int>(_Handle, 0x3846FD6270BF8111, 2, 4, 4);
   }
   public ref CUtlVector<float> PoseKeyArray0 {
@@ -42,7 +42,7 @@ public ISchemaFixedArray<int> LocalPose {
   public ref bool FixedBlendWeight {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3846FD626C68A6B4));
   }
-public ISchemaFixedArray<float> FixedBlendWeightVals {
+  public ISchemaFixedArray<float> FixedBlendWeightVals {
     get => new SchemaFixedArray<float>(_Handle, 0x3846FD6221B3BB76, 2, 4, 4);
   }
 

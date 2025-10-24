@@ -22,15 +22,33 @@ using SwiftlyS2.Shared.EntitySystem;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
 using SwiftlyS2.Shared.Players;
+using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
+using BenchmarkDotNet.Toolchains.InProcess.Emit;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Loggers;
 
 namespace TestPlugin;
-
 
 public class TestConfig
 {
   public string Name { get; set; }
   public int Age { get; set; }
 }
+
+
+public class InProcessConfig : ManualConfig
+{
+  public InProcessConfig()
+  {
+    AddLogger(ConsoleLogger.Default);
+    AddJob(Job.Default
+        .WithToolchain(new InProcessNoEmitToolchain(true))
+        .WithId("InProcess"));
+  }
+}
+
 
 [PluginMetadata(Id = "testplugin", Version = "1.0.0")]
 public class TestPlugin : BasePlugin
@@ -41,31 +59,29 @@ public class TestPlugin : BasePlugin
     Console.WriteLine("[TestPlugin] TestPlugin constructed successfully!");
   }
 
-  public override void ConfigureSharedInterface(IInterfaceManager interfaceManager)
+
+
+  [Command("be")]
+  public void Test2Command(ICommandContext context)
   {
-    // Register plugin-specific services here if needed
+    BenchContext.Controller = context.Sender!.RequiredController;
+    BenchmarkRunner.Run<PlayerBenchmarks>(new InProcessConfig());
   }
 
-  public override void UseSharedInterface(IInterfaceManager interfaceManager)
+  [GameEventHandler(HookMode.Pre)]
+  public HookResult OnPlayerSpawn(EventPlayerSpawn @event)
   {
-    // Use plugin-specific services here if needed
-  }
-
-  CancellationTokenSource? token2 = null;
-
-  delegate void Test(int a, int b);
-
-  IOptionsMonitor<TestConfig> _config;
-
-  [Command("sound")]
-  public void SoundCommand(ICommandContext context)
-  {
-    using var se = new SoundEvent();
-    se.Name = "MVP_ProtectionCharm";
-    se.Volume = 0.6f;
-    se.SourceEntityIndex = (int)context.Sender!.Pawn!.Index;
-    se.Recipients.AddAllPlayers();
-    se.Emit();
+    if (!@event.UserIdPlayer.IsValid)
+    {
+      return HookResult.Continue;
+    }
+    var player = @event.UserIdPlayer.RequiredController;
+    if (player.InGameMoneyServices?.IsValid == true)
+    {
+      player.InGameMoneyServices.Account = Core.ConVar.Find<int>("mp_maxmoney")?.Value ?? 16000;
+      player.InGameMoneyServices.AccountUpdated();
+    }
+    return HookResult.Continue;
   }
 
   public override void Load(bool hotReload)
@@ -77,8 +93,9 @@ public class TestPlugin : BasePlugin
 
     // Core.Event.OnCommandExecuteHook += (@event) =>
     // {
-    //   Console.WriteLine($"[TestPlugin] CommandExecute({@event.HookMode}): {@event.OriginalName}");
-    //   @event.SetCommandName("test");
+    //   if (@event.HookMode == HookMode.Pre) return;
+    //   Core.Logger.LogInformation("CommandExecute: {name} with {args}", @event.OriginalName, @event.OriginalArgs.Length > 0 ? string.Join(" ", @event.OriginalArgs) : "no args");
+    //   // @event.SetCommandName("test");
     // };
     Core.Engine.ExecuteCommandWithBuffer("@ping", (buffer) =>
     {
@@ -239,7 +256,7 @@ public class TestPlugin : BasePlugin
   [Command("tt")]
   public void TestCommand(ICommandContext context)
   {
-    token2?.Cancel();
+    // token2?.Cancel();
     // kv = new();
     // kv.SetString("test", "SAFE");
 
@@ -337,6 +354,37 @@ public class TestPlugin : BasePlugin
   }
 
   Guid _hookId = Guid.Empty;
+
+  [Command("bad")]
+  public void TestCommandBad(ICommandContext context)
+  {
+    try
+    {
+      var isValveDS = Core.EntitySystem.GetGameRules()!.IsValveDS;
+    }
+    catch (Exception e)
+    {
+      Core.Logger.LogWarning("{Exception}", e.Message);
+    }
+
+    try
+    {
+      Core.EntitySystem.GetGameRules()!.IsValveDS = true;
+    }
+    catch (Exception e)
+    {
+      Core.Logger.LogWarning("{Exception}", e.Message);
+    }
+
+    try
+    {
+      Core.EntitySystem.GetGameRules()!.IsValveDSUpdated();
+    }
+    catch (Exception e)
+    {
+      Core.Logger.LogWarning("{Exception}", e.Message);
+    }
+  }
 
   [Command("h2")]
   public void TestCommand3(ICommandContext context)

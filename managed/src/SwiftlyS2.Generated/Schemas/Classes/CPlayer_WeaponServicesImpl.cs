@@ -24,7 +24,7 @@ internal partial class CPlayer_WeaponServicesImpl : CPlayerPawnComponentImpl, CP
   public ref CHandle<CBasePlayerWeapon> LastWeapon {
     get => ref _Handle.AsRef<CHandle<CBasePlayerWeapon>>(Schema.GetOffset(0x634D2280EA5C9547));
   }
-public ISchemaFixedArray<ushort> Ammo {
+  public ISchemaFixedArray<ushort> Ammo {
     get => new SchemaFixedArray<ushort>(_Handle, 0x634D22800D59E6CA, 32, 2, 2);
   }
   public ref bool PreventWeaponPickup {

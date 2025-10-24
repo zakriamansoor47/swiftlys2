@@ -39,7 +39,7 @@ internal partial class C_INIT_SetHitboxToModelImpl : CParticleFunctionInitialize
   public ref bool UseBones {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x7129E7BA10D1938B));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x7129E7BA6A21BB0E);
       return Schema.GetString(ptr);

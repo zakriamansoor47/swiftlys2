@@ -24,7 +24,7 @@ internal partial class C_INIT_SetHitboxToClosestImpl : CParticleFunctionInitiali
   public CParticleCollectionVecInput HitBoxScale {
     get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x10F3322C58EE3FB7));
   }
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x10F3322C6A21BB0E);
       return Schema.GetString(ptr);

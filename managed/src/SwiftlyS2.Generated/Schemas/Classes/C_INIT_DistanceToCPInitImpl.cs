@@ -36,7 +36,7 @@ internal partial class C_INIT_DistanceToCPInitImpl : CParticleFunctionInitialize
   public ref bool LOS {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x59C1B9D59C25C2ED));
   }
-public string CollisionGroupName {
+  public string CollisionGroupName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x59C1B9D5D58A3195);
       return Schema.GetString(ptr);

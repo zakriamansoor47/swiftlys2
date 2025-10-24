@@ -57,7 +57,7 @@ internal partial class CPlayerSprayDecalImpl : CModelPointEntityImpl, CPlayerSpr
   public ref byte Version {
     get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x782380E1B0AB8B1B));
   }
-public ISchemaFixedArray<byte> Signature {
+  public ISchemaFixedArray<byte> Signature {
     get => new SchemaFixedArray<byte>(_Handle, 0x782380E133A8D6DC, 128, 1, 1);
   }
 

@@ -18,7 +18,7 @@ internal partial class CCSBotImpl : CBotImpl, CCSBot {
   public ref Vector EyePosition {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x1CFE165D847A3605));
   }
-public string Name {
+  public string Name {
     get {
       var ptr = _Handle + Schema.GetOffset(0x1CFE165D4D8F5786);
       return Schema.GetString(ptr);
@@ -145,7 +145,7 @@ public string Name {
   public CountdownTimer UpdateTravelDistanceTimer {
     get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x1CFE165D67E5EA78));
   }
-public ISchemaFixedArray<float> PlayerTravelDistance {
+  public ISchemaFixedArray<float> PlayerTravelDistance {
     get => new SchemaFixedArray<float>(_Handle, 0x1CFE165DA4B8EEEF, 64, 4, 4);
   }
   public ref byte TravelDistancePhase {
@@ -413,7 +413,7 @@ public ISchemaFixedArray<float> PlayerTravelDistance {
   public GameTime_t NextCleanupCheckTimestamp {
     get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x1CFE165DB61EB6BC));
   }
-public ISchemaFixedArray<float> AvgVel {
+  public ISchemaFixedArray<float> AvgVel {
     get => new SchemaFixedArray<float>(_Handle, 0x1CFE165D99077BFE, 10, 4, 4);
   }
   public ref int AvgVelIndex {

@@ -228,7 +228,7 @@ internal class Menu : IMenu
                     buttonOption.OnClick?.Invoke(player);
                     if (buttonOption.CloseOnSelect)
                     {
-                        Close(player);
+                        MenuManager.CloseMenuForPlayer(player);
                     }
                     break;
                 }
@@ -255,7 +255,7 @@ internal class Menu : IMenu
 
                             if (closeAfter && player.IsValid)
                             {
-                                Close(player);
+                                MenuManager.CloseMenuForPlayer(player);
                             }
                         }
                     });
@@ -266,7 +266,7 @@ internal class Menu : IMenu
                     toggle.Toggle(player);
                     if (toggle.CloseOnSelect)
                     {
-                        Close(player);
+                        MenuManager.CloseMenuForPlayer(player);
                     }
                     else
                     {
@@ -280,7 +280,7 @@ internal class Menu : IMenu
                 if (subMenu != null)
                 {
                     subMenu.Parent = this;
-                    subMenu.Show(player);
+                    MenuManager.OpenMenu(player, subMenu);
                 }
                 break;
         }

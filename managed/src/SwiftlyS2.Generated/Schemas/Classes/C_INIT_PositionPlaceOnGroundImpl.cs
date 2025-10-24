@@ -21,7 +21,7 @@ internal partial class C_INIT_PositionPlaceOnGroundImpl : CParticleFunctionIniti
   public CPerParticleFloatInput MaxTraceLength {
     get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xA022821E543C3798));
   }
-public string CollisionGroupName {
+  public string CollisionGroupName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xA022821ED58A3195);
       return Schema.GetString(ptr);

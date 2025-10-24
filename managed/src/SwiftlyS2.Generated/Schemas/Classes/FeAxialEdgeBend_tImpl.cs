@@ -24,10 +24,10 @@ internal partial class FeAxialEdgeBend_tImpl : SchemaClass, FeAxialEdgeBend_t {
   public ref float Dist {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6CF84D701234268F));
   }
-public ISchemaFixedArray<float> Weight {
+  public ISchemaFixedArray<float> Weight {
     get => new SchemaFixedArray<float>(_Handle, 0x6CF84D70CFFC66CB, 4, 4, 4);
   }
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x6CF84D70CD6694B9, 6, 2, 2);
   }
 

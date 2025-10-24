@@ -18,7 +18,7 @@ internal partial class FeNodeBase_tImpl : SchemaClass, FeNodeBase_t {
   public ref ushort Node {
     get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x74CA29BECD6694B9));
   }
-public ISchemaFixedArray<ushort> Dummy {
+  public ISchemaFixedArray<ushort> Dummy {
     get => new SchemaFixedArray<ushort>(_Handle, 0x74CA29BECD8BAE5F, 3, 2, 2);
   }
   public ref ushort NodeX0 {

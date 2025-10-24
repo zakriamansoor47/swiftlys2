@@ -15,16 +15,16 @@ internal partial class RenderHairStrandInfo_tImpl : SchemaClass, RenderHairStran
   public RenderHairStrandInfo_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<uint> GuideHairIndices_nSurfaceTriIndex {
+  public ISchemaFixedArray<uint> GuideHairIndices_nSurfaceTriIndex {
     get => new SchemaFixedArray<uint>(_Handle, 0x9037AEC699AC7193, 2, 4, 4);
   }
-public ISchemaFixedArray<ushort> GuideBary_vBaseBary {
+  public ISchemaFixedArray<ushort> GuideBary_vBaseBary {
     get => new SchemaFixedArray<ushort>(_Handle, 0x9037AEC6B3848BF7, 4, 2, 2);
   }
-public ISchemaFixedArray<ushort> RootOffset_flLengthScale {
+  public ISchemaFixedArray<ushort> RootOffset_flLengthScale {
     get => new SchemaFixedArray<ushort>(_Handle, 0x9037AEC67324D845, 4, 2, 2);
   }
-public ISchemaFixedArray<ushort> PackedBaseUv {
+  public ISchemaFixedArray<ushort> PackedBaseUv {
     get => new SchemaFixedArray<ushort>(_Handle, 0x9037AEC6D5457D8B, 2, 2, 2);
   }
   public ref uint PackedSurfaceNormalOs {

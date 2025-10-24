@@ -15,7 +15,7 @@ internal partial class FeTri_tImpl : SchemaClass, FeTri_t {
   public FeTri_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x75C07D86CD6694B9, 3, 2, 2);
   }
   public ref float W1 {

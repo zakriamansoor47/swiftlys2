@@ -121,7 +121,7 @@ internal partial class CPhysicsPropImpl : CBreakablePropImpl, CPhysicsProp {
     }
     set => Schema.SetString(_Handle, 0xC3FD37FE35D963A1, value);
   } 
-public ISchemaFixedArray<int> ItemCount {
+  public ISchemaFixedArray<int> ItemCount {
     get => new SchemaFixedArray<int>(_Handle, 0xC3FD37FEA5886501, 4, 4, 4);
   }
   public ref bool RemovableForAmmoBalancing {

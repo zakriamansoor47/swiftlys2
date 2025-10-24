@@ -15,14 +15,14 @@ internal partial class CBaseIssueImpl : SchemaClass, CBaseIssue {
   public CBaseIssueImpl(nint handle) : base(handle) {
   }
 
-public string TypeString {
+  public string TypeString {
     get {
       var ptr = _Handle + Schema.GetOffset(0xE0727D1E2E3EE7A9);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0xE0727D1E2E3EE7A9, value, 64);
   } 
-public string DetailsString {
+  public string DetailsString {
     get {
       var ptr = _Handle + Schema.GetOffset(0xE0727D1ECCE4C9BF);
       return Schema.GetString(ptr);

@@ -1,6 +1,8 @@
 using SwiftlyS2.Shared;
 using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Shared.Services;
+using SwiftlyS2.Core.Extensions;
+using SwiftlyS2.Shared.Natives;
 
 namespace SwiftlyS2.Core.Services;
 
@@ -15,13 +17,15 @@ internal class EngineService : IEngineService
 
     public string ServerIP => NativeEngineHelpers.GetServerIP();
 
-    public string Map => NativeEngineHelpers.GetMap();
+    public ref CGlobalVars GlobalVars => ref NativeEngineHelpers.GetGlobalVars().AsRef<CGlobalVars>();
 
-    public int MaxPlayers => NativeEngineHelpers.GetMaxPlayers();
+    public string Map => GlobalVars.MapName.ToString() ?? string.Empty;
 
-    public float CurrentTime => NativeEngineHelpers.GetServerCurrentTime();
+    public int MaxPlayers => GlobalVars.MaxClients;
 
-    public int TickCount => NativeEngineHelpers.GetServerTickCount();
+    public float CurrentTime => GlobalVars.CurrentTime;
+
+    public int TickCount => GlobalVars.TickCount;
 
     public void ExecuteCommand(string command)
     {

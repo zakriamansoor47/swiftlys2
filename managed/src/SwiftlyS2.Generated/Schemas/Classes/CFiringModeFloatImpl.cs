@@ -15,7 +15,7 @@ internal partial class CFiringModeFloatImpl : SchemaClass, CFiringModeFloat {
   public CFiringModeFloatImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> Values {
+  public ISchemaFixedArray<float> Values {
     get => new SchemaFixedArray<float>(_Handle, 0xB6918247BD8BFD5, 2, 4, 4);
   }
 

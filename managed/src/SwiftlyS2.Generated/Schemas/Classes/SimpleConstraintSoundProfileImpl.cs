@@ -18,10 +18,10 @@ internal partial class SimpleConstraintSoundProfileImpl : SchemaClass, SimpleCon
   public ref SimpleConstraintSoundProfile__SimpleConstraintsSoundProfileKeypoints_t Keypoints {
     get => ref _Handle.AsRef<SimpleConstraintSoundProfile__SimpleConstraintsSoundProfileKeypoints_t>(Schema.GetOffset(0xB768AA94AE55150C));
   }
-public ISchemaFixedArray<float> KeyPoints {
+  public ISchemaFixedArray<float> KeyPoints {
     get => new SchemaFixedArray<float>(_Handle, 0xB768AA9449DA0463, 2, 4, 4);
   }
-public ISchemaFixedArray<float> ReversalSoundThresholds {
+  public ISchemaFixedArray<float> ReversalSoundThresholds {
     get => new SchemaFixedArray<float>(_Handle, 0xB768AA9405E06766, 3, 4, 4);
   }
 

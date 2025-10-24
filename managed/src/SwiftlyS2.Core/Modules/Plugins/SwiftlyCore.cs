@@ -6,7 +6,6 @@ using SwiftlyS2.Core.Events;
 using SwiftlyS2.Core.GameEvents;
 using SwiftlyS2.Core.Misc;
 using SwiftlyS2.Core.NetMessages;
-using SwiftlyS2.Core.Services;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Events;
 using SwiftlyS2.Shared.GameEvents;
@@ -26,9 +25,7 @@ using SwiftlyS2.Shared.Memory;
 using SwiftlyS2.Core.Memory;
 using SwiftlyS2.Shared.Scheduler;
 using SwiftlyS2.Core.Scheduler;
-using SwiftlyS2.Core.Plugins;
 using SwiftlyS2.Core.Database;
-using SwiftlyS2.Core.Engine;
 using SwiftlyS2.Shared.Database;
 using SwiftlyS2.Core.Translations;
 using SwiftlyS2.Core.Permissions;
@@ -38,6 +35,8 @@ using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.Translation;
 using SwiftlyS2.Core.Players;
+using SwiftlyS2.Shared.CommandLine;
+using SwiftlyS2.Core.CommandLine;
 
 namespace SwiftlyS2.Core.Services;
 
@@ -70,6 +69,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
   public PermissionManager PermissionManager { get; init; }
   public RegistratorService RegistratorService { get; init; }
   public MenuManager MenuManager { get; init; }
+  public CommandLineService CommandLineService { get; init; }
   public string ContextBasePath { get; init; }
   public SwiftlyCore(string contextId, string contextBaseDirectory, PluginMetadata? pluginManifest, Type contextType, IServiceProvider coreProvider)
   {
@@ -102,6 +102,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
       .AddSingleton<ConVarService>()
       .AddSingleton<MemoryService>()
       .AddSingleton<GameDataService>()
+      .AddSingleton<PlayerManagerService>()
       .AddSingleton<ContextedProfilerService>()
       .AddSingleton<SchedulerService>()
       .AddSingleton<DatabaseService>()
@@ -109,6 +110,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
       .AddSingleton<Localizer>(provider => provider.GetRequiredService<TranslationService>().GetLocalizer())
       .AddSingleton<RegistratorService>()
       .AddSingleton<MenuManager>()
+      .AddSingleton<CommandLineService>()
       .AddSingleton<IPermissionManager>(provider => provider.GetRequiredService<PermissionManager>())
 
       .AddSingleton<IEventSubscriber>(provider => provider.GetRequiredService<EventSubscriber>())
@@ -131,6 +133,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
       .AddSingleton<ILocalizer>(provider => provider.GetRequiredService<TranslationService>().GetLocalizer())
       .AddSingleton<IRegistratorService>(provider => provider.GetRequiredService<RegistratorService>())
       .AddSingleton<IMenuManager>(provider => provider.GetRequiredService<MenuManager>())
+      .AddSingleton<ICommandLine>(provider => provider.GetRequiredService<CommandLineService>())
 
       .AddLogging(
         builder =>
@@ -164,6 +167,7 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
     PermissionManager = _ServiceProvider.GetRequiredService<PermissionManager>();
     RegistratorService = _ServiceProvider.GetRequiredService<RegistratorService>();
     MenuManager = _ServiceProvider.GetRequiredService<MenuManager>();
+    CommandLineService = _ServiceProvider.GetRequiredService<CommandLineService>();
     Logger = LoggerFactory.CreateLogger(contextType);
   }
 
@@ -206,4 +210,5 @@ internal class SwiftlyCore : ISwiftlyCore, IDisposable
   IRegistratorService ISwiftlyCore.Registrator => RegistratorService;
   IMenuManager ISwiftlyCore.Menus => MenuManager;
   string ISwiftlyCore.PluginPath => ContextBasePath;
+  ICommandLine ISwiftlyCore.CommandLine => CommandLineService;
 }

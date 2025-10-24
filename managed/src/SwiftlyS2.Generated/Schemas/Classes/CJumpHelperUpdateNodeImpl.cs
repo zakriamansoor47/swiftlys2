@@ -33,7 +33,7 @@ internal partial class CJumpHelperUpdateNodeImpl : CSequenceUpdateNodeImpl, CJum
   public ref JumpCorrectionMethod CorrectionMethod {
     get => ref _Handle.AsRef<JumpCorrectionMethod>(Schema.GetOffset(0xB5EA31271E19BA51));
   }
-public ISchemaFixedArray<bool> TranslationAxis {
+  public ISchemaFixedArray<bool> TranslationAxis {
     get => new SchemaFixedArray<bool>(_Handle, 0xB5EA3127F062387D, 3, 1, 1);
   }
   public ref bool ScaleSpeed {

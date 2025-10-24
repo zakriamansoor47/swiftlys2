@@ -21,10 +21,10 @@ internal partial class FeSimdQuad_tImpl : SchemaClass, FeSimdQuad_t {
   public ref fltx4 F4Slack {
     get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0xB82B061DBBFE3561));
   }
-public ISchemaFixedArray<FourVectors> Shape {
+  public ISchemaFixedArray<FourVectors> Shape {
     get => new SchemaFixedArray<FourVectors>(_Handle, 0xB82B061DE159551A, 4, 48, 16);
   }
-public ISchemaFixedArray<fltx4> F4Weights {
+  public ISchemaFixedArray<fltx4> F4Weights {
     get => new SchemaFixedArray<fltx4>(_Handle, 0xB82B061DDCFBCC00, 4, 16, 16);
   }
 

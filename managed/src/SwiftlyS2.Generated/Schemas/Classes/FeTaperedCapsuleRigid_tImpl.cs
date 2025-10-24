@@ -15,7 +15,7 @@ internal partial class FeTaperedCapsuleRigid_tImpl : SchemaClass, FeTaperedCapsu
   public FeTaperedCapsuleRigid_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<fltx4> Sphere {
+  public ISchemaFixedArray<fltx4> Sphere {
     get => new SchemaFixedArray<fltx4>(_Handle, 0x4B2017EE9E2AC48C, 2, 16, 16);
   }
   public ref ushort Node {

@@ -15,7 +15,7 @@ internal partial class CRangeIntImpl : SchemaClass, CRangeInt {
   public CRangeIntImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<int> Value {
+  public ISchemaFixedArray<int> Value {
     get => new SchemaFixedArray<int>(_Handle, 0xF42199F07F437844, 2, 4, 4);
   }
 

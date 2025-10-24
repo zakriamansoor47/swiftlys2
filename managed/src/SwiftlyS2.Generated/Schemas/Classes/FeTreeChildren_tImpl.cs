@@ -15,7 +15,7 @@ internal partial class FeTreeChildren_tImpl : SchemaClass, FeTreeChildren_t {
   public FeTreeChildren_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Child {
+  public ISchemaFixedArray<ushort> Child {
     get => new SchemaFixedArray<ushort>(_Handle, 0xD4BAF4A0E8CD59A1, 2, 2, 2);
   }
 

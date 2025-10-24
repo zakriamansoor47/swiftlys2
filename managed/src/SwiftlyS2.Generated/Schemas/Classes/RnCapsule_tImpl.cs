@@ -15,7 +15,7 @@ internal partial class RnCapsule_tImpl : SchemaClass, RnCapsule_t {
   public RnCapsule_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<Vector> Center {
+  public ISchemaFixedArray<Vector> Center {
     get => new SchemaFixedArray<Vector>(_Handle, 0xA2412C03C82A5908, 2, 12, 4);
   }
   public ref float Radius {

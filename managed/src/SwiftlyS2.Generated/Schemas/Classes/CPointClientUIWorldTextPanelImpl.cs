@@ -15,7 +15,7 @@ internal partial class CPointClientUIWorldTextPanelImpl : CPointClientUIWorldPan
   public CPointClientUIWorldTextPanelImpl(nint handle) : base(handle) {
   }
 
-public string MessageText {
+  public string MessageText {
     get {
       var ptr = _Handle + Schema.GetOffset(0x9F10465EBA6E5D73);
       return Schema.GetString(ptr);

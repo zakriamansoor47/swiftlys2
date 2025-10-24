@@ -18,7 +18,7 @@ internal partial class CGameRulesImpl : SchemaClass, CGameRules {
   public ref CNetworkVarChainer __m_pChainEntity {
     get => ref _Handle.AsRef<CNetworkVarChainer>(Schema.GetOffset(0x4807DA77F63F0E7D));
   }
-public string QuestName {
+  public string QuestName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x4807DA7748F621A1);
       return Schema.GetString(ptr);

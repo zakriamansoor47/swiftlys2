@@ -54,21 +54,21 @@ internal partial class CTriggerSndSosOpvarImpl : CBaseTriggerImpl, CTriggerSndSo
   public ref bool VolIs2D {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD4B7BEBC384D3350));
   }
-public string OpvarNameChar {
+  public string OpvarNameChar {
     get {
       var ptr = _Handle + Schema.GetOffset(0xD4B7BEBC55F3CFF0);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0xD4B7BEBC55F3CFF0, value, 256);
   } 
-public string StackNameChar {
+  public string StackNameChar {
     get {
       var ptr = _Handle + Schema.GetOffset(0xD4B7BEBC87998C38);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0xD4B7BEBC87998C38, value, 256);
   } 
-public string OperatorNameChar {
+  public string OperatorNameChar {
     get {
       var ptr = _Handle + Schema.GetOffset(0xD4B7BEBC9824CD12);
       return Schema.GetString(ptr);

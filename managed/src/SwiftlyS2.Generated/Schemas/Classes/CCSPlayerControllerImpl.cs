@@ -242,7 +242,7 @@ internal partial class CCSPlayerControllerImpl : CBasePlayerControllerImpl, CCSP
   public ref int RoundsWon {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x28ECD7A1866D1FEF));
   }
-public ISchemaFixedArray<byte> RecentKillQueue {
+  public ISchemaFixedArray<byte> RecentKillQueue {
     get => new SchemaFixedArray<byte>(_Handle, 0x28ECD7A12540EEA5, 8, 1, 1);
   }
   public ref byte FirstKill {

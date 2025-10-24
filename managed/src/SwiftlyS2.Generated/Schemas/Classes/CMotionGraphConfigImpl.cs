@@ -15,7 +15,7 @@ internal partial class CMotionGraphConfigImpl : SchemaClass, CMotionGraphConfig 
   public CMotionGraphConfigImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<float> ParamValues {
+  public ISchemaFixedArray<float> ParamValues {
     get => new SchemaFixedArray<float>(_Handle, 0x851F6EEA365BD3F8, 4, 4, 4);
   }
   public ref float Duration {

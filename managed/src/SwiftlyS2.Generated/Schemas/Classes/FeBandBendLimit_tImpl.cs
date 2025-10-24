@@ -21,7 +21,7 @@ internal partial class FeBandBendLimit_tImpl : SchemaClass, FeBandBendLimit_t {
   public ref float DistMax {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB6674060F7C250C7));
   }
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0xB6674060CD6694B9, 6, 2, 2);
   }
 

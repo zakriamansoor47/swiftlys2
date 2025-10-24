@@ -42,7 +42,7 @@ internal partial class C_OP_DistanceBetweenTransformsImpl : CParticleFunctionOpe
   public ref float LOSScale {
     get => ref _Handle.AsRef<float>(Schema.GetOffset(0x60A44933259F6F3B));
   }
-public string CollisionGroupName {
+  public string CollisionGroupName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x60A44933D58A3195);
       return Schema.GetString(ptr);

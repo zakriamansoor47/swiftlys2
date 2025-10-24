@@ -24,7 +24,7 @@ internal partial class CCSTeamImpl : CTeamImpl, CCSTeam {
   public ref bool Surrendered {
     get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1CE326C9CFFCED54));
   }
-public string TeamMatchStat {
+  public string TeamMatchStat {
     get {
       var ptr = _Handle + Schema.GetOffset(0x1CE326C9D2C89DC0);
       return Schema.GetString(ptr);
@@ -43,7 +43,7 @@ public string TeamMatchStat {
   public ref int ScoreOvertime {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C9A22D3CEE));
   }
-public string ClanTeamname {
+  public string ClanTeamname {
     get {
       var ptr = _Handle + Schema.GetOffset(0x1CE326C946453F76);
       return Schema.GetString(ptr);
@@ -53,14 +53,14 @@ public string ClanTeamname {
   public ref uint ClanID {
     get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x1CE326C90A807BAD));
   }
-public string TeamFlagImage {
+  public string TeamFlagImage {
     get {
       var ptr = _Handle + Schema.GetOffset(0x1CE326C9F7FF31D0);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x1CE326C9F7FF31D0, value, 8);
   } 
-public string TeamLogoImage {
+  public string TeamLogoImage {
     get {
       var ptr = _Handle + Schema.GetOffset(0x1CE326C981DF092B);
       return Schema.GetString(ptr);

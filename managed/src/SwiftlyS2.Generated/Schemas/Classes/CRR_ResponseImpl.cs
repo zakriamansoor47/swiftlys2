@@ -18,14 +18,14 @@ internal partial class CRR_ResponseImpl : SchemaClass, CRR_Response {
   public ref byte Type {
     get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x7B8008788ED6D5CD));
   }
-public string ResponseName {
+  public string ResponseName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x7B800878C2716964);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x7B800878C2716964, value, 192);
   } 
-public string MatchingRule {
+  public string MatchingRule {
     get {
       var ptr = _Handle + Schema.GetOffset(0x7B80087820850239);
       return Schema.GetString(ptr);

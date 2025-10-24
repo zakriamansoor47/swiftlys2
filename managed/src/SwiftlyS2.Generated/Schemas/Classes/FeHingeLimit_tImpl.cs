@@ -15,7 +15,7 @@ internal partial class FeHingeLimit_tImpl : SchemaClass, FeHingeLimit_t {
   public FeHingeLimit_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x3E7F1FF5CD6694B9, 6, 2, 2);
   }
   public ref uint Flags {

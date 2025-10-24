@@ -15,22 +15,22 @@ internal partial class FeSimdNodeBase_tImpl : SchemaClass, FeSimdNodeBase_t {
   public FeSimdNodeBase_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Node {
+  public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x8B863723CD6694B9, 4, 2, 2);
   }
-public ISchemaFixedArray<ushort> NodeX0 {
+  public ISchemaFixedArray<ushort> NodeX0 {
     get => new SchemaFixedArray<ushort>(_Handle, 0x8B86372381C7FEB9, 4, 2, 2);
   }
-public ISchemaFixedArray<ushort> NodeX1 {
+  public ISchemaFixedArray<ushort> NodeX1 {
     get => new SchemaFixedArray<ushort>(_Handle, 0x8B86372380C7FD26, 4, 2, 2);
   }
-public ISchemaFixedArray<ushort> NodeY0 {
+  public ISchemaFixedArray<ushort> NodeY0 {
     get => new SchemaFixedArray<ushort>(_Handle, 0x8B8637237BC5B6B0, 4, 2, 2);
   }
-public ISchemaFixedArray<ushort> NodeY1 {
+  public ISchemaFixedArray<ushort> NodeY1 {
     get => new SchemaFixedArray<ushort>(_Handle, 0x8B8637237CC5B843, 4, 2, 2);
   }
-public ISchemaFixedArray<ushort> Dummy {
+  public ISchemaFixedArray<ushort> Dummy {
     get => new SchemaFixedArray<ushort>(_Handle, 0x8B863723CD8BAE5F, 4, 2, 2);
   }
   public FourQuaternions Adjust {

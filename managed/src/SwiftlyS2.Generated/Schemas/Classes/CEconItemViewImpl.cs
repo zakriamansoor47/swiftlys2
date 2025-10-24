@@ -48,14 +48,14 @@ internal partial class CEconItemViewImpl : IEconItemInterfaceImpl, CEconItemView
   public CAttributeList NetworkedDynamicAttributes {
     get => new CAttributeListImpl(_Handle + Schema.GetOffset(0xE1A93F25B576449C));
   }
-public string CustomName {
+  public string CustomName {
     get {
       var ptr = _Handle + Schema.GetOffset(0xE1A93F25AFD12EE8);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0xE1A93F25AFD12EE8, value, 161);
   } 
-public string CustomNameOverride {
+  public string CustomNameOverride {
     get {
       var ptr = _Handle + Schema.GetOffset(0xE1A93F25A74A6ED8);
       return Schema.GetString(ptr);

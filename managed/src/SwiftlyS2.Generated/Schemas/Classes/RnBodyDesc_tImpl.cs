@@ -37,7 +37,7 @@ internal partial class RnBodyDesc_tImpl : SchemaClass, RnBodyDesc_t {
   public ref Vector LocalMassCenter {
     get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB8BC9637AFDB4EDD));
   }
-public ISchemaFixedArray<Vector> LocalInertiaInv {
+  public ISchemaFixedArray<Vector> LocalInertiaInv {
     get => new SchemaFixedArray<Vector>(_Handle, 0xB8BC9637AF2EEFAD, 3, 12, 4);
   }
   public ref float MassInv {

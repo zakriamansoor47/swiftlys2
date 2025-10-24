@@ -15,14 +15,14 @@ internal partial class C_OP_SetControlPointsToModelParticlesImpl : CParticleFunc
   public C_OP_SetControlPointsToModelParticlesImpl(nint handle) : base(handle) {
   }
 
-public string HitboxSetName {
+  public string HitboxSetName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x8850EF6A6A21BB0E);
       return Schema.GetString(ptr);
     }
     set => Schema.SetFixedString(_Handle, 0x8850EF6A6A21BB0E, value, 128);
   } 
-public string AttachmentName {
+  public string AttachmentName {
     get {
       var ptr = _Handle + Schema.GetOffset(0x8850EF6A9CFCA76B);
       return Schema.GetString(ptr);

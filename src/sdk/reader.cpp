@@ -111,6 +111,40 @@ std::string ReadFieldType(CSchemaType* field)
     else return field->m_sTypeName.Get();
 }
 
+void FindChainer(bool& has_chainer, int& chainer_offset, CSchemaClassInfo* classInfo)
+{
+    for (int i = 0; i < classInfo->m_nBaseClassCount; i++)
+    {
+        auto baseClass = classInfo->m_pBaseClasses[i].m_pClass;
+        if (baseClass)
+        {
+            for (int j = 0; j < baseClass->m_nFieldCount; j++)
+            {
+                if (baseClass->m_pFields[j].m_pszName == std::string("__m_pChainEntity"))
+                {
+                    has_chainer = true;
+                    chainer_offset = baseClass->m_pFields[j].m_nSingleInheritanceOffset;
+                    break;
+                }
+            }
+        }
+        if (has_chainer) break;
+    }
+
+    if (!has_chainer)
+    {
+        for (int i = 0; i < classInfo->m_nBaseClassCount; i++)
+        {
+            auto baseClass = classInfo->m_pBaseClasses[i].m_pClass;
+            if (baseClass)
+            {
+                FindChainer(has_chainer, chainer_offset, baseClass);
+                if (has_chainer) break;
+            }
+        }
+    }
+}
+
 void ReadClasses(CSchemaType_DeclaredClass* declClass, json& outJson)
 {
     auto classInfo = declClass->m_pClassInfo;
@@ -152,6 +186,11 @@ void ReadClasses(CSchemaType_DeclaredClass* declClass, json& outJson)
             chainer_offset = fields[i].m_nSingleInheritanceOffset;
             break;
         }
+    }
+
+    if (!has_chainer)
+    {
+        FindChainer(has_chainer, chainer_offset, classInfo);
     }
 
     cls["has_chainer"] = has_chainer;

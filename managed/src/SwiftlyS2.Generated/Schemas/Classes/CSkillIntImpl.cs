@@ -15,7 +15,7 @@ internal partial class CSkillIntImpl : SchemaClass, CSkillInt {
   public CSkillIntImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<int> Value {
+  public ISchemaFixedArray<int> Value {
     get => new SchemaFixedArray<int>(_Handle, 0xE86F537C7F437844, 4, 4, 4);
   }
 

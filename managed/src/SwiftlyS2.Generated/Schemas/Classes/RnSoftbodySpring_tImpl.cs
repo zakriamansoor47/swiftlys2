@@ -15,7 +15,7 @@ internal partial class RnSoftbodySpring_tImpl : SchemaClass, RnSoftbodySpring_t 
   public RnSoftbodySpring_tImpl(nint handle) : base(handle) {
   }
 
-public ISchemaFixedArray<ushort> Particle {
+  public ISchemaFixedArray<ushort> Particle {
     get => new SchemaFixedArray<ushort>(_Handle, 0xAB4E9C9B863A8E83, 2, 2, 2);
   }
   public ref float Length {

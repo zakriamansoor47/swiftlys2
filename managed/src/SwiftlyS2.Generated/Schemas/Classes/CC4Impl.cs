@@ -42,7 +42,7 @@ internal partial class CC4Impl : CCSWeaponBaseImpl, CC4 {
   public ref int SpotRules {
     get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1D49B0B5776CCE44));
   }
-public ISchemaFixedArray<bool> PlayedArmingBeeps {
+  public ISchemaFixedArray<bool> PlayedArmingBeeps {
     get => new SchemaFixedArray<bool>(_Handle, 0x1D49B0B525D5D369, 7, 1, 1);
   }
   public ref bool BombPlanted {
