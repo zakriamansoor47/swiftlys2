@@ -9,4 +9,19 @@ internal partial class CBaseModelEntityImpl : CBaseModelEntity
     {
         GameFunctions.SetModel(Address, model);
     }
+
+    public void SetBodygroupByName(string group, int value)
+    {
+        AcceptInput("SetBodygroup", $"{group},{value}");
+    }
+
+    public void SetScale(float scale)
+    {
+        var skeletonInstance = CBodyComponent?.SceneNode?.GetSkeletonInstance();
+        if (skeletonInstance == null) return;
+
+        skeletonInstance.Scale = scale;
+        AcceptInput("SetScale", scale);
+        CBodyComponentUpdated();
+    }
 }
