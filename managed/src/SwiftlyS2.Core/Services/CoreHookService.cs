@@ -104,8 +104,6 @@ internal class CoreHookService : IDisposable
     var address = _Core.GameData.GetSignature("Cmd_ExecuteCommand");
 
     _Logger.LogInformation("Hooking Cmd_ExecuteCommand at {Address}", address);
-    var commandNameOffset = NativeOffsets.Fetch("CommandNameOffset");
-    var commandArgsOffset = NativeOffsets.Fetch("CommandArgsOffset");
 
     _ExecuteCommand = _Core.Memory.GetUnmanagedFunctionByAddress<ExecuteCommandDelegate>(address);
     _ExecuteCommandGuid = _ExecuteCommand.AddHook((next) =>
@@ -117,21 +115,19 @@ internal class CoreHookService : IDisposable
           if (a5 != nint.Zero)
           {
             ref var command = ref Unsafe.AsRef<CCommand>((void*)a5);
-            var commandString = command.GetCommandString();
             
-            if (commandString != null)
-            {
-              _Logger.LogInformation("{CommandName} ({Args}): {Command}", command[0], command.ArgC(), commandString);
+            var @eventPre = new OnCommandExecuteHookEvent(ref command, HookMode.Pre);
+            EventPublisher.InvokeOnCommandExecuteHook(@eventPre);
 
-              if (command[0] == "changelevel")
-              {
-                command.Tokenize("changelevel de_dust2");
-              }
-            }
+            var result = next()(a1, a2, a3, a4, a5);
+
+            var @eventPost = new OnCommandExecuteHookEvent(ref command, HookMode.Post);
+            EventPublisher.InvokeOnCommandExecuteHook(@eventPost);
+
+            return result;
           }
+          return next()(a1, a2, a3, a4, a5);
         }
-
-        return next()(a1, a2, a3, a4, a5);
       };
     });
   }

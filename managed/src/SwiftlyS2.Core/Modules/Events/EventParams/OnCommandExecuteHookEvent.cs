@@ -1,21 +1,20 @@
 using SwiftlyS2.Shared.Misc;
 using SwiftlyS2.Shared.Events;
+using SwiftlyS2.Shared.Natives;
 
 namespace SwiftlyS2.Core.Events;
 
 internal class OnCommandExecuteHookEvent : IOnCommandExecuteHookEvent
 {
-  public required string OriginalName { get; init; }
-  public required string[] OriginalArgs { get; init; }
-  public string CommandName { get; set; } = string.Empty;
+  private CCommand _command;
 
-  public required HookMode HookMode { get; init; }
+  public ref CCommand Command => ref _command;
 
-  public bool Intercepted { get; set; } = false;
+  public HookMode HookMode { get; init; }
 
-  public void SetCommandName(string name) {
-    if (HookMode == HookMode.Post) return;
-    CommandName = name;
-    Intercepted = true;
+  public OnCommandExecuteHookEvent(ref CCommand command, HookMode hookMode)
+  {
+    _command = command;
+    HookMode = hookMode;
   }
 }

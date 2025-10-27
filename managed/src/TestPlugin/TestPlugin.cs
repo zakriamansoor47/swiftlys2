@@ -100,8 +100,7 @@ public class TestPlugin : BasePlugin
     // Core.Event.OnCommandExecuteHook += (@event) =>
     // {
     //   if (@event.HookMode == HookMode.Pre) return;
-    //   Core.Logger.LogInformation("CommandExecute: {name} with {args}", @event.OriginalName, @event.OriginalArgs.Length > 0 ? string.Join(" ", @event.OriginalArgs) : "no args");
-    //   // @event.SetCommandName("test");
+    //   Core.Logger.LogInformation("CommandExecute: {name} with {args}", @event.Command[0], @event.Command.ArgS);
     // };
     Core.Engine.ExecuteCommandWithBuffer("@ping", (buffer) =>
     {
