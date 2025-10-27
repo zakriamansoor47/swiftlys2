@@ -17,21 +17,27 @@ public unsafe struct CCommand
     private CUtlVectorFixedGrowable<byte, FixedCharBuffer512> _argvBuffer;
     private CUtlVectorFixedGrowable<nint, FixedPtrBuffer64> _args;
 
-    // public CCommand()
-    // {
-    //     _argv0Size = 0;
-    //     _argSBuffer = new CUtlVectorFixedGrowable<byte, FixedCharBuffer512>((int)COMMAND.MAX_LENGTH);
-    //     _argvBuffer = new CUtlVectorFixedGrowable<byte, FixedCharBuffer512>((int)COMMAND.MAX_LENGTH);
-    //     _args = new CUtlVectorFixedGrowable<nint, FixedPtrBuffer64>((int)COMMAND.MAX_ARGC);
-    //     EnsureBuffers();
-    //     Reset();
-    // }
+    // Idk if this will work
+    public CCommand()
+    {
+        _argv0Size = 0;
+        _argSBuffer = new CUtlVectorFixedGrowable<byte, FixedCharBuffer512>((int)COMMAND.MAX_LENGTH);
+        _argvBuffer = new CUtlVectorFixedGrowable<byte, FixedCharBuffer512>((int)COMMAND.MAX_LENGTH);
+        _args = new CUtlVectorFixedGrowable<nint, FixedPtrBuffer64>((int)COMMAND.MAX_ARGC);
+        EnsureBuffers();
+        Reset();
+    }
 
-    // private void EnsureBuffers()
-    // {
-    //     _argSBuffer.SetSize(MaxCommandLength());
-    //     _argvBuffer.SetSize(MaxCommandLength());
-    // }
+    public CCommand(string commandString) : this()
+    {
+        Tokenize(commandString);
+    }
+
+    private void EnsureBuffers()
+    {
+        _argSBuffer.SetSize(MaxCommandLength());
+        _argvBuffer.SetSize(MaxCommandLength());
+    }
 
     public void Reset()
     {
