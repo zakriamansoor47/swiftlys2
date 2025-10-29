@@ -400,9 +400,9 @@ public class TestPlugin : BasePlugin
   [Command("h2")]
   public void TestCommand3(ICommandContext context)
   {
-    Console.WriteLine(Core.GameData.GetSignature("CBaseEntity::DispatchSpawn"));
     var ent = Core.EntitySystem.CreateEntity<CPointWorldText>();
     ent.DispatchSpawn();
+    ent.Collision.CollisionAttribute.CollisionGroupUpdated();
   }
 
   [Command("tt3")]

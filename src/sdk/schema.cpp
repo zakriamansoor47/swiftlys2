@@ -29,10 +29,59 @@
 #include <api/shared/plat.h>
 #include <api/memory/virtual/call.h>
 
+#include <s2binlib/s2binlib.h>
+
 #define CBaseEntity_m_nSubclassID 0x9DC483B8C02CE796
 
 std::map<uint64_t, SchemaField> offsets;
 std::map<uint32_t, SchemaClass> classes;
+std::vector<uint64_t> inlineNetworkVarVtbs;
+
+// Special inline classes for state changed
+// These fields has vtable "CLASS::NetworkVar_FIELDNAME"
+// which has the virtual function to call state changed without entity pointer
+
+std::pair<const char*, const char*> inlineNetworkVarVtbNames[] = {
+	{"sky3dparams_t", "NetworkVar_fog"},
+	{"CTriggerFan", "NetworkVar_m_RampTimer"},
+	{"CSkyCamera", "NetworkVar_m_skyboxData"},
+	{"CSkeletonInstance", "NetworkVar_m_modelState"},
+	{"CShatterGlassShardPhysics", "NetworkVar_m_ShardDesc"},
+	{"CPlayer_CameraServices", "NetworkVar_m_audio"},
+	{"CPlayer_CameraServices", "NetworkVar_m_PlayerFog"},
+	{"CPlantedC4", "NetworkVar_m_entitySpottedState"},
+	{"CPlantedC4", "NetworkVar_m_AttributeManager"},
+	{"CHostage", "NetworkVar_m_reuseTimer"},
+	{"CHostage", "NetworkVar_m_entitySpottedState"},
+	{"CGameSceneNode", "NetworkVar_m_hParent"},
+	{"CFogController", "NetworkVar_m_fog"},
+	{"CEnvWindController", "NetworkVar_m_EnvWindShared"},
+	{"CEnvWind", "NetworkVar_m_EnvWindShared"},
+	{"CEconItemView", "NetworkVar_m_NetworkedDynamicAttributes"},
+	{"CEconItemView", "NetworkVar_m_AttributeList"},
+	{"CEconEntity", "NetworkVar_m_AttributeManager"},
+	{"CCollisionProperty", "NetworkVar_m_collisionAttribute"},
+	{"CChicken", "NetworkVar_m_AttributeManager"},
+	{"CCSPlayer_ActionTrackingServices", "NetworkVar_m_weaponPurchasesThisRound"},
+	{"CCSPlayer_ActionTrackingServices", "NetworkVar_m_weaponPurchasesThisMatch"},
+	{"CCSPlayerPawn", "NetworkVar_m_entitySpottedState"},
+	{"CCSPlayerPawn", "NetworkVar_m_EconGloves"},
+	{"CCSPlayerController_ActionTrackingServices", "NetworkVar_m_matchStats"},
+	{"CCSGameRules", "NetworkVar_m_RetakeRules"},
+	{"CCSGO_TeamPreviewCharacterPosition", "NetworkVar_m_weaponItem"},
+	{"CCSGO_TeamPreviewCharacterPosition", "NetworkVar_m_glovesItem"},
+	{"CCSGO_TeamPreviewCharacterPosition", "NetworkVar_m_agentItem"},
+	{"CC4", "NetworkVar_m_entitySpottedState"},
+	{"CBodyComponentSkeletonInstance", "NetworkVar_m_skeletonInstance"},
+	{"CBodyComponentPoint", "NetworkVar_m_sceneNode"},
+	{"CBodyComponentBaseAnimGraph", "NetworkVar_m_animationController"},
+	{"CBasePlayerPawn", "NetworkVar_m_skybox3d"},
+	{"CBaseModelEntity", "NetworkVar_m_Glow"},
+	{"CBaseModelEntity", "NetworkVar_m_Collision"},
+	{"CBaseAnimGraphController", "NetworkVar_m_animGraphNetworkedVars"},
+	{"CBaseAnimGraph", "NetworkVar_m_RagdollPose"},
+	{"CAttributeContainer", "NetworkVar_m_Item"},
+};
 
 class CNetworkVarChainer
 {
@@ -55,6 +104,20 @@ void CSDKSchema::Load()
 	auto logger = g_ifaceService.FetchInterface<ILogger>(LOGGER_INTERFACE_VERSION);
 
 	json sdkJson;
+
+	logger->Info("SDK", "Loading inline network var vtables...\n");
+
+	for (auto& name : inlineNetworkVarVtbNames) {
+		void* vtable;
+		int result = s2binlib_find_vtable_nested_2("server", name.first, name.second, &vtable);
+		if (result == 0) {
+			inlineNetworkVarVtbs.push_back((uint64_t)vtable);
+		} else {
+			logger->Error("SDK", fmt::format("Failed to find inline network var vtable: {}::{}, error: {}\n", name.first, name.second, result));
+		}
+	}
+
+	logger->Info("SDK", fmt::format("Loaded {} inline network var vtables.\n", inlineNetworkVarVtbs.size()));
 
 	logger->Info("SDK", "Loading SDK classes...\n");
 
@@ -122,6 +185,14 @@ void CSDKSchema::SetStateChanged(void* pEntity, uint64_t uHash)
 
 	auto& fieldInfo = fieldData->second;
 	if (!fieldInfo.m_bNetworked) return;
+
+	auto uncheckedNetworkVar = reinterpret_cast<NetworkVar*>(pEntity);
+	for (auto& vtb : inlineNetworkVarVtbs) {
+		if (uncheckedNetworkVar->pVtable() == vtb) {
+			uncheckedNetworkVar->StateChanged(NetworkStateChangedData(fieldInfo.m_uOffset));
+			return;
+		}
+	}
 
 	if (fieldInfo.m_bChainer) {
 		CNetworkVarChainer* pChainer = (CNetworkVarChainer*)((uintptr_t)pEntity + fieldInfo.m_nChainerOffset);

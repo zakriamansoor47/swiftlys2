@@ -78,4 +78,14 @@ struct SchemaClass
 extern std::map<uint64_t, SchemaField> offsets;
 extern std::map<uint32_t, SchemaClass> classes;
 
+class NetworkVar {
+public:
+    virtual void Unk001() = 0;
+    virtual void StateChanged(const NetworkStateChangedData& data) = 0;
+    virtual void Unk003() = 0;
+    virtual void Unk004() = 0;
+
+    uint64_t pVtable() const { return *(uint64_t*)this; }
+};
+
 #endif
