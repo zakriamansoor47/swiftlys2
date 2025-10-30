@@ -34,6 +34,8 @@ internal class CoreCommandService
   {
     try
     {
+      if (context.IsSentByPlayer) return;
+
       var args = context.Args;
       if (args.Length == 0)
       {
