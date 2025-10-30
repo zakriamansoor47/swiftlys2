@@ -19,7 +19,7 @@
 #include "schema.h"
 
 #include <fmt/format.h>
-#include <map>
+#include <unordered_map>
 
 #include <core/entrypoint.h>
 
@@ -33,8 +33,8 @@
 
 #define CBaseEntity_m_nSubclassID 0x9DC483B8C02CE796
 
-std::map<uint64_t, SchemaField> offsets;
-std::map<uint32_t, SchemaClass> classes;
+std::unordered_map<uint64_t, SchemaField> offsets;
+std::unordered_map<uint32_t, SchemaClass> classes;
 std::unordered_map<uint64_t, uint64_t> inlineNetworkVarVtbs;
 
 // Special inline classes for state changed

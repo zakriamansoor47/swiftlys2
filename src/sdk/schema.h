@@ -26,7 +26,7 @@
 #include <public/schemasystem/schemasystem.h>
 #include <nlohmann/json.hpp>
 
-#include <map>
+#include <unordered_map>
 #include <set>
 
 using json = nlohmann::json;
@@ -76,8 +76,8 @@ struct SchemaClass
     uint32_t m_uHash;
 };
 
-extern std::map<uint64_t, SchemaField> offsets;
-extern std::map<uint32_t, SchemaClass> classes;
+extern std::unordered_map<uint64_t, SchemaField> offsets;
+extern std::unordered_map<uint32_t, SchemaClass> classes;
 
 class NetworkVar {
 public:
