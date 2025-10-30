@@ -57,7 +57,8 @@ public class TestPlugin : BasePlugin
   public TestPlugin(ISwiftlyCore core) : base(core)
   {
     Console.WriteLine("[TestPlugin] TestPlugin constructed successfully!");
-
+    // Console.WriteLine($"sizeof(bool): {sizeof(bool)}");
+    // Console.WriteLine($"Marshal.SizeOf<bool>: {Marshal.SizeOf<bool>()}");
     Core.Event.OnWeaponServicesCanUseHook += (@event) =>
     {
       // Console.WriteLine($"WeaponServicesCanUse: {@event.Weapon.WeaponBaseVData.AttackMovespeedFactor} {@event.OriginalResult}");
@@ -437,6 +438,68 @@ public class TestPlugin : BasePlugin
     {
       Console.WriteLine($"pong: {buffer}");
     });
+  }
+
+  [Command("tt8")]
+  public unsafe void TestCommand8(ICommandContext context)
+  {
+    Core.EntitySystem.GetAllEntitiesByDesignerName<CBuyZone>("func_buyzone").ToList().ForEach(zone =>
+    {
+      if (!(zone?.IsValid ?? false)) return;
+      zone.Despawn();
+    });
+
+    var sender = context.Sender!;
+    var target = Core.PlayerManager.GetAllPlayers().FirstOrDefault(p => p.PlayerID != sender.PlayerID)!;
+
+    var origin = sender.RequiredPlayerPawn.AbsOrigin ?? Vector.Zero;
+    var targetOrigin = target.RequiredPlayerPawn.AbsOrigin ?? Vector.Zero;
+
+    Console.WriteLine("\n");
+    Console.WriteLine($"Origin: {origin}");
+    Console.WriteLine($"Target Origin: {targetOrigin}");
+
+    // Ray_t* ray = stackalloc Ray_t[1];
+    // ray->Init(Vector.Zero, Vector.Zero);
+    Ray_t ray = new();
+    ray.Init(Vector.Zero, Vector.Zero);
+
+    var filter = new CTraceFilter
+    {
+      // unk01 = 1,
+      IterateEntities = true,
+      QueryShapeAttributes = new RnQueryShapeAttr_t
+      {
+        InteractsWith = MaskTrace.Player | MaskTrace.Solid | MaskTrace.Hitbox | MaskTrace.Npc,
+        InteractsExclude = MaskTrace.Empty,
+        InteractsAs = MaskTrace.Player,
+        CollisionGroup = CollisionGroup.PlayerMovement,
+        ObjectSetMask = RnQueryObjectSet.AllGameEntities,
+        HitSolid = true,
+        // HitTrigger = false,
+        // HitSolidRequiresGenerateContacts = false,
+        // ShouldIgnoreDisabledPairs = true,
+        // IgnoreIfBothInteractWithHitboxes = true,
+        // ForceHitEverything = true
+      }
+    };
+
+    // filter.QueryShapeAttributes.EntityIdsToIgnore[0] = unchecked((uint)-1);
+    // filter.QueryShapeAttributes.EntityIdsToIgnore[1] = unchecked((uint)-1);
+    // filter.QueryShapeAttributes.OwnerIdsToIgnore[0] = unchecked((uint)-1);
+    // filter.QueryShapeAttributes.OwnerIdsToIgnore[1] = unchecked((uint)-1);
+    // filter.QueryShapeAttributes.HierarchyIds[0] = 0;
+    // filter.QueryShapeAttributes.HierarchyIds[1] = 0;
+
+    var trace = new CGameTrace();
+    Core.Trace.TraceShape(origin, targetOrigin, ray, filter, ref trace);
+
+    Console.WriteLine(trace.pEntity != null ? $"! Hit Entity: {trace.Entity.DesignerName}" : "! No entity hit");
+    Console.WriteLine($"! SurfaceProperties: {(nint)trace.SurfaceProperties}, pEntity: {(nint)trace.pEntity}, HitBox: {(nint)trace.HitBox}({trace.HitBox->m_name.Value}), Body: {(nint)trace.Body}, Shape: {(nint)trace.Shape}, Contents: {trace.Contents}");
+    Console.WriteLine($"! StartPos: {trace.StartPos}, EndPos: {trace.EndPos}, HitNormal: {trace.HitNormal}, HitPoint: {trace.HitPoint}");
+    Console.WriteLine($"! HitOffset: {trace.HitOffset}, Fraction: {trace.Fraction}, Triangle: {trace.Triangle}, HitboxBoneIndex: {trace.HitboxBoneIndex}");
+    Console.WriteLine($"! RayType: {trace.RayType}, StartInSolid: {trace.StartInSolid}, ExactHitPoint: {trace.ExactHitPoint}");
+    Console.WriteLine("\n");
   }
 
   [GameEventHandler(HookMode.Pre)]

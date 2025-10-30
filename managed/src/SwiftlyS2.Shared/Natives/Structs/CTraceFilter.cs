@@ -8,7 +8,8 @@ public struct CTraceFilter
 {
     [FieldOffset(0x0)] private nint _pVTable;
     [FieldOffset(0x8)] public RnQueryShapeAttr_t QueryShapeAttributes;
-    [FieldOffset(0x30)] public bool IterateEntities;
+    [FieldOffset(0x37)] public bool IterateEntities;
+    [FieldOffset(0x38)] public byte unk01;
 
     public CTraceFilter()
     {
@@ -21,13 +22,13 @@ internal static class CTraceFilterVTable
     public static nint pCTraceFilterVTable;
 
     [UnmanagedCallersOnly]
-    public unsafe static void Destructor(CTraceFilter* filter)
+    public unsafe static void Destructor(CTraceFilter* filter, bool unk01)
     {
         // do nothing
     }
 
     [UnmanagedCallersOnly]
-    public unsafe static bool ShouldHitEntity(CTraceFilter* filter)
+    public unsafe static bool ShouldHitEntity()
     {
         return true;
     }
@@ -36,7 +37,7 @@ internal static class CTraceFilterVTable
     {
         pCTraceFilterVTable = Marshal.AllocHGlobal(sizeof(nint) * 2);
         Span<nint> vtable = new((void*)pCTraceFilterVTable, 2);
-        vtable[0] = (nint)(delegate* unmanaged<CTraceFilter*, void>)(&Destructor);
-        vtable[1] = (nint)(delegate* unmanaged<CTraceFilter*, bool>)(&ShouldHitEntity);
+        vtable[0] = (nint)(delegate* unmanaged<CTraceFilter*, bool, void>)(&Destructor);
+        vtable[1] = (nint)(delegate* unmanaged<bool>)(&ShouldHitEntity);
     }
 }

@@ -1,4 +1,4 @@
-﻿using SwiftlyS2.Shared.Misc;
+using SwiftlyS2.Shared.Misc;
 using System.Runtime.InteropServices;
 
 namespace SwiftlyS2.Shared.Natives;
@@ -201,19 +201,18 @@ public enum RnQueryObjectSet: byte
     All = Static | AllGameEntities,
 };
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 0x2F)]
 public unsafe struct RnQueryShapeAttr_t
 {
-    public MaskTrace InteractsWith;
-    public MaskTrace InteractsExclude;
-    public MaskTrace InteractsAs;
-    public fixed uint EntityIdsToIgnore[2];
-    public fixed uint OwnerIdsToIgnore[2];
-    public fixed ushort HierarchyIds[2];
-    public RnQueryObjectSet ObjectSetMask;
-    public CollisionGroup CollisionGroup;
-
-    private byte data;
+    [FieldOffset(0x0)] public MaskTrace InteractsWith;
+    [FieldOffset(0x8)] public MaskTrace InteractsExclude;
+    [FieldOffset(0x10)] public MaskTrace InteractsAs;
+    [FieldOffset(0x18)] public fixed uint EntityIdsToIgnore[2];
+    [FieldOffset(0x20)] public fixed uint OwnerIdsToIgnore[2];
+    [FieldOffset(0x28)] public fixed ushort HierarchyIds[2];
+    [FieldOffset(0x2C)] public RnQueryObjectSet ObjectSetMask;
+    [FieldOffset(0x2D)] public CollisionGroup CollisionGroup;
+    [FieldOffset(0x2E)] private byte data;
 
     public bool HitSolid
     {

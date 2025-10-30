@@ -8,7 +8,7 @@ namespace SwiftlyS2.Core.Natives;
 internal static class GameFunctions
 {
     public static unsafe delegate* unmanaged<CTakeDamageInfo*, nint, nint, nint, Vector*, Vector*, float, int, int, void*, void> pCTakeDamageInfo_Constructor;
-    public static unsafe delegate* unmanaged<nint, Ray_t, Vector, Vector, CTraceFilter*, CGameTrace*, void> pTraceShape;
+    public static unsafe delegate* unmanaged<nint, Ray_t*, Vector, Vector, CTraceFilter*, CGameTrace*, void> pTraceShape;
     public static unsafe delegate* unmanaged<Vector, Vector, BBox_t, CTraceFilter*, CGameTrace*, void> pTracePlayerBBox;
     public static unsafe delegate* unmanaged<nint, IntPtr, void> pSetModel;
     public static unsafe delegate* unmanaged<nint, nint, byte, byte, byte, byte, void> pSetPlayerControllerPawn;
@@ -32,7 +32,7 @@ internal static class GameFunctions
         unsafe
         {
             pCTakeDamageInfo_Constructor = (delegate* unmanaged<CTakeDamageInfo*, nint, nint, nint, Vector*, Vector*, float, int, int, void*, void>)NativeSignatures.Fetch("CTakeDamageInfo::Constructor");
-            pTraceShape = (delegate* unmanaged<nint, Ray_t, Vector, Vector, CTraceFilter*, CGameTrace*, void>)NativeSignatures.Fetch("TraceShape");
+            pTraceShape = (delegate* unmanaged<nint, Ray_t*, Vector, Vector, CTraceFilter*, CGameTrace*, void>)NativeSignatures.Fetch("TraceShape");
             pTracePlayerBBox = (delegate* unmanaged<Vector, Vector, BBox_t, CTraceFilter*, CGameTrace*, void>)NativeSignatures.Fetch("TracePlayerBBox");
             pSetModel = (delegate* unmanaged<nint, IntPtr, void>)NativeSignatures.Fetch("CBaseModelEntity::SetModel");
             pSetPlayerControllerPawn = (delegate* unmanaged<nint, nint, byte, byte, byte, byte, void>)NativeSignatures.Fetch("CBasePlayerController::SetPawn");
@@ -202,7 +202,7 @@ internal static class GameFunctions
 
     public unsafe static void TraceShape(
       nint pEngineTrace,
-      Ray_t ray,
+      Ray_t* ray,
       Vector vecStart,
       Vector vecEnd,
       CTraceFilter* pFilter,

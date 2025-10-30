@@ -20,7 +20,7 @@ internal class TraceManager : ITraceManager
         unsafe
         {
             fixed (CGameTrace* tracePtr = &trace)
-                GameFunctions.TraceShape(NativeEngineHelpers.GetTraceManager(), ray, start, end, &filter, tracePtr);
+                GameFunctions.TraceShape(NativeEngineHelpers.GetTraceManager(), &ray, start, end, &filter, tracePtr);
         }
     }
 }

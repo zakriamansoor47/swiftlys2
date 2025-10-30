@@ -49,8 +49,7 @@ public struct Ray_t
     [FieldOffset(0x0)] public HullTrace Hull;
     [FieldOffset(0x0)] public CapsuleTrace Capsule;
     [FieldOffset(0x0)] public MeshTrace Mesh;
-
-    [FieldOffset(0x24)] public RayType_t Type;
+    [FieldOffset(0x34)] public RayType_t Type;
 
     public void Init(Vector StartOffset)
     {
