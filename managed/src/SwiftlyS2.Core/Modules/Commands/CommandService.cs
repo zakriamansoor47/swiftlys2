@@ -40,7 +40,7 @@ internal class CommandService : ICommandService, IDisposable
 
   public void RegisterCommandAlias(string commandName, string alias, bool registerRaw = false)
   {
-    NativeCommands.RegisterAlias(commandName, alias, registerRaw);
+    NativeCommands.RegisterAlias(alias, commandName, registerRaw);
   }
 
   public void UnregisterCommand(Guid guid)
