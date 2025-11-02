@@ -18,6 +18,10 @@ internal partial class CPlayer_ItemServicesImpl
     return T.From(GameFunctions.CCSPlayer_ItemServices_GiveNamedItem(Address, itemDesignerName));
   }
 
+  public void GiveItem(string itemDesignerName) {
+    GameFunctions.CCSPlayer_ItemServices_GiveNamedItem(Address, itemDesignerName);
+  }
+
   public void RemoveItems() {
     GameFunctions.CCSPlayer_ItemServices_RemoveWeapons(Address);
   }
