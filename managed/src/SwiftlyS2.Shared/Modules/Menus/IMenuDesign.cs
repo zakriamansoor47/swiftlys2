@@ -55,4 +55,12 @@ public interface IMenuDesign
     /// <param name="style">The vertical scroll style to use.</param>
     /// <returns>The current menu design instance for method chaining.</returns>
     IMenuDesign SetVerticalScrollStyle(MenuVerticalScrollStyle style);
+
+    /// <summary>
+    /// Sets the global horizontal style for menu option text display.
+    /// Controls maximum text width and overflow behavior for all menu options.
+    /// </summary>
+    /// <param name="style">The global horizontal style to apply.</param>
+    /// <returns>The current menu design instance for method chaining.</returns>
+    IMenuDesign SetGlobalHorizontalStyle(MenuHorizontalStyle style);
 }

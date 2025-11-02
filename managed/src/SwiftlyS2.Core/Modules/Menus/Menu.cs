@@ -45,6 +45,7 @@ internal class Menu : IMenu
     public bool RenderOntick { get; set; } = false;
     private bool Initialized { get; set; } = false;
     public MenuVerticalScrollStyle VerticalScrollStyle { get; set; } = MenuVerticalScrollStyle.CenterFixed;
+    public MenuHorizontalStyle? HorizontalStyle { get; set; } = null;
 
     public void Close(IPlayer player)
     {

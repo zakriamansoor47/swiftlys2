@@ -204,6 +204,12 @@ public interface IMenu
     /// Determines how the selection arrow moves when navigating through options.
     /// </summary>
     public MenuVerticalScrollStyle VerticalScrollStyle { get; set; }
+
+    /// <summary>
+    /// Gets or sets the horizontal text display style for menu options.
+    /// Controls maximum text width and overflow behavior. Null means no horizontal restrictions.
+    /// </summary>
+    public MenuHorizontalStyle? HorizontalStyle { get; set; }
 }
 
 /// <summary>
@@ -228,4 +234,84 @@ public enum MenuVerticalScrollStyle
     /// Indicator adjusts position at the edges but stays centered during mid-range vertical navigation.
     /// </summary>
     WaitingCenter
+}
+
+/// <summary>
+/// Defines the horizontal text overflow behavior for menu options.
+/// </summary>
+public enum MenuHorizontalOverflowStyle
+{
+    /// <summary>
+    /// Truncates text at the end when it exceeds the maximum width, keeping the start portion.
+    /// Example: "Very Long Text Item" becomes "Very Long..."
+    /// </summary>
+    TruncateEnd,
+
+    /// <summary>
+    /// Truncates text from both ends when it exceeds the maximum width, keeping the middle portion.
+    /// Example: "Very Long Text Item" becomes "Long Text"
+    /// </summary>
+    TruncateBothEnds,
+
+    /// <summary>
+    /// Scrolls text to the left with fade-out effect.
+    /// Text scrolls left and gradually fades out at the left edge.
+    /// </summary>
+    ScrollLeftFade,
+
+    /// <summary>
+    /// Scrolls text to the right with fade-out effect.
+    /// Text scrolls right and gradually fades out at the right edge.
+    /// </summary>
+    ScrollRightFade,
+
+    /// <summary>
+    /// Scrolls text to the left in a continuous loop.
+    /// Text exits from the left edge and re-enters from the right edge.
+    /// </summary>
+    ScrollLeftLoop,
+
+    /// <summary>
+    /// Scrolls text to the right in a continuous loop.
+    /// Text exits from the right edge and re-enters from the left edge.
+    /// </summary>
+    ScrollRightLoop
+}
+
+/// <summary>
+/// Horizontal text display style configuration for menu options.
+/// </summary>
+/// <param name="MaxWidth">The maximum display width for menu option text in relative units.</param>
+/// <param name="OverflowStyle">The overflow behavior to apply when text exceeds MaxWidth.</param>
+public readonly record struct MenuHorizontalStyle(float MaxWidth, MenuHorizontalOverflowStyle OverflowStyle = MenuHorizontalOverflowStyle.TruncateEnd)
+{
+    /// <summary>
+    /// Creates a horizontal style with truncate end behavior (most common).
+    /// </summary>
+    public static MenuHorizontalStyle Truncate(float maxWidth) => new(maxWidth, MenuHorizontalOverflowStyle.TruncateEnd);
+
+    /// <summary>
+    /// Creates a horizontal style with truncate both ends behavior.
+    /// </summary>
+    public static MenuHorizontalStyle TruncateBothEnds(float maxWidth) => new(maxWidth, MenuHorizontalOverflowStyle.TruncateBothEnds);
+
+    /// <summary>
+    /// Creates a horizontal style with scroll left fade behavior.
+    /// </summary>
+    public static MenuHorizontalStyle ScrollLeftFade(float maxWidth) => new(maxWidth, MenuHorizontalOverflowStyle.ScrollLeftFade);
+
+    /// <summary>
+    /// Creates a horizontal style with scroll right fade behavior.
+    /// </summary>
+    public static MenuHorizontalStyle ScrollRightFade(float maxWidth) => new(maxWidth, MenuHorizontalOverflowStyle.ScrollRightFade);
+
+    /// <summary>
+    /// Creates a horizontal style with scroll left loop behavior.
+    /// </summary>
+    public static MenuHorizontalStyle ScrollLeftLoop(float maxWidth) => new(maxWidth, MenuHorizontalOverflowStyle.ScrollLeftLoop);
+
+    /// <summary>
+    /// Creates a horizontal style with scroll right loop behavior.
+    /// </summary>
+    public static MenuHorizontalStyle ScrollRightLoop(float maxWidth) => new(maxWidth, MenuHorizontalOverflowStyle.ScrollRightLoop);
 }

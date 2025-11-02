@@ -51,4 +51,10 @@ internal sealed class MenuDesign : IMenuDesign
         _menu.VerticalScrollStyle = style;
         return this;
     }
+
+    public IMenuDesign SetGlobalHorizontalStyle(MenuHorizontalStyle style)
+    {
+        _menu.HorizontalStyle = style;
+        return this;
+    }
 }
