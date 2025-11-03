@@ -1,4 +1,4 @@
-﻿using SwiftlyS2.Core.Menus;
+using SwiftlyS2.Core.Menus;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -19,6 +19,7 @@ internal class DynamicMenuOption : IOption
     private IMenuTextSize _size;
     private bool _closeOnSelect;
     public IMenu? Menu { get; set; }
+    public MenuHorizontalStyle? OverflowStyle { get; init; }
 
     public string Text
     {

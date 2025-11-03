@@ -1,4 +1,4 @@
-﻿using SwiftlyS2.Core.Menus;
+using SwiftlyS2.Core.Menus;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
 
@@ -13,6 +13,7 @@ internal class SubmenuMenuOption : IOption
     public Func<IPlayer, bool>? EnabledCheck { get; set; }
     public IMenuTextSize Size { get; set; }
     public IMenu? Menu { get; set; }
+    public MenuHorizontalStyle? OverflowStyle { get; init; }
 
     public bool Visible => true;
     public bool Enabled => true;

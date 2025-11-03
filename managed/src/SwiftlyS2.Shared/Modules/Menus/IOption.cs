@@ -28,6 +28,11 @@ public interface IOption
     public IMenu? Menu { get; set; }
 
     /// <summary>
+    /// Gets the horizontal overflow style for this option's text display.
+    /// </summary>
+    public MenuHorizontalStyle? OverflowStyle { get; }
+
+    /// <summary>
     /// Determines whether this option should be shown to the specified player.
     /// </summary>
     /// <param name="player">The player to check visibility for.</param>

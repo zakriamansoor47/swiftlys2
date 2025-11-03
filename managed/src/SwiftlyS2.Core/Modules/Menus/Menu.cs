@@ -49,6 +49,16 @@ internal partial class Menu : IMenu
     private bool Initialized { get; set; } = false;
     public MenuVerticalScrollStyle VerticalScrollStyle { get; set; } = MenuVerticalScrollStyle.CenterFixed;
     public MenuHorizontalStyle? HorizontalStyle { get; set; } = null;
+    public bool RequiresTickRendering => RenderOntick ||
+        HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftFade ||
+        HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightFade ||
+        HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftLoop ||
+        HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightLoop ||
+        Options.Any(opt =>
+            opt.OverflowStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftFade ||
+            opt.OverflowStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightFade ||
+            opt.OverflowStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftLoop ||
+            opt.OverflowStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightLoop);
 
     public void Close(IPlayer player)
     {
@@ -58,11 +68,7 @@ internal partial class Menu : IMenu
 
         PlayersWithMenuOpen.Remove(player);
 
-        if (Initialized && PlayersWithMenuOpen.Count == 0 && (RenderOntick ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftFade ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightFade ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftLoop ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightLoop))
+        if (Initialized && PlayersWithMenuOpen.Count == 0 && RequiresTickRendering)
         {
             Initialized = false;
             _Core.Event.OnTick -= OnTickRender;
@@ -260,11 +266,7 @@ internal partial class Menu : IMenu
             PlayersWithMenuOpen.Add(player);
         }
 
-        if (!Initialized && (RenderOntick ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftFade ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightFade ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftLoop ||
-            HorizontalStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightLoop))
+        if (!Initialized && RequiresTickRendering)
         {
             Initialized = true;
             _Core.Event.OnTick += OnTickRender;

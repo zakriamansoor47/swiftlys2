@@ -1,4 +1,4 @@
-﻿using SwiftlyS2.Shared.Players;
+using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.Menus;
 
 namespace SwiftlyS2.Core.Menu.Options;
@@ -10,6 +10,7 @@ internal class SeparatorMenuOption : IOption
     public bool Enabled => false;
 
     public IMenu? Menu { get; set; }
+    public MenuHorizontalStyle? OverflowStyle { get; init; }
 
     public SeparatorMenuOption()
     {

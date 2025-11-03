@@ -1,4 +1,4 @@
-﻿using SwiftlyS2.Shared.Players;
+using SwiftlyS2.Shared.Players;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Core.Menus;
 
@@ -14,6 +14,7 @@ internal class ProgressBarMenuOption(string text, Func<float> progressProvider, 
     public bool ShowPercentage { get; set; } = true;
     public IMenuTextSize Size { get; set; } = size;
     public IMenu? Menu { get; set; }
+    public MenuHorizontalStyle? OverflowStyle { get; init; }
 
     public bool Visible => true;
     public bool Enabled => false;
