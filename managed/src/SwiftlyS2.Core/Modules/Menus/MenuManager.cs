@@ -85,12 +85,7 @@ internal class MenuManager : IMenuManager
 
     ~MenuManager()
     {
-        foreach (var kvp in OpenMenus)
-        {
-            var player = kvp.Key;
-            var menu = kvp.Value;
-            menu.Close(player);
-        }
+        CloseAllMenus();
 
         _Core.Event.OnClientKeyStateChanged -= KeyStateChange;
         _Core.Event.OnClientDisconnected -= OnClientDisconnected;
@@ -227,6 +222,11 @@ internal class MenuManager : IMenuManager
     }
 
     public void OnMapUnload(IOnMapUnloadEvent _)
+    {
+        CloseAllMenus();
+    }
+
+    public void CloseAllMenus()
     {
         foreach (var kvp in OpenMenus)
         {

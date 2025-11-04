@@ -7,8 +7,8 @@ using SwiftlyS2.Shared.Plugins;
 
 namespace SwiftlyS2.Core.Plugins;
 
-internal class PluginContext : IDisposable {
-
+internal class PluginContext : IDisposable
+{
   public SwiftlyCore? Core { get; set; }
 
   public PluginMetadata? Metadata { get; set; }
@@ -20,10 +20,11 @@ internal class PluginContext : IDisposable {
 
   public PluginLoader? Loader { get; set; }
 
-  public void Dispose() {
+  public void Dispose()
+  {
     Plugin?.Unload();
     Loader?.Dispose();
+    Core?.MenuManager?.CloseAllMenus();
     Core?.Dispose();
   }
-
 }

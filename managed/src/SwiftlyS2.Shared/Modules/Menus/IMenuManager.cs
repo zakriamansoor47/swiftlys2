@@ -111,6 +111,12 @@ public interface IMenuManager
     public IMenu? GetMenu(IPlayer player);
 
     /// <summary>
+    /// Closes all open menus for all players.
+    /// This includes all menus in the parent chain.
+    /// </summary>
+    public void CloseAllMenus();
+
+    /// <summary>
     /// Closes the specified menu for all players who currently have it open.
     /// This will trigger the OnClose event for each affected player.
     /// </summary>
