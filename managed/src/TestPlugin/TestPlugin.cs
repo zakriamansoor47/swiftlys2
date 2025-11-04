@@ -612,11 +612,10 @@ public class TestPlugin : BasePlugin
     settingsMenu.Builder.AddText("<font color='yellow'><b><garbage>abcdefghijklmnopqrstuvwxyz<font color='purple'>split</font>ABCDEFGHIJKLMNOPQRSTUVWXYZ</garbage></b></font>", overflowStyle: MenuHorizontalStyle.TruncateEnd(26f));
     settingsMenu.Builder.AddText("<font color='red'><b><garbage>abcdefghijklmnopqrstuvwxyz<font color='purple'>split</font>ABCDEFGHIJKLMNOPQRSTUVWXYZ</garbage></b></font>", overflowStyle: MenuHorizontalStyle.TruncateBothEnds(26f));
     settingsMenu.Builder.AddText("<font color='lightblue'><b><garbage>abcdefghijklmnopqrstuvwxyz<font color='purple'>split</font>ABCDEFGHIJKLMNOPQRSTUVWXYZ</garbage></b></font>", overflowStyle: MenuHorizontalStyle.ScrollRightFade(26f, 8));
-    settingsMenu.Builder.AddText("<font color='blue'><b><garbage>abcdefghijklmnopqrstuvwxyz<font color='purple'>split</font>ABCDEFGHIJKLMNOPQRSTUVWXYZ</garbage></b></font>", overflowStyle: MenuHorizontalStyle.ScrollLeftLoop(26f, 16));
+    settingsMenu.Builder.AddText("<font color='blue'><b><garbage>abcdefghijklmnopqrstuvwxyz<font color='purple'>split</font>ABCDEFGHIJKLMNOPQRSTUVWXYZ</garbage></b></font>", overflowStyle: MenuHorizontalStyle.ScrollLeftLoop(26f, 8));
     settingsMenu.Builder.AddText("123456789012345678901234567890");
     settingsMenu.Builder.AddText("一二三四五六七八九十一二三四五六七八九十");
     settingsMenu.Builder.AddSeparator();
-    // settingsMenu.Builder.AddText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     settingsMenu.Builder.AddText("Swiftlys2 向这广袤世界致以温柔问候", overflowStyle: MenuHorizontalStyle.ScrollRightLoop(26f, 8));
     settingsMenu.Builder.AddText("Swiftlys2 からこの広大なる世界へ温かい挨拶を");
     settingsMenu.Builder.AddText("Swiftlys2 가 이 넓은 세상에 따뜻한 인사를 전합니다");

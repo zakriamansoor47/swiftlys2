@@ -445,64 +445,23 @@ internal partial class Menu : IMenu
         };
     }
 
-    private int UpdateScrollOffset(string text, bool scrollLeft, MenuHorizontalStyle? style = null)
-    {
-        var textKey = $"{text}_{scrollLeft}";
-
-        ScrollOffsets.TryAdd(textKey, 0);
-        ScrollCallCounts.TryAdd(textKey, 0);
-
-        var ticksPerScroll = style?.TicksPerScroll ?? HorizontalStyle?.TicksPerScroll ?? 16;
-        if (++ScrollCallCounts[textKey] >= ticksPerScroll)
-        {
-            ScrollCallCounts[textKey] = 0;
-            ScrollOffsets[textKey] = (ScrollOffsets[textKey] + 1) % text.Length;
-        }
-
-        return ScrollOffsets[textKey];
-    }
-
     private string ScrollTextWithFade(string text, float maxWidth, bool scrollLeft, MenuHorizontalStyle? style = null)
     {
-        var plainText = StripHtmlTags(text);
-        if (Helper.EstimateTextWidth(plainText) <= maxWidth)
+        // Prepare scroll data and validate
+        var (plainChars, segments, targetCharCount) = PrepareScrollData(text, maxWidth);
+        if (plainChars is null)
         {
             return text;
         }
-
-        // Extract all plain text characters from segments
-        var segments = ParseHtmlSegments(text);
-        var plainChars = segments
-            .Where(s => !s.IsTag)
-            .SelectMany(s => s.Content)
-            .ToArray();
-
-        if (plainChars.Length == 0)
-        {
-            return text;
-        }
-
-        // Calculate how many characters can fit
-        var targetCharCount = CalculateTargetCharCount(plainChars, maxWidth);
         if (targetCharCount == 0)
         {
             return string.Empty;
         }
 
-        // Update scroll offset for fade effect
-        var key = $"{plainText}_{scrollLeft}";
-        ScrollOffsets.TryAdd(key, 0);
-        ScrollCallCounts.TryAdd(key, 0);
-
-        if (++ScrollCallCounts[key] >= (style?.TicksPerScroll ?? HorizontalStyle?.TicksPerScroll ?? 16))
-        {
-            ScrollCallCounts[key] = 0;
-            // Allow scrolling beyond end for complete fade-out
-            ScrollOffsets[key] = (ScrollOffsets[key] + 1) % (plainChars.Length + 1);
-        }
+        // Update scroll offset (allow scrolling beyond end for complete fade-out)
+        var offset = UpdateScrollOffset(StripHtmlTags(text), scrollLeft, plainChars.Length + 1, style);
 
         // Calculate visible character range
-        var offset = ScrollOffsets[key];
         var (skipStart, skipEnd) = scrollLeft
             ? (offset, Math.Max(0, plainChars.Length - offset - targetCharCount))
             : (Math.Max(0, plainChars.Length - targetCharCount - offset), offset);
@@ -517,16 +476,7 @@ internal partial class Menu : IMenu
             if (isTag)
             {
                 // Track active opening and closing tags
-                if (!content.StartsWith("</") && !content.StartsWith("<!") && !content.EndsWith("/>"))
-                {
-                    activeTags.Add(content);
-                }
-                else if (content.StartsWith("</"))
-                {
-                    var tagName = content[2..^1].Split(' ')[0];
-                    var idx = activeTags.FindLastIndex(t => t[1..^1].Split(' ')[0].Equals(tagName, StringComparison.OrdinalIgnoreCase));
-                    if (idx >= 0) activeTags.RemoveAt(idx);
-                }
+                UpdateTagState(content, activeTags);
 
                 // Output tags within visible window
                 if (started)
@@ -561,17 +511,91 @@ internal partial class Menu : IMenu
 
     private string ScrollTextWithLoop(string text, float maxWidth, bool scrollLeft, MenuHorizontalStyle? style = null)
     {
-        var visibleChars = CalculateVisibleChars(text, maxWidth);
-        if (visibleChars >= text.Length)
+        // Prepare scroll data and validate
+        var (plainChars, segments, targetCharCount) = PrepareScrollData(text, maxWidth);
+        if (plainChars is null)
         {
             return text;
         }
+        if (targetCharCount == 0)
+        {
+            return string.Empty;
+        }
 
-        var offset = UpdateScrollOffset(text, scrollLeft, style);
+        // Update scroll offset for circular wrapping
+        var offset = UpdateScrollOffset(StripHtmlTags(text), scrollLeft, plainChars.Length, style);
 
-        return new string(Enumerable.Range(0, visibleChars)
-            .Select(i => scrollLeft ? text[(offset + i) % text.Length] : text[(text.Length - offset + i) % text.Length])
-            .ToArray());
+        // Build character-to-tags mapping for circular access
+        Dictionary<int, List<string>> charToActiveTags = [];
+        List<string> currentActiveTags = [];
+        var currentCharIdx = 0;
+
+        foreach (var (content, isTag) in segments)
+        {
+            if (isTag)
+            {
+                // Track active opening and closing tags
+                UpdateTagState(content, currentActiveTags);
+            }
+            else
+            {
+                // Map each character to its active tags
+                foreach (var ch in content)
+                {
+                    charToActiveTags[currentCharIdx] = [.. currentActiveTags];
+                    currentCharIdx++;
+                }
+            }
+        }
+
+        // Build output in circular order with dynamic tag management
+        StringBuilder result = new();
+        List<string> outputTags = [];
+        List<string>? previousTags = null;
+
+        for (int i = 0; i < targetCharCount; i++)
+        {
+            // Calculate circular character index
+            var charIndex = scrollLeft
+                ? (offset + i) % plainChars.Length
+                : (plainChars.Length - offset + i) % plainChars.Length;
+            var currentTags = charToActiveTags.GetValueOrDefault(charIndex, []);
+
+            // Close tags that are no longer active
+            if (previousTags is not null)
+            {
+                for (int j = previousTags.Count - 1; j >= 0; j--)
+                {
+                    if (!currentTags.Contains(previousTags[j]))
+                    {
+                        var prevTagName = previousTags[j][1..^1].Split(' ')[0];
+                        result.Append($"</{prevTagName}>");
+                        var idx = outputTags.FindLastIndex(t => t.Equals(prevTagName, StringComparison.OrdinalIgnoreCase));
+                        if (idx >= 0)
+                        {
+                            outputTags.RemoveAt(idx);
+                        }
+                    }
+                }
+            }
+
+            // Open new tags that are now active
+            foreach (var tag in currentTags)
+            {
+                if (previousTags is null || !previousTags.Contains(tag))
+                {
+                    result.Append(tag);
+                    var tagName = tag[1..^1].Split(' ')[0];
+                    outputTags.Add(tagName);
+                }
+            }
+
+            result.Append(plainChars[charIndex]);
+            previousTags = currentTags;
+        }
+
+        CloseOpenTags(result, outputTags);
+        return result.ToString();
     }
 
     private static string TruncateTextEnd(string text, float maxWidth, string suffix = "...")
@@ -725,12 +749,6 @@ internal partial class Menu
         return HtmlTagRegex().Replace(text, string.Empty);
     }
 
-    private static int CalculateVisibleChars(string text, float maxWidth)
-    {
-        var plainText = StripHtmlTags(text);
-        return plainText.TakeWhile((c, i) => plainText[..i].Sum(Helper.GetCharWidth) + Helper.GetCharWidth(c) <= maxWidth).Count();
-    }
-
     private static List<(string Content, bool IsTag)> ParseHtmlSegments(string text)
     {
         var tagMatches = HtmlTagRegex().Matches(text);
@@ -788,7 +806,9 @@ internal partial class Menu
     }
 
     private static void CloseOpenTags(StringBuilder result, List<string> openTags)
-        => openTags.AsEnumerable().Reverse().ToList().ForEach(tag => result.Append($"</{tag}>"));
+    {
+        openTags.AsEnumerable().Reverse().ToList().ForEach(tag => result.Append($"</{tag}>"));
+    }
 
     private static int CalculateTargetCharCount(ReadOnlySpan<char> plainChars, float maxWidth)
     {
@@ -804,5 +824,58 @@ internal partial class Menu
         }
 
         return count;
+    }
+
+    private int UpdateScrollOffset(string plainText, bool scrollLeft, int wrapLength, MenuHorizontalStyle? style)
+    {
+        var key = $"{plainText}_{scrollLeft}";
+        ScrollOffsets.TryAdd(key, 0);
+        ScrollCallCounts.TryAdd(key, 0);
+
+        var ticksPerScroll = style?.TicksPerScroll ?? HorizontalStyle?.TicksPerScroll ?? 16;
+        if (++ScrollCallCounts[key] >= ticksPerScroll)
+        {
+            ScrollCallCounts[key] = 0;
+            ScrollOffsets[key] = (ScrollOffsets[key] + 1) % wrapLength;
+        }
+
+        return ScrollOffsets[key];
+    }
+
+    private static void UpdateTagState(string content, List<string> activeTags)
+    {
+        if (!content.StartsWith("</") && !content.StartsWith("<!") && !content.EndsWith("/>"))
+        {
+            activeTags.Add(content);
+        }
+        else if (content.StartsWith("</"))
+        {
+            var tagName = content[2..^1].Split(' ')[0];
+            var index = activeTags.FindLastIndex(t => t[1..^1].Split(' ')[0].Equals(tagName, StringComparison.OrdinalIgnoreCase));
+            if (index >= 0)
+            {
+                activeTags.RemoveAt(index);
+            }
+        }
+    }
+
+    private static (char[]? PlainChars, List<(string Content, bool IsTag)> Segments, int TargetCharCount) PrepareScrollData(string text, float maxWidth)
+    {
+        var plainText = StripHtmlTags(text);
+        if (Helper.EstimateTextWidth(plainText) <= maxWidth)
+        {
+            return (null, [], 0);
+        }
+
+        var segments = ParseHtmlSegments(text);
+        var plainChars = segments.Where(s => !s.IsTag).SelectMany(s => s.Content).ToArray();
+
+        if (plainChars.Length == 0)
+        {
+            return (null, segments, 0);
+        }
+
+        var targetCharCount = CalculateTargetCharCount(plainChars, maxWidth);
+        return (plainChars, segments, targetCharCount);
     }
 }
