@@ -397,7 +397,7 @@ internal class PluginManager
     return context;
   }
 
-  public void UnloadPlugin(string id)
+  public bool UnloadPlugin(string id)
   {
     var context = _Plugins
       .Where(p => p.Status == PluginStatus.Loaded)
@@ -405,11 +405,12 @@ internal class PluginManager
     if (context == null)
     {
       _Logger.LogWarning("Plugin not found or not loaded: " + id);
-      return;
+      return false;
     }
 
     context.Dispose();
     context.Status = PluginStatus.Unloaded;
+    return true;
   }
 
   public bool LoadPluginById(string id)
@@ -450,7 +451,11 @@ internal class PluginManager
   public void ReloadPlugin(string id)
   {
     _Logger.LogInformation("Reloading plugin " + id);
-    UnloadPlugin(id);
+
+    if (!UnloadPlugin(id))
+    {
+      return;
+    }
 
     if (!LoadPluginById(id))
     {
