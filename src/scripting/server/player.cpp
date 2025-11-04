@@ -281,7 +281,7 @@ void Bridge_Player_ExecuteCommand(int playerid, const char* command)
     CCommand cmd;
     cmd.Tokenize(command);
 
-    ConCommandRef cmdRef(command[0]);
+    ConCommandRef cmdRef(cmd[0]);
 
     if (cmdRef.IsValidRef()) {
         CCommandContext context(CommandTarget_t::CT_FIRST_SPLITSCREEN_CLIENT, CPlayerSlot(player->GetSlot()));
