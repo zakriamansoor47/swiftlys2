@@ -124,6 +124,7 @@ bool CConsoleOutput::IsEnabled()
 bool CConsoleOutput::NeedsFiltering(const std::string& text)
 {
     if (!IsEnabled()) return false;
+    if (text == "\n") return true;
 
     PCRE2_SPTR str = (PCRE2_SPTR)(text.c_str());
     int len = text.size();

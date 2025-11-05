@@ -13,6 +13,11 @@ public interface IEventSubscriber
   public event EventDelegates.OnTick? OnTick;
 
   /// <summary>
+  /// Called when Steam API is activated.
+  /// </summary>
+  public event EventDelegates.OnSteamAPIActivated? OnSteamAPIActivated;
+
+  /// <summary>
   /// Called when a client connects to the server.
   /// </summary>
   public event EventDelegates.OnClientConnected? OnClientConnected;

@@ -29,6 +29,7 @@ using BenchmarkDotNet.Toolchains.InProcess.Emit;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Loggers;
 using SwiftlyS2.Shared.Menus;
+using SwiftlyS2.Shared.SteamAPI;
 
 namespace TestPlugin;
 
@@ -55,12 +56,12 @@ public class InProcessConfig : ManualConfig
 public class TestPlugin : BasePlugin
 {
 
-  public TestPlugin(ISwiftlyCore core) : base(core)
+  public TestPlugin( ISwiftlyCore core ) : base(core)
   {
     Console.WriteLine("[TestPlugin] TestPlugin constructed successfully!");
     // Console.WriteLine($"sizeof(bool): {sizeof(bool)}");
     // Console.WriteLine($"Marshal.SizeOf<bool>: {Marshal.SizeOf<bool>()}");
-    Core.Event.OnWeaponServicesCanUseHook += (@event) =>
+    Core.Event.OnWeaponServicesCanUseHook += ( @event ) =>
     {
       // Console.WriteLine($"WeaponServicesCanUse: {@event.Weapon.WeaponBaseVData.AttackMovespeedFactor} {@event.OriginalResult}");
 
@@ -70,14 +71,14 @@ public class TestPlugin : BasePlugin
 
 
   [Command("be")]
-  public void Test2Command(ICommandContext context)
+  public void Test2Command( ICommandContext context )
   {
     BenchContext.Controller = context.Sender!.RequiredController;
     BenchmarkRunner.Run<PlayerBenchmarks>(new InProcessConfig());
   }
 
   [GameEventHandler(HookMode.Pre)]
-  public HookResult OnPlayerSpawn(EventPlayerSpawn @event)
+  public HookResult OnPlayerSpawn( EventPlayerSpawn @event )
   {
     if (!@event.UserIdPlayer.IsValid)
     {
@@ -92,14 +93,14 @@ public class TestPlugin : BasePlugin
     return HookResult.Continue;
   }
 
-  public override void Load(bool hotReload)
+  public override void Load( bool hotReload )
   {
     // Core.Command.HookClientCommand((playerId, commandLine) =>
     // {
     //   Console.WriteLine("TestPlugin HookClientCommand " + playerId + " " + commandLine);
     //   return HookResult.Continue;
     // });
-    
+
     // Core.Event.OnConsoleOutput += (@event) =>
     // {
     //   Console.WriteLine($"[TestPlugin] ConsoleOutput: {@event.Message}");
@@ -137,7 +138,7 @@ public class TestPlugin : BasePlugin
     //   }
     // };
 
-    Core.Engine.ExecuteCommandWithBuffer("@ping", (buffer) =>
+    Core.Engine.ExecuteCommandWithBuffer("@ping", ( buffer ) =>
     {
       Console.WriteLine($"pong: {buffer}");
     });
@@ -150,7 +151,7 @@ public class TestPlugin : BasePlugin
 
     Core.Configuration
       .InitializeJsonWithModel<TestConfig>("test.jsonc", "Main")
-      .Configure((builder) =>
+      .Configure(( builder ) =>
       {
         builder.AddJsonFile("test.jsonc", optional: false, reloadOnChange: true);
       });
@@ -160,12 +161,12 @@ public class TestPlugin : BasePlugin
     services
       .AddSwiftly(Core);
 
-    Core.Event.OnPrecacheResource += (@event) =>
+    Core.Event.OnPrecacheResource += ( @event ) =>
     {
       @event.AddItem("soundevents/mvp_anthem.vsndevts");
     };
 
-    Core.Event.OnConVarValueChanged += (@event) =>
+    Core.Event.OnConVarValueChanged += ( @event ) =>
     {
       Console.WriteLine($"ConVar {@event.ConVarName} changed from {@event.OldValue} to {@event.NewValue} by player {@event.PlayerId}");
     };
@@ -238,7 +239,7 @@ public class TestPlugin : BasePlugin
     //   Console.WriteLine("TestPlugin OnClientPutInServer " + @event.PlayerId);
     // };
 
-    Core.Event.OnClientDisconnected += (@event) =>
+    Core.Event.OnClientDisconnected += ( @event ) =>
     {
       Console.WriteLine("TestPlugin OnClientDisconnected " + @event.PlayerId);
     };
@@ -294,7 +295,7 @@ public class TestPlugin : BasePlugin
 
 
   [Command("tt")]
-  public void TestCommand(ICommandContext context)
+  public void TestCommand( ICommandContext context )
   {
     // token2?.Cancel();
     // kv = new();
@@ -327,14 +328,14 @@ public class TestPlugin : BasePlugin
 
     cvar2.ReplicateToClient(0, true);
 
-    cvar4.QueryClient(0, (value) =>
+    cvar4.QueryClient(0, ( value ) =>
     {
       Console.WriteLine("QueryCallback " + value);
     });
   }
 
   [Command("w")]
-  public void TestCommand1(ICommandContext context)
+  public void TestCommand1( ICommandContext context )
   {
     var attacker = context.Sender!;
     var weapons = attacker.Pawn!.WeaponServices!.MyWeapons;
@@ -350,13 +351,13 @@ public class TestPlugin : BasePlugin
   }
 
   [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-  delegate nint DispatchSpawnDelegate(nint pEntity, nint pKV);
+  delegate nint DispatchSpawnDelegate( nint pEntity, nint pKV );
   int order = 0;
 
   IUnmanagedFunction<DispatchSpawnDelegate>? _dispatchspawn;
 
   [Command("h1")]
-  public void TestCommand2(ICommandContext context)
+  public void TestCommand2( ICommandContext context )
   {
     var token = Core.Scheduler.DelayAndRepeat(500, 1000, () =>
     {
@@ -366,18 +367,18 @@ public class TestPlugin : BasePlugin
     var addres = Core.GameData.GetSignature("CBaseEntity::DispatchSpawn");
     var func = Core.Memory.GetUnmanagedFunctionByAddress<DispatchSpawnDelegate>(addres);
 
-    var guid = func.AddHook((next) =>
+    var guid = func.AddHook(( next ) =>
     {
-      return (pEntity, pKV) =>
+      return ( pEntity, pKV ) =>
       {
         Console.WriteLine("TestPlugin DispatchSpawn " + order++);
         return next()(pEntity, pKV);
       };
     });
 
-    _dispatchspawn.AddHook((next) =>
+    _dispatchspawn.AddHook(( next ) =>
     {
-      return (pEntity, pKV) =>
+      return ( pEntity, pKV ) =>
       {
         Console.WriteLine("TestPlugin DispatchSpawn2 " + order++);
         return next()(pEntity, pKV);
@@ -387,7 +388,7 @@ public class TestPlugin : BasePlugin
   }
 
   [EventListener<EventDelegates.OnEntityCreated>]
-  public void OnEntityCreated(IOnEntityCreatedEvent @event)
+  public void OnEntityCreated( IOnEntityCreatedEvent @event )
   {
     // @event.Entity.Entity.DesignerName = "abc";
     Console.WriteLine("TestPlugin OnEntityCreated222 " + @event.Entity.Entity?.DesignerName);
@@ -396,7 +397,7 @@ public class TestPlugin : BasePlugin
   Guid _hookId = Guid.Empty;
 
   [Command("bad")]
-  public void TestCommandBad(ICommandContext context)
+  public void TestCommandBad( ICommandContext context )
   {
     try
     {
@@ -427,17 +428,17 @@ public class TestPlugin : BasePlugin
   }
 
   [Command("h2")]
-  public void TestCommand3(ICommandContext context)
+  public void TestCommand3( ICommandContext context )
   {
     var ent = Core.EntitySystem.CreateEntity<CPointWorldText>();
     ent.DispatchSpawn();
     ent.Collision.MaxsUpdated();
     ent.Collision.CollisionAttribute.OwnerIdUpdated();
-    
+
   }
 
   [Command("tt3")]
-  public void TestCommand33(ICommandContext context)
+  public void TestCommand33( ICommandContext context )
   {
     var ent = Core.EntitySystem.CreateEntity<CPhysicsPropOverride>();
     using CEntityKeyValues kv = new();
@@ -448,34 +449,34 @@ public class TestPlugin : BasePlugin
   }
 
   [Command("tt4")]
-  public void TestCommand4(ICommandContext context)
+  public void TestCommand4( ICommandContext context )
   {
     Console.WriteLine(Core.Permission.PlayerHasPermission(7656, context.Args[0]));
   }
 
   [Command("tt5")]
-  public void TestCommand5(ICommandContext context)
+  public void TestCommand5( ICommandContext context )
   {
     Console.WriteLine("TestPlugin TestCommand5");
   }
 
   [Command("tt6", permission: "tt6")]
-  public void TestCommand6(ICommandContext context)
+  public void TestCommand6( ICommandContext context )
   {
     Console.WriteLine("TestPlugin TestCommand6");
   }
 
   [Command("tt7")]
-  public void TestCommand7(ICommandContext context)
+  public void TestCommand7( ICommandContext context )
   {
-    Core.Engine.ExecuteCommandWithBuffer("@ping", (buffer) =>
+    Core.Engine.ExecuteCommandWithBuffer("@ping", ( buffer ) =>
     {
       Console.WriteLine($"pong: {buffer}");
     });
   }
 
   [Command("tt8")]
-  public unsafe void TestCommand8(ICommandContext context)
+  public unsafe void TestCommand8( ICommandContext context )
   {
     Core.EntitySystem.GetAllEntitiesByDesignerName<CBuyZone>("func_buyzone").ToList().ForEach(zone =>
     {
@@ -498,12 +499,10 @@ public class TestPlugin : BasePlugin
     Ray_t ray = new();
     ray.Init(Vector.Zero, Vector.Zero);
 
-    var filter = new CTraceFilter
-    {
+    var filter = new CTraceFilter {
       // unk01 = 1,
       IterateEntities = true,
-      QueryShapeAttributes = new RnQueryShapeAttr_t
-      {
+      QueryShapeAttributes = new RnQueryShapeAttr_t {
         InteractsWith = MaskTrace.Player | MaskTrace.Solid | MaskTrace.Hitbox | MaskTrace.Npc,
         InteractsExclude = MaskTrace.Empty,
         InteractsAs = MaskTrace.Player,
@@ -537,14 +536,14 @@ public class TestPlugin : BasePlugin
   }
 
   [GameEventHandler(HookMode.Pre)]
-  public HookResult TestGameEventHandler(EventPlayerJump @e)
+  public HookResult TestGameEventHandler( EventPlayerJump @e )
   {
     Console.WriteLine(@e.UserIdController.PlayerName);
     return HookResult.Continue;
   }
 
   [ServerNetMessageHandler]
-  public HookResult TestServerNetMessageHandler(CCSUsrMsg_SendPlayerItemDrops msg)
+  public HookResult TestServerNetMessageHandler( CCSUsrMsg_SendPlayerItemDrops msg )
   {
 
     Console.WriteLine("FIRED");
@@ -554,8 +553,28 @@ public class TestPlugin : BasePlugin
     return HookResult.Continue;
   }
 
+  private Callback<ValidateAuthTicketResponse_t> _authTicketResponse;
+
+  [EventListener<EventDelegates.OnSteamAPIActivated>]
+  public void OnSteamAPIActivated()
+  {
+    Console.WriteLine("TestPlugin OnSteamAPIActivated");
+    _authTicketResponse = Callback<ValidateAuthTicketResponse_t>.Create(AuthResponse);
+  }
+
+  public void AuthResponse( ValidateAuthTicketResponse_t param )
+  {
+    Console.WriteLine($"AuthResponse: {param.m_eAuthSessionResponse} -> {param.m_SteamID.m_SteamID}");
+  }
+
+  [Command("getip")]
+  public void GetIpCommand( ICommandContext context )
+  {
+    context.Reply(SteamGameServer.GetPublicIP().ToString());
+  }
+
   [Command("mt")]
-  public void MenuTestCommand(ICommandContext context)
+  public void MenuTestCommand( ICommandContext context )
   {
     var player = context.Sender!;
 
@@ -565,16 +584,14 @@ public class TestPlugin : BasePlugin
 
     // settingsMenu.Builder.Design.MaxVisibleItems(Random.Shared.Next(-2, 8));
     if (context.Args.Length < 1 || !int.TryParse(context.Args[0], out int vtype)) vtype = 0;
-    settingsMenu.Builder.Design.SetVerticalScrollStyle(vtype switch
-    {
+    settingsMenu.Builder.Design.SetVerticalScrollStyle(vtype switch {
       1 => MenuVerticalScrollStyle.LinearScroll,
       2 => MenuVerticalScrollStyle.WaitingCenter,
       _ => MenuVerticalScrollStyle.CenterFixed
     });
 
     if (context.Args.Length < 2 || !int.TryParse(context.Args[1], out int htype)) htype = 0;
-    settingsMenu.Builder.Design.SetGlobalHorizontalStyle(htype switch
-    {
+    settingsMenu.Builder.Design.SetGlobalHorizontalStyle(htype switch {
       0 => MenuHorizontalStyle.Default,
       1 => MenuHorizontalStyle.TruncateBothEnds(26f),
       2 => MenuHorizontalStyle.ScrollLeftFade(26f, 8, 128),
@@ -582,23 +599,23 @@ public class TestPlugin : BasePlugin
       1337 => MenuHorizontalStyle.TruncateEnd(0f),
       _ => MenuHorizontalStyle.TruncateEnd(26f)
     });
-    
-    settingsMenu.Builder.AddButton("1. AButton",(p) =>
+
+    settingsMenu.Builder.AddButton("1. AButton", ( p ) =>
     {
       player.SendMessage(MessageType.Chat, "Button");
     });
 
-    settingsMenu.Builder.AddToggle("2. Toggle", defaultValue: true, (p, value) =>
+    settingsMenu.Builder.AddToggle("2. Toggle", defaultValue: true, ( p, value ) =>
     {
       player.SendMessage(MessageType.Chat, $"AddToggle {value}");
     });
 
-    settingsMenu.Builder.AddSlider("3. Slider", min: 0, max: 100, defaultValue: 10, step: 10, (p, value) =>
+    settingsMenu.Builder.AddSlider("3. Slider", min: 0, max: 100, defaultValue: 10, step: 10, ( p, value ) =>
     {
       player.SendMessage(MessageType.Chat, $"AddSlider {value}");
     });
 
-    settingsMenu.Builder.AddAsyncButton("4. AsyncButton", async (p) =>
+    settingsMenu.Builder.AddAsyncButton("4. AsyncButton", async ( p ) =>
     {
       await Task.Delay(2000);
     });
@@ -624,54 +641,54 @@ public class TestPlugin : BasePlugin
     settingsMenu.Builder.AddText("Swiftlys2 extends warmest greetings to this wondrous world");
     settingsMenu.Builder.AddText("Swiftlys2 sendas korajn salutojn al ĉi tiu mirinda mondo");
     settingsMenu.Builder.AddSeparator();
-    settingsMenu.Builder.AddAsyncButton("AsyncButton|AsyncButton|AsyncButton", async (p) => await Task.Delay(2000));
-    settingsMenu.Builder.AddButton("Button|Button|Button|Button", (p) => { });
-    settingsMenu.Builder.AddChoice("Choice|Choice|Choice|Choice", ["Option 1", "Option 2", "Option 3"], "Option 1", (p, value) => { }, overflowStyle: MenuHorizontalStyle.TruncateEnd(8f));
+    settingsMenu.Builder.AddAsyncButton("AsyncButton|AsyncButton|AsyncButton", async ( p ) => await Task.Delay(2000));
+    settingsMenu.Builder.AddButton("Button|Button|Button|Button", ( p ) => { });
+    settingsMenu.Builder.AddChoice("Choice|Choice|Choice|Choice", ["Option 1", "Option 2", "Option 3"], "Option 1", ( p, value ) => { }, overflowStyle: MenuHorizontalStyle.TruncateEnd(8f));
     settingsMenu.Builder.AddProgressBar("ProgressBar|ProgressBar|ProgressBar", () => (float)Random.Shared.NextDouble(), overflowStyle: MenuHorizontalStyle.ScrollLeftLoop(26f, 12));
-    settingsMenu.Builder.AddSlider("Slider|Slider|Slider|Slider", 0f, 100f, 0f, 1f, (p, value) => { }, overflowStyle: MenuHorizontalStyle.ScrollRightLoop(8f, 12));
+    settingsMenu.Builder.AddSlider("Slider|Slider|Slider|Slider", 0f, 100f, 0f, 1f, ( p, value ) => { }, overflowStyle: MenuHorizontalStyle.ScrollRightLoop(8f, 12));
     // settingsMenu.Builder.AddSubmenu("Submenu");
-    settingsMenu.Builder.AddToggle("Toggle|Toggle|Toggle|Toggle", true, (p, value) => { });
+    settingsMenu.Builder.AddToggle("Toggle|Toggle|Toggle|Toggle", true, ( p, value ) => { });
     settingsMenu.Builder.AddSeparator();
 
     Core.Menus.OpenMenu(player, settingsMenu);
   }
 
   [Command("menu")]
-  public void MenuCommand(ICommandContext context)
+  public void MenuCommand( ICommandContext context )
   {
     var player = context.Sender!;
     var menu = Core.Menus.CreateMenu("Test Menu");
 
     menu.Builder
-      .AddButton("Button 1", (ctx) =>
+      .AddButton("Button 1", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 1");
       })
-      .AddButton("Button 2", (ctx) =>
+      .AddButton("Button 2", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 2");
       })
-      .AddButton("Button 3", (ctx) =>
+      .AddButton("Button 3", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 3");
       })
-      .AddButton("Button 4", (ctx) =>
+      .AddButton("Button 4", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 4");
       })
-      .AddButton("Button 5", (ctx) =>
+      .AddButton("Button 5", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 5");
       })
-      .AddButton("Button 6", (ctx) =>
+      .AddButton("Button 6", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 6");
       })
-      .AddButton("Button 7", (ctx) =>
+      .AddButton("Button 7", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 7");
       })
-      .AddButton("Button 8", (ctx) =>
+      .AddButton("Button 8", ( ctx ) =>
       {
         player.SendMessage(MessageType.Chat, "You clicked Button 8");
       })

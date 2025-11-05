@@ -21,7 +21,6 @@
     <BaseOutputPath>build\</BaseOutputPath>
     <OutputPath>$(BaseOutputPath)Release\SwiftlyS2</OutputPath>
     <AssemblyName>SwiftlyS2.CS2</AssemblyName>
-    <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
