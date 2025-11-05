@@ -61,7 +61,7 @@ internal partial class Menu : IMenu
             opt.OverflowStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollLeftLoop ||
             opt.OverflowStyle?.OverflowStyle == MenuHorizontalOverflowStyle.ScrollRightLoop);
 
-    public void Close(IPlayer player)
+    public void Close( IPlayer player )
     {
         NativePlayer.ClearCenterMenuRender(player.PlayerID);
         OnClose?.Invoke(player);
@@ -80,7 +80,7 @@ internal partial class Menu : IMenu
         ScrollPauseCounts.Clear();
     }
 
-    public void MoveSelection(IPlayer player, int offset)
+    public void MoveSelection( IPlayer player, int offset )
     {
         if (!SelectedIndex.ContainsKey(player))
         {
@@ -107,7 +107,7 @@ internal partial class Menu : IMenu
         Rerender(player, false);
     }
 
-    public void Rerender(IPlayer player, bool updateHorizontalStyle = false)
+    public void Rerender( IPlayer player, bool updateHorizontalStyle = false )
     {
         BeforeRender?.Invoke(player);
 
@@ -146,8 +146,7 @@ internal partial class Menu : IMenu
                 var selectedIdx = SelectedIndex[player];
                 var halfVisible = maxVisibleOptions / 2;
 
-                var (startIndex, arrowPosition) = VerticalScrollStyle switch
-                {
+                var (startIndex, arrowPosition) = VerticalScrollStyle switch {
                     MenuVerticalScrollStyle.WaitingCenter when selectedIdx < halfVisible
                         => (0, selectedIdx),                                                                        // WaitingCenter: (Near top) start from 0, arrow at selected
                     MenuVerticalScrollStyle.WaitingCenter when selectedIdx >= totalOptions - halfVisible
@@ -231,21 +230,21 @@ internal partial class Menu : IMenu
 
     private string BuildFooter()
     {
-        var footer = new StringBuilder("<font color='#ffffff' class='fontSize-s'>");
+        var isWasd = MenuManager.Settings.InputMode == "wasd";
 
-        var isWASD = MenuManager.Settings.InputMode == "wasd";
-        var selectDisplay = isWASD ? "D" : MenuManager.Settings.ButtonsUse.ToUpper();
-        var scrollDisplay = isWASD ? "W/S" : MenuManager.Settings.ButtonsScroll.ToUpper();
-        var exitDisplay = isWASD ? "A" : MenuManager.Settings.ButtonsExit.ToUpper();
+        var selectDisplay = isWasd ? "D" : (ButtonOverrides?.Select?.ToString() ?? MenuManager.Settings.ButtonsUse).ToUpper();
+        var scrollDisplay = isWasd ? "W/S" : (ButtonOverrides?.Move, ButtonOverrides?.MoveBack) switch {
+            (not null, not null) => $"{ButtonOverrides.Move}/{ButtonOverrides.MoveBack}",
+            _ => MenuManager.Settings.ButtonsScroll.ToUpper()
+        };
+        var exitDisplay = isWasd ? "A" : (ButtonOverrides?.Exit?.ToString() ?? MenuManager.Settings.ButtonsExit).ToUpper();
 
-        footer.Append($"Move: <font color='{RenderColor.ToHex(true)}'>{scrollDisplay}</font>");
-
-        footer.Append($" | Use: <font color='{RenderColor.ToHex(true)}'>{selectDisplay}</font>");
-
-        footer.Append($" | Exit: <font color='{RenderColor.ToHex(true)}'>{exitDisplay}</font>");
-
-        footer.Append("</font><br>");
-        return footer.ToString();
+        return new StringBuilder("<font color='#ffffff' class='fontSize-s'>")
+            .Append($"Move: <font color='{RenderColor.ToHex(true)}'>{scrollDisplay}</font>")
+            .Append($" | Use: <font color='{RenderColor.ToHex(true)}'>{selectDisplay}</font>")
+            .Append($" | Exit: <font color='{RenderColor.ToHex(true)}'>{exitDisplay}</font>")
+            .Append("</font><br>")
+            .ToString();
     }
 
     private void OnTickRender()
@@ -256,7 +255,7 @@ internal partial class Menu : IMenu
         }
     }
 
-    public void Show(IPlayer player)
+    public void Show( IPlayer player )
     {
         if (!SelectedIndex.TryAdd(player, 0))
         {
@@ -291,7 +290,7 @@ internal partial class Menu : IMenu
         ScrollPauseCounts.Clear();
     }
 
-    public void UseSelection(IPlayer player)
+    public void UseSelection( IPlayer player )
     {
         var selectedOption = Options[SelectedIndex[player]];
         OnItemSelected?.Invoke(player, selectedOption);
@@ -366,7 +365,7 @@ internal partial class Menu : IMenu
         }
     }
 
-    public void UseSlideOption(IPlayer player, bool isRight)
+    public void UseSlideOption( IPlayer player, bool isRight )
     {
         var selectedOption = Options[SelectedIndex[player]];
 
@@ -386,19 +385,19 @@ internal partial class Menu : IMenu
         Rerender(player, false);
     }
 
-    public bool IsOptionSlider(IPlayer player)
+    public bool IsOptionSlider( IPlayer player )
     {
         var option = Options[SelectedIndex[player]];
         return option is SliderMenuButton || option is ChoiceMenuOption;
     }
 
-    public bool IsCurrentOptionSelectable(IPlayer player)
+    public bool IsCurrentOptionSelectable( IPlayer player )
     {
         var option = Options[SelectedIndex[player]];
         return IsOptionSelectable(option);
     }
 
-    public bool IsOptionSelectable(IOption option)
+    public bool IsOptionSelectable( IOption option )
     {
         return option is ButtonMenuOption ||
                option is ToggleMenuOption ||
@@ -408,7 +407,7 @@ internal partial class Menu : IMenu
                (option is DynamicMenuOption dynamic && dynamic.CanInteract(null!));
     }
 
-    public void SetFreezeState(IPlayer player, bool freeze)
+    public void SetFreezeState( IPlayer player, bool freeze )
     {
         if (!player.IsValid || player.IsFakeClient) return;
 
@@ -421,7 +420,7 @@ internal partial class Menu : IMenu
         pawn.MoveTypeUpdated();
     }
 
-    internal string ApplyHorizontalStyle(string text, MenuHorizontalStyle? overflowStyle = null, bool updateHorizontalStyle = false)
+    internal string ApplyHorizontalStyle( string text, MenuHorizontalStyle? overflowStyle = null, bool updateHorizontalStyle = false )
     {
         var activeStyle = overflowStyle ?? HorizontalStyle;
 
@@ -436,8 +435,7 @@ internal partial class Menu : IMenu
             return text;
         }
 
-        return activeStyle.Value.OverflowStyle switch
-        {
+        return activeStyle.Value.OverflowStyle switch {
             MenuHorizontalOverflowStyle.TruncateEnd => TruncateTextEnd(text, activeStyle.Value.MaxWidth),
             MenuHorizontalOverflowStyle.TruncateBothEnds => TruncateTextBothEnds(text, activeStyle.Value.MaxWidth),
             MenuHorizontalOverflowStyle.ScrollLeftFade => ScrollTextWithFade(updateHorizontalStyle, text, activeStyle.Value.MaxWidth, true, activeStyle),
@@ -448,7 +446,7 @@ internal partial class Menu : IMenu
         };
     }
 
-    private string ScrollTextWithFade(bool updateHorizontalStyle, string text, float maxWidth, bool scrollLeft, MenuHorizontalStyle? style = null)
+    private string ScrollTextWithFade( bool updateHorizontalStyle, string text, float maxWidth, bool scrollLeft, MenuHorizontalStyle? style = null )
     {
         // Prepare scroll data and validate
         var (plainChars, segments, targetCharCount) = PrepareScrollData(text, maxWidth);
@@ -512,7 +510,7 @@ internal partial class Menu : IMenu
         return result.ToString();
     }
 
-    private string ScrollTextWithLoop(bool updateHorizontalStyle, string text, float maxWidth, bool scrollLeft, MenuHorizontalStyle? style = null)
+    private string ScrollTextWithLoop( bool updateHorizontalStyle, string text, float maxWidth, bool scrollLeft, MenuHorizontalStyle? style = null )
     {
         // Prepare scroll data and validate
         var (plainChars, segments, targetCharCount) = PrepareScrollData(text, maxWidth);
@@ -601,7 +599,7 @@ internal partial class Menu : IMenu
         return result.ToString();
     }
 
-    private static string TruncateTextEnd(string text, float maxWidth, string suffix = "...")
+    private static string TruncateTextEnd( string text, float maxWidth, string suffix = "..." )
     {
         // Reserve space for suffix
         var targetWidth = maxWidth - Helper.EstimateTextWidth(suffix);
@@ -651,7 +649,7 @@ internal partial class Menu : IMenu
         return result.ToString();
     }
 
-    private static string TruncateTextBothEnds(string text, float maxWidth)
+    private static string TruncateTextBothEnds( string text, float maxWidth )
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -747,7 +745,7 @@ internal partial class Menu
     /// </summary>
     /// <param name="text">The text containing HTML tags.</param>
     /// <returns>The text with all HTML tags removed.</returns>
-    private static string StripHtmlTags(string text)
+    private static string StripHtmlTags( string text )
     {
         if (string.IsNullOrEmpty(text))
         {
@@ -762,7 +760,7 @@ internal partial class Menu
     /// </summary>
     /// <param name="text">The text to parse.</param>
     /// <returns>A list of segments where each segment is either a tag or plain text content.</returns>
-    private static List<(string Content, bool IsTag)> ParseHtmlSegments(string text)
+    private static List<(string Content, bool IsTag)> ParseHtmlSegments( string text )
     {
         var tagMatches = HtmlTagRegex().Matches(text);
         if (tagMatches.Count == 0)
@@ -797,10 +795,9 @@ internal partial class Menu
     /// </summary>
     /// <param name="tag">The HTML tag to process.</param>
     /// <param name="openTags">The list of currently open tag names.</param>
-    private static void ProcessOpenTag(string tag, List<string> openTags)
+    private static void ProcessOpenTag( string tag, List<string> openTags )
     {
-        var tagName = tag switch
-        {
+        var tagName = tag switch {
             ['<', '/', .. var rest] => new string(rest).TrimEnd('>').Split(' ', 2)[0],
             ['<', '!', ..] => null,
             [.. var chars] when chars[^1] == '/' && chars[^2] == '>' => null,
@@ -829,7 +826,7 @@ internal partial class Menu
     /// </summary>
     /// <param name="result">The StringBuilder to append closing tags to.</param>
     /// <param name="openTags">The list of currently open tag names.</param>
-    private static void CloseOpenTags(StringBuilder result, List<string> openTags)
+    private static void CloseOpenTags( StringBuilder result, List<string> openTags )
     {
         openTags.AsEnumerable().Reverse().ToList().ForEach(tag => result.Append($"</{tag}>"));
     }
@@ -840,7 +837,7 @@ internal partial class Menu
     /// <param name="plainChars">The characters to measure.</param>
     /// <param name="maxWidth">The maximum width allowed.</param>
     /// <returns>The number of characters that fit within the width.</returns>
-    private static int CalculateTargetCharCount(ReadOnlySpan<char> plainChars, float maxWidth)
+    private static int CalculateTargetCharCount( ReadOnlySpan<char> plainChars, float maxWidth )
     {
         var currentWidth = 0f;
         var count = 0;
@@ -866,7 +863,7 @@ internal partial class Menu
     /// <param name="wrapLength">The length at which the offset wraps around.</param>
     /// <param name="style">Optional horizontal style settings.</param>
     /// <returns>The current scroll offset.</returns>
-    private int UpdateScrollOffset(bool updateHorizontalStyle, string plainText, bool scrollLeft, int wrapLength, MenuHorizontalStyle? style)
+    private int UpdateScrollOffset( bool updateHorizontalStyle, string plainText, bool scrollLeft, int wrapLength, MenuHorizontalStyle? style )
     {
         var key = $"{plainText}_{scrollLeft}";
         ScrollOffsets.TryAdd(key, 0);
@@ -907,7 +904,7 @@ internal partial class Menu
     /// </summary>
     /// <param name="content">The HTML tag content to process.</param>
     /// <param name="activeTags">The list of currently active tags.</param>
-    private static void UpdateTagState(string content, List<string> activeTags)
+    private static void UpdateTagState( string content, List<string> activeTags )
     {
         if (!content.StartsWith("</") && !content.StartsWith("<!") && !content.EndsWith("/>"))
         {
@@ -930,7 +927,7 @@ internal partial class Menu
     /// <param name="text">The text to prepare for scrolling.</param>
     /// <param name="maxWidth">The maximum width available for display.</param>
     /// <returns>A tuple containing plain characters array, HTML segments, and target character count.</returns>
-    private static (char[]? PlainChars, List<(string Content, bool IsTag)> Segments, int TargetCharCount) PrepareScrollData(string text, float maxWidth)
+    private static (char[]? PlainChars, List<(string Content, bool IsTag)> Segments, int TargetCharCount) PrepareScrollData( string text, float maxWidth )
     {
         var plainText = StripHtmlTags(text);
         if (Helper.EstimateTextWidth(plainText) <= maxWidth)
