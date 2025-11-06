@@ -4,6 +4,7 @@ using SwiftlyS2.Core.Menus;
 
 namespace SwiftlyS2.Core.Menu.Options;
 
+[Obsolete("ProgressBarMenuOption will be deprecared at the release of SwiftlyS2.")]
 internal class ProgressBarMenuOption( string text, Func<float> progressProvider, int barWidth = 20, IMenuTextSize size = IMenuTextSize.Medium, MenuHorizontalStyle? overflowStyle = null ) : IOption
 {
     public string Text { get; set; } = text;

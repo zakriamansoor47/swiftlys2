@@ -10,6 +10,7 @@ using SwiftlyS2.Shared.Sounds;
 
 namespace SwiftlyS2.Core.Menus;
 
+[Obsolete("MenuManager will be deprecared at the release of SwiftlyS2. Please use MenuManagerAPI instead")]
 internal class MenuManager : IMenuManager
 {
     public MenuSettings Settings { get; set; } = new MenuSettings();

@@ -3,6 +3,7 @@ using SwiftlyS2.Shared.Menus;
 
 namespace SwiftlyS2.Core.Menus;
 
+[Obsolete("MenuButtonOverrides will be deprecared at the release of SwiftlyS2.")]
 internal class MenuButtonOverrides : IMenuButtonOverrides
 {
     public KeyKind? Select { get; set; }
@@ -10,7 +11,7 @@ internal class MenuButtonOverrides : IMenuButtonOverrides
     public KeyKind? MoveBack { get; set; }
     public KeyKind? Exit { get; set; }
 
-    internal static KeyKind ParseButton(string buttonName)
+    internal static KeyKind ParseButton( string buttonName )
     {
         if (Enum.TryParse<KeyKind>(buttonName, true, out var button))
         {
@@ -19,7 +20,7 @@ internal class MenuButtonOverrides : IMenuButtonOverrides
         return 0;
     }
 
-    internal static KeyKind ParseButtons(params string[] buttonNames)
+    internal static KeyKind ParseButtons( params string[] buttonNames )
     {
         KeyKind result = 0;
         foreach (var buttonName in buttonNames)
@@ -30,7 +31,7 @@ internal class MenuButtonOverrides : IMenuButtonOverrides
         return result;
     }
 
-    private static bool IsWASDButton(string buttonName)
+    private static bool IsWASDButton( string buttonName )
     {
         var lower = buttonName.ToLowerInvariant();
         return lower == "forward" || lower == "back" || lower == "moveleft" ||

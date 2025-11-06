@@ -4,6 +4,7 @@ using SwiftlyS2.Shared.Players;
 
 namespace SwiftlyS2.Core.Menu.Options;
 
+[Obsolete("SubmenuMenuOption will be deprecared at the release of SwiftlyS2.")]
 internal class SubmenuMenuOption : IOption
 {
     public string Text { get; set; }

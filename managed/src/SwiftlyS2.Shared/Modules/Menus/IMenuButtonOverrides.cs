@@ -6,6 +6,7 @@ namespace SwiftlyS2.Shared.Menus;
 /// Defines custom button overrides for menu navigation and interaction.
 /// Allows customization of the default key bindings used for menu operations.
 /// </summary>
+[Obsolete("IMenuButtonOverrides will be deprecared at the release of SwiftlyS2.")]
 public interface IMenuButtonOverrides
 {
     /// <summary>

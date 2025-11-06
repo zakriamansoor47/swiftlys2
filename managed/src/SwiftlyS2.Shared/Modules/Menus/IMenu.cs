@@ -8,6 +8,7 @@ namespace SwiftlyS2.Shared.Menus;
 /// Represents a menu interface that provides functionality for creating and managing interactive menus for players.
 /// Supports customizable options, events, and rendering behavior.
 /// </summary>
+[Obsolete("IMenu will be deprecared at the release of SwiftlyS2. Please use IMenuAPI instead")]
 public interface IMenu
 {
     /// <summary>
@@ -215,6 +216,7 @@ public interface IMenu
 /// <summary>
 /// Defines the vertical scroll behavior style for menu navigation.
 /// </summary>
+[Obsolete("MenuVerticalScrollStyle will be deprecared at the release of SwiftlyS2. Please use MenuVerticalStyle instead")]
 public enum MenuVerticalScrollStyle
 {
     /// <summary>
@@ -239,6 +241,7 @@ public enum MenuVerticalScrollStyle
 /// <summary>
 /// Defines the horizontal text overflow behavior for menu options.
 /// </summary>
+[Obsolete("MenuHorizontalOverflowStyle will be deprecared at the release of SwiftlyS2. Please use MenuHorizontalStyle instead")]
 public enum MenuHorizontalOverflowStyle
 {
     /// <summary>
@@ -281,6 +284,7 @@ public enum MenuHorizontalOverflowStyle
 /// <summary>
 /// Horizontal text display style configuration for menu options.
 /// </summary>
+[Obsolete("MenuHorizontalStyle will be deprecared at the release of SwiftlyS2.")]
 public readonly record struct MenuHorizontalStyle
 {
     private readonly float maxWidth;

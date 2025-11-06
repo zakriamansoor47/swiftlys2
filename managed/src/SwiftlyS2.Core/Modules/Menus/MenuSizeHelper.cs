@@ -2,12 +2,12 @@ using SwiftlyS2.Shared.Menus;
 
 namespace SwiftlyS2.Core.Menus;
 
+[Obsolete("MenuSizeHelper will be deprecared at the release of SwiftlyS2.")]
 internal static class MenuSizeHelper
 {
-    public static string GetSizeClass(IMenuTextSize size)
+    public static string GetSizeClass( IMenuTextSize size )
     {
-        return size switch
-        {
+        return size switch {
             IMenuTextSize.ExtraSmall => "fontSize-xs",
             IMenuTextSize.Small => "fontSize-s",
             IMenuTextSize.SmallMedium => "fontSize-sm",

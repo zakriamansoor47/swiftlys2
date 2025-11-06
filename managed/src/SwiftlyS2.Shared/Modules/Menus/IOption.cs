@@ -5,6 +5,7 @@ namespace SwiftlyS2.Shared.Menus;
 /// <summary>
 /// Represents a menu option that can be displayed and interacted with by players.
 /// </summary>
+[Obsolete("IOption will be deprecared at the release of SwiftlyS2. Please use IMenuOption instead")]
 public interface IOption
 {
     /// <summary>

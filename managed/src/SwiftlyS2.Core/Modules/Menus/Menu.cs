@@ -11,6 +11,7 @@ using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace SwiftlyS2.Core.Menus;
 
+[Obsolete("Menu will be deprecared at the release of SwiftlyS2. Please use MenuAPI instead")]
 internal partial class Menu : IMenu
 {
     public string Title { get; set; } = "Menu";

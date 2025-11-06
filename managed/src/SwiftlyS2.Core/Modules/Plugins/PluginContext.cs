@@ -9,22 +9,23 @@ namespace SwiftlyS2.Core.Plugins;
 
 internal class PluginContext : IDisposable
 {
-  public SwiftlyCore? Core { get; set; }
+    public SwiftlyCore? Core { get; set; }
 
-  public PluginMetadata? Metadata { get; set; }
+    public PluginMetadata? Metadata { get; set; }
 
-  public string? PluginDirectory { get; set; }
+    public string? PluginDirectory { get; set; }
 
-  public PluginStatus? Status { get; set; }
-  public BasePlugin? Plugin { get; set; }
+    public PluginStatus? Status { get; set; }
+    public BasePlugin? Plugin { get; set; }
 
-  public PluginLoader? Loader { get; set; }
+    public PluginLoader? Loader { get; set; }
 
-  public void Dispose()
-  {
-    Plugin?.Unload();
-    Loader?.Dispose();
-    Core?.MenuManager?.CloseAllMenus();
-    Core?.Dispose();
-  }
+    public void Dispose()
+    {
+        Plugin?.Unload();
+        Loader?.Dispose();
+        // TODO: Close all menus
+        Core?.MenuManager?.CloseAllMenus();
+        Core?.Dispose();
+    }
 }

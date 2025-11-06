@@ -7,6 +7,7 @@ namespace SwiftlyS2.Shared.Menus;
 /// Provides a fluent interface for building and configuring menus with various option types and behaviors.
 /// Supports method chaining for easy menu construction and customization.
 /// </summary>
+[Obsolete("IMenuBuilder will be deprecared at the release of SwiftlyS2. Please use IMenuBuilderAPI instead")]
 public interface IMenuBuilder
 {
     IMenuDesign Design { get; }

@@ -6,6 +6,7 @@ namespace SwiftlyS2.Shared.Menus;
 /// Configuration settings for menu behavior, appearance, and interaction.
 /// Defines various aspects of menu functionality including navigation, input handling, audio feedback, and display options.
 /// </summary>
+[Obsolete("MenuSettings will be deprecared at the release of SwiftlyS2. Please use MenuConfig instead")]
 public struct MenuSettings
 {
     /// <summary>
@@ -92,6 +93,7 @@ public struct MenuSettings
 /// Manages menu instances and provides functionality for creating, opening, closing, and tracking menus for players.
 /// Serves as the central hub for menu operations and maintains menu state across the application.
 /// </summary>
+[Obsolete("IMenuManager will be deprecared at the release of SwiftlyS2. Please use IMenuManagerAPI instead")]
 public interface IMenuManager
 {
     /// <summary>
@@ -100,7 +102,7 @@ public interface IMenuManager
     /// </summary>
     /// <param name="title">The title to display at the top of the menu.</param>
     /// <returns>A new menu instance ready for configuration and use.</returns>
-    public IMenu CreateMenu(string title);
+    public IMenu CreateMenu( string title );
 
     /// <summary>
     /// Retrieves the currently active menu for the specified player.
@@ -108,7 +110,7 @@ public interface IMenuManager
     /// </summary>
     /// <param name="player">The player whose current menu to retrieve.</param>
     /// <returns>The player's current menu, or null if no menu is open.</returns>
-    public IMenu? GetMenu(IPlayer player);
+    public IMenu? GetMenu( IPlayer player );
 
     /// <summary>
     /// Closes all open menus for all players.
@@ -121,14 +123,14 @@ public interface IMenuManager
     /// This will trigger the OnClose event for each affected player.
     /// </summary>
     /// <param name="menu">The menu instance to close.</param>
-    public void CloseMenu(IMenu menu);
+    public void CloseMenu( IMenu menu );
 
     /// <summary>
     /// Closes any currently open menu for the specified player.
     /// If the player has no menu open, this method has no effect.
     /// </summary>
     /// <param name="player">The player whose menu should be closed.</param>
-    public void CloseMenuForPlayer(IPlayer player);
+    public void CloseMenuForPlayer( IPlayer player );
 
     /// <summary>
     /// Closes all menus with the specified title.
@@ -136,7 +138,7 @@ public interface IMenuManager
     /// </summary>
     /// <param name="title">The title of the menu(s) to close.</param>
     /// <param name="exact">If true, only menus with exactly matching titles are closed. If false, menus containing the title are closed. Defaults to false.</param>
-    public void CloseMenuByTitle(string title, bool exact = false);
+    public void CloseMenuByTitle( string title, bool exact = false );
 
     /// <summary>
     /// Opens the specified menu for the given player.
@@ -144,13 +146,13 @@ public interface IMenuManager
     /// </summary>
     /// <param name="player">The player to open the menu for.</param>
     /// <param name="menu">The menu instance to open.</param>
-    public void OpenMenu(IPlayer player, IMenu menu);
+    public void OpenMenu( IPlayer player, IMenu menu );
 
     /// <summary>
     /// Checks if the specified player currently has any menu open.
     /// </summary>
     /// <param name="player">The player to check if the menu is open for.</param>
-    public bool HasMenuOpen(IPlayer player);
+    public bool HasMenuOpen( IPlayer player );
 
     /// <summary>
     /// Event triggered when a menu is closed for a player.

@@ -3,6 +3,7 @@ using SwiftlyS2.Shared.Menus;
 
 namespace SwiftlyS2.Core.Menu.Options;
 
+[Obsolete("SeparatorMenuOption will be deprecared at the release of SwiftlyS2.")]
 internal class SeparatorMenuOption : IOption
 {
     public string Text { get; set; }

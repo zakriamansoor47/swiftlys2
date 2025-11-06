@@ -5,6 +5,7 @@ using SwiftlyS2.Shared.Players;
 
 namespace SwiftlyS2.Core.Menus;
 
+[Obsolete("MenuBuilder will be deprecared at the release of SwiftlyS2. Please use MenuBuilderAPI instead")]
 internal class MenuBuilder : IMenuBuilder
 {
     private IMenu? _menu;

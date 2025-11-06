@@ -5,6 +5,7 @@ using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace SwiftlyS2.Core.Menu.Options;
 
+[Obsolete("ChoiceMenuOption will be deprecared at the release of SwiftlyS2.")]
 internal class ChoiceMenuOption : IOption
 {
     public string Text { get; set; }

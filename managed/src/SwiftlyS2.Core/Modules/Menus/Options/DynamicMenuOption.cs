@@ -5,6 +5,7 @@ using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace SwiftlyS2.Core.Menu.Options;
 
+[Obsolete("DynamicMenuOption will be deprecared at the release of SwiftlyS2.")]
 internal class DynamicMenuOption : IOption
 {
     private readonly Func<IPlayer, string> _textProvider;
