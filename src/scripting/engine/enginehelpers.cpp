@@ -39,20 +39,6 @@ struct CBaseGameSystemFactory_t : public IGameSystemFactory {
     void** reallocating_ptr;
 };
 
-int Bridge_EngineHelpers_GetServerIP(char* out)
-{
-    static std::string s;
-    if (!SteamGameServer()) s = "0.0.0.0";
-    else {
-        auto ip_addr = SteamGameServer()->GetPublicIP();
-        s = fmt::format("{}.{}.{}.{}", (ip_addr.m_unIPv4 >> 24) & 0xFF, (ip_addr.m_unIPv4 >> 16) & 0xFF, (ip_addr.m_unIPv4 >> 8) & 0xFF, ip_addr.m_unIPv4 & 0xFF);
-    }
-
-    if (out != nullptr) strcpy(out, s.c_str());
-
-    return s.size();
-}
-
 bool Bridge_EngineHelpers_IsMapValid(const char* map_name)
 {
     if (!map_name) return false;
@@ -184,7 +170,6 @@ void* Bridge_EngineHelpers_GetGlobalVars()
     return engine->GetServerGlobals();
 }
 
-DEFINE_NATIVE("EngineHelpers.GetServerIP", Bridge_EngineHelpers_GetServerIP);
 DEFINE_NATIVE("EngineHelpers.IsMapValid", Bridge_EngineHelpers_IsMapValid);
 DEFINE_NATIVE("EngineHelpers.ExecuteCommand", Bridge_EngineHelpers_ExecuteCommand);
 DEFINE_NATIVE("EngineHelpers.FindGameSystemByName", Bridge_EngineHelpers_FindGameSystemByName);
