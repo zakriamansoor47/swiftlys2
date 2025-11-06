@@ -70,9 +70,70 @@ void Bridge_FileSystem_PrintSearchPaths()
     filesystem->PrintSearchPaths();
 }
 
+int Bridge_FileSystem_ReadFile(char* outBuffer, char* fileName, char* pathId)
+{
+    static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
+
+    CUtlBuffer buf;
+
+    int size = filesystem->Size(fileName, pathId);
+    buf.EnsureCapacity(size);
+
+    bool success = filesystem->ReadFile(fileName, pathId, buf, size);
+
+    if (!success) return 1;
+
+    if (outBuffer) strcpy(outBuffer, (char*)buf.Base());
+    return size;
+}
+
+bool Bridge_FileSystem_WriteFile(char* fileName, char* pathId, char* inputBuffer)
+{
+    static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
+
+    CUtlBuffer buf;
+    buf.Put(inputBuffer, strlen(inputBuffer) + 1);
+
+    return filesystem->WriteFile(fileName, pathId, buf);
+}
+
+uint32_t Bridge_FileSystem_GetFileSize(char* fileName, char* pathId)
+{
+    static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
+
+    return filesystem->Size(fileName, pathId);
+}
+
+bool Bridge_FileSystem_PrecacheFile(char* fileName, char* pathId)
+{
+    static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
+
+    return filesystem->Precache(fileName, pathId);
+}
+
+bool Bridge_FileSystem_IsFileWritable(char* fileName, char* pathId)
+{
+    static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
+
+    return filesystem->IsFileWritable(fileName, pathId);
+}
+
+bool Bridge_FileSystem_SetFileWritable(char* fileName, char* pathId, bool writable)
+{
+    static auto filesystem = g_ifaceService.FetchInterface<IFileSystem>(FILESYSTEM_INTERFACE_VERSION);
+
+    return filesystem->SetFileWritable(fileName, writable, pathId);
+}
+
 DEFINE_NATIVE("FileSystem.GetSearchPath", Bridge_FileSystem_GetSearchPath);
 DEFINE_NATIVE("FileSystem.FileExists", Bridge_FileSystem_FileExists);
 DEFINE_NATIVE("FileSystem.AddSearchPath", Bridge_FileSystem_AddSearchPath);
 DEFINE_NATIVE("FileSystem.RemoveSearchPath", Bridge_FileSystem_RemoveSearchPath);
 DEFINE_NATIVE("FileSystem.IsDirectory", Bridge_FileSystem_IsDirectory);
 DEFINE_NATIVE("FileSystem.PrintSearchPaths", Bridge_FileSystem_PrintSearchPaths);
+DEFINE_NATIVE("FileSystem.ReadFile", Bridge_FileSystem_ReadFile);
+DEFINE_NATIVE("FileSystem.WriteFile", Bridge_FileSystem_WriteFile);
+DEFINE_NATIVE("FileSystem.GetFileSize", Bridge_FileSystem_GetFileSize);
+DEFINE_NATIVE("FileSystem.PrecacheFile", Bridge_FileSystem_PrecacheFile);
+DEFINE_NATIVE("FileSystem.IsFileWritable", Bridge_FileSystem_IsFileWritable);
+DEFINE_NATIVE("FileSystem.SetFileWritable", Bridge_FileSystem_SetFileWritable);
