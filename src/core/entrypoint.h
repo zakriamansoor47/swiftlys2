@@ -53,6 +53,5 @@ public:
 };
 
 extern SwiftlyCore g_SwiftlyCore;
-extern CSteamGameServerAPIContext g_SteamAPI;
 
 #endif

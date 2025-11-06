@@ -42,9 +42,9 @@ struct CBaseGameSystemFactory_t : public IGameSystemFactory {
 int Bridge_EngineHelpers_GetServerIP(char* out)
 {
     static std::string s;
-    if (!g_SteamAPI.SteamGameServer()) s = "0.0.0.0";
+    if (!SteamGameServer()) s = "0.0.0.0";
     else {
-        auto ip_addr = g_SteamAPI.SteamGameServer()->GetPublicIP();
+        auto ip_addr = SteamGameServer()->GetPublicIP();
         s = fmt::format("{}.{}.{}.{}", (ip_addr.m_unIPv4 >> 24) & 0xFF, (ip_addr.m_unIPv4 >> 16) & 0xFF, (ip_addr.m_unIPv4 >> 8) & 0xFF, ip_addr.m_unIPv4 & 0xFF);
     }
 

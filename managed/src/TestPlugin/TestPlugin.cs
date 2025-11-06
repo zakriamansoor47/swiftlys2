@@ -327,7 +327,7 @@ public class TestPlugin : BasePlugin
     public void TestCommand1( ICommandContext context )
     {
         var ret = SteamGameServerUGC.DownloadItem(new PublishedFileId_t(3596198331), true);
-        Console.WriteLine(ret);
+        Console.WriteLine(Core.Engine.ServerIP);
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

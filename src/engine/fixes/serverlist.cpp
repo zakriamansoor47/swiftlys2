@@ -21,6 +21,7 @@
 #include <core/bridge/metamod.h>
 
 #include <public/tier0/platform.h>
+#include <public/steam/isteamclient.h>
 #include <public/steam/isteamgameserver.h>
 
 #include <s2binlib/s2binlib.h>
@@ -82,7 +83,8 @@ void GameFrame(void* _this, bool simulate, bool first, bool last)
             auto controller = player->GetController();
             if (!controller) continue;
 
-            g_SteamAPI.SteamGameServer()->BUpdateUserData(*steamid, (const char*)(schema->GetPropPtr(controller, 4141622183986322747)), gameclients->GetPlayerScore(i)); // CBasePlayerController::PlayerName
+            if (SteamGameServer())
+                SteamGameServer()->BUpdateUserData(*steamid, (const char*)(schema->GetPropPtr(controller, 4141622183986322747)), gameclients->GetPlayerScore(i)); // CBasePlayerController::PlayerName
         }
     }
 }

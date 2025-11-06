@@ -53,7 +53,6 @@
 
 SwiftlyCore g_SwiftlyCore;
 InterfacesManager g_ifaceService;
-CSteamGameServerAPIContext g_SteamAPI;
 
 IVFunctionHook* g_pGameServerSteamAPIActivated = nullptr;
 IVFunctionHook* g_pGameServerSteamAPIDeactivated = nullptr;
@@ -263,10 +262,9 @@ bool SwiftlyCore::Unload()
 
 void GameServerSteamAPIActivatedHook(void* _this)
 {
-    if (!CommandLine()->HasParm("-dedicated") || g_SteamAPI.SteamUGC())
+    if (!CommandLine()->HasParm("-dedicated"))
         return;
 
-    g_SteamAPI.Init();
     static auto playermanager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
     playermanager->SteamAPIServerActivated();
 

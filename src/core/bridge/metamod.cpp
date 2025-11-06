@@ -45,7 +45,6 @@ bool SwiftlyMMBridge::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxle
 
     if (late)
     {
-        g_SteamAPI.Init();
         static auto playermanager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
         playermanager->SteamAPIServerActivated();
     }
