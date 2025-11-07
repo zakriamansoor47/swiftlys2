@@ -28,22 +28,22 @@ public sealed class MenuOptionEventArgs : EventArgs
 }
 
 /// <summary>
-/// Provides event data for menu option rendering events.
+/// Provides event data for menu option HTML formatting events.
 /// </summary>
-public sealed class MenuOptionRenderEventArgs : EventArgs
+public sealed class MenuOptionFormattingEventArgs : EventArgs
 {
     /// <summary>
-    /// The player for whom the option is being rendered.
+    /// The player for whom the option is being formatted.
     /// </summary>
     public required IPlayer Player { get; init; }
 
     /// <summary>
-    /// The menu option being rendered.
+    /// The menu option being formatted.
     /// </summary>
     public IMenuOption? Option { get; init; }
 
     /// <summary>
-    /// Gets or sets custom text to use instead of the default rendered text.
+    /// Gets or sets custom text to use instead of the default text during HTML assembly.
     /// </summary>
     public string? CustomText { get; set; }
 }
@@ -171,14 +171,14 @@ public interface IMenuOption
     public event EventHandler<MenuOptionEventArgs>? OptionLeave;
 
     /// <summary>
-    /// Occurs before the option is rendered, allowing customization of the display text.
+    /// Occurs before HTML markup is assembled, allowing customization of the text content.
     /// </summary>
-    public event EventHandler<MenuOptionRenderEventArgs>? BeforeRender;
+    public event EventHandler<MenuOptionFormattingEventArgs>? BeforeFormat;
 
     /// <summary>
-    /// Occurs after the option has been rendered.
+    /// Occurs after HTML markup is assembled, allowing customization of the final HTML output.
     /// </summary>
-    public event EventHandler<MenuOptionRenderEventArgs>? AfterRender;
+    public event EventHandler<MenuOptionFormattingEventArgs>? AfterFormat;
 
     /// <summary>
     /// Determines whether this option is visible to the specified player.
@@ -202,11 +202,11 @@ public interface IMenuOption
     public string GetText( IPlayer player );
 
     /// <summary>
-    /// Renders this option as formatted HTML text for display to the player.
+    /// Gets the formatted HTML markup for this option.
     /// </summary>
-    /// <param name="player">The player to render for.</param>
-    /// <returns>The formatted HTML string ready for display.</returns>
-    public string GetRenderedHtmlText( IPlayer player );
+    /// <param name="player">The player to format for.</param>
+    /// <returns>The formatted HTML string.</returns>
+    public string GetFormattedHtmlText( IPlayer player );
 
     /// <summary>
     /// Validates whether the specified player can interact with this option.

@@ -115,14 +115,14 @@ public abstract class MenuOptionBase : IMenuOption
     public event EventHandler<MenuOptionEventArgs>? OptionLeave;
 
     /// <summary>
-    /// Occurs before the option is rendered, allowing customization of the display text.
+    /// Occurs before HTML markup is assembled, allowing customization of the text content.
     /// </summary>
-    public event EventHandler<MenuOptionRenderEventArgs>? BeforeRender;
+    public event EventHandler<MenuOptionFormattingEventArgs>? BeforeFormat;
 
     /// <summary>
-    /// Occurs after the option has been rendered.
+    /// Occurs after HTML markup is assembled, allowing customization of the final HTML output.
     /// </summary>
-    public event EventHandler<MenuOptionRenderEventArgs>? AfterRender;
+    public event EventHandler<MenuOptionFormattingEventArgs>? AfterFormat;
 
     /// <summary>
     /// Determines whether this option is visible to the specified player.
@@ -146,19 +146,19 @@ public abstract class MenuOptionBase : IMenuOption
     public virtual string GetText( IPlayer player ) => Text;
 
     /// <summary>
-    /// Renders this option as formatted HTML text for display to the player.
+    /// Gets the formatted HTML markup for this option.
     /// </summary>
-    /// <param name="player">The player to render for.</param>
-    /// <returns>The formatted HTML string ready for display.</returns>
-    public virtual string GetRenderedHtmlText( IPlayer player )
+    /// <param name="player">The player to format for.</param>
+    /// <returns>The formatted HTML string.</returns>
+    public virtual string GetFormattedHtmlText( IPlayer player )
     {
-        var args = new MenuOptionRenderEventArgs {
+        var args = new MenuOptionFormattingEventArgs {
             Player = player,
             Option = this,
             CustomText = null
         };
 
-        BeforeRender?.Invoke(this, args);
+        BeforeFormat?.Invoke(this, args);
 
         var displayText = args.CustomText ?? GetText(player);
         var isEnabled = GetEnabled(player);
@@ -168,7 +168,7 @@ public abstract class MenuOptionBase : IMenuOption
         var result = $"<font class='{sizeClass}'{colorStyle}>{displayText}</font>";
 
         args.CustomText = result;
-        AfterRender?.Invoke(this, args);
+        AfterFormat?.Invoke(this, args);
 
         return args.CustomText;
     }
