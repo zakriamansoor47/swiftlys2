@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using SwiftlyS2.Shared.Menus;
 using SwiftlyS2.Shared.Players;
 
@@ -6,11 +7,15 @@ namespace SwiftlyS2.Core.Menus.OptionsBase;
 /// <summary>
 /// Provides a base implementation for menu options with event-driven behavior.
 /// </summary>
-public abstract class MenuOptionBase : IMenuOption
+public abstract partial class MenuOptionBase : IMenuOption
 {
     private string text = string.Empty;
     private bool visible = true;
     private bool enabled = true;
+    protected MenuOptionBase()
+    {
+
+    }
 
     // /// <summary>
     // /// Gets or sets the menu that this option belongs to.
@@ -37,7 +42,7 @@ public abstract class MenuOptionBase : IMenuOption
             }
 
             text = value;
-            OnTextChanged(new MenuOptionEventArgs { Player = null!, Option = this });
+            TextChanged?.Invoke(this, new MenuOptionEventArgs { Player = null!, Option = this });
         }
     }
 
@@ -56,7 +61,7 @@ public abstract class MenuOptionBase : IMenuOption
             }
 
             visible = value;
-            OnVisibilityChanged(new MenuOptionEventArgs { Player = null!, Option = this });
+            VisibilityChanged?.Invoke(this, new MenuOptionEventArgs { Player = null!, Option = this });
         }
     }
 
@@ -75,7 +80,7 @@ public abstract class MenuOptionBase : IMenuOption
             }
 
             enabled = value;
-            OnEnabledChanged(new MenuOptionEventArgs { Player = null!, Option = this });
+            EnabledChanged?.Invoke(this, new MenuOptionEventArgs { Player = null!, Option = this });
         }
     }
 
@@ -225,10 +230,20 @@ public abstract class MenuOptionBase : IMenuOption
         BeforeFormat?.Invoke(this, args);
 
         var displayText = args.CustomText ?? Text;
+
+        if (displayLine > 0)
+        {
+            var lines = BrTagRegex().Split(displayText);
+            if (displayLine <= lines.Length)
+            {
+                displayText = lines[displayLine - 1];
+            }
+        }
+
         var isEnabled = GetEnabled(player);
         var sizeClass = GetSizeClass(TextSize);
 
-        var colorStyle = isEnabled ? "" : " color='grey'";
+        var colorStyle = isEnabled ? string.Empty : " color='grey'";
         var result = $"<font class='{sizeClass}'{colorStyle}>{displayText}</font>";
 
         args.CustomText = result;
@@ -296,6 +311,11 @@ public abstract class MenuOptionBase : IMenuOption
     /// <returns>A task that represents the asynchronous operation.</returns>
     public virtual async ValueTask OnClickAsync( IPlayer player )
     {
+        if (!visible || !enabled)
+        {
+            return;
+        }
+
         if (!await OnValidatingAsync(player))
         {
             return;
@@ -313,33 +333,6 @@ public abstract class MenuOptionBase : IMenuOption
         }
     }
 
-    /// <summary>
-    /// Raises the <see cref="VisibilityChanged"/> event.
-    /// </summary>
-    /// <param name="args">Event data.</param>
-    protected virtual void OnVisibilityChanged( MenuOptionEventArgs args )
-    {
-        VisibilityChanged?.Invoke(this, args);
-    }
-
-    /// <summary>
-    /// Raises the <see cref="EnabledChanged"/> event.
-    /// </summary>
-    /// <param name="args">Event data.</param>
-    protected virtual void OnEnabledChanged( MenuOptionEventArgs args )
-    {
-        EnabledChanged?.Invoke(this, args);
-    }
-
-    /// <summary>
-    /// Raises the <see cref="TextChanged"/> event.
-    /// </summary>
-    /// <param name="args">Event data.</param>
-    protected virtual void OnTextChanged( MenuOptionEventArgs args )
-    {
-        TextChanged?.Invoke(this, args);
-    }
-
     // /// <summary>
     // /// Raises the <see cref="Hover"/> event.
     // /// </summary>
@@ -349,7 +342,7 @@ public abstract class MenuOptionBase : IMenuOption
     //     Hover?.Invoke(this, new MenuOptionEventArgs { Player = player, Option = this });
     // }
 
-    private static string GetSizeClass( MenuOptionTextSize size )
+    protected static string GetSizeClass( MenuOptionTextSize size )
     {
         return size switch {
             MenuOptionTextSize.ExtraSmall => "fontSize-xs",
@@ -362,4 +355,7 @@ public abstract class MenuOptionBase : IMenuOption
             _ => "fontSize-m"
         };
     }
+
+    [GeneratedRegex(@"<[/\\]*br[/\\]*>", RegexOptions.IgnoreCase)]
+    private static partial Regex BrTagRegex();
 }
