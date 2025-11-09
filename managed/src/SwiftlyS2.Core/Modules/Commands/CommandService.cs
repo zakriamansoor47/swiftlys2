@@ -21,7 +21,8 @@ internal class CommandService : ICommandService, IDisposable
 
   private object _lock = new();
 
-  public CommandService(ILogger<CommandService> logger, ILoggerFactory loggerFactory, IContextedProfilerService profiler, IPlayerManagerService playerManagerService, IPermissionManager permissionManager) {
+  public CommandService( ILogger<CommandService> logger, ILoggerFactory loggerFactory, IContextedProfilerService profiler, IPlayerManagerService playerManagerService, IPermissionManager permissionManager )
+  {
     _Logger = logger;
     _LoggerFactory = loggerFactory;
     _Profiler = profiler;
@@ -29,21 +30,23 @@ internal class CommandService : ICommandService, IDisposable
     _PermissionManager = permissionManager;
   }
 
-  public Guid RegisterCommand(string commandName, ICommandService.CommandListener handler, bool registerRaw = false, string permission = "") {
+  public Guid RegisterCommand( string commandName, ICommandService.CommandListener handler, bool registerRaw = false, string permission = "" )
+  {
     var callback = new CommandCallback(commandName, registerRaw, handler, permission, _PlayerManagerService, _PermissionManager, _LoggerFactory, _Profiler);
-    lock (_lock) {
+    lock (_lock)
+    {
       _callbacks.Add(callback);
     }
 
     return callback.Guid;
   }
 
-  public void RegisterCommandAlias(string commandName, string alias, bool registerRaw = false)
+  public void RegisterCommandAlias( string commandName, string alias, bool registerRaw = false )
   {
     NativeCommands.RegisterAlias(alias, commandName, registerRaw);
   }
 
-  public void UnregisterCommand(Guid guid)
+  public void UnregisterCommand( Guid guid )
   {
     lock (_lock)
     {
@@ -59,7 +62,7 @@ internal class CommandService : ICommandService, IDisposable
     }
   }
 
-  public void UnregisterCommand(string commandName)
+  public void UnregisterCommand( string commandName )
   {
     lock (_lock)
     {
@@ -75,16 +78,17 @@ internal class CommandService : ICommandService, IDisposable
     }
   }
 
-  public void HookClientCommand(ICommandService.ClientCommandHandler handler)
+  public Guid HookClientCommand( ICommandService.ClientCommandHandler handler )
   {
     var callback = new ClientCommandListenerCallback(handler, _LoggerFactory, _Profiler);
     lock (_lock)
     {
       _callbacks.Add(callback);
     }
+    return callback.Guid;
   }
 
-  public void UnhookClientCommand(Guid guid)
+  public void UnhookClientCommand( Guid guid )
   {
     lock (_lock)
     {
@@ -100,7 +104,7 @@ internal class CommandService : ICommandService, IDisposable
     }
   }
 
-  public Guid HookClientChat(ICommandService.ClientChatHandler handler)
+  public Guid HookClientChat( ICommandService.ClientChatHandler handler )
   {
     var callback = new ClientChatListenerCallback(handler, _LoggerFactory, _Profiler);
     lock (_lock)
@@ -110,7 +114,7 @@ internal class CommandService : ICommandService, IDisposable
     return callback.Guid;
   }
 
-  public void UnhookClientChat(Guid guid)
+  public void UnhookClientChat( Guid guid )
   {
     lock (_lock)
     {
