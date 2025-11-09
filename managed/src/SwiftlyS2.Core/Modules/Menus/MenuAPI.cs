@@ -7,7 +7,7 @@ using SwiftlyS2.Shared.SchemaDefinitions;
 
 namespace SwiftlyS2.Core.Menus;
 
-internal sealed class MenuAPI : IMenuAPI
+internal sealed class MenuAPI : IMenuAPI, IDisposable
 {
     /// <summary>
     /// Configuration settings for this menu.
@@ -89,6 +89,8 @@ internal sealed class MenuAPI : IMenuAPI
     // private readonly ConcurrentDictionary<IPlayer, IReadOnlyList<IMenuOption>> visibleOptionsCache = new();
     private readonly ConcurrentDictionary<IPlayer, CancellationTokenSource> autoCloseCancelTokens = new();
 
+    private volatile bool disposed;
+
     // [SetsRequiredMembers]
     public MenuAPI( ISwiftlyCore core, MenuConfiguration configuration, MenuKeybindOverrides keybindOverrides, IMenuBuilderAPI? builder = null, IMenuAPI? parent = null, MenuOptionScrollStyle optionScrollStyle = MenuOptionScrollStyle.CenterFixed/*, MenuOptionTextStyle optionTextStyle = MenuOptionTextStyle.TruncateEnd*/ )
     {
@@ -115,11 +117,23 @@ internal sealed class MenuAPI : IMenuAPI
 
     ~MenuAPI()
     {
-        core.PlayerManager
-            .GetAllPlayers()
-            .ToList()
-            .ForEach(player => CloseForPlayer(player));
+        Dispose();
+    }
 
+    public void Dispose()
+    {
+        if (disposed)
+        {
+            return;
+        }
+
+        // Console.WriteLine($"{GetType().Name} has been disposed.");
+        // core.PlayerManager
+        //     .GetAllPlayers()
+        //     .ToList()
+        //     .ForEach(player => CloseForPlayer(player));
+
+        options.ForEach(option => option.Dispose());
         options.Clear();
         selectedOptionIndex.Clear();
         desiredOptionIndex.Clear();
@@ -131,6 +145,9 @@ internal sealed class MenuAPI : IMenuAPI
         // maxDisplayLines = 0;
 
         core.Event.OnTick -= OnTick;
+
+        disposed = true;
+        GC.SuppressFinalize(this);
     }
 
     private void OnTick()
@@ -283,7 +300,10 @@ internal sealed class MenuAPI : IMenuAPI
 
     public void CloseForPlayer( IPlayer player )
     {
-        var keyExists = selectedOptionIndex.TryRemove(player, out _) || desiredOptionIndex.TryRemove(player, out _)/* || selectedDisplayLine.TryRemove(player, out _)*/;
+        var removedFromSelected = selectedOptionIndex.TryRemove(player, out _);
+        var removedFromDesired = desiredOptionIndex.TryRemove(player, out _);
+        // var removedFromDisplayLine = selectedDisplayLine.TryRemove(player, out _);
+        var keyExists = removedFromSelected || removedFromDesired/* || removedFromDisplayLine*/;
 
         if (!player.IsValid || player.IsFakeClient)
         {
@@ -300,6 +320,11 @@ internal sealed class MenuAPI : IMenuAPI
         if (autoCloseCancelTokens.TryRemove(player, out var token))
         {
             token.Cancel();
+        }
+
+        if (selectedOptionIndex.IsEmpty && desiredOptionIndex.IsEmpty)
+        {
+            Dispose();
         }
     }
 

@@ -39,7 +39,7 @@ internal sealed partial class TextStyleProcessor
     {
         // Prepare scroll data and validate
         var (plainChars, segments, targetCharCount) = PrepareScrollData(text, maxWidth);
-        if (plainChars is null)
+        if (plainChars == null)
         {
             return (text, -1);
         }
@@ -103,7 +103,7 @@ internal sealed partial class TextStyleProcessor
     {
         // Prepare scroll data and validate
         var (plainChars, segments, targetCharCount) = PrepareScrollData(text, maxWidth);
-        if (plainChars is null)
+        if (plainChars == null)
         {
             return (text, -1);
         }
@@ -152,7 +152,7 @@ internal sealed partial class TextStyleProcessor
             var currentTags = charToActiveTags.GetValueOrDefault(charIndex, []);
 
             // Close tags that are no longer active
-            if (previousTags is not null)
+            if (previousTags != null)
             {
                 for (int j = previousTags.Count - 1; j >= 0; j--)
                 {
@@ -172,7 +172,7 @@ internal sealed partial class TextStyleProcessor
             // Open new tags that are now active
             foreach (var tag in currentTags)
             {
-                if (previousTags is null || !previousTags.Contains(tag))
+                if (previousTags == null || !previousTags.Contains(tag))
                 {
                     result.Append(tag);
                     var tagName = tag[1..^1].Split(' ')[0];
@@ -383,7 +383,7 @@ internal sealed partial class TextStyleProcessor
             _ => null
         };
 
-        if (tagName is null)
+        if (tagName == null)
         {
             return;
         }

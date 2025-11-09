@@ -109,7 +109,7 @@ public sealed class MenuEventArgs : EventArgs
 /// <summary>
 /// Represents an interactive menu that can be displayed to players.
 /// </summary>
-public interface IMenuAPI
+public interface IMenuAPI : IDisposable
 {
     /// <summary>
     /// Configuration settings for this menu.

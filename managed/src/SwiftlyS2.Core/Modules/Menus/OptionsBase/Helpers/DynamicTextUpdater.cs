@@ -11,6 +11,8 @@ internal sealed class DynamicTextUpdater : IDisposable
     private readonly Action<string> setDynamicText;
     private readonly CancellationTokenSource cancellationTokenSource;
 
+    private volatile bool disposed;
+
     public DynamicTextUpdater(
         TextStyleProcessor processor,
         Func<string> getSourceText,
@@ -30,6 +32,26 @@ internal sealed class DynamicTextUpdater : IDisposable
         _ = Task.Run(() => UpdateLoopAsync(updateIntervalMs, pauseIntervalMs, cancellationTokenSource.Token), cancellationTokenSource.Token);
     }
 
+    ~DynamicTextUpdater()
+    {
+        Dispose();
+    }
+
+    public void Dispose()
+    {
+        if (disposed)
+        {
+            return;
+        }
+
+        // Console.WriteLine($"{GetType().Name} has been disposed.");
+        cancellationTokenSource?.Cancel();
+        cancellationTokenSource?.Dispose();
+
+        disposed = true;
+        GC.SuppressFinalize(this);
+    }
+
     private async Task UpdateLoopAsync( int intervalMs, int pauseIntervalMs, CancellationToken token )
     {
         while (!token.IsCancellationRequested)
@@ -42,7 +64,7 @@ internal sealed class DynamicTextUpdater : IDisposable
                 var maxWidth = getMaxWidth();
                 var (styledText, offset) = processor.ApplyHorizontalStyle(sourceText, textStyle, maxWidth);
                 setDynamicText(styledText);
-                Console.WriteLine($"sourceText: {sourceText}, textStyle: {textStyle}, maxWidth: {maxWidth}, styledText: {styledText}, offset: {offset}");
+                // Console.WriteLine($"sourceText: {sourceText}, textStyle: {textStyle}, maxWidth: {maxWidth}, styledText: {styledText}, offset: {offset}");
 
                 if (offset == 0)
                 {
@@ -57,11 +79,5 @@ internal sealed class DynamicTextUpdater : IDisposable
             {
             }
         }
-    }
-
-    public void Dispose()
-    {
-        cancellationTokenSource?.Cancel();
-        cancellationTokenSource?.Dispose();
     }
 }

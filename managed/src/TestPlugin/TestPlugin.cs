@@ -618,7 +618,7 @@ public class TestPlugin : BasePlugin
         var menu = Core.MenusAPI
             .CreateBuilder()
             .FreezePlayer(false)
-            // .AutoClose(15f)
+            .AutoClose(15f)
             .Design.MaxVisibleItems(5)
             .Design.SetMenuTitle("Refactored Menu")
             .Design.HideMenuTitle(false)

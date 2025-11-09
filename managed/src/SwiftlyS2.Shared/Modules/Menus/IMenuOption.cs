@@ -101,7 +101,7 @@ public sealed class MenuOptionClickEventArgs : EventArgs
 /// <summary>
 /// Represents a menu option that can be displayed and interacted with by players.
 /// </summary>
-public interface IMenuOption
+public interface IMenuOption : IDisposable
 {
     // /// <summary>
     // /// Gets or sets the menu that this option belongs to.

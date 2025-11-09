@@ -8,7 +8,7 @@ namespace SwiftlyS2.Core.Menus.OptionsBase;
 /// <summary>
 /// Provides a base implementation for menu options with event-driven behavior.
 /// </summary>
-public abstract partial class MenuOptionBase : IMenuOption
+public abstract partial class MenuOptionBase : IMenuOption, IDisposable
 {
     private string text = string.Empty;
     private string dynamicText = string.Empty;
@@ -18,6 +18,8 @@ public abstract partial class MenuOptionBase : IMenuOption
     private bool enabled = true;
     private readonly TextStyleProcessor? textStyleProcessor;
     private readonly DynamicTextUpdater? dynamicTextUpdater;
+
+    private volatile bool disposed;
 
     protected MenuOptionBase()
     {
@@ -35,8 +37,22 @@ public abstract partial class MenuOptionBase : IMenuOption
 
     ~MenuOptionBase()
     {
-        textStyleProcessor?.ClearScrollOffsets();
+        Dispose();
+    }
+
+    public void Dispose()
+    {
+        if (disposed)
+        {
+            return;
+        }
+
+        // Console.WriteLine($"{GetType().Name} has been disposed.");
         dynamicTextUpdater?.Dispose();
+        textStyleProcessor?.ClearScrollOffsets();
+
+        disposed = true;
+        GC.SuppressFinalize(this);
     }
 
     // /// <summary>
