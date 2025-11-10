@@ -34,6 +34,17 @@ public interface IMenuDesignAPI
     public IMenuBuilderAPI MaxVisibleItems( int count = 5 );
 
     /// <summary>
+    /// Sets whether to automatically increase MaxVisibleItems when <see cref="HideMenuTitle"/> or <see cref="HideMenuFooter"/> is enabled.
+    /// </summary>
+    /// <param name="autoIncrease">True to automatically increase the maximum visible items, false to disable.</param>
+    /// <returns>The menu builder for method chaining.</returns>
+    /// <remarks>
+    /// This does not modify the actual MaxVisibleItems value.
+    /// Instead, the increase is applied during rendering calculations only.
+    /// </remarks>
+    public IMenuBuilderAPI AutoIncreaseVisibleItems( bool autoIncrease = true );
+
+    /// <summary>
     /// Sets the global option scroll style for the menu.
     /// </summary>
     /// <param name="style">The scroll style to apply to all options in the menu.</param>

@@ -56,6 +56,16 @@ public record class MenuConfiguration
     }
 
     /// <summary>
+    /// Whether to automatically increase <see cref="MaxVisibleItems"/> when <see cref="HideTitle"/> or <see cref="HideFooter"/> is enabled.
+    /// Each hidden section adds 1 to the visible items count.
+    /// </summary>
+    /// <remarks>
+    /// This does not modify the actual <see cref="MaxVisibleItems"/> value.
+    /// Instead, the increase is applied during rendering calculations only.
+    /// </remarks>
+    public bool AutoIncreaseVisibleItems { get; set; } = true;
+
+    /// <summary>
     /// Whether to freeze player movement while the menu is open.
     /// </summary>
     public bool FreezePlayer { get; set; } = false;

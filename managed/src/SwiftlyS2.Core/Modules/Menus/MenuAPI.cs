@@ -168,7 +168,10 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
             .Where(state => state.DesiredIndex >= 0 && state.SelectedIndex >= 0)
             .ToList();
 
-        var maxVisibleItems = Math.Clamp(Configuration.MaxVisibleItems < 1 ? core.MenusAPI.Configuration.ItemsPerPage : Configuration.MaxVisibleItems, 1, 5);
+        var baseMaxVisibleItems = Configuration.MaxVisibleItems < 1 ? core.MenusAPI.Configuration.ItemsPerPage : Configuration.MaxVisibleItems;
+        var maxVisibleItems = Configuration.AutoIncreaseVisibleItems
+            ? Math.Clamp(baseMaxVisibleItems + (Configuration.HideTitle ? 1 : 0) + (Configuration.HideFooter ? 1 : 0), 1, 7)
+            : Math.Clamp(baseMaxVisibleItems, 1, 5);
         var halfVisible = maxVisibleItems / 2;
 
         lock (optionsLock)

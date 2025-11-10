@@ -644,6 +644,7 @@ public class TestPlugin : BasePlugin
             .Design.SetMenuTitle($"{HtmlGradient.GenerateGradientText("Redesigned Menu", "#00FA9A", "#F5FFFA")}")
             .Design.HideMenuTitle(false)
             .Design.HideMenuFooter(false)
+            .Design.AutoIncreaseVisibleItems(true)
             .Design.SetGlobalOptionScrollStyle(MenuOptionScrollStyle.WaitingCenter)
             // .AddOption(new TextMenuOption($"<b>{HtmlGradient.GenerateGradientText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "#AFEEEE", "#7FFFD4", "#40E0D0")}</b>", textStyle: MenuOptionTextStyle.ScrollRightFade))
             // .AddOption(new TextMenuOption($"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", textStyle: MenuOptionTextStyle.ScrollLeftFade))

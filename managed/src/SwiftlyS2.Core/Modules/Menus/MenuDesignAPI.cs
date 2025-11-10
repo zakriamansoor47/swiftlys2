@@ -41,6 +41,12 @@ internal sealed class MenuDesignAPI : IMenuDesignAPI
         return builder;
     }
 
+    public IMenuBuilderAPI AutoIncreaseVisibleItems( bool autoIncrease = true )
+    {
+        configuration.AutoIncreaseVisibleItems = autoIncrease;
+        return builder;
+    }
+
     public IMenuBuilderAPI SetGlobalOptionScrollStyle( MenuOptionScrollStyle style )
     {
         setScrollStyle(style);
