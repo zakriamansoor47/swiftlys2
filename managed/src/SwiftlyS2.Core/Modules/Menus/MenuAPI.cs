@@ -397,6 +397,12 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
         lock (optionsLock)
         {
             option.Click += OnOptionClick;
+
+            if (option is OptionsBase.SubmenuMenuOption submenuOption)
+            {
+                submenuOption.SubmenuRequested += OnSubmenuRequested;
+            }
+
             options.Add(option);
             maxOptions = options.Count;
             // maxDisplayLines = options.Sum(option => option.LineCount);
@@ -407,6 +413,13 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
     {
         lock (optionsLock)
         {
+            option.Click -= OnOptionClick;
+
+            if (option is OptionsBase.SubmenuMenuOption submenuOption)
+            {
+                submenuOption.SubmenuRequested -= OnSubmenuRequested;
+            }
+
             var result = options.Remove(option);
             maxOptions = options.Count;
             // maxDisplayLines = options.Sum(option => option.LineCount);
@@ -479,5 +492,13 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
         }
 
         return ValueTask.CompletedTask;
+    }
+
+    private void OnSubmenuRequested( object? sender, MenuManagerEventArgs args )
+    {
+        if (args.Player != null && args.Menu != null)
+        {
+            core.MenusAPI.OpenMenuForPlayer(args.Player, args.Menu);
+        }
     }
 }

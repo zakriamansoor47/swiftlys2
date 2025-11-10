@@ -655,8 +655,16 @@ public class TestPlugin : BasePlugin
             .AddOption(new ToggleMenuOption("12"))
             .AddOption(new ChoiceMenuOption("123", ["Option 1", "Option 2", "Option 3"]))
             .AddOption(new SliderMenuOption("1234"))
-            .AddOption(new TextMenuOption("12345"))
-            .AddOption(new TextMenuOption("123456"))
+            .AddOption(new ProgressBarMenuOption("12345", () => (float)new Random().NextDouble(), multiLine: false))
+            .AddOption(new SubmenuMenuOption("123456", async () =>
+            {
+                await Task.Delay(2000);
+                var menu = Core.MenusAPI.CreateBuilder()
+                    .Design.SetMenuTitle("Async Submenu")
+                    .AddOption(new TextMenuOption("123456"))
+                    .Build();
+                return menu;
+            }))
             .AddOption(new TextMenuOption("1234567"))
             .AddOption(new TextMenuOption("12345678") { TextStyle = MenuOptionTextStyle.ScrollLeftLoop })
             .AddOption(new TextMenuOption("123456789"))
@@ -672,8 +680,15 @@ public class TestPlugin : BasePlugin
             .AddOption(new TextMenuOption("123456789"))
             .AddOption(new TextMenuOption("12345678") { TextStyle = MenuOptionTextStyle.ScrollRightLoop })
             .AddOption(new TextMenuOption("1234567"))
-            .AddOption(new TextMenuOption("123456"))
-            .AddOption(new TextMenuOption("12345"))
+            .AddOption(new SubmenuMenuOption("123456", () =>
+            {
+                var menu = Core.MenusAPI.CreateBuilder()
+                    .Design.SetMenuTitle("Async Submenu")
+                    .AddOption(new TextMenuOption("123456"))
+                    .Build();
+                return menu;
+            }))
+            .AddOption(new ProgressBarMenuOption("12345", () => (float)new Random().NextDouble(), multiLine: false))
             .AddOption(new SliderMenuOption("1234"))
             .AddOption(new ChoiceMenuOption("123", ["Option 1", "Option 2", "Option 3"]))
             .AddOption(new ToggleMenuOption("12"))
