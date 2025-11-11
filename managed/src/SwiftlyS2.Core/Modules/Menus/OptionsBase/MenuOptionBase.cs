@@ -71,7 +71,7 @@ public abstract partial class MenuOptionBase : IMenuOption, IDisposable
         Dispose();
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         if (disposed)
         {
@@ -88,6 +88,10 @@ public abstract partial class MenuOptionBase : IMenuOption, IDisposable
     /// <summary>
     /// Gets or sets the menu that this option belongs to.
     /// </summary>
+    /// <remarks>
+    /// This property will be null until the option is added to a menu via <see cref="IMenuAPI.AddOption"/>.
+    /// When implementing custom menu options, avoid accessing this property in the constructor as it will not be set yet.
+    /// </remarks>
     public IMenuAPI? Menu { get; internal set; }
 
     /// <summary>
@@ -350,7 +354,7 @@ public abstract partial class MenuOptionBase : IMenuOption, IDisposable
             displayText = ColorTagRegex().Replace(displayText, string.Empty);
         }
 
-        var colorStyle = isEnabled ? string.Empty : " color='#CCCCCC'";
+        var colorStyle = isEnabled ? string.Empty : " color='#666666'";
         var result = $"<font class='{sizeClass}'{colorStyle}>{displayText}</font>";
         // Console.WriteLine($"displayText: {displayText}");
 

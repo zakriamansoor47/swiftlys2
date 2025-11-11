@@ -80,7 +80,7 @@ public sealed class SubmenuMenuOption : MenuOptionBase
     public override string GetDisplayText( IPlayer player, int displayLine = 0 )
     {
         return isLoading.TryGetValue(player, out var loading) && loading
-            ? "<font color='#FFA500'>Waiting...</font>"
+            ? "<font color='#C0FF3E'>Waiting...</font>"
             : base.GetDisplayText(player, displayLine);
     }
 

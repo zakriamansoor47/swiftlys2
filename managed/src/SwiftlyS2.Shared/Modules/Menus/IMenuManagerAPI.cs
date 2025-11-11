@@ -95,6 +95,11 @@ public sealed class MenuManagerEventArgs : EventArgs
 public interface IMenuManagerAPI
 {
     /// <summary>
+    /// The SwiftlyS2 core instance.
+    /// </summary>
+    public ISwiftlyCore Core { get; }
+
+    /// <summary>
     /// Global configuration settings for all menus.
     /// </summary>
     public MenuManagerConfiguration Configuration { get; }

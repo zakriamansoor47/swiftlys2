@@ -133,6 +133,10 @@ public interface IMenuOption : IDisposable
     /// <summary>
     /// Gets the menu that this option belongs to.
     /// </summary>
+    /// <remarks>
+    /// This property will be null until the option is added to a menu via <see cref="IMenuAPI.AddOption"/>.
+    /// When implementing custom menu options, avoid accessing this property in the constructor as it will not be set yet.
+    /// </remarks>
     public IMenuAPI? Menu { get; }
 
     /// <summary>

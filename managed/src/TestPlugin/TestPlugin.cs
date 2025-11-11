@@ -665,7 +665,7 @@ public class TestPlugin : BasePlugin
                     .Build();
                 return menu;
             }))
-            .AddOption(new TextMenuOption("1234567"))
+            .AddOption(new InputMenuOption("1234567"))
             .AddOption(new TextMenuOption("12345678") { TextStyle = MenuOptionTextStyle.ScrollLeftLoop })
             .AddOption(new TextMenuOption("123456789"))
             .AddOption(new TextMenuOption("1234567890") { Visible = false })
@@ -679,7 +679,7 @@ public class TestPlugin : BasePlugin
             .AddOption(new TextMenuOption("1234567890") { Visible = false })
             .AddOption(new TextMenuOption("123456789"))
             .AddOption(new TextMenuOption("12345678") { TextStyle = MenuOptionTextStyle.ScrollRightLoop })
-            .AddOption(new TextMenuOption("1234567"))
+            .AddOption(new InputMenuOption("1234567"))
             .AddOption(new SubmenuMenuOption("123456", () =>
             {
                 var menu = Core.MenusAPI.CreateBuilder()
