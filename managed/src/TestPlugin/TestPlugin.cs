@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Tomlyn.Extensions.Configuration;
 using System.Text.RegularExpressions;
 using SwiftlyS2.Shared;
 using SwiftlyS2.Shared.Commands;
@@ -153,6 +154,7 @@ public class TestPlugin : BasePlugin
             .Configure(( builder ) =>
             {
                 builder.AddJsonFile("test.jsonc", optional: false, reloadOnChange: true);
+                builder.AddTomlFile("test.toml", optional: true, reloadOnChange: true);
             });
 
         ServiceCollection services = new();
