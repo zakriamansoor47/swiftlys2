@@ -453,6 +453,13 @@ public class TestPlugin : BasePlugin
         Console.WriteLine("TestPlugin TestCommand6");
     }
 
+    [Command("tt99")]
+    public void TestCommand99( ICommandContext context )
+    {
+        Console.WriteLine(context.Sender!.SteamID);
+        Console.WriteLine(context.Sender!.UnauthorizedSteamID);
+    }
+
     [Command("tt7")]
     public void TestCommand7( ICommandContext context )
     {
@@ -535,9 +542,6 @@ public class TestPlugin : BasePlugin
     public HookResult TestServerNetMessageHandler( CCSUsrMsg_SendPlayerItemDrops msg )
     {
         Console.WriteLine("FIRED");
-        // foreach(var item in msg.Accessor) {
-        //   Console.WriteLine($"TestPlugin ServerNetMessageHandler: {item.EconItem.Defindex}");
-        // }
         return HookResult.Continue;
     }
 
@@ -623,17 +627,10 @@ public class TestPlugin : BasePlugin
         button.Click += ( sender, args ) =>
         {
             args.Player.SendMessage(MessageType.Chat, "Swiftlys2 向这广袤世界致以温柔问候");
-            // button.Visible = false;
             button.Enabled = false;
-            // button.TextStyle = MenuOptionTextStyle.ScrollRightFade;
-            // button.Text = Regex.Match(button.Text, @"^(.*)#(\d+)$") is { Success: true } m
-            //     ? $"{m.Groups[1].Value}#{int.Parse(m.Groups[2].Value) + 1}"
-            //     : $"{button.Text}#1";
-            // button.MaxWidth -= 1f;
             _ = Task.Run(async () =>
             {
                 await Task.Delay(1000);
-                // button.Visible = true;
                 button.Enabled = true;
             });
             return ValueTask.CompletedTask;
@@ -643,16 +640,12 @@ public class TestPlugin : BasePlugin
         var menu = Core.MenusAPI
             .CreateBuilder()
             .SetPlayerFrozen(false)
-            // .SetAutoCloseDelay(15f)
             .Design.SetMaxVisibleItems(5)
             .Design.SetMenuTitle($"{HtmlGradient.GenerateGradientText("Redesigned Menu", "#00FA9A", "#F5FFFA")}")
             .Design.SetMenuTitleVisible(true)
             .Design.SetMenuFooterVisible(true)
             .Design.EnableAutoAdjustVisibleItems()
             .Design.SetGlobalScrollStyle(MenuOptionScrollStyle.WaitingCenter)
-            // .AddOption(new TextMenuOption($"<b>{HtmlGradient.GenerateGradientText("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "#AFEEEE", "#7FFFD4", "#40E0D0")}</b>", textStyle: MenuOptionTextStyle.ScrollRightFade))
-            // .AddOption(new TextMenuOption($"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", textStyle: MenuOptionTextStyle.ScrollLeftFade))
-            // .AddOption(new TextMenuOption("<font color='#F5FFFA'><b><invalid>12345678901234567890<font color='#00FA9A'>split</font>12345678901234567890</invalid></b></font>", textStyle: MenuOptionTextStyle.TruncateBothEnds))
             .AddOption(new TextMenuOption("1") { Visible = false })
             .AddOption(new ToggleMenuOption("12"))
             .AddOption(new ChoiceMenuOption("123", ["Option 1", "Option 2", "Option 3"]))
