@@ -621,6 +621,41 @@ public class TestPlugin : BasePlugin
     //     Core.Menus.OpenMenu(player, settingsMenu);
     // }
 
+    [Command("tm")]
+    public void TestMenuCommand( ICommandContext context )
+    {
+        var buyButton = new ButtonMenuOption("Purchase") { CloseAfterClick = true };
+        buyButton.Click += async ( sender, args ) =>
+        {
+            await Task.Delay(1000);
+
+            if (sender is MenuOptionBase option)
+            {
+                var triggerOption = option!.Menu!.Parent.TriggerOption;
+                triggerOption!.Enabled = false;
+                args.Player.SendChat($"Purchase completed -> {triggerOption!.Text}");
+            }
+        };
+
+        var confirmMenu = Core.MenusAPI
+            .CreateBuilder()
+            .Design.SetMenuTitle("Confirmation Menu")
+            .AddOption(buyButton)
+            .AddOption(new ButtonMenuOption("Cancel") { CloseAfterClick = true })
+            .Build();
+
+        var menu = Core.MenusAPI
+            .CreateBuilder()
+            .Design.SetMenuTitle("Shop Menu")
+            .AddOption(new SubmenuMenuOption("Item 1", confirmMenu))
+            .AddOption(new SubmenuMenuOption("Item 2", confirmMenu))
+            .AddOption(new SubmenuMenuOption("Item 3", confirmMenu))
+            .AddOption(new SubmenuMenuOption("Item 4", confirmMenu))
+            .Build();
+
+        Core.MenusAPI.OpenMenuForPlayer(context.Sender!, menu);
+    }
+
     [Command("rmt")]
     public void RefactoredMenuTestCommand( ICommandContext context )
     {

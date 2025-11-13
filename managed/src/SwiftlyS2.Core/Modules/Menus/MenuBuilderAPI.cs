@@ -87,7 +87,7 @@ internal sealed class MenuBuilderAPI : IMenuBuilderAPI
 
     public IMenuAPI Build()
     {
-        var menu = new MenuAPI(core, configuration, keybindOverrides, this/*, parent*/, optionScrollStyle/*, optionTextStyle*/) { Parent = parent };
+        var menu = new MenuAPI(core, configuration, keybindOverrides, this/*, parent*/, optionScrollStyle/*, optionTextStyle*/) { Parent = (parent, null) };
         options.ForEach(option => menu.AddOption(option));
         return menu;
     }

@@ -9,7 +9,7 @@ namespace SwiftlyS2.Core.Menus;
 
 internal sealed class MenuAPI : IMenuAPI, IDisposable
 {
-    private IMenuAPI? parent;
+    private (IMenuAPI? ParentMenu, IMenuOption? TriggerOption) parent;
 
     /// <summary>
     /// The menu manager that this menu belongs to.
@@ -42,9 +42,9 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
     public IMenuBuilderAPI? Builder { get; init; }
 
     /// <summary>
-    /// The parent menu in a hierarchical menu structure, or null if this is a top-level menu.
+    /// The parent hierarchy information in a hierarchical menu structure.
     /// </summary>
-    public IMenuAPI? Parent {
+    public (IMenuAPI? ParentMenu, IMenuOption? TriggerOption) Parent {
         get => parent;
         internal set {
             if (parent == value)
@@ -52,9 +52,9 @@ internal sealed class MenuAPI : IMenuAPI, IDisposable
                 return;
             }
 
-            if (value == null || value == this)
+            if (value.ParentMenu == this)
             {
-                Spectre.Console.AnsiConsole.WriteException(new ArgumentException($"Parent cannot be null or self.", nameof(value)));
+                Spectre.Console.AnsiConsole.WriteException(new ArgumentException($"Parent cannot be self.", nameof(value)));
             }
             else
             {

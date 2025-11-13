@@ -283,7 +283,7 @@ internal sealed class MenuManagerAPI : IMenuManagerAPI
             }
         }
 
-        return new MenuAPI(Core, configuration, keybindOverrides, null/*, parent*/, optionScrollStyle/*, optionTextStyle*/) { Parent = parent };
+        return new MenuAPI(Core, configuration, keybindOverrides, null/*, parent*/, optionScrollStyle/*, optionTextStyle*/) { Parent = (parent, null) };
     }
 
     public IMenuAPI? GetCurrentMenu( IPlayer player )
@@ -326,9 +326,9 @@ internal sealed class MenuManagerAPI : IMenuManagerAPI
             menu.HideForPlayer(player);
             MenuClosed?.Invoke(this, new MenuManagerEventArgs { Player = player, Menu = menu });
 
-            if (menu.Parent != null)
+            if (menu.Parent.ParentMenu != null)
             {
-                OpenMenuForPlayer(player, menu.Parent);
+                OpenMenuForPlayer(player, menu.Parent.ParentMenu);
             }
         }
     }
@@ -342,7 +342,7 @@ internal sealed class MenuManagerAPI : IMenuManagerAPI
             {
                 currentMenu.HideForPlayer(kvp.Key);
                 MenuClosed?.Invoke(this, new MenuManagerEventArgs { Player = kvp.Key, Menu = currentMenu });
-                currentMenu = currentMenu.Parent;
+                currentMenu = currentMenu.Parent.ParentMenu;
             }
             _ = openMenus.TryRemove(kvp.Key, out _);
         });

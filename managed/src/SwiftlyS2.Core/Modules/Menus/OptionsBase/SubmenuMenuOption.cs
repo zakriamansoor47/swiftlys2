@@ -146,7 +146,7 @@ public sealed class SubmenuMenuOption : MenuOptionBase
         //     Player = args.Player,
         //     Menu = menu
         // });
-        submenu.Parent = Menu;
+        submenu.Parent = (Menu, this);
         Menu.MenuManager.OpenMenuForPlayer(args.Player, submenu);
     }
 

@@ -248,9 +248,13 @@ public interface IMenuAPI : IDisposable
     public IMenuBuilderAPI? Builder { get; }
 
     /// <summary>
-    /// The parent menu in a hierarchical menu structure, or null if this is a top-level menu.
+    /// The parent hierarchy information in a hierarchical menu structure.
     /// </summary>
-    public IMenuAPI? Parent { get; }
+    /// <remarks>
+    /// ParentMenu is the parent menu instance, null for top-level menus.
+    /// TriggerOption is the menu option that triggered this submenu, null for top-level or directly created menus.
+    /// </remarks>
+    public (IMenuAPI? ParentMenu, IMenuOption? TriggerOption) Parent { get; }
 
     /// <summary>
     /// Read-only collection of all options in this menu.
