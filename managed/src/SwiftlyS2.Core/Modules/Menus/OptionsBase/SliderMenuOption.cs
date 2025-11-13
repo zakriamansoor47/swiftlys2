@@ -36,7 +36,6 @@ public sealed class SliderMenuOption : MenuOptionBase
     /// <summary>
     /// Creates an instance of <see cref="SliderMenuOption"/>.
     /// </summary>
-    /// <param name="text">The text content to display.</param>
     /// <param name="min">The minimum value. Defaults to 0.</param>
     /// <param name="max">The maximum value. Defaults to 100.</param>
     /// <param name="defaultValue">The default starting value. Defaults to the minimum value.</param>
@@ -44,8 +43,10 @@ public sealed class SliderMenuOption : MenuOptionBase
     /// <param name="totalBars">The number of visual bars to display. Defaults to 10.</param>
     /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
     /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    /// <remarks>
+    /// When using this constructor, the <see cref="MenuOptionBase.Text"/> property must be manually set to specify the initial text.
+    /// </remarks>
     public SliderMenuOption(
-        string text,
         float min = 0f,
         float max = 100f,
         float? defaultValue = null,
@@ -72,7 +73,6 @@ public sealed class SliderMenuOption : MenuOptionBase
             totalBars = 10;
         }
 
-        Text = text;
         PlaySound = true;
         this.Min = min;
         this.Max = max;
@@ -82,6 +82,30 @@ public sealed class SliderMenuOption : MenuOptionBase
 
         values.Clear();
         Click += OnSliderClick;
+    }
+
+    /// <summary>
+    /// Creates an instance of <see cref="SliderMenuOption"/>.
+    /// </summary>
+    /// <param name="text">The text content to display.</param>
+    /// <param name="min">The minimum value. Defaults to 0.</param>
+    /// <param name="max">The maximum value. Defaults to 100.</param>
+    /// <param name="defaultValue">The default starting value. Defaults to the minimum value.</param>
+    /// <param name="step">The increment/decrement step. Defaults to 5.</param>
+    /// <param name="totalBars">The number of visual bars to display. Defaults to 10.</param>
+    /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
+    /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    public SliderMenuOption(
+        string text,
+        float min = 0f,
+        float max = 100f,
+        float? defaultValue = null,
+        float step = 5f,
+        int totalBars = 10,
+        int updateIntervalMs = 120,
+        int pauseIntervalMs = 1000 ) : this(min, max, defaultValue, step, totalBars, updateIntervalMs, pauseIntervalMs)
+    {
+        Text = text;
     }
 
     public override string GetDisplayText( IPlayer player, int displayLine = 0 )

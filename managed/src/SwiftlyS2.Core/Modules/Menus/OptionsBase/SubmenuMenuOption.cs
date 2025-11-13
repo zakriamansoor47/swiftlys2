@@ -20,6 +20,25 @@ public sealed class SubmenuMenuOption : MenuOptionBase
     /// <summary>
     /// Creates an instance of <see cref="SubmenuMenuOption"/> with a pre-built submenu.
     /// </summary>
+    /// <param name="submenu">The submenu to open when this option is clicked.</param>
+    /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
+    /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    /// <remarks>
+    /// When using this constructor, the <see cref="MenuOptionBase.Text"/> property must be manually set to specify the initial text.
+    /// </remarks>
+    public SubmenuMenuOption(
+        IMenuAPI submenu,
+        int updateIntervalMs = 120,
+        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+    {
+        PlaySound = true;
+        this.submenuBuilderAsync = () => Task.FromResult(submenu);
+        Click += OnSubmenuClick;
+    }
+
+    /// <summary>
+    /// Creates an instance of <see cref="SubmenuMenuOption"/> with a pre-built submenu.
+    /// </summary>
     /// <param name="text">The text content to display.</param>
     /// <param name="submenu">The submenu to open when this option is clicked.</param>
     /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
@@ -28,12 +47,27 @@ public sealed class SubmenuMenuOption : MenuOptionBase
         string text,
         IMenuAPI submenu,
         int updateIntervalMs = 120,
-        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+        int pauseIntervalMs = 1000 ) : this(submenu, updateIntervalMs, pauseIntervalMs)
     {
         Text = text;
-        PlaySound = true;
-        this.submenuBuilderAsync = () => Task.FromResult(submenu);
+    }
 
+    /// <summary>
+    /// Creates an instance of <see cref="SubmenuMenuOption"/> with a synchronous builder.
+    /// </summary>
+    /// <param name="submenuBuilder">Function that builds and returns the submenu.</param>
+    /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
+    /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    /// <remarks>
+    /// When using this constructor, the <see cref="MenuOptionBase.Text"/> property must be manually set to specify the initial text.
+    /// </remarks>
+    public SubmenuMenuOption(
+        Func<IMenuAPI> submenuBuilder,
+        int updateIntervalMs = 120,
+        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+    {
+        PlaySound = true;
+        this.submenuBuilderAsync = () => Task.FromResult(submenuBuilder());
         Click += OnSubmenuClick;
     }
 
@@ -48,12 +82,27 @@ public sealed class SubmenuMenuOption : MenuOptionBase
         string text,
         Func<IMenuAPI> submenuBuilder,
         int updateIntervalMs = 120,
-        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+        int pauseIntervalMs = 1000 ) : this(submenuBuilder, updateIntervalMs, pauseIntervalMs)
     {
         Text = text;
-        PlaySound = true;
-        this.submenuBuilderAsync = () => Task.FromResult(submenuBuilder());
+    }
 
+    /// <summary>
+    /// Creates an instance of <see cref="SubmenuMenuOption"/> with an asynchronous builder.
+    /// </summary>
+    /// <param name="submenuBuilderAsync">Async function that builds and returns the submenu.</param>
+    /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
+    /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    /// <remarks>
+    /// When using this constructor, the <see cref="MenuOptionBase.Text"/> property must be manually set to specify the initial text.
+    /// </remarks>
+    public SubmenuMenuOption(
+        Func<Task<IMenuAPI>> submenuBuilderAsync,
+        int updateIntervalMs = 120,
+        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+    {
+        PlaySound = true;
+        this.submenuBuilderAsync = submenuBuilderAsync;
         Click += OnSubmenuClick;
     }
 
@@ -68,13 +117,9 @@ public sealed class SubmenuMenuOption : MenuOptionBase
         string text,
         Func<Task<IMenuAPI>> submenuBuilderAsync,
         int updateIntervalMs = 120,
-        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+        int pauseIntervalMs = 1000 ) : this(submenuBuilderAsync, updateIntervalMs, pauseIntervalMs)
     {
         Text = text;
-        PlaySound = true;
-        this.submenuBuilderAsync = submenuBuilderAsync;
-
-        Click += OnSubmenuClick;
     }
 
     public override string GetDisplayText( IPlayer player, int displayLine = 0 )

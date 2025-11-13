@@ -29,6 +29,39 @@ public sealed class ProgressBarMenuOption : MenuOptionBase
     /// <summary>
     /// Creates an instance of <see cref="ProgressBarMenuOption"/>.
     /// </summary>
+    /// <param name="progressProvider">Function that returns progress value (0.0 to 1.0).</param>
+    /// <param name="multiLine">If true, uses 2 lines; if false, uses 1 line. Defaults to false.</param>
+    /// <param name="showPercentage">Whether to show percentage text. Defaults to true.</param>
+    /// <param name="filledChar">Character for filled portion. Defaults to "█".</param>
+    /// <param name="emptyChar">Character for empty portion. Defaults to "░".</param>
+    /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
+    /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    /// <remarks>
+    /// When using this constructor, the <see cref="MenuOptionBase.Text"/> property must be manually set to specify the initial text.
+    /// </remarks>
+    public ProgressBarMenuOption(
+        Func<float> progressProvider,
+        bool multiLine = false,
+        bool showPercentage = true,
+        string filledChar = "█",
+        string emptyChar = "░",
+        int updateIntervalMs = 120,
+        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+    {
+        PlaySound = false;
+        this.defaultProgressProvider = progressProvider;
+        this.multiLine = multiLine;
+        this.BarWidth = multiLine ? 20 : 10;
+        this.ShowPercentage = showPercentage;
+        this.filledChar = filledChar;
+        this.emptyChar = emptyChar;
+
+        progressProviders.Clear();
+    }
+
+    /// <summary>
+    /// Creates an instance of <see cref="ProgressBarMenuOption"/>.
+    /// </summary>
     /// <param name="text">The text content to display.</param>
     /// <param name="progressProvider">Function that returns progress value (0.0 to 1.0).</param>
     /// <param name="multiLine">If true, uses 2 lines; if false, uses 1 line. Defaults to false.</param>
@@ -45,18 +78,9 @@ public sealed class ProgressBarMenuOption : MenuOptionBase
         string filledChar = "█",
         string emptyChar = "░",
         int updateIntervalMs = 120,
-        int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
+        int pauseIntervalMs = 1000 ) : this(progressProvider, multiLine, showPercentage, filledChar, emptyChar, updateIntervalMs, pauseIntervalMs)
     {
         Text = text;
-        PlaySound = false;
-        this.defaultProgressProvider = progressProvider;
-        this.multiLine = multiLine;
-        this.BarWidth = multiLine ? 20 : 10;
-        this.ShowPercentage = showPercentage;
-        this.filledChar = filledChar;
-        this.emptyChar = emptyChar;
-
-        progressProviders.Clear();
     }
 
     public override string GetDisplayText( IPlayer player, int displayLine = 0 )

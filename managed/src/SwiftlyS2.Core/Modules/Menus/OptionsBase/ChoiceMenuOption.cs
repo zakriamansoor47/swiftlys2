@@ -26,19 +26,19 @@ public sealed class ChoiceMenuOption : MenuOptionBase
     /// <summary>
     /// Creates an instance of <see cref="ChoiceMenuOption"/> with a list of choices.
     /// </summary>
-    /// <param name="text">The text content to display.</param>
     /// <param name="choices">The list of available choices.</param>
     /// <param name="defaultChoice">The default choice to select. If null or not found, defaults to first choice.</param>
     /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
     /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    /// <remarks>
+    /// When using this constructor, the <see cref="MenuOptionBase.Text"/> property must be manually set to specify the initial text.
+    /// </remarks>
     public ChoiceMenuOption(
-        string text,
         IEnumerable<string> choices,
         string? defaultChoice = null,
         int updateIntervalMs = 120,
         int pauseIntervalMs = 1000 ) : base(updateIntervalMs, pauseIntervalMs)
     {
-        Text = text;
         PlaySound = true;
         this.choices = choices.ToList();
 
@@ -52,6 +52,24 @@ public sealed class ChoiceMenuOption : MenuOptionBase
 
         selectedIndices.Clear();
         Click += OnChoiceClick;
+    }
+
+    /// <summary>
+    /// Creates an instance of <see cref="ChoiceMenuOption"/> with a list of choices.
+    /// </summary>
+    /// <param name="text">The text content to display.</param>
+    /// <param name="choices">The list of available choices.</param>
+    /// <param name="defaultChoice">The default choice to select. If null or not found, defaults to first choice.</param>
+    /// <param name="updateIntervalMs">The interval in milliseconds between text updates. Defaults to 120ms.</param>
+    /// <param name="pauseIntervalMs">The pause duration in milliseconds before starting the next text update cycle. Defaults to 1000ms.</param>
+    public ChoiceMenuOption(
+        string text,
+        IEnumerable<string> choices,
+        string? defaultChoice = null,
+        int updateIntervalMs = 120,
+        int pauseIntervalMs = 1000 ) : this(choices, defaultChoice, updateIntervalMs, pauseIntervalMs)
+    {
+        Text = text;
     }
 
     public override string GetDisplayText( IPlayer player, int displayLine = 0 )
