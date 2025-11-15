@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class COmniLightImpl : CBarnLightImpl, COmniLight {
   public COmniLightImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InnerAngleOffset = new(() => Schema.GetOffset(0x46F0D2E5142C32F4), LazyThreadSafetyMode.None);
+
   public ref float InnerAngle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x46F0D2E5142C32F4));
+    get => ref _Handle.AsRef<float>(_InnerAngleOffset.Value);
   }
+  private static readonly Lazy<nint> _OuterAngleOffset = new(() => Schema.GetOffset(0x46F0D2E5ECB8B519), LazyThreadSafetyMode.None);
+
   public ref float OuterAngle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x46F0D2E5ECB8B519));
+    get => ref _Handle.AsRef<float>(_OuterAngleOffset.Value);
   }
+  private static readonly Lazy<nint> _ShowLightOffset = new(() => Schema.GetOffset(0x46F0D2E5D67BC720), LazyThreadSafetyMode.None);
+
   public ref bool ShowLight {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x46F0D2E5D67BC720));
+    get => ref _Handle.AsRef<bool>(_ShowLightOffset.Value);
   }
 
   public void InnerAngleUpdated() {

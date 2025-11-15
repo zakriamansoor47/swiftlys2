@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CEnvMuzzleFlashImpl : CPointEntityImpl, CEnvMuzzleFlash {
   public CEnvMuzzleFlashImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x2EBDF9DEB731A42F), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2EBDF9DEB731A42F));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ParentAttachmentOffset = new(() => Schema.GetOffset(0x2EBDF9DE0061F288), LazyThreadSafetyMode.None);
+
   public string ParentAttachment {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x2EBDF9DE0061F288));
+      var ptr = _Handle.Read<nint>(_ParentAttachmentOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x2EBDF9DE0061F288, value);
+    set => Schema.SetString(_Handle, _ParentAttachmentOffset.Value, value);
   } 
 
 

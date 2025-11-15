@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Inflow_YieldImpl : CPulseCell_BaseYieldingInfl
   public CPulseCell_Inflow_YieldImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _UnyieldResumeOffset = new(() => Schema.GetOffset(0x1A4BFE3D504DFCDC), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint UnyieldResume {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0x1A4BFE3D504DFCDC));
+    get => new CPulse_ResumePointImpl(_Handle + _UnyieldResumeOffset.Value);
   }
 
 

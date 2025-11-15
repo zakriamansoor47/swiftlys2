@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CPulse_RegisterInfoImpl : SchemaClass, CPulse_RegisterInf
   public CPulse_RegisterInfoImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RegOffset = new(() => Schema.GetOffset(0x8D60BE3D464A7749), LazyThreadSafetyMode.None);
+
   public PulseRuntimeRegisterIndex_t Reg {
-    get => new PulseRuntimeRegisterIndex_tImpl(_Handle + Schema.GetOffset(0x8D60BE3D464A7749));
+    get => new PulseRuntimeRegisterIndex_tImpl(_Handle + _RegOffset.Value);
   }
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x8D60BE3D8ED6D5CD), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Type {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x8D60BE3D8ED6D5CD));
+    get => new SchemaUntypedField(_Handle + _TypeOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginNameOffset = new(() => Schema.GetOffset(0x8D60BE3D745ADAEC), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField OriginName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x8D60BE3D745ADAEC));
+    get => new SchemaUntypedField(_Handle + _OriginNameOffset.Value);
   }
+  private static readonly Lazy<nint> _WrittenByInstructionOffset = new(() => Schema.GetOffset(0x8D60BE3D5311609B), LazyThreadSafetyMode.None);
+
   public ref int WrittenByInstruction {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8D60BE3D5311609B));
+    get => ref _Handle.AsRef<int>(_WrittenByInstructionOffset.Value);
   }
+  private static readonly Lazy<nint> _LastReadByInstructionOffset = new(() => Schema.GetOffset(0x8D60BE3D9D1961CC), LazyThreadSafetyMode.None);
+
   public ref int LastReadByInstruction {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8D60BE3D9D1961CC));
+    get => ref _Handle.AsRef<int>(_LastReadByInstructionOffset.Value);
   }
 
 

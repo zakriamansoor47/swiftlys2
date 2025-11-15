@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CParamSpanUpdaterImpl : SchemaClass, CParamSpanUpdater {
   public CParamSpanUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SpansOffset = new(() => Schema.GetOffset(0xA35886AC66213056), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ParamSpan_t> Spans {
-    get => ref _Handle.AsRef<CUtlVector<ParamSpan_t>>(Schema.GetOffset(0xA35886AC66213056));
+    get => ref _Handle.AsRef<CUtlVector<ParamSpan_t>>(_SpansOffset.Value);
   }
 
 

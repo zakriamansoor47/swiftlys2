@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class SkeletonBoneBounds_tImpl : SchemaClass, SkeletonBoneBound
   public SkeletonBoneBounds_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CenterOffset = new(() => Schema.GetOffset(0xFF0CF520FA3A6E4), LazyThreadSafetyMode.None);
+
   public ref Vector Center {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xFF0CF520FA3A6E4));
+    get => ref _Handle.AsRef<Vector>(_CenterOffset.Value);
   }
+  private static readonly Lazy<nint> _SizeOffset = new(() => Schema.GetOffset(0xFF0CF52DABBAEBC), LazyThreadSafetyMode.None);
+
   public ref Vector Size {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xFF0CF52DABBAEBC));
+    get => ref _Handle.AsRef<Vector>(_SizeOffset.Value);
   }
 
 

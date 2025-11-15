@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFogTriggerImpl : CBaseTriggerImpl, CFogTrigger {
   public CFogTriggerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FogOffset = new(() => Schema.GetOffset(0x18A9AE6A9014635F), LazyThreadSafetyMode.None);
+
   public fogparams_t Fog {
-    get => new fogparams_tImpl(_Handle + Schema.GetOffset(0x18A9AE6A9014635F));
+    get => new fogparams_tImpl(_Handle + _FogOffset.Value);
   }
 
 

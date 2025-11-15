@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_INIT_NormalOffsetImpl : CParticleFunctionInitializerImp
   public C_INIT_NormalOffsetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OffsetMinOffset = new(() => Schema.GetOffset(0x79E80AD67E1ECBDE), LazyThreadSafetyMode.None);
+
   public ref Vector OffsetMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x79E80AD67E1ECBDE));
+    get => ref _Handle.AsRef<Vector>(_OffsetMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetMaxOffset = new(() => Schema.GetOffset(0x79E80AD69009CD7C), LazyThreadSafetyMode.None);
+
   public ref Vector OffsetMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x79E80AD69009CD7C));
+    get => ref _Handle.AsRef<Vector>(_OffsetMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x79E80AD63F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x79E80AD63F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalCoordsOffset = new(() => Schema.GetOffset(0x79E80AD630E716DE), LazyThreadSafetyMode.None);
+
   public ref bool LocalCoords {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x79E80AD630E716DE));
+    get => ref _Handle.AsRef<bool>(_LocalCoordsOffset.Value);
   }
+  private static readonly Lazy<nint> _NormalizeOffset = new(() => Schema.GetOffset(0x79E80AD648BC424C), LazyThreadSafetyMode.None);
+
   public ref bool Normalize {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x79E80AD648BC424C));
+    get => ref _Handle.AsRef<bool>(_NormalizeOffset.Value);
   }
 
 

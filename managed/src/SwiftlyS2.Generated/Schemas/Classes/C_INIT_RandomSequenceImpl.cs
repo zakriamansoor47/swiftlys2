@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_INIT_RandomSequenceImpl : CParticleFunctionInitializerI
   public C_INIT_RandomSequenceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SequenceMinOffset = new(() => Schema.GetOffset(0x78382338D30682F0), LazyThreadSafetyMode.None);
+
   public ref int SequenceMin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x78382338D30682F0));
+    get => ref _Handle.AsRef<int>(_SequenceMinOffset.Value);
   }
+  private static readonly Lazy<nint> _SequenceMaxOffset = new(() => Schema.GetOffset(0x78382338C8F2EB7A), LazyThreadSafetyMode.None);
+
   public ref int SequenceMax {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x78382338C8F2EB7A));
+    get => ref _Handle.AsRef<int>(_SequenceMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _ShuffleOffset = new(() => Schema.GetOffset(0x7838233828BD2B2E), LazyThreadSafetyMode.None);
+
   public ref bool Shuffle {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x7838233828BD2B2E));
+    get => ref _Handle.AsRef<bool>(_ShuffleOffset.Value);
   }
+  private static readonly Lazy<nint> _LinearOffset = new(() => Schema.GetOffset(0x78382338B9313720), LazyThreadSafetyMode.None);
+
   public ref bool Linear {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x78382338B9313720));
+    get => ref _Handle.AsRef<bool>(_LinearOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightedListOffset = new(() => Schema.GetOffset(0x783823385554D8B8), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SequenceWeightedList_t> WeightedList {
-    get => ref _Handle.AsRef<CUtlVector<SequenceWeightedList_t>>(Schema.GetOffset(0x783823385554D8B8));
+    get => ref _Handle.AsRef<CUtlVector<SequenceWeightedList_t>>(_WeightedListOffset.Value);
   }
 
 

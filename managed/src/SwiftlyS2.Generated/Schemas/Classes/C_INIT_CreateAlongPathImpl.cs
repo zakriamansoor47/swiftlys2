@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_INIT_CreateAlongPathImpl : CParticleFunctionInitializer
   public C_INIT_CreateAlongPathImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaxDistanceOffset = new(() => Schema.GetOffset(0x655F7B0C844E396A), LazyThreadSafetyMode.None);
+
   public ref float MaxDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x655F7B0C844E396A));
+    get => ref _Handle.AsRef<float>(_MaxDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _PathParamsOffset = new(() => Schema.GetOffset(0x655F7B0C3C10092C), LazyThreadSafetyMode.None);
+
   public CPathParameters PathParams {
-    get => new CPathParametersImpl(_Handle + Schema.GetOffset(0x655F7B0C3C10092C));
+    get => new CPathParametersImpl(_Handle + _PathParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _UseRandomCPsOffset = new(() => Schema.GetOffset(0x655F7B0CA15D9A41), LazyThreadSafetyMode.None);
+
   public ref bool UseRandomCPs {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x655F7B0CA15D9A41));
+    get => ref _Handle.AsRef<bool>(_UseRandomCPsOffset.Value);
   }
+  private static readonly Lazy<nint> _EndOffsetOffset = new(() => Schema.GetOffset(0x655F7B0C5BBD1959), LazyThreadSafetyMode.None);
+
   public ref Vector EndOffset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x655F7B0C5BBD1959));
+    get => ref _Handle.AsRef<Vector>(_EndOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _SaveOffsetOffset = new(() => Schema.GetOffset(0x655F7B0C43F64E5B), LazyThreadSafetyMode.None);
+
   public ref bool SaveOffset {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x655F7B0C43F64E5B));
+    get => ref _Handle.AsRef<bool>(_SaveOffsetOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class ViewAngleServerChange_tImpl : SchemaClass, ViewAngleServe
   public ViewAngleServerChange_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x84AFC64BEEF036F9), LazyThreadSafetyMode.None);
+
   public ref FixAngleSet_t Type {
-    get => ref _Handle.AsRef<FixAngleSet_t>(Schema.GetOffset(0x84AFC64BEEF036F9));
+    get => ref _Handle.AsRef<FixAngleSet_t>(_TypeOffset.Value);
   }
+  private static readonly Lazy<nint> _AngleOffset = new(() => Schema.GetOffset(0x84AFC64B64F7DFC7), LazyThreadSafetyMode.None);
+
   public ref QAngle Angle {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0x84AFC64B64F7DFC7));
+    get => ref _Handle.AsRef<QAngle>(_AngleOffset.Value);
   }
+  private static readonly Lazy<nint> _IndexOffset = new(() => Schema.GetOffset(0x84AFC64BA1A45087), LazyThreadSafetyMode.None);
+
   public ref uint Index {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x84AFC64BA1A45087));
+    get => ref _Handle.AsRef<uint>(_IndexOffset.Value);
   }
 
   public void TypeUpdated() {

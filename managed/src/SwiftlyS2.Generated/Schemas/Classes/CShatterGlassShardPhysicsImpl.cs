@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CShatterGlassShardPhysicsImpl : CPhysicsPropImpl, CShatte
   public CShatterGlassShardPhysicsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DebrisOffset = new(() => Schema.GetOffset(0xC24E779865054BBA), LazyThreadSafetyMode.None);
+
   public ref bool Debris {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC24E779865054BBA));
+    get => ref _Handle.AsRef<bool>(_DebrisOffset.Value);
   }
+  private static readonly Lazy<nint> _ParentShardOffset = new(() => Schema.GetOffset(0xC24E7798E3717B41), LazyThreadSafetyMode.None);
+
   public ref uint ParentShard {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xC24E7798E3717B41));
+    get => ref _Handle.AsRef<uint>(_ParentShardOffset.Value);
   }
+  private static readonly Lazy<nint> _ShardDescOffset = new(() => Schema.GetOffset(0xC24E77982CBF17C6), LazyThreadSafetyMode.None);
+
   public shard_model_desc_t ShardDesc {
-    get => new shard_model_desc_tImpl(_Handle + Schema.GetOffset(0xC24E77982CBF17C6));
+    get => new shard_model_desc_tImpl(_Handle + _ShardDescOffset.Value);
   }
 
   public void ShardDescUpdated() {

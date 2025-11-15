@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class PulseRuntimeStateOffset_tImpl : SchemaClass, PulseRuntime
   public PulseRuntimeStateOffset_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0x6DB06DE3DCB0894A), LazyThreadSafetyMode.None);
+
   public ref ushort Value {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x6DB06DE3DCB0894A));
+    get => ref _Handle.AsRef<ushort>(_ValueOffset.Value);
   }
 
 

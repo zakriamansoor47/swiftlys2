@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_INIT_CheckParticleForWaterImpl : CParticleFunctionIniti
   public C_INIT_CheckParticleForWaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0x6829046A5ACFC08D), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Radius {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x6829046A5ACFC08D));
+    get => new CPerParticleFloatInputImpl(_Handle + _RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x6829046AE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x6829046AE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputRemapOffset = new(() => Schema.GetOffset(0x6829046A1239396F), LazyThreadSafetyMode.None);
+
   public CParticleRemapFloatInput OutputRemap {
-    get => new CParticleRemapFloatInputImpl(_Handle + Schema.GetOffset(0x6829046A1239396F));
+    get => new CParticleRemapFloatInputImpl(_Handle + _OutputRemapOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x6829046AFB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x6829046AFB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
 
 

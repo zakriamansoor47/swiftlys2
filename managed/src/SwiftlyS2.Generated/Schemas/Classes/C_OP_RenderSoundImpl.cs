@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,45 +17,69 @@ internal partial class C_OP_RenderSoundImpl : CParticleFunctionRendererImpl, C_O
   public C_OP_RenderSoundImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DurationScaleOffset = new(() => Schema.GetOffset(0xBDBBFDFC776D4203), LazyThreadSafetyMode.None);
+
   public ref float DurationScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBDBBFDFC776D4203));
+    get => ref _Handle.AsRef<float>(_DurationScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SndLvlScaleOffset = new(() => Schema.GetOffset(0xBDBBFDFC19AAA97E), LazyThreadSafetyMode.None);
+
   public ref float SndLvlScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBDBBFDFC19AAA97E));
+    get => ref _Handle.AsRef<float>(_SndLvlScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _PitchScaleOffset = new(() => Schema.GetOffset(0xBDBBFDFCBBEE57F3), LazyThreadSafetyMode.None);
+
   public ref float PitchScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBDBBFDFCBBEE57F3));
+    get => ref _Handle.AsRef<float>(_PitchScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _VolumeScaleOffset = new(() => Schema.GetOffset(0xBDBBFDFCDFBFD5FD), LazyThreadSafetyMode.None);
+
   public ref float VolumeScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBDBBFDFCDFBFD5FD));
+    get => ref _Handle.AsRef<float>(_VolumeScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SndLvlFieldOffset = new(() => Schema.GetOffset(0xBDBBFDFC17E2BD46), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t SndLvlField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xBDBBFDFC17E2BD46));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _SndLvlFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationFieldOffset = new(() => Schema.GetOffset(0xBDBBFDFCB21EDAAB), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t DurationField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xBDBBFDFCB21EDAAB));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _DurationFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _PitchFieldOffset = new(() => Schema.GetOffset(0xBDBBFDFC6E37791F), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t PitchField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xBDBBFDFC6E37791F));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _PitchFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _VolumeFieldOffset = new(() => Schema.GetOffset(0xBDBBFDFC3F07D465), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t VolumeField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xBDBBFDFC3F07D465));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _VolumeFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _ChannelOffset = new(() => Schema.GetOffset(0xBDBBFDFCC4CD80F8), LazyThreadSafetyMode.None);
+
   public ref int Channel {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBDBBFDFCC4CD80F8));
+    get => ref _Handle.AsRef<int>(_ChannelOffset.Value);
   }
+  private static readonly Lazy<nint> _CPReferenceOffset = new(() => Schema.GetOffset(0xBDBBFDFC1349FFE7), LazyThreadSafetyMode.None);
+
   public ref int CPReference {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBDBBFDFC1349FFE7));
+    get => ref _Handle.AsRef<int>(_CPReferenceOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundNameOffset = new(() => Schema.GetOffset(0xBDBBFDFC26D82A1A), LazyThreadSafetyMode.None);
+
   public string SoundName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xBDBBFDFC26D82A1A);
+      var ptr = _Handle + _SoundNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xBDBBFDFC26D82A1A, value, 256);
+    set => Schema.SetFixedString(_Handle, _SoundNameOffset.Value, value, 256);
   } 
+  private static readonly Lazy<nint> _SuppressStopSoundEventOffset = new(() => Schema.GetOffset(0xBDBBFDFC76AD7797), LazyThreadSafetyMode.None);
+
   public ref bool SuppressStopSoundEvent {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBDBBFDFC76AD7797));
+    get => ref _Handle.AsRef<bool>(_SuppressStopSoundEventOffset.Value);
   }
 
 

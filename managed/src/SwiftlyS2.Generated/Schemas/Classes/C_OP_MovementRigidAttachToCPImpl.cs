@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_MovementRigidAttachToCPImpl : CParticleFunctionOpera
   public C_OP_MovementRigidAttachToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x3D3A79B83F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3D3A79B83F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleControlPointOffset = new(() => Schema.GetOffset(0x3D3A79B8B0577A70), LazyThreadSafetyMode.None);
+
   public ref int ScaleControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3D3A79B8B0577A70));
+    get => ref _Handle.AsRef<int>(_ScaleControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleCPFieldOffset = new(() => Schema.GetOffset(0x3D3A79B8B4A19A82), LazyThreadSafetyMode.None);
+
   public ref int ScaleCPField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3D3A79B8B4A19A82));
+    get => ref _Handle.AsRef<int>(_ScaleCPFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldInputOffset = new(() => Schema.GetOffset(0x3D3A79B8AE775669), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldInput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x3D3A79B8AE775669));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldInputOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x3D3A79B8E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x3D3A79B8E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetLocalOffset = new(() => Schema.GetOffset(0x3D3A79B8F07D31C1), LazyThreadSafetyMode.None);
+
   public ref bool OffsetLocal {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3D3A79B8F07D31C1));
+    get => ref _Handle.AsRef<bool>(_OffsetLocalOffset.Value);
   }
 
 

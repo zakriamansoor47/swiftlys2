@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CSoundEventMetaDataImpl : SchemaClass, CSoundEventMetaDat
   public CSoundEventMetaDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SoundEventVMixOffset = new(() => Schema.GetOffset(0xE03E2D8ED7B83398), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCVMixListResource> SoundEventVMix {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVMixListResource>>(Schema.GetOffset(0xE03E2D8ED7B83398));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVMixListResource>>(_SoundEventVMixOffset.Value);
   }
 
 

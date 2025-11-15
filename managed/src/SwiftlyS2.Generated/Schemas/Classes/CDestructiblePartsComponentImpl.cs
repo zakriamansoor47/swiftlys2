@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CDestructiblePartsComponentImpl : SchemaClass, CDestructi
   public CDestructiblePartsComponentImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> ___m_pChainEntityOffset = new(() => Schema.GetOffset(0xE69A9E51F63F0E7D), LazyThreadSafetyMode.None);
+
   public ref CNetworkVarChainer __m_pChainEntity {
-    get => ref _Handle.AsRef<CNetworkVarChainer>(Schema.GetOffset(0xE69A9E51F63F0E7D));
+    get => ref _Handle.AsRef<CNetworkVarChainer>(___m_pChainEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _DamageTakenByHitGroupOffset = new(() => Schema.GetOffset(0xE69A9E51F137427A), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ushort> DamageTakenByHitGroup {
-    get => ref _Handle.AsRef<CUtlVector<ushort>>(Schema.GetOffset(0xE69A9E51F137427A));
+    get => ref _Handle.AsRef<CUtlVector<ushort>>(_DamageTakenByHitGroupOffset.Value);
   }
+  private static readonly Lazy<nint> _OwnerOffset = new(() => Schema.GetOffset(0xE69A9E51F6D89572), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseModelEntity> Owner {
-    get => ref _Handle.AsRef<CHandle<CBaseModelEntity>>(Schema.GetOffset(0xE69A9E51F6D89572));
+    get => ref _Handle.AsRef<CHandle<CBaseModelEntity>>(_OwnerOffset.Value);
   }
+  private static readonly Lazy<nint> _LastHitDamageLevelOffset = new(() => Schema.GetOffset(0xE69A9E51042B0657), LazyThreadSafetyMode.None);
+
   public ref int LastHitDamageLevel {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE69A9E51042B0657));
+    get => ref _Handle.AsRef<int>(_LastHitDamageLevelOffset.Value);
   }
 
   public void OwnerUpdated() {

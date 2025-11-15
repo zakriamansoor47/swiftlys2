@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_DensityForceImpl : CParticleFunctionForceImpl, C_OP_
   public C_OP_DensityForceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0x7846D656A7A20159), LazyThreadSafetyMode.None);
+
   public ref float RadiusScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7846D656A7A20159));
+    get => ref _Handle.AsRef<float>(_RadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceScaleOffset = new(() => Schema.GetOffset(0x7846D6564817F390), LazyThreadSafetyMode.None);
+
   public ref float ForceScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7846D6564817F390));
+    get => ref _Handle.AsRef<float>(_ForceScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetDensityOffset = new(() => Schema.GetOffset(0x7846D656157E0796), LazyThreadSafetyMode.None);
+
   public ref float TargetDensity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7846D656157E0796));
+    get => ref _Handle.AsRef<float>(_TargetDensityOffset.Value);
   }
 
 

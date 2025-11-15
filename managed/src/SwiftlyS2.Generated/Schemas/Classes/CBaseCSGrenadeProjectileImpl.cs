@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,53 +17,85 @@ internal partial class CBaseCSGrenadeProjectileImpl : CBaseGrenadeImpl, CBaseCSG
   public CBaseCSGrenadeProjectileImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InitialPositionOffset = new(() => Schema.GetOffset(0xC09C67027E9CA9C4), LazyThreadSafetyMode.None);
+
   public ref Vector InitialPosition {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC09C67027E9CA9C4));
+    get => ref _Handle.AsRef<Vector>(_InitialPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _InitialVelocityOffset = new(() => Schema.GetOffset(0xC09C67027C20BD90), LazyThreadSafetyMode.None);
+
   public ref Vector InitialVelocity {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC09C67027C20BD90));
+    get => ref _Handle.AsRef<Vector>(_InitialVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _BouncesOffset = new(() => Schema.GetOffset(0xC09C67026B81EBCE), LazyThreadSafetyMode.None);
+
   public ref int Bounces {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC09C67026B81EBCE));
+    get => ref _Handle.AsRef<int>(_BouncesOffset.Value);
   }
+  private static readonly Lazy<nint> _ExplodeEffectIndexOffset = new(() => Schema.GetOffset(0xC09C6702178B5975), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeIParticleSystemDefinition> ExplodeEffectIndex {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIParticleSystemDefinition>>(Schema.GetOffset(0xC09C6702178B5975));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIParticleSystemDefinition>>(_ExplodeEffectIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _ExplodeEffectTickBeginOffset = new(() => Schema.GetOffset(0xC09C67022F04F603), LazyThreadSafetyMode.None);
+
   public ref int ExplodeEffectTickBegin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC09C67022F04F603));
+    get => ref _Handle.AsRef<int>(_ExplodeEffectTickBeginOffset.Value);
   }
+  private static readonly Lazy<nint> _ExplodeEffectOriginOffset = new(() => Schema.GetOffset(0xC09C6702AA7B4525), LazyThreadSafetyMode.None);
+
   public ref Vector ExplodeEffectOrigin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC09C6702AA7B4525));
+    get => ref _Handle.AsRef<Vector>(_ExplodeEffectOriginOffset.Value);
   }
+  private static readonly Lazy<nint> _SpawnTimeOffset = new(() => Schema.GetOffset(0xC09C67029596A16B), LazyThreadSafetyMode.None);
+
   public GameTime_t SpawnTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xC09C67029596A16B));
+    get => new GameTime_tImpl(_Handle + _SpawnTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _OGSExtraFlagsOffset = new(() => Schema.GetOffset(0xC09C670221F95684), LazyThreadSafetyMode.None);
+
   public ref byte OGSExtraFlags {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xC09C670221F95684));
+    get => ref _Handle.AsRef<byte>(_OGSExtraFlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _DetonationRecordedOffset = new(() => Schema.GetOffset(0xC09C67024164A13C), LazyThreadSafetyMode.None);
+
   public ref bool DetonationRecorded {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC09C67024164A13C));
+    get => ref _Handle.AsRef<bool>(_DetonationRecordedOffset.Value);
   }
+  private static readonly Lazy<nint> _ItemIndexOffset = new(() => Schema.GetOffset(0xC09C67025D8A6E7E), LazyThreadSafetyMode.None);
+
   public ref ushort ItemIndex {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xC09C67025D8A6E7E));
+    get => ref _Handle.AsRef<ushort>(_ItemIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginalSpawnLocationOffset = new(() => Schema.GetOffset(0xC09C67025E59F382), LazyThreadSafetyMode.None);
+
   public ref Vector OriginalSpawnLocation {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC09C67025E59F382));
+    get => ref _Handle.AsRef<Vector>(_OriginalSpawnLocationOffset.Value);
   }
+  private static readonly Lazy<nint> _LastBounceSoundTimeOffset = new(() => Schema.GetOffset(0xC09C670206AF4AB7), LazyThreadSafetyMode.None);
+
   public GameTime_t LastBounceSoundTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xC09C670206AF4AB7));
+    get => new GameTime_tImpl(_Handle + _LastBounceSoundTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _GrenadeSpinOffset = new(() => Schema.GetOffset(0xC09C67025A836591), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField GrenadeSpin {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC09C67025A836591));
+    get => new SchemaUntypedField(_Handle + _GrenadeSpinOffset.Value);
   }
+  private static readonly Lazy<nint> _LastHitSurfaceNormalOffset = new(() => Schema.GetOffset(0xC09C6702FAEF57FA), LazyThreadSafetyMode.None);
+
   public ref Vector LastHitSurfaceNormal {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC09C6702FAEF57FA));
+    get => ref _Handle.AsRef<Vector>(_LastHitSurfaceNormalOffset.Value);
   }
+  private static readonly Lazy<nint> _TicksAtZeroVelocityOffset = new(() => Schema.GetOffset(0xC09C6702A4946C6D), LazyThreadSafetyMode.None);
+
   public ref int TicksAtZeroVelocity {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC09C6702A4946C6D));
+    get => ref _Handle.AsRef<int>(_TicksAtZeroVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _HasEverHitEnemyOffset = new(() => Schema.GetOffset(0xC09C670259285A50), LazyThreadSafetyMode.None);
+
   public ref bool HasEverHitEnemy {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC09C670259285A50));
+    get => ref _Handle.AsRef<bool>(_HasEverHitEnemyOffset.Value);
   }
 
   public void InitialPositionUpdated() {

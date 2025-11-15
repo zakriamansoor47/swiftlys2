@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_RemapScalarEndCapImpl : CParticleFunctionOperatorImp
   public C_OP_RemapScalarEndCapImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldInputOffset = new(() => Schema.GetOffset(0x73A6F7F1AE775669), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldInput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x73A6F7F1AE775669));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldInputOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x73A6F7F1E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x73A6F7F1E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMinOffset = new(() => Schema.GetOffset(0x73A6F7F1E88A0D0F), LazyThreadSafetyMode.None);
+
   public ref float InputMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x73A6F7F1E88A0D0F));
+    get => ref _Handle.AsRef<float>(_InputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMaxOffset = new(() => Schema.GetOffset(0x73A6F7F1D6766901), LazyThreadSafetyMode.None);
+
   public ref float InputMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x73A6F7F1D6766901));
+    get => ref _Handle.AsRef<float>(_InputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0x73A6F7F15F8D7716), LazyThreadSafetyMode.None);
+
   public ref float OutputMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x73A6F7F15F8D7716));
+    get => ref _Handle.AsRef<float>(_OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0x73A6F7F151A0E8C4), LazyThreadSafetyMode.None);
+
   public ref float OutputMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x73A6F7F151A0E8C4));
+    get => ref _Handle.AsRef<float>(_OutputMaxOffset.Value);
   }
 
 

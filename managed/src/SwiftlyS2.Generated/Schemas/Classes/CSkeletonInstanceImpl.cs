@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class CSkeletonInstanceImpl : CGameSceneNodeImpl, CSkeletonInst
   public CSkeletonInstanceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModelStateOffset = new(() => Schema.GetOffset(0xD6C6252E52AC8C4F), LazyThreadSafetyMode.None);
+
   public CModelState ModelState {
-    get => new CModelStateImpl(_Handle + Schema.GetOffset(0xD6C6252E52AC8C4F));
+    get => new CModelStateImpl(_Handle + _ModelStateOffset.Value);
   }
+  private static readonly Lazy<nint> _IsAnimationEnabledOffset = new(() => Schema.GetOffset(0xD6C6252E44F0C816), LazyThreadSafetyMode.None);
+
   public ref bool IsAnimationEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD6C6252E44F0C816));
+    get => ref _Handle.AsRef<bool>(_IsAnimationEnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _UseParentRenderBoundsOffset = new(() => Schema.GetOffset(0xD6C6252E15B8267D), LazyThreadSafetyMode.None);
+
   public ref bool UseParentRenderBounds {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD6C6252E15B8267D));
+    get => ref _Handle.AsRef<bool>(_UseParentRenderBoundsOffset.Value);
   }
+  private static readonly Lazy<nint> _DisableSolidCollisionsForHierarchyOffset = new(() => Schema.GetOffset(0xD6C6252E50FCF465), LazyThreadSafetyMode.None);
+
   public ref bool DisableSolidCollisionsForHierarchy {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD6C6252E50FCF465));
+    get => ref _Handle.AsRef<bool>(_DisableSolidCollisionsForHierarchyOffset.Value);
   }
+  private static readonly Lazy<nint> _DirtyMotionTypeOffset = new(() => Schema.GetOffset(0xD6C6252E6EB99391), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField DirtyMotionType {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xD6C6252E6EB99391));
+    get => new SchemaUntypedField(_Handle + _DirtyMotionTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _IsGeneratingLatchedParentSpaceStateOffset = new(() => Schema.GetOffset(0xD6C6252ED0EFEAB7), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField IsGeneratingLatchedParentSpaceState {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xD6C6252ED0EFEAB7));
+    get => new SchemaUntypedField(_Handle + _IsGeneratingLatchedParentSpaceStateOffset.Value);
   }
+  private static readonly Lazy<nint> _MaterialGroupOffset = new(() => Schema.GetOffset(0xD6C6252E2B778F03), LazyThreadSafetyMode.None);
+
   public ref CUtlStringToken MaterialGroup {
-    get => ref _Handle.AsRef<CUtlStringToken>(Schema.GetOffset(0xD6C6252E2B778F03));
+    get => ref _Handle.AsRef<CUtlStringToken>(_MaterialGroupOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxSetOffset = new(() => Schema.GetOffset(0xD6C6252E80C42271), LazyThreadSafetyMode.None);
+
   public ref byte HitboxSet {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xD6C6252E80C42271));
+    get => ref _Handle.AsRef<byte>(_HitboxSetOffset.Value);
   }
 
   public void ModelStateUpdated() {

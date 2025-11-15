@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CRenderBufferBindingImpl : SchemaClass, CRenderBufferBind
   public CRenderBufferBindingImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BufferOffset = new(() => Schema.GetOffset(0xFC8416C144D3898D), LazyThreadSafetyMode.None);
+
   public ref ulong Buffer {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0xFC8416C144D3898D));
+    get => ref _Handle.AsRef<ulong>(_BufferOffset.Value);
   }
+  private static readonly Lazy<nint> _BindOffsetBytesOffset = new(() => Schema.GetOffset(0xFC8416C1AD9A201C), LazyThreadSafetyMode.None);
+
   public ref uint BindOffsetBytes {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xFC8416C1AD9A201C));
+    get => ref _Handle.AsRef<uint>(_BindOffsetBytesOffset.Value);
   }
 
 

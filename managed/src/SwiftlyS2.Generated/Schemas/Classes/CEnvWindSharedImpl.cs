@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,56 +17,90 @@ internal partial class CEnvWindSharedImpl : SchemaClass, CEnvWindShared {
   public CEnvWindSharedImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0x4E8F86FE67FE9DC4), LazyThreadSafetyMode.None);
+
   public GameTime_t StartTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x4E8F86FE67FE9DC4));
+    get => new GameTime_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _WindSeedOffset = new(() => Schema.GetOffset(0x4E8F86FE2F7E304B), LazyThreadSafetyMode.None);
+
   public ref uint WindSeed {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x4E8F86FE2F7E304B));
+    get => ref _Handle.AsRef<uint>(_WindSeedOffset.Value);
   }
+  private static readonly Lazy<nint> _MinWindOffset = new(() => Schema.GetOffset(0x4E8F86FE19B7F0B6), LazyThreadSafetyMode.None);
+
   public ref ushort MinWind {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4E8F86FE19B7F0B6));
+    get => ref _Handle.AsRef<ushort>(_MinWindOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxWindOffset = new(() => Schema.GetOffset(0x4E8F86FE427465A0), LazyThreadSafetyMode.None);
+
   public ref ushort MaxWind {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4E8F86FE427465A0));
+    get => ref _Handle.AsRef<ushort>(_MaxWindOffset.Value);
   }
+  private static readonly Lazy<nint> _WindRadiusOffset = new(() => Schema.GetOffset(0x4E8F86FED57577F5), LazyThreadSafetyMode.None);
+
   public ref int WindRadius {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4E8F86FED57577F5));
+    get => ref _Handle.AsRef<int>(_WindRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _MinGustOffset = new(() => Schema.GetOffset(0x4E8F86FEA1FFC04F), LazyThreadSafetyMode.None);
+
   public ref ushort MinGust {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4E8F86FEA1FFC04F));
+    get => ref _Handle.AsRef<ushort>(_MinGustOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxGustOffset = new(() => Schema.GetOffset(0x4E8F86FEF0A3B1C9), LazyThreadSafetyMode.None);
+
   public ref ushort MaxGust {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4E8F86FEF0A3B1C9));
+    get => ref _Handle.AsRef<ushort>(_MaxGustOffset.Value);
   }
+  private static readonly Lazy<nint> _MinGustDelayOffset = new(() => Schema.GetOffset(0x4E8F86FE2A8BCB2D), LazyThreadSafetyMode.None);
+
   public ref float MinGustDelay {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4E8F86FE2A8BCB2D));
+    get => ref _Handle.AsRef<float>(_MinGustDelayOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxGustDelayOffset = new(() => Schema.GetOffset(0x4E8F86FE53D781CF), LazyThreadSafetyMode.None);
+
   public ref float MaxGustDelay {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4E8F86FE53D781CF));
+    get => ref _Handle.AsRef<float>(_MaxGustDelayOffset.Value);
   }
+  private static readonly Lazy<nint> _GustDurationOffset = new(() => Schema.GetOffset(0x4E8F86FE1FD88D18), LazyThreadSafetyMode.None);
+
   public ref float GustDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4E8F86FE1FD88D18));
+    get => ref _Handle.AsRef<float>(_GustDurationOffset.Value);
   }
+  private static readonly Lazy<nint> _GustDirChangeOffset = new(() => Schema.GetOffset(0x4E8F86FE945BF5C6), LazyThreadSafetyMode.None);
+
   public ref ushort GustDirChange {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4E8F86FE945BF5C6));
+    get => ref _Handle.AsRef<ushort>(_GustDirChangeOffset.Value);
   }
+  private static readonly Lazy<nint> _InitialWindDirOffset = new(() => Schema.GetOffset(0x4E8F86FE84BFDBBD), LazyThreadSafetyMode.None);
+
   public ref ushort InitialWindDir {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4E8F86FE84BFDBBD));
+    get => ref _Handle.AsRef<ushort>(_InitialWindDirOffset.Value);
   }
+  private static readonly Lazy<nint> _InitialWindSpeedOffset = new(() => Schema.GetOffset(0x4E8F86FE1670F5CA), LazyThreadSafetyMode.None);
+
   public ref float InitialWindSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4E8F86FE1670F5CA));
+    get => ref _Handle.AsRef<float>(_InitialWindSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _LocationOffset = new(() => Schema.GetOffset(0x4E8F86FEC4993A46), LazyThreadSafetyMode.None);
+
   public ref Vector Location {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x4E8F86FEC4993A46));
+    get => ref _Handle.AsRef<Vector>(_LocationOffset.Value);
   }
+  private static readonly Lazy<nint> _OnGustStartOffset = new(() => Schema.GetOffset(0x4E8F86FE2832424D), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnGustStart {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x4E8F86FE2832424D));
+    get => new CEntityIOOutputImpl(_Handle + _OnGustStartOffset.Value);
   }
+  private static readonly Lazy<nint> _OnGustEndOffset = new(() => Schema.GetOffset(0x4E8F86FE82E285B4), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnGustEnd {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x4E8F86FE82E285B4));
+    get => new CEntityIOOutputImpl(_Handle + _OnGustEndOffset.Value);
   }
+  private static readonly Lazy<nint> _EntOwnerOffset = new(() => Schema.GetOffset(0x4E8F86FED837CB33), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> EntOwner {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x4E8F86FED837CB33));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_EntOwnerOffset.Value);
   }
 
   public void StartTimeUpdated() {

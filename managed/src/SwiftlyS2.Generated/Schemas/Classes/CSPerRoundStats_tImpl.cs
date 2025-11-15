@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,44 +17,70 @@ internal partial class CSPerRoundStats_tImpl : SchemaClass, CSPerRoundStats_t {
   public CSPerRoundStats_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _KillsOffset = new(() => Schema.GetOffset(0xA16B85EA0E456FE5), LazyThreadSafetyMode.None);
+
   public ref int Kills {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA0E456FE5));
+    get => ref _Handle.AsRef<int>(_KillsOffset.Value);
   }
+  private static readonly Lazy<nint> _DeathsOffset = new(() => Schema.GetOffset(0xA16B85EAAF18870F), LazyThreadSafetyMode.None);
+
   public ref int Deaths {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EAAF18870F));
+    get => ref _Handle.AsRef<int>(_DeathsOffset.Value);
   }
+  private static readonly Lazy<nint> _AssistsOffset = new(() => Schema.GetOffset(0xA16B85EAB792DB50), LazyThreadSafetyMode.None);
+
   public ref int Assists {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EAB792DB50));
+    get => ref _Handle.AsRef<int>(_AssistsOffset.Value);
   }
+  private static readonly Lazy<nint> _DamageOffset = new(() => Schema.GetOffset(0xA16B85EA0DEE4DB5), LazyThreadSafetyMode.None);
+
   public ref int Damage {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA0DEE4DB5));
+    get => ref _Handle.AsRef<int>(_DamageOffset.Value);
   }
+  private static readonly Lazy<nint> _EquipmentValueOffset = new(() => Schema.GetOffset(0xA16B85EA1B2CADDD), LazyThreadSafetyMode.None);
+
   public ref int EquipmentValue {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA1B2CADDD));
+    get => ref _Handle.AsRef<int>(_EquipmentValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MoneySavedOffset = new(() => Schema.GetOffset(0xA16B85EAC85DB77B), LazyThreadSafetyMode.None);
+
   public ref int MoneySaved {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EAC85DB77B));
+    get => ref _Handle.AsRef<int>(_MoneySavedOffset.Value);
   }
+  private static readonly Lazy<nint> _KillRewardOffset = new(() => Schema.GetOffset(0xA16B85EA9C813A23), LazyThreadSafetyMode.None);
+
   public ref int KillReward {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA9C813A23));
+    get => ref _Handle.AsRef<int>(_KillRewardOffset.Value);
   }
+  private static readonly Lazy<nint> _LiveTimeOffset = new(() => Schema.GetOffset(0xA16B85EAD956D2F7), LazyThreadSafetyMode.None);
+
   public ref int LiveTime {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EAD956D2F7));
+    get => ref _Handle.AsRef<int>(_LiveTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _HeadShotKillsOffset = new(() => Schema.GetOffset(0xA16B85EA2C61AFF3), LazyThreadSafetyMode.None);
+
   public ref int HeadShotKills {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA2C61AFF3));
+    get => ref _Handle.AsRef<int>(_HeadShotKillsOffset.Value);
   }
+  private static readonly Lazy<nint> _ObjectiveOffset = new(() => Schema.GetOffset(0xA16B85EA14FC52D7), LazyThreadSafetyMode.None);
+
   public ref int Objective {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA14FC52D7));
+    get => ref _Handle.AsRef<int>(_ObjectiveOffset.Value);
   }
+  private static readonly Lazy<nint> _CashEarnedOffset = new(() => Schema.GetOffset(0xA16B85EA8BEB3100), LazyThreadSafetyMode.None);
+
   public ref int CashEarned {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA8BEB3100));
+    get => ref _Handle.AsRef<int>(_CashEarnedOffset.Value);
   }
+  private static readonly Lazy<nint> _UtilityDamageOffset = new(() => Schema.GetOffset(0xA16B85EAC91A82E5), LazyThreadSafetyMode.None);
+
   public ref int UtilityDamage {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EAC91A82E5));
+    get => ref _Handle.AsRef<int>(_UtilityDamageOffset.Value);
   }
+  private static readonly Lazy<nint> _EnemiesFlashedOffset = new(() => Schema.GetOffset(0xA16B85EA460AB70F), LazyThreadSafetyMode.None);
+
   public ref int EnemiesFlashed {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA16B85EA460AB70F));
+    get => ref _Handle.AsRef<int>(_EnemiesFlashedOffset.Value);
   }
 
   public void KillsUpdated() {

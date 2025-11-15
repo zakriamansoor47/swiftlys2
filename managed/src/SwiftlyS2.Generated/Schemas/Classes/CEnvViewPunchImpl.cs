@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CEnvViewPunchImpl : CPointEntityImpl, CEnvViewPunch {
   public CEnvViewPunchImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0xB707E1B05ACFC08D), LazyThreadSafetyMode.None);
+
   public ref float Radius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB707E1B05ACFC08D));
+    get => ref _Handle.AsRef<float>(_RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _ViewPunchOffset = new(() => Schema.GetOffset(0xB707E1B0061B7CBA), LazyThreadSafetyMode.None);
+
   public ref QAngle ViewPunch {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0xB707E1B0061B7CBA));
+    get => ref _Handle.AsRef<QAngle>(_ViewPunchOffset.Value);
   }
 
 

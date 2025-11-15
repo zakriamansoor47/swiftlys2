@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CTestDomainDerived_CursorImpl : CPulseExecCursorImpl, CTe
   public CTestDomainDerived_CursorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CursorValueAOffset = new(() => Schema.GetOffset(0x7D1D938EF43E6EDB), LazyThreadSafetyMode.None);
+
   public ref int CursorValueA {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7D1D938EF43E6EDB));
+    get => ref _Handle.AsRef<int>(_CursorValueAOffset.Value);
   }
+  private static readonly Lazy<nint> _CursorValueBOffset = new(() => Schema.GetOffset(0x7D1D938EF53E706E), LazyThreadSafetyMode.None);
+
   public ref int CursorValueB {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7D1D938EF53E706E));
+    get => ref _Handle.AsRef<int>(_CursorValueBOffset.Value);
   }
 
 

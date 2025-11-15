@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CCSGameModeRules_DeathmatchImpl : CCSGameModeRulesImpl, C
   public CCSGameModeRules_DeathmatchImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DMBonusStartTimeOffset = new(() => Schema.GetOffset(0x77BC0D42870B2CD0), LazyThreadSafetyMode.None);
+
   public GameTime_t DMBonusStartTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x77BC0D42870B2CD0));
+    get => new GameTime_tImpl(_Handle + _DMBonusStartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DMBonusTimeLengthOffset = new(() => Schema.GetOffset(0x77BC0D42C4F13CC6), LazyThreadSafetyMode.None);
+
   public ref float DMBonusTimeLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x77BC0D42C4F13CC6));
+    get => ref _Handle.AsRef<float>(_DMBonusTimeLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _DMBonusWeaponOffset = new(() => Schema.GetOffset(0x77BC0D42A33FC260), LazyThreadSafetyMode.None);
+
   public string DMBonusWeapon {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x77BC0D42A33FC260));
+      var ptr = _Handle.Read<nint>(_DMBonusWeaponOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x77BC0D42A33FC260, value);
+    set => Schema.SetString(_Handle, _DMBonusWeaponOffset.Value, value);
   } 
 
   public void DMBonusStartTimeUpdated() {

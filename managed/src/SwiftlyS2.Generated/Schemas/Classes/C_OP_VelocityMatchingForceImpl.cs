@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_VelocityMatchingForceImpl : CParticleFunctionOperato
   public C_OP_VelocityMatchingForceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DirScaleOffset = new(() => Schema.GetOffset(0x8B7E85343A95212C), LazyThreadSafetyMode.None);
+
   public ref float DirScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8B7E85343A95212C));
+    get => ref _Handle.AsRef<float>(_DirScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SpdScaleOffset = new(() => Schema.GetOffset(0x8B7E8534B3DC18DA), LazyThreadSafetyMode.None);
+
   public ref float SpdScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8B7E8534B3DC18DA));
+    get => ref _Handle.AsRef<float>(_SpdScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _NeighborDistanceOffset = new(() => Schema.GetOffset(0x8B7E8534F03C7C66), LazyThreadSafetyMode.None);
+
   public ref float NeighborDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8B7E8534F03C7C66));
+    get => ref _Handle.AsRef<float>(_NeighborDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _FacingStrengthOffset = new(() => Schema.GetOffset(0x8B7E85340D514274), LazyThreadSafetyMode.None);
+
   public ref float FacingStrength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8B7E85340D514274));
+    get => ref _Handle.AsRef<float>(_FacingStrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _UseAABBOffset = new(() => Schema.GetOffset(0x8B7E853429AAFF2E), LazyThreadSafetyMode.None);
+
   public ref bool UseAABB {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8B7E853429AAFF2E));
+    get => ref _Handle.AsRef<bool>(_UseAABBOffset.Value);
   }
+  private static readonly Lazy<nint> _CPBroadcastOffset = new(() => Schema.GetOffset(0x8B7E85344C1065B5), LazyThreadSafetyMode.None);
+
   public ref int CPBroadcast {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8B7E85344C1065B5));
+    get => ref _Handle.AsRef<int>(_CPBroadcastOffset.Value);
   }
 
 

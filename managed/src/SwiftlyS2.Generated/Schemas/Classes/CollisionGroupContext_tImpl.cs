@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CollisionGroupContext_tImpl : SchemaClass, CollisionGroup
   public CollisionGroupContext_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CollisionGroupNumberOffset = new(() => Schema.GetOffset(0xF923B00A9115013F), LazyThreadSafetyMode.None);
+
   public ref int CollisionGroupNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xF923B00A9115013F));
+    get => ref _Handle.AsRef<int>(_CollisionGroupNumberOffset.Value);
   }
 
 

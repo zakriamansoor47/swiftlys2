@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmIDSwitchNode__CDefinitionImpl : CNmIDValueNode__CDefin
   public CNmIDSwitchNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SwitchValueNodeIdxOffset = new(() => Schema.GetOffset(0x24752DA7FBD7561), LazyThreadSafetyMode.None);
+
   public ref short SwitchValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x24752DA7FBD7561));
+    get => ref _Handle.AsRef<short>(_SwitchValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _TrueValueNodeIdxOffset = new(() => Schema.GetOffset(0x24752DAFDE74365), LazyThreadSafetyMode.None);
+
   public ref short TrueValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x24752DAFDE74365));
+    get => ref _Handle.AsRef<short>(_TrueValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _FalseValueNodeIdxOffset = new(() => Schema.GetOffset(0x24752DA8DBA2C78), LazyThreadSafetyMode.None);
+
   public ref short FalseValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x24752DA8DBA2C78));
+    get => ref _Handle.AsRef<short>(_FalseValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _FalseValueOffset = new(() => Schema.GetOffset(0x24752DAD3506AE9), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol FalseValue {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x24752DAD3506AE9));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_FalseValueOffset.Value);
   }
+  private static readonly Lazy<nint> _TrueValueOffset = new(() => Schema.GetOffset(0x24752DAF134112A), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol TrueValue {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x24752DAF134112A));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_TrueValueOffset.Value);
   }
 
 

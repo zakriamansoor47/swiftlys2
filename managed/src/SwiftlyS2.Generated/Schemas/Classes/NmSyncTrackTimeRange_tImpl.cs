@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class NmSyncTrackTimeRange_tImpl : SchemaClass, NmSyncTrackTime
   public NmSyncTrackTimeRange_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0xAECBDADF6330E7EE), LazyThreadSafetyMode.None);
+
   public NmSyncTrackTime_t StartTime {
-    get => new NmSyncTrackTime_tImpl(_Handle + Schema.GetOffset(0xAECBDADF6330E7EE));
+    get => new NmSyncTrackTime_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndTimeOffset = new(() => Schema.GetOffset(0xAECBDADFEAD1A94B), LazyThreadSafetyMode.None);
+
   public NmSyncTrackTime_t EndTime {
-    get => new NmSyncTrackTime_tImpl(_Handle + Schema.GetOffset(0xAECBDADFEAD1A94B));
+    get => new NmSyncTrackTime_tImpl(_Handle + _EndTimeOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CSeqMultiFetchImpl : SchemaClass, CSeqMultiFetch {
   public CSeqMultiFetchImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0x3846FD62DC74A14C), LazyThreadSafetyMode.None);
+
   public CSeqMultiFetchFlag Flags {
-    get => new CSeqMultiFetchFlagImpl(_Handle + Schema.GetOffset(0x3846FD62DC74A14C));
+    get => new CSeqMultiFetchFlagImpl(_Handle + _FlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalReferenceArrayOffset = new(() => Schema.GetOffset(0x3846FD6290C98686), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<short> LocalReferenceArray {
-    get => ref _Handle.AsRef<CUtlVector<short>>(Schema.GetOffset(0x3846FD6290C98686));
+    get => ref _Handle.AsRef<CUtlVector<short>>(_LocalReferenceArrayOffset.Value);
   }
   public ISchemaFixedArray<int> GroupSize {
     get => new SchemaFixedArray<int>(_Handle, 0x3846FD6258533CF9, 2, 4, 4);
@@ -27,20 +33,30 @@ internal partial class CSeqMultiFetchImpl : SchemaClass, CSeqMultiFetch {
   public ISchemaFixedArray<int> LocalPose {
     get => new SchemaFixedArray<int>(_Handle, 0x3846FD6270BF8111, 2, 4, 4);
   }
+  private static readonly Lazy<nint> _PoseKeyArray0Offset = new(() => Schema.GetOffset(0x3846FD62E139B398), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> PoseKeyArray0 {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x3846FD62E139B398));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_PoseKeyArray0Offset.Value);
   }
+  private static readonly Lazy<nint> _PoseKeyArray1Offset = new(() => Schema.GetOffset(0x3846FD62E239B52B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> PoseKeyArray1 {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x3846FD62E239B52B));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_PoseKeyArray1Offset.Value);
   }
+  private static readonly Lazy<nint> _LocalCyclePoseParameterOffset = new(() => Schema.GetOffset(0x3846FD62722CCD8E), LazyThreadSafetyMode.None);
+
   public ref int LocalCyclePoseParameter {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3846FD62722CCD8E));
+    get => ref _Handle.AsRef<int>(_LocalCyclePoseParameterOffset.Value);
   }
+  private static readonly Lazy<nint> _CalculatePoseParametersOffset = new(() => Schema.GetOffset(0x3846FD6259BED3FE), LazyThreadSafetyMode.None);
+
   public ref bool CalculatePoseParameters {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3846FD6259BED3FE));
+    get => ref _Handle.AsRef<bool>(_CalculatePoseParametersOffset.Value);
   }
+  private static readonly Lazy<nint> _FixedBlendWeightOffset = new(() => Schema.GetOffset(0x3846FD626C68A6B4), LazyThreadSafetyMode.None);
+
   public ref bool FixedBlendWeight {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3846FD626C68A6B4));
+    get => ref _Handle.AsRef<bool>(_FixedBlendWeightOffset.Value);
   }
   public ISchemaFixedArray<float> FixedBlendWeightVals {
     get => new SchemaFixedArray<float>(_Handle, 0x3846FD6221B3BB76, 2, 4, 4);

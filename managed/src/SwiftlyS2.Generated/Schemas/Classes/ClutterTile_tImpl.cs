@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class ClutterTile_tImpl : SchemaClass, ClutterTile_t {
   public ClutterTile_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FirstInstanceOffset = new(() => Schema.GetOffset(0xAC4066F19AF07072), LazyThreadSafetyMode.None);
+
   public ref uint FirstInstance {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xAC4066F19AF07072));
+    get => ref _Handle.AsRef<uint>(_FirstInstanceOffset.Value);
   }
+  private static readonly Lazy<nint> _LastInstanceOffset = new(() => Schema.GetOffset(0xAC4066F10D99AC92), LazyThreadSafetyMode.None);
+
   public ref uint LastInstance {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xAC4066F10D99AC92));
+    get => ref _Handle.AsRef<uint>(_LastInstanceOffset.Value);
   }
+  private static readonly Lazy<nint> _BoundsWsOffset = new(() => Schema.GetOffset(0xAC4066F1BE54855A), LazyThreadSafetyMode.None);
+
   public AABB_t BoundsWs {
-    get => new AABB_tImpl(_Handle + Schema.GetOffset(0xAC4066F1BE54855A));
+    get => new AABB_tImpl(_Handle + _BoundsWsOffset.Value);
   }
 
 

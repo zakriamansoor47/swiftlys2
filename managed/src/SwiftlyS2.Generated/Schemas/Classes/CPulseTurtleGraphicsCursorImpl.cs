@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPulseTurtleGraphicsCursorImpl : CPulseExecCursorImpl, CP
   public CPulseTurtleGraphicsCursorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ColorOffset = new(() => Schema.GetOffset(0x6153058ED7D017D8), LazyThreadSafetyMode.None);
+
   public ref Color Color {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x6153058ED7D017D8));
+    get => ref _Handle.AsRef<Color>(_ColorOffset.Value);
   }
+  private static readonly Lazy<nint> _PosOffset = new(() => Schema.GetOffset(0x6153058EDE9CFC5D), LazyThreadSafetyMode.None);
+
   public ref Vector2D Pos {
-    get => ref _Handle.AsRef<Vector2D>(Schema.GetOffset(0x6153058EDE9CFC5D));
+    get => ref _Handle.AsRef<Vector2D>(_PosOffset.Value);
   }
+  private static readonly Lazy<nint> _HeadingDegOffset = new(() => Schema.GetOffset(0x6153058E63288B7D), LazyThreadSafetyMode.None);
+
   public ref float HeadingDeg {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6153058E63288B7D));
+    get => ref _Handle.AsRef<float>(_HeadingDegOffset.Value);
   }
+  private static readonly Lazy<nint> _PenUpOffset = new(() => Schema.GetOffset(0x6153058E2252C6FD), LazyThreadSafetyMode.None);
+
   public ref bool PenUp {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6153058E2252C6FD));
+    get => ref _Handle.AsRef<bool>(_PenUpOffset.Value);
   }
 
 

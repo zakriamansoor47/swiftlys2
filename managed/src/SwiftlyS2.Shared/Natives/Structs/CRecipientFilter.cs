@@ -60,13 +60,7 @@ public struct CRecipientFilter
 
     public void AddAllPlayers()
     {
-        for (var i = 0; i < NativePlayerManager.GetPlayerCap(); i++)
-        {
-            if (NativePlayerManager.IsPlayerOnline(i))
-            {
-                AddRecipient(i);
-            }
-        }
+        RecipientsMask = 0xFFFFFFFFFFFFFFFF;
     }
 
     public void RemoveAllPlayers()

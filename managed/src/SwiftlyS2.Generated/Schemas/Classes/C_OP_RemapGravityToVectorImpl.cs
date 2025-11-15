@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_RemapGravityToVectorImpl : CParticleFunctionOperator
   public C_OP_RemapGravityToVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _Input1Offset = new(() => Schema.GetOffset(0x3777A3A2E17F27DA), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Input1 {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x3777A3A2E17F27DA));
+    get => new CPerParticleVecInputImpl(_Handle + _Input1Offset.Value);
   }
+  private static readonly Lazy<nint> _OutputFieldOffset = new(() => Schema.GetOffset(0x3777A3A2324F6F74), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t OutputField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x3777A3A2324F6F74));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _OutputFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x3777A3A2FB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x3777A3A2FB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _NormalizedOutputOffset = new(() => Schema.GetOffset(0x3777A3A20AA98C55), LazyThreadSafetyMode.None);
+
   public ref bool NormalizedOutput {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3777A3A20AA98C55));
+    get => ref _Handle.AsRef<bool>(_NormalizedOutputOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CRagdollPropAttachedImpl : CRagdollPropImpl, CRagdollProp
   public CRagdollPropAttachedImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoneIndexAttachedOffset = new(() => Schema.GetOffset(0x4601EA84AECB2AA5), LazyThreadSafetyMode.None);
+
   public ref uint BoneIndexAttached {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x4601EA84AECB2AA5));
+    get => ref _Handle.AsRef<uint>(_BoneIndexAttachedOffset.Value);
   }
+  private static readonly Lazy<nint> _RagdollAttachedObjectIndexOffset = new(() => Schema.GetOffset(0x4601EA84D09DB439), LazyThreadSafetyMode.None);
+
   public ref uint RagdollAttachedObjectIndex {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x4601EA84D09DB439));
+    get => ref _Handle.AsRef<uint>(_RagdollAttachedObjectIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _AttachmentPointBoneSpaceOffset = new(() => Schema.GetOffset(0x4601EA849ABB7B0E), LazyThreadSafetyMode.None);
+
   public ref Vector AttachmentPointBoneSpace {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x4601EA849ABB7B0E));
+    get => ref _Handle.AsRef<Vector>(_AttachmentPointBoneSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _AttachmentPointRagdollSpaceOffset = new(() => Schema.GetOffset(0x4601EA84AD8AE911), LazyThreadSafetyMode.None);
+
   public ref Vector AttachmentPointRagdollSpace {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x4601EA84AD8AE911));
+    get => ref _Handle.AsRef<Vector>(_AttachmentPointRagdollSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _ShouldDetachOffset = new(() => Schema.GetOffset(0x4601EA84ABADEB5D), LazyThreadSafetyMode.None);
+
   public ref bool ShouldDetach {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4601EA84ABADEB5D));
+    get => ref _Handle.AsRef<bool>(_ShouldDetachOffset.Value);
   }
+  private static readonly Lazy<nint> _ShouldDeleteAttachedActivationRecordOffset = new(() => Schema.GetOffset(0x4601EA84BCB3F894), LazyThreadSafetyMode.None);
+
   public ref bool ShouldDeleteAttachedActivationRecord {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4601EA84BCB3F894));
+    get => ref _Handle.AsRef<bool>(_ShouldDeleteAttachedActivationRecordOffset.Value);
   }
 
   public void BoneIndexAttachedUpdated() {

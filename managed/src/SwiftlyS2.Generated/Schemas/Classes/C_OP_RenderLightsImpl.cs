@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_OP_RenderLightsImpl : C_OP_RenderPointsImpl, C_OP_Rende
   public C_OP_RenderLightsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AnimationRateOffset = new(() => Schema.GetOffset(0x534FF0BC607083AD), LazyThreadSafetyMode.None);
+
   public ref float AnimationRate {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x534FF0BC607083AD));
+    get => ref _Handle.AsRef<float>(_AnimationRateOffset.Value);
   }
+  private static readonly Lazy<nint> _AnimationTypeOffset = new(() => Schema.GetOffset(0x534FF0BCB93FDFD1), LazyThreadSafetyMode.None);
+
   public ref AnimationType_t AnimationType {
-    get => ref _Handle.AsRef<AnimationType_t>(Schema.GetOffset(0x534FF0BCB93FDFD1));
+    get => ref _Handle.AsRef<AnimationType_t>(_AnimationTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _AnimateInFPSOffset = new(() => Schema.GetOffset(0x534FF0BC7C271B16), LazyThreadSafetyMode.None);
+
   public ref bool AnimateInFPS {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x534FF0BC7C271B16));
+    get => ref _Handle.AsRef<bool>(_AnimateInFPSOffset.Value);
   }
+  private static readonly Lazy<nint> _MinSizeOffset = new(() => Schema.GetOffset(0x534FF0BCBDC3B198), LazyThreadSafetyMode.None);
+
   public ref float MinSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x534FF0BCBDC3B198));
+    get => ref _Handle.AsRef<float>(_MinSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxSizeOffset = new(() => Schema.GetOffset(0x534FF0BC8CA4E6BE), LazyThreadSafetyMode.None);
+
   public ref float MaxSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x534FF0BC8CA4E6BE));
+    get => ref _Handle.AsRef<float>(_MaxSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _StartFadeSizeOffset = new(() => Schema.GetOffset(0x534FF0BCBA251D92), LazyThreadSafetyMode.None);
+
   public ref float StartFadeSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x534FF0BCBA251D92));
+    get => ref _Handle.AsRef<float>(_StartFadeSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndFadeSizeOffset = new(() => Schema.GetOffset(0x534FF0BC2D3FD423), LazyThreadSafetyMode.None);
+
   public ref float EndFadeSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x534FF0BC2D3FD423));
+    get => ref _Handle.AsRef<float>(_EndFadeSizeOffset.Value);
   }
 
 

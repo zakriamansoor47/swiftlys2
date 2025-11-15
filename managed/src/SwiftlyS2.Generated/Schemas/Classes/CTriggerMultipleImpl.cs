@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CTriggerMultipleImpl : CBaseTriggerImpl, CTriggerMultiple
   public CTriggerMultipleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnTriggerOffset = new(() => Schema.GetOffset(0x327F607E81E0BFEC), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnTrigger {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x327F607E81E0BFEC));
+    get => new CEntityIOOutputImpl(_Handle + _OnTriggerOffset.Value);
   }
 
 

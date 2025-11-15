@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CProductQuantizerImpl : SchemaClass, CProductQuantizer {
   public CProductQuantizerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SubQuantizersOffset = new(() => Schema.GetOffset(0x5B1A8128593CF0B5), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CVectorQuantizer> SubQuantizers {
-    get => ref _Handle.AsRef<CUtlVector<CVectorQuantizer>>(Schema.GetOffset(0x5B1A8128593CF0B5));
+    get => ref _Handle.AsRef<CUtlVector<CVectorQuantizer>>(_SubQuantizersOffset.Value);
   }
+  private static readonly Lazy<nint> _DimensionsOffset = new(() => Schema.GetOffset(0x5B1A81282D8795AC), LazyThreadSafetyMode.None);
+
   public ref int Dimensions {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5B1A81282D8795AC));
+    get => ref _Handle.AsRef<int>(_DimensionsOffset.Value);
   }
 
 

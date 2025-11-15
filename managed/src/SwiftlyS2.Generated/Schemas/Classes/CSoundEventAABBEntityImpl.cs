@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CSoundEventAABBEntityImpl : CSoundEventEntityImpl, CSound
   public CSoundEventAABBEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinsOffset = new(() => Schema.GetOffset(0x9E5B084A421BB730), LazyThreadSafetyMode.None);
+
   public ref Vector Mins {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x9E5B084A421BB730));
+    get => ref _Handle.AsRef<Vector>(_MinsOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxsOffset = new(() => Schema.GetOffset(0x9E5B084AC0C1CE6A), LazyThreadSafetyMode.None);
+
   public ref Vector Maxs {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x9E5B084AC0C1CE6A));
+    get => ref _Handle.AsRef<Vector>(_MaxsOffset.Value);
   }
 
   public void MinsUpdated() {

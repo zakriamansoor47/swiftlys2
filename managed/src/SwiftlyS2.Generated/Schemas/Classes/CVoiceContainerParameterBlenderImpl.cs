@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class CVoiceContainerParameterBlenderImpl : CVoiceContainerBase
   public CVoiceContainerParameterBlenderImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FirstSoundOffset = new(() => Schema.GetOffset(0xEC5F1A42666B0138), LazyThreadSafetyMode.None);
+
   public CSoundContainerReference FirstSound {
-    get => new CSoundContainerReferenceImpl(_Handle + Schema.GetOffset(0xEC5F1A42666B0138));
+    get => new CSoundContainerReferenceImpl(_Handle + _FirstSoundOffset.Value);
   }
+  private static readonly Lazy<nint> _SecondSoundOffset = new(() => Schema.GetOffset(0xEC5F1A42A2BC3E5C), LazyThreadSafetyMode.None);
+
   public CSoundContainerReference SecondSound {
-    get => new CSoundContainerReferenceImpl(_Handle + Schema.GetOffset(0xEC5F1A42A2BC3E5C));
+    get => new CSoundContainerReferenceImpl(_Handle + _SecondSoundOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableOcclusionBlendOffset = new(() => Schema.GetOffset(0xEC5F1A42041C67C2), LazyThreadSafetyMode.None);
+
   public ref bool EnableOcclusionBlend {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEC5F1A42041C67C2));
+    get => ref _Handle.AsRef<bool>(_EnableOcclusionBlendOffset.Value);
   }
+  private static readonly Lazy<nint> _Curve1Offset = new(() => Schema.GetOffset(0xEC5F1A423B9F58DF), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Curve1 {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xEC5F1A423B9F58DF));
+    get => new SchemaUntypedField(_Handle + _Curve1Offset.Value);
   }
+  private static readonly Lazy<nint> _Curve2Offset = new(() => Schema.GetOffset(0xEC5F1A423C9F5A72), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Curve2 {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xEC5F1A423C9F5A72));
+    get => new SchemaUntypedField(_Handle + _Curve2Offset.Value);
   }
+  private static readonly Lazy<nint> _EnableDistanceBlendOffset = new(() => Schema.GetOffset(0xEC5F1A428EDC5388), LazyThreadSafetyMode.None);
+
   public ref bool EnableDistanceBlend {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEC5F1A428EDC5388));
+    get => ref _Handle.AsRef<bool>(_EnableDistanceBlendOffset.Value);
   }
+  private static readonly Lazy<nint> _Curve3Offset = new(() => Schema.GetOffset(0xEC5F1A423D9F5C05), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Curve3 {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xEC5F1A423D9F5C05));
+    get => new SchemaUntypedField(_Handle + _Curve3Offset.Value);
   }
+  private static readonly Lazy<nint> _Curve4Offset = new(() => Schema.GetOffset(0xEC5F1A42369F5100), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Curve4 {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xEC5F1A42369F5100));
+    get => new SchemaUntypedField(_Handle + _Curve4Offset.Value);
   }
 
 

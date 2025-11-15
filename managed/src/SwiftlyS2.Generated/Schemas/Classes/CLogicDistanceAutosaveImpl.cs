@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,27 +17,39 @@ internal partial class CLogicDistanceAutosaveImpl : CLogicalEntityImpl, CLogicDi
   public CLogicDistanceAutosaveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetEntityOffset = new(() => Schema.GetOffset(0x8E908EDD8951B0FB), LazyThreadSafetyMode.None);
+
   public string TargetEntity {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x8E908EDD8951B0FB));
+      var ptr = _Handle.Read<nint>(_TargetEntityOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x8E908EDD8951B0FB, value);
+    set => Schema.SetString(_Handle, _TargetEntityOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _DistanceToPlayerOffset = new(() => Schema.GetOffset(0x8E908EDDF04AFE0C), LazyThreadSafetyMode.None);
+
   public ref float DistanceToPlayer {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E908EDDF04AFE0C));
+    get => ref _Handle.AsRef<float>(_DistanceToPlayerOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceNewLevelUnitOffset = new(() => Schema.GetOffset(0x8E908EDD1473BFDE), LazyThreadSafetyMode.None);
+
   public ref bool ForceNewLevelUnit {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8E908EDD1473BFDE));
+    get => ref _Handle.AsRef<bool>(_ForceNewLevelUnitOffset.Value);
   }
+  private static readonly Lazy<nint> _CheckCoughOffset = new(() => Schema.GetOffset(0x8E908EDD25C565C3), LazyThreadSafetyMode.None);
+
   public ref bool CheckCough {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8E908EDD25C565C3));
+    get => ref _Handle.AsRef<bool>(_CheckCoughOffset.Value);
   }
+  private static readonly Lazy<nint> _ThinkDangerousOffset = new(() => Schema.GetOffset(0x8E908EDDE079F1C9), LazyThreadSafetyMode.None);
+
   public ref bool ThinkDangerous {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8E908EDDE079F1C9));
+    get => ref _Handle.AsRef<bool>(_ThinkDangerousOffset.Value);
   }
+  private static readonly Lazy<nint> _DangerousTimeOffset = new(() => Schema.GetOffset(0x8E908EDD19BC5644), LazyThreadSafetyMode.None);
+
   public ref float DangerousTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E908EDD19BC5644));
+    get => ref _Handle.AsRef<float>(_DangerousTimeOffset.Value);
   }
 
 

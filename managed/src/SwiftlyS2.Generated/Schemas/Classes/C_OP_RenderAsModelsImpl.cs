@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class C_OP_RenderAsModelsImpl : CParticleFunctionRendererImpl, 
   public C_OP_RenderAsModelsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModelListOffset = new(() => Schema.GetOffset(0x634E6CCB05FC11B6), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ModelReference_t> ModelList {
-    get => ref _Handle.AsRef<CUtlVector<ModelReference_t>>(Schema.GetOffset(0x634E6CCB05FC11B6));
+    get => ref _Handle.AsRef<CUtlVector<ModelReference_t>>(_ModelListOffset.Value);
   }
+  private static readonly Lazy<nint> _ModelScaleOffset = new(() => Schema.GetOffset(0x634E6CCBD28B2146), LazyThreadSafetyMode.None);
+
   public ref float ModelScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x634E6CCBD28B2146));
+    get => ref _Handle.AsRef<float>(_ModelScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _FitToModelSizeOffset = new(() => Schema.GetOffset(0x634E6CCBF444BB23), LazyThreadSafetyMode.None);
+
   public ref bool FitToModelSize {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x634E6CCBF444BB23));
+    get => ref _Handle.AsRef<bool>(_FitToModelSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _NonUniformScalingOffset = new(() => Schema.GetOffset(0x634E6CCBC2ADF0D9), LazyThreadSafetyMode.None);
+
   public ref bool NonUniformScaling {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x634E6CCBC2ADF0D9));
+    get => ref _Handle.AsRef<bool>(_NonUniformScalingOffset.Value);
   }
+  private static readonly Lazy<nint> _XAxisScalingAttributeOffset = new(() => Schema.GetOffset(0x634E6CCB0E363ADD), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t XAxisScalingAttribute {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x634E6CCB0E363ADD));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _XAxisScalingAttributeOffset.Value);
   }
+  private static readonly Lazy<nint> _YAxisScalingAttributeOffset = new(() => Schema.GetOffset(0x634E6CCBC293ED92), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t YAxisScalingAttribute {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x634E6CCBC293ED92));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _YAxisScalingAttributeOffset.Value);
   }
+  private static readonly Lazy<nint> _ZAxisScalingAttributeOffset = new(() => Schema.GetOffset(0x634E6CCBC34C4EDF), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t ZAxisScalingAttribute {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x634E6CCBC34C4EDF));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _ZAxisScalingAttributeOffset.Value);
   }
+  private static readonly Lazy<nint> _SizeCullBloatOffset = new(() => Schema.GetOffset(0x634E6CCB5EB61122), LazyThreadSafetyMode.None);
+
   public ref int SizeCullBloat {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x634E6CCB5EB61122));
+    get => ref _Handle.AsRef<int>(_SizeCullBloatOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,63 +17,91 @@ internal partial class CCSTeamImpl : CTeamImpl, CCSTeam {
   public CCSTeamImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LastRecievedShorthandedRoundBonusOffset = new(() => Schema.GetOffset(0x1CE326C97862C8DB), LazyThreadSafetyMode.None);
+
   public ref int LastRecievedShorthandedRoundBonus {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C97862C8DB));
+    get => ref _Handle.AsRef<int>(_LastRecievedShorthandedRoundBonusOffset.Value);
   }
+  private static readonly Lazy<nint> _ShorthandedRoundBonusStartRoundOffset = new(() => Schema.GetOffset(0x1CE326C99B1C0796), LazyThreadSafetyMode.None);
+
   public ref int ShorthandedRoundBonusStartRound {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C99B1C0796));
+    get => ref _Handle.AsRef<int>(_ShorthandedRoundBonusStartRoundOffset.Value);
   }
+  private static readonly Lazy<nint> _SurrenderedOffset = new(() => Schema.GetOffset(0x1CE326C9CFFCED54), LazyThreadSafetyMode.None);
+
   public ref bool Surrendered {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1CE326C9CFFCED54));
+    get => ref _Handle.AsRef<bool>(_SurrenderedOffset.Value);
   }
+  private static readonly Lazy<nint> _TeamMatchStatOffset = new(() => Schema.GetOffset(0x1CE326C9D2C89DC0), LazyThreadSafetyMode.None);
+
   public string TeamMatchStat {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x1CE326C9D2C89DC0);
+      var ptr = _Handle + _TeamMatchStatOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x1CE326C9D2C89DC0, value, 512);
+    set => Schema.SetFixedString(_Handle, _TeamMatchStatOffset.Value, value, 512);
   } 
+  private static readonly Lazy<nint> _NumMapVictoriesOffset = new(() => Schema.GetOffset(0x1CE326C92BC4DE0F), LazyThreadSafetyMode.None);
+
   public ref int NumMapVictories {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C92BC4DE0F));
+    get => ref _Handle.AsRef<int>(_NumMapVictoriesOffset.Value);
   }
+  private static readonly Lazy<nint> _ScoreFirstHalfOffset = new(() => Schema.GetOffset(0x1CE326C9E497F5A0), LazyThreadSafetyMode.None);
+
   public ref int ScoreFirstHalf {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C9E497F5A0));
+    get => ref _Handle.AsRef<int>(_ScoreFirstHalfOffset.Value);
   }
+  private static readonly Lazy<nint> _ScoreSecondHalfOffset = new(() => Schema.GetOffset(0x1CE326C9A75CAE2C), LazyThreadSafetyMode.None);
+
   public ref int ScoreSecondHalf {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C9A75CAE2C));
+    get => ref _Handle.AsRef<int>(_ScoreSecondHalfOffset.Value);
   }
+  private static readonly Lazy<nint> _ScoreOvertimeOffset = new(() => Schema.GetOffset(0x1CE326C9A22D3CEE), LazyThreadSafetyMode.None);
+
   public ref int ScoreOvertime {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C9A22D3CEE));
+    get => ref _Handle.AsRef<int>(_ScoreOvertimeOffset.Value);
   }
+  private static readonly Lazy<nint> _ClanTeamnameOffset = new(() => Schema.GetOffset(0x1CE326C946453F76), LazyThreadSafetyMode.None);
+
   public string ClanTeamname {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x1CE326C946453F76);
+      var ptr = _Handle + _ClanTeamnameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x1CE326C946453F76, value, 129);
+    set => Schema.SetFixedString(_Handle, _ClanTeamnameOffset.Value, value, 129);
   } 
+  private static readonly Lazy<nint> _ClanIDOffset = new(() => Schema.GetOffset(0x1CE326C90A807BAD), LazyThreadSafetyMode.None);
+
   public ref uint ClanID {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x1CE326C90A807BAD));
+    get => ref _Handle.AsRef<uint>(_ClanIDOffset.Value);
   }
+  private static readonly Lazy<nint> _TeamFlagImageOffset = new(() => Schema.GetOffset(0x1CE326C9F7FF31D0), LazyThreadSafetyMode.None);
+
   public string TeamFlagImage {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x1CE326C9F7FF31D0);
+      var ptr = _Handle + _TeamFlagImageOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x1CE326C9F7FF31D0, value, 8);
+    set => Schema.SetFixedString(_Handle, _TeamFlagImageOffset.Value, value, 8);
   } 
+  private static readonly Lazy<nint> _TeamLogoImageOffset = new(() => Schema.GetOffset(0x1CE326C981DF092B), LazyThreadSafetyMode.None);
+
   public string TeamLogoImage {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x1CE326C981DF092B);
+      var ptr = _Handle + _TeamLogoImageOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x1CE326C981DF092B, value, 8);
+    set => Schema.SetFixedString(_Handle, _TeamLogoImageOffset.Value, value, 8);
   } 
+  private static readonly Lazy<nint> _NextResourceTimeOffset = new(() => Schema.GetOffset(0x1CE326C97E7CA6AF), LazyThreadSafetyMode.None);
+
   public ref float NextResourceTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1CE326C97E7CA6AF));
+    get => ref _Handle.AsRef<float>(_NextResourceTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _LastUpdateSentAtOffset = new(() => Schema.GetOffset(0x1CE326C937FCAA0A), LazyThreadSafetyMode.None);
+
   public ref int LastUpdateSentAt {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1CE326C937FCAA0A));
+    get => ref _Handle.AsRef<int>(_LastUpdateSentAtOffset.Value);
   }
 
   public void SurrenderedUpdated() {

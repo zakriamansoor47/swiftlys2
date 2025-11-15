@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,22 +17,28 @@ internal partial class CInstructorEventEntityImpl : CPointEntityImpl, CInstructo
   public CInstructorEventEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x6DE6628874FF65FE), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6DE6628874FF65FE));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6DE6628874FF65FE, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _HintTargetEntityOffset = new(() => Schema.GetOffset(0x6DE662880024C1BE), LazyThreadSafetyMode.None);
+
   public string HintTargetEntity {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6DE662880024C1BE));
+      var ptr = _Handle.Read<nint>(_HintTargetEntityOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6DE662880024C1BE, value);
+    set => Schema.SetString(_Handle, _HintTargetEntityOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TargetPlayerOffset = new(() => Schema.GetOffset(0x6DE66288BA425153), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBasePlayerPawn> TargetPlayer {
-    get => ref _Handle.AsRef<CHandle<CBasePlayerPawn>>(Schema.GetOffset(0x6DE66288BA425153));
+    get => ref _Handle.AsRef<CHandle<CBasePlayerPawn>>(_TargetPlayerOffset.Value);
   }
 
 

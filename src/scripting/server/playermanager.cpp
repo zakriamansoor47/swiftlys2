@@ -37,10 +37,10 @@ int Bridge_PlayerManager_GetPlayerCap()
     return playerManager->GetPlayerCap();
 }
 
-void Bridge_PlayerManager_SendMessage(int kind, const char* message)
+void Bridge_PlayerManager_SendMessage(int kind, const char* message, int duration)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
-    playerManager->SendMsg((MessageType)kind, message);
+    playerManager->SendMsg((MessageType)kind, message, duration);
 }
 
 void Bridge_PlayerManager_ShouldBlockTransmitEntity(int entityidx, bool shouldBlockTransmit)

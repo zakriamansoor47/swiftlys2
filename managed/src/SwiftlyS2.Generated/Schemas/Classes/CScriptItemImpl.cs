@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CScriptItemImpl : CItemImpl, CScriptItem {
   public CScriptItemImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MoveTypeOverrideOffset = new(() => Schema.GetOffset(0x501D9DD2B4DC8A64), LazyThreadSafetyMode.None);
+
   public ref MoveType_t MoveTypeOverride {
-    get => ref _Handle.AsRef<MoveType_t>(Schema.GetOffset(0x501D9DD2B4DC8A64));
+    get => ref _Handle.AsRef<MoveType_t>(_MoveTypeOverrideOffset.Value);
   }
 
 

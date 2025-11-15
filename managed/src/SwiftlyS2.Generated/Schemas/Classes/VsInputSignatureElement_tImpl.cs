@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,37 @@ internal partial class VsInputSignatureElement_tImpl : SchemaClass, VsInputSigna
   public VsInputSignatureElement_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0xFD3BBE5B5B47C92C), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xFD3BBE5B5B47C92C);
+      var ptr = _Handle + _NameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xFD3BBE5B5B47C92C, value, 64);
+    set => Schema.SetFixedString(_Handle, _NameOffset.Value, value, 64);
   } 
+  private static readonly Lazy<nint> _SemanticOffset = new(() => Schema.GetOffset(0xFD3BBE5B14684E6F), LazyThreadSafetyMode.None);
+
   public string Semantic {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xFD3BBE5B14684E6F);
+      var ptr = _Handle + _SemanticOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xFD3BBE5B14684E6F, value, 64);
+    set => Schema.SetFixedString(_Handle, _SemanticOffset.Value, value, 64);
   } 
+  private static readonly Lazy<nint> _D3DSemanticNameOffset = new(() => Schema.GetOffset(0xFD3BBE5B66524995), LazyThreadSafetyMode.None);
+
   public string D3DSemanticName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xFD3BBE5B66524995);
+      var ptr = _Handle + _D3DSemanticNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xFD3BBE5B66524995, value, 64);
+    set => Schema.SetFixedString(_Handle, _D3DSemanticNameOffset.Value, value, 64);
   } 
+  private static readonly Lazy<nint> _D3DSemanticIndexOffset = new(() => Schema.GetOffset(0xFD3BBE5B67F2BA80), LazyThreadSafetyMode.None);
+
   public ref int D3DSemanticIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xFD3BBE5B67F2BA80));
+    get => ref _Handle.AsRef<int>(_D3DSemanticIndexOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPulseCell_TestWaitWithCursorStateImpl : CPulseCell_BaseY
   public CPulseCell_TestWaitWithCursorStateImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WakeResumeOffset = new(() => Schema.GetOffset(0xB1305BB431F86DC2), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint WakeResume {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xB1305BB431F86DC2));
+    get => new CPulse_ResumePointImpl(_Handle + _WakeResumeOffset.Value);
   }
+  private static readonly Lazy<nint> _WakeCancelOffset = new(() => Schema.GetOffset(0xB1305BB47C373223), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint WakeCancel {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xB1305BB47C373223));
+    get => new CPulse_ResumePointImpl(_Handle + _WakeCancelOffset.Value);
   }
+  private static readonly Lazy<nint> _WakeFailOffset = new(() => Schema.GetOffset(0xB1305BB4BE921FF5), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint WakeFail {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xB1305BB4BE921FF5));
+    get => new CPulse_ResumePointImpl(_Handle + _WakeFailOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPhysicsEntitySolverImpl : CLogicalEntityImpl, CPhysicsEn
   public CPhysicsEntitySolverImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MovingEntityOffset = new(() => Schema.GetOffset(0x2948C36FC1DA080E), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> MovingEntity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x2948C36FC1DA080E));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_MovingEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _PhysicsBlockerOffset = new(() => Schema.GetOffset(0x2948C36F3DD8AB5E), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> PhysicsBlocker {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x2948C36F3DD8AB5E));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_PhysicsBlockerOffset.Value);
   }
+  private static readonly Lazy<nint> _SeparationDurationOffset = new(() => Schema.GetOffset(0x2948C36F202FE0BD), LazyThreadSafetyMode.None);
+
   public ref float SeparationDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2948C36F202FE0BD));
+    get => ref _Handle.AsRef<float>(_SeparationDurationOffset.Value);
   }
+  private static readonly Lazy<nint> _CancelTimeOffset = new(() => Schema.GetOffset(0x2948C36F12944512), LazyThreadSafetyMode.None);
+
   public GameTime_t CancelTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x2948C36F12944512));
+    get => new GameTime_tImpl(_Handle + _CancelTimeOffset.Value);
   }
 
 

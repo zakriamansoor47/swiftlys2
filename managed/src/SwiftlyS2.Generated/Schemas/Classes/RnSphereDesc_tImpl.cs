@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class RnSphereDesc_tImpl : RnShapeDesc_tImpl, RnSphereDesc_t {
   public RnSphereDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SphereOffset = new(() => Schema.GetOffset(0x6187F5E1E7A3D98), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Sphere {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6187F5E1E7A3D98));
+    get => new SchemaUntypedField(_Handle + _SphereOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_INIT_RadiusFromCPObjectImpl : CParticleFunctionInitiali
   public C_INIT_RadiusFromCPObjectImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointOffset = new(() => Schema.GetOffset(0xC79B0CC80D0DDF8C), LazyThreadSafetyMode.None);
+
   public ref int ControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC79B0CC80D0DDF8C));
+    get => ref _Handle.AsRef<int>(_ControlPointOffset.Value);
   }
 
 

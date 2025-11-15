@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmFloatSelectorNode__CDefinitionImpl : CNmFloatValueNode
   public CNmFloatSelectorNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConditionNodeIndicesOffset = new(() => Schema.GetOffset(0xA387F8324A144D0F), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ConditionNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA387F8324A144D0F));
+    get => new SchemaUntypedField(_Handle + _ConditionNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _ValuesOffset = new(() => Schema.GetOffset(0xA387F832FBEDDADB), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Values {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA387F832FBEDDADB));
+    get => new SchemaUntypedField(_Handle + _ValuesOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0xA387F832700AB429), LazyThreadSafetyMode.None);
+
   public ref float DefaultValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA387F832700AB429));
+    get => ref _Handle.AsRef<float>(_DefaultValueOffset.Value);
   }
+  private static readonly Lazy<nint> _EaseTimeOffset = new(() => Schema.GetOffset(0xA387F832D0A54FCC), LazyThreadSafetyMode.None);
+
   public ref float EaseTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA387F832D0A54FCC));
+    get => ref _Handle.AsRef<float>(_EaseTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EasingOpOffset = new(() => Schema.GetOffset(0xA387F832CF457EAF), LazyThreadSafetyMode.None);
+
   public ref NmEasingOperation_t EasingOp {
-    get => ref _Handle.AsRef<NmEasingOperation_t>(Schema.GetOffset(0xA387F832CF457EAF));
+    get => ref _Handle.AsRef<NmEasingOperation_t>(_EasingOpOffset.Value);
   }
 
 

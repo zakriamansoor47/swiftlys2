@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimScriptManagerImpl : SchemaClass, CAnimScriptManager 
   public CAnimScriptManagerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScriptInfoOffset = new(() => Schema.GetOffset(0x13962EC3119509F2), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ScriptInfo_t> ScriptInfo {
-    get => ref _Handle.AsRef<CUtlVector<ScriptInfo_t>>(Schema.GetOffset(0x13962EC3119509F2));
+    get => ref _Handle.AsRef<CUtlVector<ScriptInfo_t>>(_ScriptInfoOffset.Value);
   }
 
 

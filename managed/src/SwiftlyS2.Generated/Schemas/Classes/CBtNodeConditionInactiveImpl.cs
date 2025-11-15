@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CBtNodeConditionInactiveImpl : CBtNodeConditionImpl, CBtN
   public CBtNodeConditionInactiveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RoundStartThresholdSecondsOffset = new(() => Schema.GetOffset(0x1AB44FB08A52CC47), LazyThreadSafetyMode.None);
+
   public ref float RoundStartThresholdSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1AB44FB08A52CC47));
+    get => ref _Handle.AsRef<float>(_RoundStartThresholdSecondsOffset.Value);
   }
+  private static readonly Lazy<nint> _SensorInactivityThresholdSecondsOffset = new(() => Schema.GetOffset(0x1AB44FB07E66A29F), LazyThreadSafetyMode.None);
+
   public ref float SensorInactivityThresholdSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1AB44FB07E66A29F));
+    get => ref _Handle.AsRef<float>(_SensorInactivityThresholdSecondsOffset.Value);
   }
+  private static readonly Lazy<nint> _SensorInactivityTimerOffset = new(() => Schema.GetOffset(0x1AB44FB0D921DF72), LazyThreadSafetyMode.None);
+
   public CountdownTimer SensorInactivityTimer {
-    get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x1AB44FB0D921DF72));
+    get => new CountdownTimerImpl(_Handle + _SensorInactivityTimerOffset.Value);
   }
 
 

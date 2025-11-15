@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,27 +17,39 @@ internal partial class CNmMaterialAttributeEventImpl : CNmEventImpl, CNmMaterial
   public CNmMaterialAttributeEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttributeNameOffset = new(() => Schema.GetOffset(0xFC131DA9168F02C), LazyThreadSafetyMode.None);
+
   public string AttributeName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xFC131DA9168F02C));
+      var ptr = _Handle.Read<nint>(_AttributeNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xFC131DA9168F02C, value);
+    set => Schema.SetString(_Handle, _AttributeNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _AttributeNameTokenOffset = new(() => Schema.GetOffset(0xFC131DA4C1F86C9), LazyThreadSafetyMode.None);
+
   public ref CUtlStringToken AttributeNameToken {
-    get => ref _Handle.AsRef<CUtlStringToken>(Schema.GetOffset(0xFC131DA4C1F86C9));
+    get => ref _Handle.AsRef<CUtlStringToken>(_AttributeNameTokenOffset.Value);
   }
+  private static readonly Lazy<nint> _XOffset = new(() => Schema.GetOffset(0xFC131DADBC57BA7), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField X {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xFC131DADBC57BA7));
+    get => new SchemaUntypedField(_Handle + _XOffset.Value);
   }
+  private static readonly Lazy<nint> _YOffset = new(() => Schema.GetOffset(0xFC131DADAC57A14), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Y {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xFC131DADAC57A14));
+    get => new SchemaUntypedField(_Handle + _YOffset.Value);
   }
+  private static readonly Lazy<nint> _ZOffset = new(() => Schema.GetOffset(0xFC131DADDC57ECD), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Z {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xFC131DADDC57ECD));
+    get => new SchemaUntypedField(_Handle + _ZOffset.Value);
   }
+  private static readonly Lazy<nint> _WOffset = new(() => Schema.GetOffset(0xFC131DAD0C56A56), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField W {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xFC131DAD0C56A56));
+    get => new SchemaUntypedField(_Handle + _WOffset.Value);
   }
 
 

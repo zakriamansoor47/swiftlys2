@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_RemapCrossProductOfTwoVectorsToVectorImpl : CParticl
   public C_OP_RemapCrossProductOfTwoVectorsToVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputVec1Offset = new(() => Schema.GetOffset(0x4B4531D84584355A), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput InputVec1 {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x4B4531D84584355A));
+    get => new CPerParticleVecInputImpl(_Handle + _InputVec1Offset.Value);
   }
+  private static readonly Lazy<nint> _InputVec2Offset = new(() => Schema.GetOffset(0x4B4531D8448433C7), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput InputVec2 {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x4B4531D8448433C7));
+    get => new CPerParticleVecInputImpl(_Handle + _InputVec2Offset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x4B4531D8E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x4B4531D8E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _NormalizeOffset = new(() => Schema.GetOffset(0x4B4531D848BC424C), LazyThreadSafetyMode.None);
+
   public ref bool Normalize {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4B4531D848BC424C));
+    get => ref _Handle.AsRef<bool>(_NormalizeOffset.Value);
   }
 
 

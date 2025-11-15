@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CFollowTargetUpdateNodeImpl : CUnaryUpdateNodeImpl, CFoll
   public CFollowTargetUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OpFixedDataOffset = new(() => Schema.GetOffset(0x2A45E9CB6960AF8C), LazyThreadSafetyMode.None);
+
   public FollowTargetOpFixedSettings_t OpFixedData {
-    get => new FollowTargetOpFixedSettings_tImpl(_Handle + Schema.GetOffset(0x2A45E9CB6960AF8C));
+    get => new FollowTargetOpFixedSettings_tImpl(_Handle + _OpFixedDataOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterPositionOffset = new(() => Schema.GetOffset(0x2A45E9CBDA71CD41), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParameterPosition {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x2A45E9CBDA71CD41));
+    get => new CAnimParamHandleImpl(_Handle + _ParameterPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterOrientationOffset = new(() => Schema.GetOffset(0x2A45E9CB1320E9C8), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParameterOrientation {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x2A45E9CB1320E9C8));
+    get => new CAnimParamHandleImpl(_Handle + _ParameterOrientationOffset.Value);
   }
 
 

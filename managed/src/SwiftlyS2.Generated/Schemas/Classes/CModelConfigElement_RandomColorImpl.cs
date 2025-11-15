@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CModelConfigElement_RandomColorImpl : CModelConfigElement
   public CModelConfigElement_RandomColorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GradientOffset = new(() => Schema.GetOffset(0x375CC66605C95F25), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Gradient {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x375CC66605C95F25));
+    get => new SchemaUntypedField(_Handle + _GradientOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,56 +17,82 @@ internal partial class CFuncMoveLinearImpl : CBaseToggleImpl, CFuncMoveLinear {
   public CFuncMoveLinearImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AuthoredPositionOffset = new(() => Schema.GetOffset(0xDC0EE8941BF65B84), LazyThreadSafetyMode.None);
+
   public ref MoveLinearAuthoredPos_t AuthoredPosition {
-    get => ref _Handle.AsRef<MoveLinearAuthoredPos_t>(Schema.GetOffset(0xDC0EE8941BF65B84));
+    get => ref _Handle.AsRef<MoveLinearAuthoredPos_t>(_AuthoredPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _MoveEntitySpaceOffset = new(() => Schema.GetOffset(0xDC0EE894325319F9), LazyThreadSafetyMode.None);
+
   public ref QAngle MoveEntitySpace {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0xDC0EE894325319F9));
+    get => ref _Handle.AsRef<QAngle>(_MoveEntitySpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _MoveDirParentSpaceOffset = new(() => Schema.GetOffset(0xDC0EE894EC2120EF), LazyThreadSafetyMode.None);
+
   public ref Vector MoveDirParentSpace {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xDC0EE894EC2120EF));
+    get => ref _Handle.AsRef<Vector>(_MoveDirParentSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundStartOffset = new(() => Schema.GetOffset(0xDC0EE894E2756078), LazyThreadSafetyMode.None);
+
   public string SoundStart {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDC0EE894E2756078));
+      var ptr = _Handle.Read<nint>(_SoundStartOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDC0EE894E2756078, value);
+    set => Schema.SetString(_Handle, _SoundStartOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundStopOffset = new(() => Schema.GetOffset(0xDC0EE894E9EADD9C), LazyThreadSafetyMode.None);
+
   public string SoundStop {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDC0EE894E9EADD9C));
+      var ptr = _Handle.Read<nint>(_SoundStopOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDC0EE894E9EADD9C, value);
+    set => Schema.SetString(_Handle, _SoundStopOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _CurrentSoundOffset = new(() => Schema.GetOffset(0xDC0EE894C4F1FE51), LazyThreadSafetyMode.None);
+
   public string CurrentSound {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDC0EE894C4F1FE51));
+      var ptr = _Handle.Read<nint>(_CurrentSoundOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDC0EE894C4F1FE51, value);
+    set => Schema.SetString(_Handle, _CurrentSoundOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _BlockDamageOffset = new(() => Schema.GetOffset(0xDC0EE894A5348091), LazyThreadSafetyMode.None);
+
   public ref float BlockDamage {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDC0EE894A5348091));
+    get => ref _Handle.AsRef<float>(_BlockDamageOffset.Value);
   }
+  private static readonly Lazy<nint> _StartPositionOffset = new(() => Schema.GetOffset(0xDC0EE894E34367EA), LazyThreadSafetyMode.None);
+
   public ref float StartPosition {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDC0EE894E34367EA));
+    get => ref _Handle.AsRef<float>(_StartPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFullyOpenOffset = new(() => Schema.GetOffset(0xDC0EE89421733AE4), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnFullyOpen {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xDC0EE89421733AE4));
+    get => new CEntityIOOutputImpl(_Handle + _OnFullyOpenOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFullyClosedOffset = new(() => Schema.GetOffset(0xDC0EE89475470294), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnFullyClosed {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xDC0EE89475470294));
+    get => new CEntityIOOutputImpl(_Handle + _OnFullyClosedOffset.Value);
   }
+  private static readonly Lazy<nint> _CreateMovableNavMeshOffset = new(() => Schema.GetOffset(0xDC0EE89485442AAF), LazyThreadSafetyMode.None);
+
   public ref bool CreateMovableNavMesh {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDC0EE89485442AAF));
+    get => ref _Handle.AsRef<bool>(_CreateMovableNavMeshOffset.Value);
   }
+  private static readonly Lazy<nint> _AllowMovableNavMeshDockingOnEntireEntityOffset = new(() => Schema.GetOffset(0xDC0EE8940CC0563A), LazyThreadSafetyMode.None);
+
   public ref bool AllowMovableNavMeshDockingOnEntireEntity {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDC0EE8940CC0563A));
+    get => ref _Handle.AsRef<bool>(_AllowMovableNavMeshDockingOnEntireEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _CreateNavObstacleOffset = new(() => Schema.GetOffset(0xDC0EE8941849970B), LazyThreadSafetyMode.None);
+
   public ref bool CreateNavObstacle {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDC0EE8941849970B));
+    get => ref _Handle.AsRef<bool>(_CreateNavObstacleOffset.Value);
   }
 
 

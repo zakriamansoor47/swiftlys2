@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPulseCell_TimelineImpl : CPulseCell_BaseYieldingInflowIm
   public CPulseCell_TimelineImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TimelineEventsOffset = new(() => Schema.GetOffset(0xF1185F93C91CDDC3), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CPulseCell_Timeline__TimelineEvent_t> TimelineEvents {
-    get => ref _Handle.AsRef<CUtlVector<CPulseCell_Timeline__TimelineEvent_t>>(Schema.GetOffset(0xF1185F93C91CDDC3));
+    get => ref _Handle.AsRef<CUtlVector<CPulseCell_Timeline__TimelineEvent_t>>(_TimelineEventsOffset.Value);
   }
+  private static readonly Lazy<nint> _WaitForChildOutflowsOffset = new(() => Schema.GetOffset(0xF1185F933F8E29C6), LazyThreadSafetyMode.None);
+
   public ref bool WaitForChildOutflows {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF1185F933F8E29C6));
+    get => ref _Handle.AsRef<bool>(_WaitForChildOutflowsOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFinishedOffset = new(() => Schema.GetOffset(0xF1185F938D903E5E), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnFinished {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xF1185F938D903E5E));
+    get => new CPulse_ResumePointImpl(_Handle + _OnFinishedOffset.Value);
   }
+  private static readonly Lazy<nint> _OnCanceledOffset = new(() => Schema.GetOffset(0xF1185F93F02162DB), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnCanceled {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xF1185F93F02162DB));
+    get => new CPulse_ResumePointImpl(_Handle + _OnCanceledOffset.Value);
   }
 
 

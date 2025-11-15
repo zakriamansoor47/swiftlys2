@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_INIT_CreateParticleImpulseImpl : CParticleFunctionIniti
   public C_INIT_CreateParticleImpulseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputRadiusOffset = new(() => Schema.GetOffset(0x1617EF931F5CA2F9), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputRadius {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x1617EF931F5CA2F9));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMagnitudeOffset = new(() => Schema.GetOffset(0x1617EF938E8975B7), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputMagnitude {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x1617EF938E8975B7));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputMagnitudeOffset.Value);
   }
+  private static readonly Lazy<nint> _FalloffFunctionOffset = new(() => Schema.GetOffset(0x1617EF93A7D5FD7D), LazyThreadSafetyMode.None);
+
   public ref ParticleFalloffFunction_t FalloffFunction {
-    get => ref _Handle.AsRef<ParticleFalloffFunction_t>(Schema.GetOffset(0x1617EF93A7D5FD7D));
+    get => ref _Handle.AsRef<ParticleFalloffFunction_t>(_FalloffFunctionOffset.Value);
   }
+  private static readonly Lazy<nint> _InputFalloffExpOffset = new(() => Schema.GetOffset(0x1617EF9356063396), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputFalloffExp {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x1617EF9356063396));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputFalloffExpOffset.Value);
   }
+  private static readonly Lazy<nint> _ImpulseTypeOffset = new(() => Schema.GetOffset(0x1617EF9309B21020), LazyThreadSafetyMode.None);
+
   public ref ParticleImpulseType_t ImpulseType {
-    get => ref _Handle.AsRef<ParticleImpulseType_t>(Schema.GetOffset(0x1617EF9309B21020));
+    get => ref _Handle.AsRef<ParticleImpulseType_t>(_ImpulseTypeOffset.Value);
   }
 
 

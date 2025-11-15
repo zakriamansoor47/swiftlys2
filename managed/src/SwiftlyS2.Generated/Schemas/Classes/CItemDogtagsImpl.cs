@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CItemDogtagsImpl : CItemImpl, CItemDogtags {
   public CItemDogtagsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OwningPlayerOffset = new(() => Schema.GetOffset(0x69879A78258F5D24), LazyThreadSafetyMode.None);
+
   public ref CHandle<CCSPlayerPawn> OwningPlayer {
-    get => ref _Handle.AsRef<CHandle<CCSPlayerPawn>>(Schema.GetOffset(0x69879A78258F5D24));
+    get => ref _Handle.AsRef<CHandle<CCSPlayerPawn>>(_OwningPlayerOffset.Value);
   }
+  private static readonly Lazy<nint> _KillingPlayerOffset = new(() => Schema.GetOffset(0x69879A784617E6C6), LazyThreadSafetyMode.None);
+
   public ref CHandle<CCSPlayerPawn> KillingPlayer {
-    get => ref _Handle.AsRef<CHandle<CCSPlayerPawn>>(Schema.GetOffset(0x69879A784617E6C6));
+    get => ref _Handle.AsRef<CHandle<CCSPlayerPawn>>(_KillingPlayerOffset.Value);
   }
 
   public void OwningPlayerUpdated() {

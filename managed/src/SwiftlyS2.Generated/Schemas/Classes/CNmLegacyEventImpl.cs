@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CNmLegacyEventImpl : CNmEventImpl, CNmLegacyEvent {
   public CNmLegacyEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AnimEventClassNameOffset = new(() => Schema.GetOffset(0x78C36574C276DA33), LazyThreadSafetyMode.None);
+
   public string AnimEventClassName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x78C36574C276DA33));
+      var ptr = _Handle.Read<nint>(_AnimEventClassNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x78C36574C276DA33, value);
+    set => Schema.SetString(_Handle, _AnimEventClassNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _KVOffset = new(() => Schema.GetOffset(0x78C36574F70B8074), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField KV {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x78C36574F70B8074));
+    get => new SchemaUntypedField(_Handle + _KVOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_LockToSavedSequentialPathV2Impl : CParticleFunctionO
   public C_OP_LockToSavedSequentialPathV2Impl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FadeStartOffset = new(() => Schema.GetOffset(0x817A0CEE1A81343), LazyThreadSafetyMode.None);
+
   public ref float FadeStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x817A0CEE1A81343));
+    get => ref _Handle.AsRef<float>(_FadeStartOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeEndOffset = new(() => Schema.GetOffset(0x817A0CEBE7F4636), LazyThreadSafetyMode.None);
+
   public ref float FadeEnd {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x817A0CEBE7F4636));
+    get => ref _Handle.AsRef<float>(_FadeEndOffset.Value);
   }
+  private static readonly Lazy<nint> _CPPairsOffset = new(() => Schema.GetOffset(0x817A0CEA5D36D0F), LazyThreadSafetyMode.None);
+
   public ref bool CPPairs {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x817A0CEA5D36D0F));
+    get => ref _Handle.AsRef<bool>(_CPPairsOffset.Value);
   }
+  private static readonly Lazy<nint> _PathParamsOffset = new(() => Schema.GetOffset(0x817A0CE3C10092C), LazyThreadSafetyMode.None);
+
   public CPathParameters PathParams {
-    get => new CPathParametersImpl(_Handle + Schema.GetOffset(0x817A0CE3C10092C));
+    get => new CPathParametersImpl(_Handle + _PathParamsOffset.Value);
   }
 
 

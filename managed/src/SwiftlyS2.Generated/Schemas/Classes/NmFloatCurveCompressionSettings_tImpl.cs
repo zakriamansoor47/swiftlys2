@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class NmFloatCurveCompressionSettings_tImpl : SchemaClass, NmFl
   public NmFloatCurveCompressionSettings_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RangeOffset = new(() => Schema.GetOffset(0x5BD5686F3D639CF2), LazyThreadSafetyMode.None);
+
   public NmCompressionSettings_t__QuantizationRange_t Range {
-    get => new NmCompressionSettings_t__QuantizationRange_tImpl(_Handle + Schema.GetOffset(0x5BD5686F3D639CF2));
+    get => new NmCompressionSettings_t__QuantizationRange_tImpl(_Handle + _RangeOffset.Value);
   }
+  private static readonly Lazy<nint> _IsStaticOffset = new(() => Schema.GetOffset(0x5BD5686F57ECC7EB), LazyThreadSafetyMode.None);
+
   public ref bool IsStatic {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5BD5686F57ECC7EB));
+    get => ref _Handle.AsRef<bool>(_IsStaticOffset.Value);
   }
 
 

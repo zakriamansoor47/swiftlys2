@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CBodyGroupSettingImpl : SchemaClass, CBodyGroupSetting {
   public CBodyGroupSettingImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BodyGroupNameOffset = new(() => Schema.GetOffset(0xC078388F0E290077), LazyThreadSafetyMode.None);
+
   public string BodyGroupName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xC078388F0E290077));
+      var ptr = _Handle.Read<nint>(_BodyGroupNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xC078388F0E290077, value);
+    set => Schema.SetString(_Handle, _BodyGroupNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _BodyGroupOptionOffset = new(() => Schema.GetOffset(0xC078388F09FA2D31), LazyThreadSafetyMode.None);
+
   public ref int BodyGroupOption {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC078388F09FA2D31));
+    get => ref _Handle.AsRef<int>(_BodyGroupOptionOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_LocalAccelerationForceImpl : CParticleFunctionForceI
   public C_OP_LocalAccelerationForceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x3A562A9FEB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3A562A9FEB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleCPOffset = new(() => Schema.GetOffset(0x3A562A9FDE3CC5E6), LazyThreadSafetyMode.None);
+
   public ref int ScaleCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3A562A9FDE3CC5E6));
+    get => ref _Handle.AsRef<int>(_ScaleCPOffset.Value);
   }
+  private static readonly Lazy<nint> _AccelOffset = new(() => Schema.GetOffset(0x3A562A9FEA9A0D73), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Accel {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x3A562A9FEA9A0D73));
+    get => new CParticleCollectionVecInputImpl(_Handle + _AccelOffset.Value);
   }
 
 

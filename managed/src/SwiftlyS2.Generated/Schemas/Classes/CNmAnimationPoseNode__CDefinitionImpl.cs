@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmAnimationPoseNode__CDefinitionImpl : CNmPoseNode__CDef
   public CNmAnimationPoseNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PoseTimeValueNodeIdxOffset = new(() => Schema.GetOffset(0xAEB5DD4EE17A4AC5), LazyThreadSafetyMode.None);
+
   public ref short PoseTimeValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xAEB5DD4EE17A4AC5));
+    get => ref _Handle.AsRef<short>(_PoseTimeValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _DataSlotIdxOffset = new(() => Schema.GetOffset(0xAEB5DD4EB1C15B68), LazyThreadSafetyMode.None);
+
   public ref short DataSlotIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xAEB5DD4EB1C15B68));
+    get => ref _Handle.AsRef<short>(_DataSlotIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _InputTimeRemapRangeOffset = new(() => Schema.GetOffset(0xAEB5DD4EE53BDBD4), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField InputTimeRemapRange {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xAEB5DD4EE53BDBD4));
+    get => new SchemaUntypedField(_Handle + _InputTimeRemapRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _UserSpecifiedTimeOffset = new(() => Schema.GetOffset(0xAEB5DD4E0D7319E7), LazyThreadSafetyMode.None);
+
   public ref float UserSpecifiedTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xAEB5DD4E0D7319E7));
+    get => ref _Handle.AsRef<float>(_UserSpecifiedTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _UseFramesAsInputOffset = new(() => Schema.GetOffset(0xAEB5DD4EF0C41386), LazyThreadSafetyMode.None);
+
   public ref bool UseFramesAsInput {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAEB5DD4EF0C41386));
+    get => ref _Handle.AsRef<bool>(_UseFramesAsInputOffset.Value);
   }
 
 

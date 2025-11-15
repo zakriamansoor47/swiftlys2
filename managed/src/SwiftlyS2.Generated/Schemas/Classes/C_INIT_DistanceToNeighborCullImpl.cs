@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_INIT_DistanceToNeighborCullImpl : CParticleFunctionInit
   public C_INIT_DistanceToNeighborCullImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0x9ADFD8BA00DC4A68), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Distance {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9ADFD8BA00DC4A68));
+    get => new CPerParticleFloatInputImpl(_Handle + _DistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _IncludeRadiiOffset = new(() => Schema.GetOffset(0x9ADFD8BAC86BFED0), LazyThreadSafetyMode.None);
+
   public ref bool IncludeRadii {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9ADFD8BAC86BFED0));
+    get => ref _Handle.AsRef<bool>(_IncludeRadiiOffset.Value);
   }
+  private static readonly Lazy<nint> _LifespanOverlapOffset = new(() => Schema.GetOffset(0x9ADFD8BAB495428C), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput LifespanOverlap {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9ADFD8BAB495428C));
+    get => new CPerParticleFloatInputImpl(_Handle + _LifespanOverlapOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldModifyOffset = new(() => Schema.GetOffset(0x9ADFD8BA7EAE1A51), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldModify {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x9ADFD8BA7EAE1A51));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldModifyOffset.Value);
   }
+  private static readonly Lazy<nint> _ModifyOffset = new(() => Schema.GetOffset(0x9ADFD8BA5C62D8D5), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Modify {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9ADFD8BA5C62D8D5));
+    get => new CPerParticleFloatInputImpl(_Handle + _ModifyOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x9ADFD8BAFB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x9ADFD8BAFB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _UseNeighborOffset = new(() => Schema.GetOffset(0x9ADFD8BAFBEB6DCE), LazyThreadSafetyMode.None);
+
   public ref bool UseNeighbor {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9ADFD8BAFBEB6DCE));
+    get => ref _Handle.AsRef<bool>(_UseNeighborOffset.Value);
   }
 
 

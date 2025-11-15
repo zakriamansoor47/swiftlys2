@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,20 +20,30 @@ internal partial class CPhysLengthImpl : CPhysConstraintImpl, CPhysLength {
   public ISchemaFixedArray<Vector> Offset {
     get => new SchemaFixedArray<Vector>(_Handle, 0x9203A50AF836806A, 2, 12, 4);
   }
+  private static readonly Lazy<nint> _AttachOffset = new(() => Schema.GetOffset(0x9203A50A4CAEA9A4), LazyThreadSafetyMode.None);
+
   public ref Vector Attach {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x9203A50A4CAEA9A4));
+    get => ref _Handle.AsRef<Vector>(_AttachOffset.Value);
   }
+  private static readonly Lazy<nint> _AddLengthOffset = new(() => Schema.GetOffset(0x9203A50AA30AA6D8), LazyThreadSafetyMode.None);
+
   public ref float AddLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9203A50AA30AA6D8));
+    get => ref _Handle.AsRef<float>(_AddLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _MinLengthOffset = new(() => Schema.GetOffset(0x9203A50A8FD988D7), LazyThreadSafetyMode.None);
+
   public ref float MinLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9203A50A8FD988D7));
+    get => ref _Handle.AsRef<float>(_MinLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _TotalLengthOffset = new(() => Schema.GetOffset(0x9203A50A6825671D), LazyThreadSafetyMode.None);
+
   public ref float TotalLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9203A50A6825671D));
+    get => ref _Handle.AsRef<float>(_TotalLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableCollisionOffset = new(() => Schema.GetOffset(0x9203A50A1E5412CE), LazyThreadSafetyMode.None);
+
   public ref bool EnableCollision {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9203A50A1E5412CE));
+    get => ref _Handle.AsRef<bool>(_EnableCollisionOffset.Value);
   }
 
 

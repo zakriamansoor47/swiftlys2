@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_RemapVectorComponentToScalarImpl : CParticleFunction
   public C_OP_RemapVectorComponentToScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldInputOffset = new(() => Schema.GetOffset(0x39413771AE775669), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldInput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x39413771AE775669));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldInputOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x39413771E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x39413771E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _ComponentOffset = new(() => Schema.GetOffset(0x39413771BFD0952C), LazyThreadSafetyMode.None);
+
   public ref int Component {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x39413771BFD0952C));
+    get => ref _Handle.AsRef<int>(_ComponentOffset.Value);
   }
 
 

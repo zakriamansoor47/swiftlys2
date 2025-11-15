@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,35 +17,55 @@ internal partial class CSelectorUpdateNodeImpl : CAnimUpdateNodeBaseImpl, CSelec
   public CSelectorUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChildrenOffset = new(() => Schema.GetOffset(0x23CD95F27415FA72), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CAnimUpdateNodeRef> Children {
-    get => ref _Handle.AsRef<CUtlVector<CAnimUpdateNodeRef>>(Schema.GetOffset(0x23CD95F27415FA72));
+    get => ref _Handle.AsRef<CUtlVector<CAnimUpdateNodeRef>>(_ChildrenOffset.Value);
   }
+  private static readonly Lazy<nint> _TagsOffset = new(() => Schema.GetOffset(0x23CD95F2B46C8540), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<byte> Tags {
-    get => ref _Handle.AsRef<CUtlVector<byte>>(Schema.GetOffset(0x23CD95F2B46C8540));
+    get => ref _Handle.AsRef<CUtlVector<byte>>(_TagsOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendCurveOffset = new(() => Schema.GetOffset(0x23CD95F291978183), LazyThreadSafetyMode.None);
+
   public CBlendCurve BlendCurve {
-    get => new CBlendCurveImpl(_Handle + Schema.GetOffset(0x23CD95F291978183));
+    get => new CBlendCurveImpl(_Handle + _BlendCurveOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendTimeOffset = new(() => Schema.GetOffset(0x23CD95F2A6206E9F), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField BlendTime {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x23CD95F2A6206E9F));
+    get => new SchemaUntypedField(_Handle + _BlendTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterOffset = new(() => Schema.GetOffset(0x23CD95F20C7008F6), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle Parameter {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x23CD95F20C7008F6));
+    get => new CAnimParamHandleImpl(_Handle + _ParameterOffset.Value);
   }
+  private static readonly Lazy<nint> _TagIndexOffset = new(() => Schema.GetOffset(0x23CD95F2C2026AAD), LazyThreadSafetyMode.None);
+
   public ref int TagIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x23CD95F2C2026AAD));
+    get => ref _Handle.AsRef<int>(_TagIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _TagBehaviorOffset = new(() => Schema.GetOffset(0x23CD95F2698EF70A), LazyThreadSafetyMode.None);
+
   public ref SelectorTagBehavior_t TagBehavior {
-    get => ref _Handle.AsRef<SelectorTagBehavior_t>(Schema.GetOffset(0x23CD95F2698EF70A));
+    get => ref _Handle.AsRef<SelectorTagBehavior_t>(_TagBehaviorOffset.Value);
   }
+  private static readonly Lazy<nint> _ResetOnChangeOffset = new(() => Schema.GetOffset(0x23CD95F2E8AD58E9), LazyThreadSafetyMode.None);
+
   public ref bool ResetOnChange {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x23CD95F2E8AD58E9));
+    get => ref _Handle.AsRef<bool>(_ResetOnChangeOffset.Value);
   }
+  private static readonly Lazy<nint> _LockWhenWaningOffset = new(() => Schema.GetOffset(0x23CD95F2EED48004), LazyThreadSafetyMode.None);
+
   public ref bool LockWhenWaning {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x23CD95F2EED48004));
+    get => ref _Handle.AsRef<bool>(_LockWhenWaningOffset.Value);
   }
+  private static readonly Lazy<nint> _SyncCyclesOnChangeOffset = new(() => Schema.GetOffset(0x23CD95F25DD67E78), LazyThreadSafetyMode.None);
+
   public ref bool SyncCyclesOnChange {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x23CD95F25DD67E78));
+    get => ref _Handle.AsRef<bool>(_SyncCyclesOnChangeOffset.Value);
   }
 
 

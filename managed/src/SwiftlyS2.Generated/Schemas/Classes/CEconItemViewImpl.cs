@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,52 +17,78 @@ internal partial class CEconItemViewImpl : IEconItemInterfaceImpl, CEconItemView
   public CEconItemViewImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ItemDefinitionIndexOffset = new(() => Schema.GetOffset(0xE1A93F25A2CCB41A), LazyThreadSafetyMode.None);
+
   public ref ushort ItemDefinitionIndex {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xE1A93F25A2CCB41A));
+    get => ref _Handle.AsRef<ushort>(_ItemDefinitionIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _EntityQualityOffset = new(() => Schema.GetOffset(0xE1A93F256A67D4C4), LazyThreadSafetyMode.None);
+
   public ref int EntityQuality {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE1A93F256A67D4C4));
+    get => ref _Handle.AsRef<int>(_EntityQualityOffset.Value);
   }
+  private static readonly Lazy<nint> _EntityLevelOffset = new(() => Schema.GetOffset(0xE1A93F2555EF3B5F), LazyThreadSafetyMode.None);
+
   public ref uint EntityLevel {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xE1A93F2555EF3B5F));
+    get => ref _Handle.AsRef<uint>(_EntityLevelOffset.Value);
   }
+  private static readonly Lazy<nint> _ItemIDOffset = new(() => Schema.GetOffset(0xE1A93F2534B55816), LazyThreadSafetyMode.None);
+
   public ref ulong ItemID {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0xE1A93F2534B55816));
+    get => ref _Handle.AsRef<ulong>(_ItemIDOffset.Value);
   }
+  private static readonly Lazy<nint> _ItemIDHighOffset = new(() => Schema.GetOffset(0xE1A93F25373EE446), LazyThreadSafetyMode.None);
+
   public ref uint ItemIDHigh {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xE1A93F25373EE446));
+    get => ref _Handle.AsRef<uint>(_ItemIDHighOffset.Value);
   }
+  private static readonly Lazy<nint> _ItemIDLowOffset = new(() => Schema.GetOffset(0xE1A93F250DF29C2C), LazyThreadSafetyMode.None);
+
   public ref uint ItemIDLow {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xE1A93F250DF29C2C));
+    get => ref _Handle.AsRef<uint>(_ItemIDLowOffset.Value);
   }
+  private static readonly Lazy<nint> _AccountIDOffset = new(() => Schema.GetOffset(0xE1A93F25C65DE986), LazyThreadSafetyMode.None);
+
   public ref uint AccountID {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xE1A93F25C65DE986));
+    get => ref _Handle.AsRef<uint>(_AccountIDOffset.Value);
   }
+  private static readonly Lazy<nint> _InventoryPositionOffset = new(() => Schema.GetOffset(0xE1A93F2592F42873), LazyThreadSafetyMode.None);
+
   public ref uint InventoryPosition {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xE1A93F2592F42873));
+    get => ref _Handle.AsRef<uint>(_InventoryPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _InitializedOffset = new(() => Schema.GetOffset(0xE1A93F250710ABDD), LazyThreadSafetyMode.None);
+
   public ref bool Initialized {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE1A93F250710ABDD));
+    get => ref _Handle.AsRef<bool>(_InitializedOffset.Value);
   }
+  private static readonly Lazy<nint> _AttributeListOffset = new(() => Schema.GetOffset(0xE1A93F25EF065D97), LazyThreadSafetyMode.None);
+
   public CAttributeList AttributeList {
-    get => new CAttributeListImpl(_Handle + Schema.GetOffset(0xE1A93F25EF065D97));
+    get => new CAttributeListImpl(_Handle + _AttributeListOffset.Value);
   }
+  private static readonly Lazy<nint> _NetworkedDynamicAttributesOffset = new(() => Schema.GetOffset(0xE1A93F25B576449C), LazyThreadSafetyMode.None);
+
   public CAttributeList NetworkedDynamicAttributes {
-    get => new CAttributeListImpl(_Handle + Schema.GetOffset(0xE1A93F25B576449C));
+    get => new CAttributeListImpl(_Handle + _NetworkedDynamicAttributesOffset.Value);
   }
+  private static readonly Lazy<nint> _CustomNameOffset = new(() => Schema.GetOffset(0xE1A93F25AFD12EE8), LazyThreadSafetyMode.None);
+
   public string CustomName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xE1A93F25AFD12EE8);
+      var ptr = _Handle + _CustomNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xE1A93F25AFD12EE8, value, 161);
+    set => Schema.SetFixedString(_Handle, _CustomNameOffset.Value, value, 161);
   } 
+  private static readonly Lazy<nint> _CustomNameOverrideOffset = new(() => Schema.GetOffset(0xE1A93F25A74A6ED8), LazyThreadSafetyMode.None);
+
   public string CustomNameOverride {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xE1A93F25A74A6ED8);
+      var ptr = _Handle + _CustomNameOverrideOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xE1A93F25A74A6ED8, value, 161);
+    set => Schema.SetFixedString(_Handle, _CustomNameOverrideOffset.Value, value, 161);
   } 
 
   public void ItemDefinitionIndexUpdated() {

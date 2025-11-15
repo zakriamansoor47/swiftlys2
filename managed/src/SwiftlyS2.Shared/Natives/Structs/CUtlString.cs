@@ -16,9 +16,8 @@ public struct CUtlString {
       return Marshal.PtrToStringUTF8(_ptr)!;
     }
     set => _ptr = StringPool.Allocate(value);
-
   }
 
   public static implicit operator string(CUtlString str) => str.Value;
-  public static implicit operator CUtlString(string str) => new CUtlString { _ptr = StringPool.Allocate(str) };
+  public static implicit operator CUtlString(string str) => new() { _ptr = StringPool.Allocate(str) };
 }

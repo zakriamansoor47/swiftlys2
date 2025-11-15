@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class MaterialParamBuffer_tImpl : MaterialParam_tImpl, Material
   public MaterialParamBuffer_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0x90FFBDB46B99AEEA), LazyThreadSafetyMode.None);
+
   public ref CUtlBinaryBlock Value {
-    get => ref _Handle.AsRef<CUtlBinaryBlock>(Schema.GetOffset(0x90FFBDB46B99AEEA));
+    get => ref _Handle.AsRef<CUtlBinaryBlock>(_ValueOffset.Value);
   }
 
 

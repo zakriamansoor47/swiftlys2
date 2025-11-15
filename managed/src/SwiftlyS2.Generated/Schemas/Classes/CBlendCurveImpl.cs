@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CBlendCurveImpl : SchemaClass, CBlendCurve {
   public CBlendCurveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPoint1Offset = new(() => Schema.GetOffset(0x837A0008CD928165), LazyThreadSafetyMode.None);
+
   public ref float ControlPoint1 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x837A0008CD928165));
+    get => ref _Handle.AsRef<float>(_ControlPoint1Offset.Value);
   }
+  private static readonly Lazy<nint> _ControlPoint2Offset = new(() => Schema.GetOffset(0x837A0008CA927CAC), LazyThreadSafetyMode.None);
+
   public ref float ControlPoint2 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x837A0008CA927CAC));
+    get => ref _Handle.AsRef<float>(_ControlPoint2Offset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CVirtualAnimParameterImpl : CAnimParameterBaseImpl, CVirt
   public CVirtualAnimParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ExpressionStringOffset = new(() => Schema.GetOffset(0x3D45915B3039426E), LazyThreadSafetyMode.None);
+
   public string ExpressionString {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x3D45915B3039426E));
+      var ptr = _Handle.Read<nint>(_ExpressionStringOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x3D45915B3039426E, value);
+    set => Schema.SetString(_Handle, _ExpressionStringOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ParamTypeOffset = new(() => Schema.GetOffset(0x3D45915BF05DFDD9), LazyThreadSafetyMode.None);
+
   public ref AnimParamType_t ParamType {
-    get => ref _Handle.AsRef<AnimParamType_t>(Schema.GetOffset(0x3D45915BF05DFDD9));
+    get => ref _Handle.AsRef<AnimParamType_t>(_ParamTypeOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_UnknownImpl : CPulseCell_BaseImpl, CPulseCell_
   public CPulseCell_UnknownImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _UnknownKeysOffset = new(() => Schema.GetOffset(0xEA868E8A1EC86FF9), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField UnknownKeys {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xEA868E8A1EC86FF9));
+    get => new SchemaUntypedField(_Handle + _UnknownKeysOffset.Value);
   }
 
 

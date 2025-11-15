@@ -20,7 +20,7 @@ internal class CoreCommandService
   private PluginManager _PluginManager { get; init; }
   private ProfileService _ProfileService { get; init; }
 
-  public CoreCommandService(ILogger<CoreCommandService> logger, ISwiftlyCore core, PluginManager pluginManager, ProfileService profileService)
+  public CoreCommandService( ILogger<CoreCommandService> logger, ISwiftlyCore core, PluginManager pluginManager, ProfileService profileService )
   {
     _Logger = logger;
     _Core = core;
@@ -30,7 +30,7 @@ internal class CoreCommandService
     _CommandService.RegisterCommand("sw", OnCommand, true);
   }
 
-  private void OnCommand(ICommandContext context)
+  private void OnCommand( ICommandContext context )
   {
     try
     {
@@ -129,11 +129,12 @@ GitHub: https://github.com/swiftly-solution/swiftlys2");
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       _Logger.LogError(e, "Error executing command");
     }
   }
 
-  private static void ShowHelp(ICommandContext context)
+  private static void ShowHelp( ICommandContext context )
   {
     var table = new Table().AddColumn("Command").AddColumn("Description");
     table.AddRow("credits", "List Swiftly credits");
@@ -151,7 +152,7 @@ GitHub: https://github.com/swiftly-solution/swiftlys2");
     AnsiConsole.Write(table);
   }
 
-  private void ConfilterCommand(ICommandContext context)
+  private void ConfilterCommand( ICommandContext context )
   {
     var args = context.Args;
     if (args.Length == 1)
@@ -188,7 +189,7 @@ GitHub: https://github.com/swiftly-solution/swiftlys2");
     }
   }
 
-  private void ProfilerCommand(ICommandContext context)
+  private void ProfilerCommand( ICommandContext context )
   {
     var args = context.Args;
     if (args.Length == 1)
@@ -233,7 +234,7 @@ GitHub: https://github.com/swiftly-solution/swiftlys2");
     }
   }
 
-  private void PluginCommand(ICommandContext context)
+  private void PluginCommand( ICommandContext context )
   {
     var args = context.Args;
     if (args.Length == 1)
@@ -250,10 +251,10 @@ GitHub: https://github.com/swiftly-solution/swiftlys2");
     switch (args[1])
     {
       case "list":
-        var table = new Table().AddColumn("Name").AddColumn("Status");
+        var table = new Table().AddColumn("Name").AddColumn("Status").AddColumn("Version").AddColumn("Author").AddColumn("Website");
         foreach (var plugin in _PluginManager.GetPlugins())
         {
-          table.AddRow(plugin.Metadata?.Id ?? "<UNKNOWN>", plugin.Status?.ToString() ?? "Unknown");
+          table.AddRow(plugin.Metadata?.Id ?? "<UNKNOWN>", plugin.Status?.ToString() ?? "Unknown", plugin.Metadata?.Version ?? "<UNKNOWN>", plugin.Metadata?.Author ?? "<UNKNOWN>", plugin.Metadata?.Website ?? "<UNKNOWN>");
         }
         AnsiConsole.Write(table);
         break;

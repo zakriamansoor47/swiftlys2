@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CFutureVelocityMetricEvaluatorImpl : CMotionMetricEvaluat
   public CFutureVelocityMetricEvaluatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0xF0A3A8300DC4A68), LazyThreadSafetyMode.None);
+
   public ref float Distance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF0A3A8300DC4A68));
+    get => ref _Handle.AsRef<float>(_DistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _StoppingDistanceOffset = new(() => Schema.GetOffset(0xF0A3A8324979434), LazyThreadSafetyMode.None);
+
   public ref float StoppingDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF0A3A8324979434));
+    get => ref _Handle.AsRef<float>(_StoppingDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetSpeedOffset = new(() => Schema.GetOffset(0xF0A3A839C627845), LazyThreadSafetyMode.None);
+
   public ref float TargetSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF0A3A839C627845));
+    get => ref _Handle.AsRef<float>(_TargetSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _ModeOffset = new(() => Schema.GetOffset(0xF0A3A831050A633), LazyThreadSafetyMode.None);
+
   public ref VelocityMetricMode Mode {
-    get => ref _Handle.AsRef<VelocityMetricMode>(Schema.GetOffset(0xF0A3A831050A633));
+    get => ref _Handle.AsRef<VelocityMetricMode>(_ModeOffset.Value);
   }
 
 

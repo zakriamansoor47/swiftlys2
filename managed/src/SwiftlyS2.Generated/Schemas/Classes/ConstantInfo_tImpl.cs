@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class ConstantInfo_tImpl : SchemaClass, ConstantInfo_t {
   public ConstantInfo_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0xF4BEF78E4D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF4BEF78E4D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF4BEF78E4D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _NameTokenOffset = new(() => Schema.GetOffset(0xF4BEF78E9293FEF3), LazyThreadSafetyMode.None);
+
   public ref CUtlStringToken NameToken {
-    get => ref _Handle.AsRef<CUtlStringToken>(Schema.GetOffset(0xF4BEF78E9293FEF3));
+    get => ref _Handle.AsRef<CUtlStringToken>(_NameTokenOffset.Value);
   }
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xF4BEF78E8DFCB984), LazyThreadSafetyMode.None);
+
   public ref float Value {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF4BEF78E8DFCB984));
+    get => ref _Handle.AsRef<float>(_ValueOffset.Value);
   }
 
 

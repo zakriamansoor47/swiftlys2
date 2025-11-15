@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNavVolumeBreadthFirstSearchImpl : CNavVolumeCalculatedVe
   public CNavVolumeBreadthFirstSearchImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartPosOffset = new(() => Schema.GetOffset(0x7C16FC090FE14C1B), LazyThreadSafetyMode.None);
+
   public ref Vector StartPos {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x7C16FC090FE14C1B));
+    get => ref _Handle.AsRef<Vector>(_StartPosOffset.Value);
   }
+  private static readonly Lazy<nint> _SearchDistOffset = new(() => Schema.GetOffset(0x7C16FC098227285F), LazyThreadSafetyMode.None);
+
   public ref float SearchDist {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7C16FC098227285F));
+    get => ref _Handle.AsRef<float>(_SearchDistOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_ClampScalarImpl : CParticleFunctionOperatorImpl, C_O
   public C_OP_ClampScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x2D8090A0E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x2D8090A0E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0x2D8090A05F8D7716), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput OutputMin {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x2D8090A05F8D7716));
+    get => new CPerParticleFloatInputImpl(_Handle + _OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0x2D8090A051A0E8C4), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput OutputMax {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x2D8090A051A0E8C4));
+    get => new CPerParticleFloatInputImpl(_Handle + _OutputMaxOffset.Value);
   }
 
 

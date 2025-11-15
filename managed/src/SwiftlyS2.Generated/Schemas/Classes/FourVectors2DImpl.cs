@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class FourVectors2DImpl : SchemaClass, FourVectors2D {
   public FourVectors2DImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _XOffset = new(() => Schema.GetOffset(0x7A817FA5FD0C5087), LazyThreadSafetyMode.None);
+
   public ref fltx4 X {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0x7A817FA5FD0C5087));
+    get => ref _Handle.AsRef<fltx4>(_XOffset.Value);
   }
+  private static readonly Lazy<nint> _YOffset = new(() => Schema.GetOffset(0x7A817FA5FC0C4EF4), LazyThreadSafetyMode.None);
+
   public ref fltx4 Y {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0x7A817FA5FC0C4EF4));
+    get => ref _Handle.AsRef<fltx4>(_YOffset.Value);
   }
 
 

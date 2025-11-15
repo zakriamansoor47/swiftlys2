@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class ParticleNamedValueSource_tImpl : SchemaClass, ParticleNam
   public ParticleNamedValueSource_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x740B6BEFCAE8A266), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x740B6BEFCAE8A266));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x740B6BEFCAE8A266, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _IsPublicOffset = new(() => Schema.GetOffset(0x740B6BEFD2D88EB0), LazyThreadSafetyMode.None);
+
   public ref bool IsPublic {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x740B6BEFD2D88EB0));
+    get => ref _Handle.AsRef<bool>(_IsPublicOffset.Value);
   }
+  private static readonly Lazy<nint> _ValueTypeOffset = new(() => Schema.GetOffset(0x740B6BEFC2A673CA), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ValueType {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x740B6BEFC2A673CA));
+    get => new SchemaUntypedField(_Handle + _ValueTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultConfigOffset = new(() => Schema.GetOffset(0x740B6BEF05A58128), LazyThreadSafetyMode.None);
+
   public ParticleNamedValueConfiguration_t DefaultConfig {
-    get => new ParticleNamedValueConfiguration_tImpl(_Handle + Schema.GetOffset(0x740B6BEF05A58128));
+    get => new ParticleNamedValueConfiguration_tImpl(_Handle + _DefaultConfigOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimEnumImpl : SchemaClass, CAnimEnum {
   public CAnimEnumImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xFB67C2A26B99AEEA), LazyThreadSafetyMode.None);
+
   public ref byte Value {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xFB67C2A26B99AEEA));
+    get => ref _Handle.AsRef<byte>(_ValueOffset.Value);
   }
 
 

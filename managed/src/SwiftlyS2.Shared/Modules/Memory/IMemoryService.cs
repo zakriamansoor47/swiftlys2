@@ -58,6 +58,27 @@ public interface IMemoryService
   /// <returns>The resolved address.</returns>
   nint ResolveXrefAddress(nint xrefAddress);
 
+  /// <summary>
+  /// Get the vtable name of an object pointer.
+  /// </summary>
+  /// <param name="address">The address of the object pointer.</param>
+  /// <returns>The vtable name. Return null if not found.</returns>
+  string? GetObjectPtrVtableName(nint address);
+  
+  /// <summary>
+  /// Check if an object pointer has a vtable.
+  /// </summary>
+  /// <param name="address">The address of the object pointer.</param>
+  /// <returns>True if the object pointer has a vtable, false otherwise.</returns>
+  bool ObjectPtrHasVtable(nint address);
+  
+  /// <summary>
+  /// Check if an object pointer has a base class.
+  /// </summary>
+  /// <param name="address">The address of the object pointer.</param>
+  /// <param name="baseClassName">The name of the base class.</param>
+  /// <returns>True if the object pointer has the base class, false otherwise.</returns>
+  bool ObjectPtrHasBaseClass(nint address, string baseClassName);
 
   /// <summary>
   /// Convert a raw address to a schema class.

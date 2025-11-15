@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_RandomTrailLengthImpl : CParticleFunctionInitializ
   public C_INIT_RandomTrailLengthImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinLengthOffset = new(() => Schema.GetOffset(0x6418031B95FB8E51), LazyThreadSafetyMode.None);
+
   public ref float MinLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6418031B95FB8E51));
+    get => ref _Handle.AsRef<float>(_MinLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxLengthOffset = new(() => Schema.GetOffset(0x6418031B87A8B4C7), LazyThreadSafetyMode.None);
+
   public ref float MaxLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6418031B87A8B4C7));
+    get => ref _Handle.AsRef<float>(_MaxLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _LengthRandExponentOffset = new(() => Schema.GetOffset(0x6418031B41B064A7), LazyThreadSafetyMode.None);
+
   public ref float LengthRandExponent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6418031B41B064A7));
+    get => ref _Handle.AsRef<float>(_LengthRandExponentOffset.Value);
   }
 
 

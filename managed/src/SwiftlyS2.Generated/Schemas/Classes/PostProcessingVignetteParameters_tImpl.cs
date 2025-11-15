@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class PostProcessingVignetteParameters_tImpl : SchemaClass, Pos
   public PostProcessingVignetteParameters_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VignetteStrengthOffset = new(() => Schema.GetOffset(0xC31FEB45110C062C), LazyThreadSafetyMode.None);
+
   public ref float VignetteStrength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC31FEB45110C062C));
+    get => ref _Handle.AsRef<float>(_VignetteStrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _CenterOffset = new(() => Schema.GetOffset(0xC31FEB45C82A5908), LazyThreadSafetyMode.None);
+
   public ref Vector2D Center {
-    get => ref _Handle.AsRef<Vector2D>(Schema.GetOffset(0xC31FEB45C82A5908));
+    get => ref _Handle.AsRef<Vector2D>(_CenterOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0xC31FEB455ACFC08D), LazyThreadSafetyMode.None);
+
   public ref float Radius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC31FEB455ACFC08D));
+    get => ref _Handle.AsRef<float>(_RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _RoundnessOffset = new(() => Schema.GetOffset(0xC31FEB453987DB42), LazyThreadSafetyMode.None);
+
   public ref float Roundness {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC31FEB453987DB42));
+    get => ref _Handle.AsRef<float>(_RoundnessOffset.Value);
   }
+  private static readonly Lazy<nint> _FeatherOffset = new(() => Schema.GetOffset(0xC31FEB455070E146), LazyThreadSafetyMode.None);
+
   public ref float Feather {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC31FEB455070E146));
+    get => ref _Handle.AsRef<float>(_FeatherOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorTintOffset = new(() => Schema.GetOffset(0xC31FEB45569A6EA9), LazyThreadSafetyMode.None);
+
   public ref Vector ColorTint {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC31FEB45569A6EA9));
+    get => ref _Handle.AsRef<Vector>(_ColorTintOffset.Value);
   }
 
 

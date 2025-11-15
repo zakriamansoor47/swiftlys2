@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_INIT_RandomScalarImpl : CParticleFunctionInitializerImp
   public C_INIT_RandomScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinOffset = new(() => Schema.GetOffset(0x76660B0D3B1A5649), LazyThreadSafetyMode.None);
+
   public ref float Min {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x76660B0D3B1A5649));
+    get => ref _Handle.AsRef<float>(_MinOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxOffset = new(() => Schema.GetOffset(0x76660B0D2D06B887), LazyThreadSafetyMode.None);
+
   public ref float Max {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x76660B0D2D06B887));
+    get => ref _Handle.AsRef<float>(_MaxOffset.Value);
   }
+  private static readonly Lazy<nint> _ExponentOffset = new(() => Schema.GetOffset(0x76660B0D20A7BCBC), LazyThreadSafetyMode.None);
+
   public ref float Exponent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x76660B0D20A7BCBC));
+    get => ref _Handle.AsRef<float>(_ExponentOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x76660B0DE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x76660B0DE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
 
 

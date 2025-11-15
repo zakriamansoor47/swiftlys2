@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CAudioSentenceImpl : SchemaClass, CAudioSentence {
   public CAudioSentenceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ShouldVoiceDuckOffset = new(() => Schema.GetOffset(0x25F8D719C546CD15), LazyThreadSafetyMode.None);
+
   public ref bool ShouldVoiceDuck {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x25F8D719C546CD15));
+    get => ref _Handle.AsRef<bool>(_ShouldVoiceDuckOffset.Value);
   }
+  private static readonly Lazy<nint> _RunTimePhonemesOffset = new(() => Schema.GetOffset(0x25F8D719C0434838), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CAudioPhonemeTag> RunTimePhonemes {
-    get => ref _Handle.AsRef<CUtlVector<CAudioPhonemeTag>>(Schema.GetOffset(0x25F8D719C0434838));
+    get => ref _Handle.AsRef<CUtlVector<CAudioPhonemeTag>>(_RunTimePhonemesOffset.Value);
   }
+  private static readonly Lazy<nint> _EmphasisSamplesOffset = new(() => Schema.GetOffset(0x25F8D7194EBE8F82), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CAudioEmphasisSample> EmphasisSamples {
-    get => ref _Handle.AsRef<CUtlVector<CAudioEmphasisSample>>(Schema.GetOffset(0x25F8D7194EBE8F82));
+    get => ref _Handle.AsRef<CUtlVector<CAudioEmphasisSample>>(_EmphasisSamplesOffset.Value);
   }
+  private static readonly Lazy<nint> _MorphDataOffset = new(() => Schema.GetOffset(0x25F8D719A8207F65), LazyThreadSafetyMode.None);
+
   public CAudioMorphData MorphData {
-    get => new CAudioMorphDataImpl(_Handle + Schema.GetOffset(0x25F8D719A8207F65));
+    get => new CAudioMorphDataImpl(_Handle + _MorphDataOffset.Value);
   }
 
 

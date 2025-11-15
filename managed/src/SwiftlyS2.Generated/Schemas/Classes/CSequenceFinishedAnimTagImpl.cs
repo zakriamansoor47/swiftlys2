@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CSequenceFinishedAnimTagImpl : CAnimTagBaseImpl, CSequenc
   public CSequenceFinishedAnimTagImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SequenceNameOffset = new(() => Schema.GetOffset(0x1B46C5202B4A24CB), LazyThreadSafetyMode.None);
+
   public string SequenceName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x1B46C5202B4A24CB));
+      var ptr = _Handle.Read<nint>(_SequenceNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x1B46C5202B4A24CB, value);
+    set => Schema.SetString(_Handle, _SequenceNameOffset.Value, value);
   } 
 
 

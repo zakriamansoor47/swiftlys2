@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CDebugHistoryImpl : CBaseEntityImpl, CDebugHistory {
   public CDebugHistoryImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NpcEventsOffset = new(() => Schema.GetOffset(0xD14757AF8F70D3F5), LazyThreadSafetyMode.None);
+
   public ref int NpcEvents {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD14757AF8F70D3F5));
+    get => ref _Handle.AsRef<int>(_NpcEventsOffset.Value);
   }
 
 

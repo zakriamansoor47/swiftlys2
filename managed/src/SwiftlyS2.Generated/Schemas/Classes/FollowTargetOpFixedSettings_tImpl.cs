@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class FollowTargetOpFixedSettings_tImpl : SchemaClass, FollowTa
   public FollowTargetOpFixedSettings_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoneIndexOffset = new(() => Schema.GetOffset(0xF6423DF66AFA4155), LazyThreadSafetyMode.None);
+
   public ref int BoneIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xF6423DF66AFA4155));
+    get => ref _Handle.AsRef<int>(_BoneIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneTargetOffset = new(() => Schema.GetOffset(0xF6423DF60E626FD2), LazyThreadSafetyMode.None);
+
   public ref bool BoneTarget {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF6423DF60E626FD2));
+    get => ref _Handle.AsRef<bool>(_BoneTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneTargetIndexOffset = new(() => Schema.GetOffset(0xF6423DF62218DF46), LazyThreadSafetyMode.None);
+
   public ref int BoneTargetIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xF6423DF62218DF46));
+    get => ref _Handle.AsRef<int>(_BoneTargetIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _WorldCoodinateTargetOffset = new(() => Schema.GetOffset(0xF6423DF60B5B2B16), LazyThreadSafetyMode.None);
+
   public ref bool WorldCoodinateTarget {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF6423DF60B5B2B16));
+    get => ref _Handle.AsRef<bool>(_WorldCoodinateTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _MatchTargetOrientationOffset = new(() => Schema.GetOffset(0xF6423DF642E0C3DB), LazyThreadSafetyMode.None);
+
   public ref bool MatchTargetOrientation {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF6423DF642E0C3DB));
+    get => ref _Handle.AsRef<bool>(_MatchTargetOrientationOffset.Value);
   }
 
 

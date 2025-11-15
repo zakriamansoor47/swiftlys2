@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CNmBoneMaskSelectorNode__CDefinitionImpl : CNmBoneMaskVal
   public CNmBoneMaskSelectorNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefaultMaskNodeIdxOffset = new(() => Schema.GetOffset(0xA90158701E92549D), LazyThreadSafetyMode.None);
+
   public ref short DefaultMaskNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xA90158701E92549D));
+    get => ref _Handle.AsRef<short>(_DefaultMaskNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterValueNodeIdxOffset = new(() => Schema.GetOffset(0xA90158702696FA7C), LazyThreadSafetyMode.None);
+
   public ref short ParameterValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xA90158702696FA7C));
+    get => ref _Handle.AsRef<short>(_ParameterValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _SwitchDynamicallyOffset = new(() => Schema.GetOffset(0xA9015870461869F8), LazyThreadSafetyMode.None);
+
   public ref bool SwitchDynamically {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA9015870461869F8));
+    get => ref _Handle.AsRef<bool>(_SwitchDynamicallyOffset.Value);
   }
+  private static readonly Lazy<nint> _MaskNodeIndicesOffset = new(() => Schema.GetOffset(0xA90158703326692E), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField MaskNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA90158703326692E));
+    get => new SchemaUntypedField(_Handle + _MaskNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterValuesOffset = new(() => Schema.GetOffset(0xA90158709D777E36), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ParameterValues {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA90158709D777E36));
+    get => new SchemaUntypedField(_Handle + _ParameterValuesOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendTimeSecondsOffset = new(() => Schema.GetOffset(0xA90158706D3A08FC), LazyThreadSafetyMode.None);
+
   public ref float BlendTimeSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA90158706D3A08FC));
+    get => ref _Handle.AsRef<float>(_BlendTimeSecondsOffset.Value);
   }
 
 

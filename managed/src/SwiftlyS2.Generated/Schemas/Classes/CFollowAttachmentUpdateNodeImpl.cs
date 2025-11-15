@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFollowAttachmentUpdateNodeImpl : CUnaryUpdateNodeImpl, C
   public CFollowAttachmentUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OpFixedDataOffset = new(() => Schema.GetOffset(0x8E705AE36960AF8C), LazyThreadSafetyMode.None);
+
   public FollowAttachmentSettings_t OpFixedData {
-    get => new FollowAttachmentSettings_tImpl(_Handle + Schema.GetOffset(0x8E705AE36960AF8C));
+    get => new FollowAttachmentSettings_tImpl(_Handle + _OpFixedDataOffset.Value);
   }
 
 

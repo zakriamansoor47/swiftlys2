@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class FeNodeReverseOffset_tImpl : SchemaClass, FeNodeReverseOff
   public FeNodeReverseOffset_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xA3D68D6AB2913856), LazyThreadSafetyMode.None);
+
   public ref Vector Offset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xA3D68D6AB2913856));
+    get => ref _Handle.AsRef<Vector>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneCtrlOffset = new(() => Schema.GetOffset(0xA3D68D6AE9730872), LazyThreadSafetyMode.None);
+
   public ref ushort BoneCtrl {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xA3D68D6AE9730872));
+    get => ref _Handle.AsRef<ushort>(_BoneCtrlOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetNodeOffset = new(() => Schema.GetOffset(0xA3D68D6A817BD540), LazyThreadSafetyMode.None);
+
   public ref ushort TargetNode {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xA3D68D6A817BD540));
+    get => ref _Handle.AsRef<ushort>(_TargetNodeOffset.Value);
   }
 
 

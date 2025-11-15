@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPropDoorRotatingBreakableImpl : CPropDoorRotatingImpl, C
   public CPropDoorRotatingBreakableImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BreakableOffset = new(() => Schema.GetOffset(0xCB925ACA549B5310), LazyThreadSafetyMode.None);
+
   public ref bool Breakable {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCB925ACA549B5310));
+    get => ref _Handle.AsRef<bool>(_BreakableOffset.Value);
   }
+  private static readonly Lazy<nint> _IsAbleToCloseAreaPortalsOffset = new(() => Schema.GetOffset(0xCB925ACAAC381C84), LazyThreadSafetyMode.None);
+
   public ref bool IsAbleToCloseAreaPortals {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCB925ACAAC381C84));
+    get => ref _Handle.AsRef<bool>(_IsAbleToCloseAreaPortalsOffset.Value);
   }
+  private static readonly Lazy<nint> _CurrentDamageStateOffset = new(() => Schema.GetOffset(0xCB925ACA29591458), LazyThreadSafetyMode.None);
+
   public ref int CurrentDamageState {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xCB925ACA29591458));
+    get => ref _Handle.AsRef<int>(_CurrentDamageStateOffset.Value);
   }
+  private static readonly Lazy<nint> _DamageStatesOffset = new(() => Schema.GetOffset(0xCB925ACA4FD16F52), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SchemaUntypedField> DamageStates {
-    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(Schema.GetOffset(0xCB925ACA4FD16F52));
+    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(_DamageStatesOffset.Value);
   }
 
 

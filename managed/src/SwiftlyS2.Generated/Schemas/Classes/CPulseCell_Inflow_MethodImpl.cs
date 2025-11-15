@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class CPulseCell_Inflow_MethodImpl : CPulseCell_Inflow_BaseEntr
   public CPulseCell_Inflow_MethodImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MethodNameOffset = new(() => Schema.GetOffset(0xFB5926557D863B13), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField MethodName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xFB5926557D863B13));
+    get => new SchemaUntypedField(_Handle + _MethodNameOffset.Value);
   }
+  private static readonly Lazy<nint> _DescriptionOffset = new(() => Schema.GetOffset(0xFB592655678744E9), LazyThreadSafetyMode.None);
+
   public string Description {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xFB592655678744E9));
+      var ptr = _Handle.Read<nint>(_DescriptionOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xFB592655678744E9, value);
+    set => Schema.SetString(_Handle, _DescriptionOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _IsPublicOffset = new(() => Schema.GetOffset(0xFB592655BAE30B50), LazyThreadSafetyMode.None);
+
   public ref bool IsPublic {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFB592655BAE30B50));
+    get => ref _Handle.AsRef<bool>(_IsPublicOffset.Value);
   }
+  private static readonly Lazy<nint> _ReturnTypeOffset = new(() => Schema.GetOffset(0xFB59265566333D67), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ReturnType {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xFB59265566333D67));
+    get => new SchemaUntypedField(_Handle + _ReturnTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _ArgsOffset = new(() => Schema.GetOffset(0xFB592655DAB98BBC), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<CPulseRuntimeMethodArg, int> Args {
-    get => ref _Handle.AsRef<CUtlLeanVector<CPulseRuntimeMethodArg, int>>(Schema.GetOffset(0xFB592655DAB98BBC));
+    get => ref _Handle.AsRef<CUtlLeanVector<CPulseRuntimeMethodArg, int>>(_ArgsOffset.Value);
   }
 
 

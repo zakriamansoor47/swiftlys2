@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CTriggerRemoveImpl : CBaseTriggerImpl, CTriggerRemove {
   public CTriggerRemoveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnRemoveOffset = new(() => Schema.GetOffset(0x97A9D4D67DC268F8), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnRemove {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x97A9D4D67DC268F8));
+    get => new CEntityIOOutputImpl(_Handle + _OnRemoveOffset.Value);
   }
 
 

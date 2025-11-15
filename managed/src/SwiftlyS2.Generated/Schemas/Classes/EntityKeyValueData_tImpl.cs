@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class EntityKeyValueData_tImpl : SchemaClass, EntityKeyValueDat
   public EntityKeyValueData_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConnectionsOffset = new(() => Schema.GetOffset(0x66FE4A4558F33FBE), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<EntityIOConnectionData_t> Connections {
-    get => ref _Handle.AsRef<CUtlVector<EntityIOConnectionData_t>>(Schema.GetOffset(0x66FE4A4558F33FBE));
+    get => ref _Handle.AsRef<CUtlVector<EntityIOConnectionData_t>>(_ConnectionsOffset.Value);
   }
+  private static readonly Lazy<nint> _KeyValuesDataOffset = new(() => Schema.GetOffset(0x66FE4A451BD58EB2), LazyThreadSafetyMode.None);
+
   public ref CUtlBinaryBlock KeyValuesData {
-    get => ref _Handle.AsRef<CUtlBinaryBlock>(Schema.GetOffset(0x66FE4A451BD58EB2));
+    get => ref _Handle.AsRef<CUtlBinaryBlock>(_KeyValuesDataOffset.Value);
   }
 
 

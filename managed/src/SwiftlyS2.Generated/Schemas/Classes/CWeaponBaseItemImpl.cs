@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CWeaponBaseItemImpl : CCSWeaponBaseImpl, CWeaponBaseItem 
   public CWeaponBaseItemImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SequenceInProgressOffset = new(() => Schema.GetOffset(0xE4ECC3486DDA8858), LazyThreadSafetyMode.None);
+
   public ref bool SequenceInProgress {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE4ECC3486DDA8858));
+    get => ref _Handle.AsRef<bool>(_SequenceInProgressOffset.Value);
   }
+  private static readonly Lazy<nint> _RedrawOffset = new(() => Schema.GetOffset(0xE4ECC348612F4EB2), LazyThreadSafetyMode.None);
+
   public ref bool Redraw {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE4ECC348612F4EB2));
+    get => ref _Handle.AsRef<bool>(_RedrawOffset.Value);
   }
 
   public void SequenceInProgressUpdated() {

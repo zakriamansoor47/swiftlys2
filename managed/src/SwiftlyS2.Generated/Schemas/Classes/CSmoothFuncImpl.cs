@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CSmoothFuncImpl : SchemaClass, CSmoothFunc {
   public CSmoothFuncImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SmoothAmplitudeOffset = new(() => Schema.GetOffset(0x4C3907DAAB831D3A), LazyThreadSafetyMode.None);
+
   public ref float SmoothAmplitude {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4C3907DAAB831D3A));
+    get => ref _Handle.AsRef<float>(_SmoothAmplitudeOffset.Value);
   }
+  private static readonly Lazy<nint> _SmoothBiasOffset = new(() => Schema.GetOffset(0x4C3907DA8DF7120C), LazyThreadSafetyMode.None);
+
   public ref float SmoothBias {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4C3907DA8DF7120C));
+    get => ref _Handle.AsRef<float>(_SmoothBiasOffset.Value);
   }
+  private static readonly Lazy<nint> _SmoothDurationOffset = new(() => Schema.GetOffset(0x4C3907DA62F4C0D5), LazyThreadSafetyMode.None);
+
   public ref float SmoothDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4C3907DA62F4C0D5));
+    get => ref _Handle.AsRef<float>(_SmoothDurationOffset.Value);
   }
+  private static readonly Lazy<nint> _SmoothRemainingTimeOffset = new(() => Schema.GetOffset(0x4C3907DAB4D54372), LazyThreadSafetyMode.None);
+
   public ref float SmoothRemainingTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4C3907DAB4D54372));
+    get => ref _Handle.AsRef<float>(_SmoothRemainingTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _SmoothDirOffset = new(() => Schema.GetOffset(0x4C3907DAB90556AA), LazyThreadSafetyMode.None);
+
   public ref int SmoothDir {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4C3907DAB90556AA));
+    get => ref _Handle.AsRef<int>(_SmoothDirOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CCSPlayerController_DamageServicesImpl : CPlayerControlle
   public CCSPlayerController_DamageServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SendUpdateOffset = new(() => Schema.GetOffset(0xC354634BBB7D4BC2), LazyThreadSafetyMode.None);
+
   public ref int SendUpdate {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC354634BBB7D4BC2));
+    get => ref _Handle.AsRef<int>(_SendUpdateOffset.Value);
   }
+  private static readonly Lazy<nint> _DamageListOffset = new(() => Schema.GetOffset(0xC354634B48D4B628), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CDamageRecord> DamageList {
-    get => ref _Handle.AsRef<CUtlVector<CDamageRecord>>(Schema.GetOffset(0xC354634B48D4B628));
+    get => ref _Handle.AsRef<CUtlVector<CDamageRecord>>(_DamageListOffset.Value);
   }
 
   public void SendUpdateUpdated() {

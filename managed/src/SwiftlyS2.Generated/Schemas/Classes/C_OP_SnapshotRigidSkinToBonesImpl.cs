@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_SnapshotRigidSkinToBonesImpl : CParticleFunctionOper
   public C_OP_SnapshotRigidSkinToBonesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TransformNormalsOffset = new(() => Schema.GetOffset(0x208C05EB3C6BFD75), LazyThreadSafetyMode.None);
+
   public ref bool TransformNormals {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x208C05EB3C6BFD75));
+    get => ref _Handle.AsRef<bool>(_TransformNormalsOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformRadiiOffset = new(() => Schema.GetOffset(0x208C05EB8183F664), LazyThreadSafetyMode.None);
+
   public ref bool TransformRadii {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x208C05EB8183F664));
+    get => ref _Handle.AsRef<bool>(_TransformRadiiOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x208C05EB3F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x208C05EB3F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_SetVecImpl : CParticleFunctionOperatorImpl, C_OP_Set
   public C_OP_SetVecImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueOffset = new(() => Schema.GetOffset(0x24E155B734445438), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput InputValue {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x24E155B734445438));
+    get => new CPerParticleVecInputImpl(_Handle + _InputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputFieldOffset = new(() => Schema.GetOffset(0x24E155B7324F6F74), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t OutputField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x24E155B7324F6F74));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _OutputFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x24E155B7FB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x24E155B7FB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _LerpOffset = new(() => Schema.GetOffset(0x24E155B75C17F8E8), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Lerp {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x24E155B75C17F8E8));
+    get => new CPerParticleFloatInputImpl(_Handle + _LerpOffset.Value);
   }
+  private static readonly Lazy<nint> _NormalizedOutputOffset = new(() => Schema.GetOffset(0x24E155B70AA98C55), LazyThreadSafetyMode.None);
+
   public ref bool NormalizedOutput {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x24E155B70AA98C55));
+    get => ref _Handle.AsRef<bool>(_NormalizedOutputOffset.Value);
   }
 
 

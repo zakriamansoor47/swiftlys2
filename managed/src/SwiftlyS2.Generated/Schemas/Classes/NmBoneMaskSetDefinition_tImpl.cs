@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class NmBoneMaskSetDefinition_tImpl : SchemaClass, NmBoneMaskSe
   public NmBoneMaskSetDefinition_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IDOffset = new(() => Schema.GetOffset(0xEA12116095066900), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol ID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xEA12116095066900));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_IDOffset.Value);
   }
+  private static readonly Lazy<nint> _PrimaryWeightListOffset = new(() => Schema.GetOffset(0xEA1211603AF7FF49), LazyThreadSafetyMode.None);
+
   public CNmBoneWeightList PrimaryWeightList {
-    get => new CNmBoneWeightListImpl(_Handle + Schema.GetOffset(0xEA1211603AF7FF49));
+    get => new CNmBoneWeightListImpl(_Handle + _PrimaryWeightListOffset.Value);
   }
+  private static readonly Lazy<nint> _SecondaryWeightListsOffset = new(() => Schema.GetOffset(0xEA12116021DB2776), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<CNmBoneWeightList, int> SecondaryWeightLists {
-    get => ref _Handle.AsRef<CUtlLeanVector<CNmBoneWeightList, int>>(Schema.GetOffset(0xEA12116021DB2776));
+    get => ref _Handle.AsRef<CUtlLeanVector<CNmBoneWeightList, int>>(_SecondaryWeightListsOffset.Value);
   }
 
 

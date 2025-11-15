@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_RemapDistanceToLineSegmentBaseImpl : CParticleFuncti
   public C_OP_RemapDistanceToLineSegmentBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CP0Offset = new(() => Schema.GetOffset(0xD8219F7AD3B1E3E6), LazyThreadSafetyMode.None);
+
   public ref int CP0 {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD8219F7AD3B1E3E6));
+    get => ref _Handle.AsRef<int>(_CP0Offset.Value);
   }
+  private static readonly Lazy<nint> _CP1Offset = new(() => Schema.GetOffset(0xD8219F7AD4B1E579), LazyThreadSafetyMode.None);
+
   public ref int CP1 {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD8219F7AD4B1E579));
+    get => ref _Handle.AsRef<int>(_CP1Offset.Value);
   }
+  private static readonly Lazy<nint> _MinInputValueOffset = new(() => Schema.GetOffset(0xD8219F7ABDB4BC64), LazyThreadSafetyMode.None);
+
   public ref float MinInputValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD8219F7ABDB4BC64));
+    get => ref _Handle.AsRef<float>(_MinInputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxInputValueOffset = new(() => Schema.GetOffset(0xD8219F7A3EF75C2A), LazyThreadSafetyMode.None);
+
   public ref float MaxInputValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD8219F7A3EF75C2A));
+    get => ref _Handle.AsRef<float>(_MaxInputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _InfiniteLineOffset = new(() => Schema.GetOffset(0xD8219F7A9C5BC47F), LazyThreadSafetyMode.None);
+
   public ref bool InfiniteLine {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD8219F7A9C5BC47F));
+    get => ref _Handle.AsRef<bool>(_InfiniteLineOffset.Value);
   }
 
 

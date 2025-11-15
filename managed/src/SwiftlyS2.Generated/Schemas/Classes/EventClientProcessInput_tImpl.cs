@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class EventClientProcessInput_tImpl : SchemaClass, EventClientP
   public EventClientProcessInput_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LoopStateOffset = new(() => Schema.GetOffset(0x406EC290F928A2EC), LazyThreadSafetyMode.None);
+
   public EngineLoopState_t LoopState {
-    get => new EngineLoopState_tImpl(_Handle + Schema.GetOffset(0x406EC290F928A2EC));
+    get => new EngineLoopState_tImpl(_Handle + _LoopStateOffset.Value);
   }
+  private static readonly Lazy<nint> _RealTimeOffset = new(() => Schema.GetOffset(0x406EC2901168EC02), LazyThreadSafetyMode.None);
+
   public ref float RealTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x406EC2901168EC02));
+    get => ref _Handle.AsRef<float>(_RealTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _TickIntervalOffset = new(() => Schema.GetOffset(0x406EC290D279D07B), LazyThreadSafetyMode.None);
+
   public ref float TickInterval {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x406EC290D279D07B));
+    get => ref _Handle.AsRef<float>(_TickIntervalOffset.Value);
   }
+  private static readonly Lazy<nint> _TickStartTimeOffset = new(() => Schema.GetOffset(0x406EC29068A38BE7), LazyThreadSafetyMode.None);
+
   public ref double TickStartTime {
-    get => ref _Handle.AsRef<double>(Schema.GetOffset(0x406EC29068A38BE7));
+    get => ref _Handle.AsRef<double>(_TickStartTimeOffset.Value);
   }
 
 

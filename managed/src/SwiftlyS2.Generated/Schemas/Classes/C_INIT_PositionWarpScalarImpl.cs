@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_INIT_PositionWarpScalarImpl : CParticleFunctionInitiali
   public C_INIT_PositionWarpScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WarpMinOffset = new(() => Schema.GetOffset(0x36E409431B8A7F09), LazyThreadSafetyMode.None);
+
   public ref Vector WarpMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x36E409431B8A7F09));
+    get => ref _Handle.AsRef<Vector>(_WarpMinOffset.Value);
   }
+  private static readonly Lazy<nint> _WarpMaxOffset = new(() => Schema.GetOffset(0x36E409430D76E147), LazyThreadSafetyMode.None);
+
   public ref Vector WarpMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x36E409430D76E147));
+    get => ref _Handle.AsRef<Vector>(_WarpMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _InputValueOffset = new(() => Schema.GetOffset(0x36E4094334445438), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputValue {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x36E4094334445438));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _PrevPosScaleOffset = new(() => Schema.GetOffset(0x36E4094346CED122), LazyThreadSafetyMode.None);
+
   public ref float PrevPosScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x36E4094346CED122));
+    get => ref _Handle.AsRef<float>(_PrevPosScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleControlPointNumberOffset = new(() => Schema.GetOffset(0x36E409439A649261), LazyThreadSafetyMode.None);
+
   public ref int ScaleControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x36E409439A649261));
+    get => ref _Handle.AsRef<int>(_ScaleControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x36E409433F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x36E409433F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
 
 

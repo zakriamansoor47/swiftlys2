@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class EventPostAdvanceTick_tImpl : EventSimulate_tImpl, EventPo
   public EventPostAdvanceTick_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CurrentTickOffset = new(() => Schema.GetOffset(0xE5D2DBB33C23687B), LazyThreadSafetyMode.None);
+
   public ref int CurrentTick {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE5D2DBB33C23687B));
+    get => ref _Handle.AsRef<int>(_CurrentTickOffset.Value);
   }
+  private static readonly Lazy<nint> _CurrentTickThisFrameOffset = new(() => Schema.GetOffset(0xE5D2DBB309CE99F8), LazyThreadSafetyMode.None);
+
   public ref int CurrentTickThisFrame {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE5D2DBB309CE99F8));
+    get => ref _Handle.AsRef<int>(_CurrentTickThisFrameOffset.Value);
   }
+  private static readonly Lazy<nint> _TotalTicksThisFrameOffset = new(() => Schema.GetOffset(0xE5D2DBB324EA7826), LazyThreadSafetyMode.None);
+
   public ref int TotalTicksThisFrame {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE5D2DBB324EA7826));
+    get => ref _Handle.AsRef<int>(_TotalTicksThisFrameOffset.Value);
   }
+  private static readonly Lazy<nint> _TotalTicksOffset = new(() => Schema.GetOffset(0xE5D2DBB345397B31), LazyThreadSafetyMode.None);
+
   public ref int TotalTicks {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE5D2DBB345397B31));
+    get => ref _Handle.AsRef<int>(_TotalTicksOffset.Value);
   }
 
 

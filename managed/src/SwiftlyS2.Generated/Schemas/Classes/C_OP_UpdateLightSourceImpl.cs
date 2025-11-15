@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_UpdateLightSourceImpl : CParticleFunctionOperatorImp
   public C_OP_UpdateLightSourceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ColorTintOffset = new(() => Schema.GetOffset(0x6611EEDD569A6EA9), LazyThreadSafetyMode.None);
+
   public ref Color ColorTint {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x6611EEDD569A6EA9));
+    get => ref _Handle.AsRef<Color>(_ColorTintOffset.Value);
   }
+  private static readonly Lazy<nint> _BrightnessScaleOffset = new(() => Schema.GetOffset(0x6611EEDD5EFC3AAE), LazyThreadSafetyMode.None);
+
   public ref float BrightnessScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6611EEDD5EFC3AAE));
+    get => ref _Handle.AsRef<float>(_BrightnessScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0x6611EEDDA7A20159), LazyThreadSafetyMode.None);
+
   public ref float RadiusScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6611EEDDA7A20159));
+    get => ref _Handle.AsRef<float>(_RadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _MinimumLightingRadiusOffset = new(() => Schema.GetOffset(0x6611EEDD946ABF7B), LazyThreadSafetyMode.None);
+
   public ref float MinimumLightingRadius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6611EEDD946ABF7B));
+    get => ref _Handle.AsRef<float>(_MinimumLightingRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _MaximumLightingRadiusOffset = new(() => Schema.GetOffset(0x6611EEDD8804B57D), LazyThreadSafetyMode.None);
+
   public ref float MaximumLightingRadius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6611EEDD8804B57D));
+    get => ref _Handle.AsRef<float>(_MaximumLightingRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _PositionDampingConstantOffset = new(() => Schema.GetOffset(0x6611EEDD074C2A6A), LazyThreadSafetyMode.None);
+
   public ref float PositionDampingConstant {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6611EEDD074C2A6A));
+    get => ref _Handle.AsRef<float>(_PositionDampingConstantOffset.Value);
   }
 
 

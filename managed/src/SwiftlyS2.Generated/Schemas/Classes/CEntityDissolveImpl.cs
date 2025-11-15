@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,35 +17,55 @@ internal partial class CEntityDissolveImpl : CBaseModelEntityImpl, CEntityDissol
   public CEntityDissolveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FadeInStartOffset = new(() => Schema.GetOffset(0x443F205EF5AD2D6A), LazyThreadSafetyMode.None);
+
   public ref float FadeInStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x443F205EF5AD2D6A));
+    get => ref _Handle.AsRef<float>(_FadeInStartOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeInLengthOffset = new(() => Schema.GetOffset(0x443F205E74538EE6), LazyThreadSafetyMode.None);
+
   public ref float FadeInLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x443F205E74538EE6));
+    get => ref _Handle.AsRef<float>(_FadeInLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeOutModelStartOffset = new(() => Schema.GetOffset(0x443F205E9C8AC6F4), LazyThreadSafetyMode.None);
+
   public ref float FadeOutModelStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x443F205E9C8AC6F4));
+    get => ref _Handle.AsRef<float>(_FadeOutModelStartOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeOutModelLengthOffset = new(() => Schema.GetOffset(0x443F205E6FC0EC34), LazyThreadSafetyMode.None);
+
   public ref float FadeOutModelLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x443F205E6FC0EC34));
+    get => ref _Handle.AsRef<float>(_FadeOutModelLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeOutStartOffset = new(() => Schema.GetOffset(0x443F205E3F5B2209), LazyThreadSafetyMode.None);
+
   public ref float FadeOutStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x443F205E3F5B2209));
+    get => ref _Handle.AsRef<float>(_FadeOutStartOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeOutLengthOffset = new(() => Schema.GetOffset(0x443F205E9D0749A3), LazyThreadSafetyMode.None);
+
   public ref float FadeOutLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x443F205E9D0749A3));
+    get => ref _Handle.AsRef<float>(_FadeOutLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0x443F205E67FE9DC4), LazyThreadSafetyMode.None);
+
   public GameTime_t StartTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x443F205E67FE9DC4));
+    get => new GameTime_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DissolveTypeOffset = new(() => Schema.GetOffset(0x443F205E79AB525E), LazyThreadSafetyMode.None);
+
   public ref EntityDisolveType_t DissolveType {
-    get => ref _Handle.AsRef<EntityDisolveType_t>(Schema.GetOffset(0x443F205E79AB525E));
+    get => ref _Handle.AsRef<EntityDisolveType_t>(_DissolveTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _DissolverOriginOffset = new(() => Schema.GetOffset(0x443F205E34A16EE6), LazyThreadSafetyMode.None);
+
   public ref Vector DissolverOrigin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x443F205E34A16EE6));
+    get => ref _Handle.AsRef<Vector>(_DissolverOriginOffset.Value);
   }
+  private static readonly Lazy<nint> _MagnitudeOffset = new(() => Schema.GetOffset(0x443F205E0C71BDF1), LazyThreadSafetyMode.None);
+
   public ref uint Magnitude {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x443F205E0C71BDF1));
+    get => ref _Handle.AsRef<uint>(_MagnitudeOffset.Value);
   }
 
   public void FadeInStartUpdated() {

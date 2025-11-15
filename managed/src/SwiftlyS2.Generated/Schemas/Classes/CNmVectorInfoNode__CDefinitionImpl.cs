@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmVectorInfoNode__CDefinitionImpl : CNmFloatValueNode__C
   public CNmVectorInfoNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0x80D82BB895E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x80D82BB895E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _DesiredInfoOffset = new(() => Schema.GetOffset(0x80D82BB838B16675), LazyThreadSafetyMode.None);
+
   public ref CNmVectorInfoNode__Info_t DesiredInfo {
-    get => ref _Handle.AsRef<CNmVectorInfoNode__Info_t>(Schema.GetOffset(0x80D82BB838B16675));
+    get => ref _Handle.AsRef<CNmVectorInfoNode__Info_t>(_DesiredInfoOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,17 +20,25 @@ internal partial class audioparams_tImpl : SchemaClass, audioparams_t {
   public ISchemaFixedArray<Vector> LocalSound {
     get => new SchemaFixedArray<Vector>(_Handle, 0x6D349E3CCE184A47, 8, 12, 4);
   }
+  private static readonly Lazy<nint> _SoundscapeIndexOffset = new(() => Schema.GetOffset(0x6D349E3C046FCFEE), LazyThreadSafetyMode.None);
+
   public ref int SoundscapeIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6D349E3C046FCFEE));
+    get => ref _Handle.AsRef<int>(_SoundscapeIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalBitsOffset = new(() => Schema.GetOffset(0x6D349E3C1DE85B60), LazyThreadSafetyMode.None);
+
   public ref byte LocalBits {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x6D349E3C1DE85B60));
+    get => ref _Handle.AsRef<byte>(_LocalBitsOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundscapeEntityListIndexOffset = new(() => Schema.GetOffset(0x6D349E3CA4E4FB9B), LazyThreadSafetyMode.None);
+
   public ref int SoundscapeEntityListIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6D349E3CA4E4FB9B));
+    get => ref _Handle.AsRef<int>(_SoundscapeEntityListIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundEventHashOffset = new(() => Schema.GetOffset(0x6D349E3C335E17CC), LazyThreadSafetyMode.None);
+
   public ref uint SoundEventHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x6D349E3C335E17CC));
+    get => ref _Handle.AsRef<uint>(_SoundEventHashOffset.Value);
   }
 
   public void LocalSoundUpdated() {

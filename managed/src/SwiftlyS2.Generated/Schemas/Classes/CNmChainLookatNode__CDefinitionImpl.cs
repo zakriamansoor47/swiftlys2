@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CNmChainLookatNode__CDefinitionImpl : CNmPassthroughNode_
   public CNmChainLookatNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChainEndBoneIDOffset = new(() => Schema.GetOffset(0x3D36690222B26274), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol ChainEndBoneID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x3D36690222B26274));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_ChainEndBoneIDOffset.Value);
   }
+  private static readonly Lazy<nint> _LookatTargetNodeIdxOffset = new(() => Schema.GetOffset(0x3D36690221A633B1), LazyThreadSafetyMode.None);
+
   public ref short LookatTargetNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x3D36690221A633B1));
+    get => ref _Handle.AsRef<short>(_LookatTargetNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledNodeIdxOffset = new(() => Schema.GetOffset(0x3D366902F7CDF5E9), LazyThreadSafetyMode.None);
+
   public ref short EnabledNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x3D366902F7CDF5E9));
+    get => ref _Handle.AsRef<short>(_EnabledNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendTimeSecondsOffset = new(() => Schema.GetOffset(0x3D3669026D3A08FC), LazyThreadSafetyMode.None);
+
   public ref float BlendTimeSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3D3669026D3A08FC));
+    get => ref _Handle.AsRef<float>(_BlendTimeSecondsOffset.Value);
   }
+  private static readonly Lazy<nint> _ChainLengthOffset = new(() => Schema.GetOffset(0x3D366902ACB94336), LazyThreadSafetyMode.None);
+
   public ref byte ChainLength {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x3D366902ACB94336));
+    get => ref _Handle.AsRef<byte>(_ChainLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _IsTargetInWorldSpaceOffset = new(() => Schema.GetOffset(0x3D3669025F56E0C5), LazyThreadSafetyMode.None);
+
   public ref bool IsTargetInWorldSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3D3669025F56E0C5));
+    get => ref _Handle.AsRef<bool>(_IsTargetInWorldSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _ChainForwardDirOffset = new(() => Schema.GetOffset(0x3D36690298A5355A), LazyThreadSafetyMode.None);
+
   public ref Vector ChainForwardDir {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x3D36690298A5355A));
+    get => ref _Handle.AsRef<Vector>(_ChainForwardDirOffset.Value);
   }
 
 

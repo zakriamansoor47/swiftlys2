@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,22 +17,28 @@ internal partial class CFuncInteractionLayerClipImpl : CBaseModelEntityImpl, CFu
   public CFuncInteractionLayerClipImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0x5A9288DF3A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5A9288DF3A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _InteractsAsOffset = new(() => Schema.GetOffset(0x5A9288DF488FC5DC), LazyThreadSafetyMode.None);
+
   public string InteractsAs {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x5A9288DF488FC5DC));
+      var ptr = _Handle.Read<nint>(_InteractsAsOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x5A9288DF488FC5DC, value);
+    set => Schema.SetString(_Handle, _InteractsAsOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _InteractsWithOffset = new(() => Schema.GetOffset(0x5A9288DF84AB4214), LazyThreadSafetyMode.None);
+
   public string InteractsWith {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x5A9288DF84AB4214));
+      var ptr = _Handle.Read<nint>(_InteractsWithOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x5A9288DF84AB4214, value);
+    set => Schema.SetString(_Handle, _InteractsWithOffset.Value, value);
   } 
 
 

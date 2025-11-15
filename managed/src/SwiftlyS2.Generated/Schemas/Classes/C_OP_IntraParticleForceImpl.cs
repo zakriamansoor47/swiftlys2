@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_OP_IntraParticleForceImpl : CParticleFunctionForceImpl,
   public C_OP_IntraParticleForceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttractionMinDistanceOffset = new(() => Schema.GetOffset(0x784412D0CEAEE62D), LazyThreadSafetyMode.None);
+
   public ref float AttractionMinDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x784412D0CEAEE62D));
+    get => ref _Handle.AsRef<float>(_AttractionMinDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _AttractionMaxDistanceOffset = new(() => Schema.GetOffset(0x784412D04052F81F), LazyThreadSafetyMode.None);
+
   public ref float AttractionMaxDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x784412D04052F81F));
+    get => ref _Handle.AsRef<float>(_AttractionMaxDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _AttractionMaxStrengthOffset = new(() => Schema.GetOffset(0x784412D09FE72EFD), LazyThreadSafetyMode.None);
+
   public ref float AttractionMaxStrength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x784412D09FE72EFD));
+    get => ref _Handle.AsRef<float>(_AttractionMaxStrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _RepulsionMinDistanceOffset = new(() => Schema.GetOffset(0x784412D018F9EFB1), LazyThreadSafetyMode.None);
+
   public ref float RepulsionMinDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x784412D018F9EFB1));
+    get => ref _Handle.AsRef<float>(_RepulsionMinDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _RepulsionMaxDistanceOffset = new(() => Schema.GetOffset(0x784412D05B7D269B), LazyThreadSafetyMode.None);
+
   public ref float RepulsionMaxDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x784412D05B7D269B));
+    get => ref _Handle.AsRef<float>(_RepulsionMaxDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _RepulsionMaxStrengthOffset = new(() => Schema.GetOffset(0x784412D0B9401C21), LazyThreadSafetyMode.None);
+
   public ref float RepulsionMaxStrength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x784412D0B9401C21));
+    get => ref _Handle.AsRef<float>(_RepulsionMaxStrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _UseAABBOffset = new(() => Schema.GetOffset(0x784412D029AAFF2E), LazyThreadSafetyMode.None);
+
   public ref bool UseAABB {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x784412D029AAFF2E));
+    get => ref _Handle.AsRef<bool>(_UseAABBOffset.Value);
   }
 
 

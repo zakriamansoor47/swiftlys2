@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmIDEventPercentageThroughNode__CDefinitionImpl : CNmBoo
   public CNmIDEventPercentageThroughNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceStateNodeIdxOffset = new(() => Schema.GetOffset(0x3912E5963F0228C), LazyThreadSafetyMode.None);
+
   public ref short SourceStateNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x3912E5963F0228C));
+    get => ref _Handle.AsRef<short>(_SourceStateNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EventConditionRulesOffset = new(() => Schema.GetOffset(0x3912E59A904315F), LazyThreadSafetyMode.None);
+
   public CNmBitFlags EventConditionRules {
-    get => new CNmBitFlagsImpl(_Handle + Schema.GetOffset(0x3912E59A904315F));
+    get => new CNmBitFlagsImpl(_Handle + _EventConditionRulesOffset.Value);
   }
+  private static readonly Lazy<nint> _EventIDOffset = new(() => Schema.GetOffset(0x3912E599D798A72), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol EventID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x3912E599D798A72));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_EventIDOffset.Value);
   }
 
 

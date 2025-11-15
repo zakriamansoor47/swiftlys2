@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class CConstraintSlaveImpl : SchemaClass, CConstraintSlave {
   public CConstraintSlaveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BaseOrientationOffset = new(() => Schema.GetOffset(0xE0E093BC46E6EA75), LazyThreadSafetyMode.None);
+
   public ref Quaternion BaseOrientation {
-    get => ref _Handle.AsRef<Quaternion>(Schema.GetOffset(0xE0E093BC46E6EA75));
+    get => ref _Handle.AsRef<Quaternion>(_BaseOrientationOffset.Value);
   }
+  private static readonly Lazy<nint> _BasePositionOffset = new(() => Schema.GetOffset(0xE0E093BCC510D587), LazyThreadSafetyMode.None);
+
   public ref Vector BasePosition {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xE0E093BCC510D587));
+    get => ref _Handle.AsRef<Vector>(_BasePositionOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneHashOffset = new(() => Schema.GetOffset(0xE0E093BCD4010F03), LazyThreadSafetyMode.None);
+
   public ref uint BoneHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xE0E093BCD4010F03));
+    get => ref _Handle.AsRef<uint>(_BoneHashOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightOffset = new(() => Schema.GetOffset(0xE0E093BC7B81E7AB), LazyThreadSafetyMode.None);
+
   public ref float Weight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE0E093BC7B81E7AB));
+    get => ref _Handle.AsRef<float>(_WeightOffset.Value);
   }
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0xE0E093BC63D22D49), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xE0E093BC63D22D49));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xE0E093BC63D22D49, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
 
 

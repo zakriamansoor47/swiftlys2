@@ -12,13 +12,14 @@ using SwiftlyS2.Shared.Misc;
 namespace SwiftlyS2.Core.NetMessages;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate HookResult NetMessageClientHookCallbackDelegate(int playerId, int msgId, nint pMessage);
+internal delegate HookResult NetMessageClientHookCallbackDelegate( int playerId, int msgId, nint pMessage );
 
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate HookResult NetMessageServerHookCallbackDelegate(nint pPlayerMask, int msgId, nint pMessage);
+internal delegate HookResult NetMessageServerHookCallbackDelegate( nint pPlayerMask, int msgId, nint pMessage );
 
-internal abstract class NetMessageHookCallback : IDisposable {
+internal abstract class NetMessageHookCallback : IDisposable
+{
 
   public Guid Guid { get; init; }
 
@@ -26,7 +27,7 @@ internal abstract class NetMessageHookCallback : IDisposable {
 
   public ILoggerFactory LoggerFactory { get; }
 
-  protected NetMessageHookCallback(ILoggerFactory loggerFactory, IContextedProfilerService profiler)
+  protected NetMessageHookCallback( ILoggerFactory loggerFactory, IContextedProfilerService profiler )
   {
     LoggerFactory = loggerFactory;
     Profiler = profiler;
@@ -36,7 +37,8 @@ internal abstract class NetMessageHookCallback : IDisposable {
 
 }
 
-internal class NetMessageClientHookCallback<T> : NetMessageHookCallback where T : ITypedProtobuf<T>, INetMessage<T>, IDisposable {
+internal class NetMessageClientHookCallback<T> : NetMessageHookCallback where T : ITypedProtobuf<T>, INetMessage<T>, IDisposable
+{
 
   private INetMessageService.ClientNetMessageHandler<T> _callback;
   private NetMessageClientHookCallbackDelegate _unmanagedCallback;
@@ -45,13 +47,15 @@ internal class NetMessageClientHookCallback<T> : NetMessageHookCallback where T 
   private ILogger<NetMessageClientHookCallback<T>> _logger;
 
 
-  public NetMessageClientHookCallback(INetMessageService.ClientNetMessageHandler<T> callback, ILoggerFactory loggerFactory, IContextedProfilerService profiler) : base(loggerFactory, profiler) {
+  public NetMessageClientHookCallback( INetMessageService.ClientNetMessageHandler<T> callback, ILoggerFactory loggerFactory, IContextedProfilerService profiler ) : base(loggerFactory, profiler)
+  {
     Guid = Guid.NewGuid();
     _logger = LoggerFactory.CreateLogger<NetMessageClientHookCallback<T>>();
 
     _callback = callback;
 
-    _unmanagedCallback = (playerId, msgId, pMessage) => {
+    _unmanagedCallback = ( playerId, msgId, pMessage ) =>
+    {
       try
       {
         if (msgId != T.MessageId) return HookResult.Continue;
@@ -61,7 +65,10 @@ internal class NetMessageClientHookCallback<T> : NetMessageHookCallback where T 
         var result = _callback(msg, playerId);
         Profiler.StopRecording(category);
         return result;
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
+        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
         _logger.LogError(e, "Error in net message client hook callback for {MessageType}", typeof(T).Name);
         return HookResult.Continue;
       }
@@ -71,13 +78,15 @@ internal class NetMessageClientHookCallback<T> : NetMessageHookCallback where T 
 
   }
 
-  public override void Dispose() {
+  public override void Dispose()
+  {
     NativeNetMessages.RemoveNetMessageClientHook(_nativeListenerId);
   }
 
 }
 
-internal class NetMessageServerHookCallback<T> : NetMessageHookCallback where T : ITypedProtobuf<T>, INetMessage<T>, IDisposable {
+internal class NetMessageServerHookCallback<T> : NetMessageHookCallback where T : ITypedProtobuf<T>, INetMessage<T>, IDisposable
+{
 
   private INetMessageService.ServerNetMessageHandler<T> _callback;
   private NetMessageServerHookCallbackDelegate _unmanagedCallback;
@@ -85,13 +94,15 @@ internal class NetMessageServerHookCallback<T> : NetMessageHookCallback where T 
   private ulong _nativeListenerId;
   private ILogger<NetMessageServerHookCallback<T>> _logger;
 
-  public NetMessageServerHookCallback(INetMessageService.ServerNetMessageHandler<T> callback, ILoggerFactory loggerFactory, IContextedProfilerService profiler) : base(loggerFactory, profiler) {
+  public NetMessageServerHookCallback( INetMessageService.ServerNetMessageHandler<T> callback, ILoggerFactory loggerFactory, IContextedProfilerService profiler ) : base(loggerFactory, profiler)
+  {
     Guid = Guid.NewGuid();
     _logger = LoggerFactory.CreateLogger<NetMessageServerHookCallback<T>>();
 
     _callback = callback;
 
-    _unmanagedCallback = (pPlayerMask, msgId, pMessage) => {
+    _unmanagedCallback = ( pPlayerMask, msgId, pMessage ) =>
+    {
       try
       {
         if (msgId != T.MessageId) return HookResult.Continue;
@@ -104,7 +115,10 @@ internal class NetMessageServerHookCallback<T> : NetMessageHookCallback where T 
         pPlayerMask.Write(msg.Recipients.ToMask());
         Profiler.StopRecording(category);
         return result;
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
+        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
         _logger.LogError(e, "Error in net message server hook callback for {MessageType}", typeof(T).Name);
         return HookResult.Continue;
       }
@@ -114,7 +128,8 @@ internal class NetMessageServerHookCallback<T> : NetMessageHookCallback where T 
 
   }
 
-  public override void Dispose() {
+  public override void Dispose()
+  {
     NativeNetMessages.RemoveNetMessageServerHook(_nativeListenerId);
   }
 

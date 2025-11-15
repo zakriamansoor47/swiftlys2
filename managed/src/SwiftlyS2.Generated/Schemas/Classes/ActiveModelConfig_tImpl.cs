@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class ActiveModelConfig_tImpl : SchemaClass, ActiveModelConfig_
   public ActiveModelConfig_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HandleOffset = new(() => Schema.GetOffset(0x554D81919D208453), LazyThreadSafetyMode.None);
+
   public ModelConfigHandle_t Handle {
-    get => new ModelConfigHandle_tImpl(_Handle + Schema.GetOffset(0x554D81919D208453));
+    get => new ModelConfigHandle_tImpl(_Handle + _HandleOffset.Value);
   }
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x554D8191CAE8A266), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x554D8191CAE8A266));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x554D8191CAE8A266, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _AssociatedEntitiesOffset = new(() => Schema.GetOffset(0x554D8191D6EB4F18), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CBaseModelEntity>> AssociatedEntities {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CBaseModelEntity>>>(Schema.GetOffset(0x554D8191D6EB4F18));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CBaseModelEntity>>>(_AssociatedEntitiesOffset.Value);
   }
+  private static readonly Lazy<nint> _AssociatedEntityNamesOffset = new(() => Schema.GetOffset(0x554D8191EB3B241C), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SchemaUntypedField> AssociatedEntityNames {
-    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(Schema.GetOffset(0x554D8191EB3B241C));
+    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(_AssociatedEntityNamesOffset.Value);
   }
 
   public void HandleUpdated() {

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_ScreenSpaceRotateTowardTargetImpl : CParticleFunctio
   public C_OP_ScreenSpaceRotateTowardTargetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetPositionOffset = new(() => Schema.GetOffset(0xD66164FC554C563B), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput TargetPosition {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xD66164FC554C563B));
+    get => new CPerParticleVecInputImpl(_Handle + _TargetPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputRemapOffset = new(() => Schema.GetOffset(0xD66164FC1239396F), LazyThreadSafetyMode.None);
+
   public CParticleRemapFloatInput OutputRemap {
-    get => new CParticleRemapFloatInputImpl(_Handle + Schema.GetOffset(0xD66164FC1239396F));
+    get => new CParticleRemapFloatInputImpl(_Handle + _OutputRemapOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0xD66164FCFB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0xD66164FCFB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _ScreenEdgeAlignmentDistanceOffset = new(() => Schema.GetOffset(0xD66164FCDB3D3EAC), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput ScreenEdgeAlignmentDistance {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xD66164FCDB3D3EAC));
+    get => new CPerParticleFloatInputImpl(_Handle + _ScreenEdgeAlignmentDistanceOffset.Value);
   }
 
 

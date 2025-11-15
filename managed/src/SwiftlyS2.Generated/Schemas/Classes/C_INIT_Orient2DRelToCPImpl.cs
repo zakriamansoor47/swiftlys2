@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_Orient2DRelToCPImpl : CParticleFunctionInitializer
   public C_INIT_Orient2DRelToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x4B55AD02EB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4B55AD02EB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x4B55AD02E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x4B55AD02E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _RotOffsetOffset = new(() => Schema.GetOffset(0x4B55AD02D1EA9CDF), LazyThreadSafetyMode.None);
+
   public ref float RotOffset {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4B55AD02D1EA9CDF));
+    get => ref _Handle.AsRef<float>(_RotOffsetOffset.Value);
   }
 
 

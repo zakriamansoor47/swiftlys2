@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_LerpScalarImpl : CParticleFunctionOperatorImpl, C_OP
   public C_OP_LerpScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xB2C648D4E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xB2C648D4E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputOffset = new(() => Schema.GetOffset(0xB2C648D4368F96A2), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Output {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xB2C648D4368F96A2));
+    get => new CPerParticleFloatInputImpl(_Handle + _OutputOffset.Value);
   }
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0xB2C648D467FE9DC4), LazyThreadSafetyMode.None);
+
   public ref float StartTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB2C648D467FE9DC4));
+    get => ref _Handle.AsRef<float>(_StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndTimeOffset = new(() => Schema.GetOffset(0xB2C648D42041DF9D), LazyThreadSafetyMode.None);
+
   public ref float EndTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB2C648D42041DF9D));
+    get => ref _Handle.AsRef<float>(_EndTimeOffset.Value);
   }
 
 

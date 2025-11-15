@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_INIT_VelocityFromCPImpl : CParticleFunctionInitializerI
   public C_INIT_VelocityFromCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VelocityInputOffset = new(() => Schema.GetOffset(0x1788D69A30C18956), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput VelocityInput {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x1788D69A30C18956));
+    get => new CParticleCollectionVecInputImpl(_Handle + _VelocityInputOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformInputOffset = new(() => Schema.GetOffset(0x1788D69A3A9ED669), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformInput {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0x1788D69A3A9ED669));
+    get => new CParticleTransformInputImpl(_Handle + _TransformInputOffset.Value);
   }
+  private static readonly Lazy<nint> _VelocityScaleOffset = new(() => Schema.GetOffset(0x1788D69AE161DDAA), LazyThreadSafetyMode.None);
+
   public ref float VelocityScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1788D69AE161DDAA));
+    get => ref _Handle.AsRef<float>(_VelocityScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _DirectionOnlyOffset = new(() => Schema.GetOffset(0x1788D69A7F403B2C), LazyThreadSafetyMode.None);
+
   public ref bool DirectionOnly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1788D69A7F403B2C));
+    get => ref _Handle.AsRef<bool>(_DirectionOnlyOffset.Value);
   }
 
 

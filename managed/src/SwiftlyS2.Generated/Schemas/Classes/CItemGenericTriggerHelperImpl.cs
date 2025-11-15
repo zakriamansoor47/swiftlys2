@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CItemGenericTriggerHelperImpl : CBaseModelEntityImpl, CIt
   public CItemGenericTriggerHelperImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParentItemOffset = new(() => Schema.GetOffset(0x9E59EC5AEA0B7250), LazyThreadSafetyMode.None);
+
   public ref CHandle<CItemGeneric> ParentItem {
-    get => ref _Handle.AsRef<CHandle<CItemGeneric>>(Schema.GetOffset(0x9E59EC5AEA0B7250));
+    get => ref _Handle.AsRef<CHandle<CItemGeneric>>(_ParentItemOffset.Value);
   }
 
 

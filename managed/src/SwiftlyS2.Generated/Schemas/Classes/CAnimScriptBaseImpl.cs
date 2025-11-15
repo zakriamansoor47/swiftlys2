@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimScriptBaseImpl : SchemaClass, CAnimScriptBase {
   public CAnimScriptBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IsValidOffset = new(() => Schema.GetOffset(0x621CEA890E4A2BC1), LazyThreadSafetyMode.None);
+
   public ref bool IsValid {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x621CEA890E4A2BC1));
+    get => ref _Handle.AsRef<bool>(_IsValidOffset.Value);
   }
 
 

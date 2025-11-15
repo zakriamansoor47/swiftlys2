@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPointProximitySensorImpl : CPointEntityImpl, CPointProxi
   public CPointProximitySensorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0x769A8B133A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x769A8B133A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetEntityOffset = new(() => Schema.GetOffset(0x769A8B1325D042A9), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> TargetEntity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x769A8B1325D042A9));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_TargetEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0x769A8B13978BC0E2), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Distance {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x769A8B13978BC0E2));
+    get => new SchemaUntypedField(_Handle + _DistanceOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,41 +17,65 @@ internal partial class C_INIT_RemapParticleCountToScalarImpl : CParticleFunction
   public C_INIT_RemapParticleCountToScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xC0411DA9E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xC0411DA9E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMinOffset = new(() => Schema.GetOffset(0xC0411DA985E92181), LazyThreadSafetyMode.None);
+
   public ref int InputMin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC0411DA985E92181));
+    get => ref _Handle.AsRef<int>(_InputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMaxOffset = new(() => Schema.GetOffset(0xC0411DA977FE262F), LazyThreadSafetyMode.None);
+
   public ref int InputMax {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC0411DA977FE262F));
+    get => ref _Handle.AsRef<int>(_InputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleControlPointOffset = new(() => Schema.GetOffset(0xC0411DA9B0577A70), LazyThreadSafetyMode.None);
+
   public ref int ScaleControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC0411DA9B0577A70));
+    get => ref _Handle.AsRef<int>(_ScaleControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleControlPointFieldOffset = new(() => Schema.GetOffset(0xC0411DA9360C613C), LazyThreadSafetyMode.None);
+
   public ref int ScaleControlPointField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC0411DA9360C613C));
+    get => ref _Handle.AsRef<int>(_ScaleControlPointFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0xC0411DA95F8D7716), LazyThreadSafetyMode.None);
+
   public ref float OutputMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC0411DA95F8D7716));
+    get => ref _Handle.AsRef<float>(_OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0xC0411DA951A0E8C4), LazyThreadSafetyMode.None);
+
   public ref float OutputMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC0411DA951A0E8C4));
+    get => ref _Handle.AsRef<float>(_OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0xC0411DA9FB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0xC0411DA9FB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _ActiveRangeOffset = new(() => Schema.GetOffset(0xC0411DA93FA53B84), LazyThreadSafetyMode.None);
+
   public ref bool ActiveRange {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC0411DA93FA53B84));
+    get => ref _Handle.AsRef<bool>(_ActiveRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _InvertOffset = new(() => Schema.GetOffset(0xC0411DA9959F6101), LazyThreadSafetyMode.None);
+
   public ref bool Invert {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC0411DA9959F6101));
+    get => ref _Handle.AsRef<bool>(_InvertOffset.Value);
   }
+  private static readonly Lazy<nint> _WrapOffset = new(() => Schema.GetOffset(0xC0411DA94C8CA005), LazyThreadSafetyMode.None);
+
   public ref bool Wrap {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC0411DA94C8CA005));
+    get => ref _Handle.AsRef<bool>(_WrapOffset.Value);
   }
+  private static readonly Lazy<nint> _RemapBiasOffset = new(() => Schema.GetOffset(0xC0411DA9490D7325), LazyThreadSafetyMode.None);
+
   public ref float RemapBias {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC0411DA9490D7325));
+    get => ref _Handle.AsRef<float>(_RemapBiasOffset.Value);
   }
 
 

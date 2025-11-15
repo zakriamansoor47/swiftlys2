@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CRandStopwatchImpl : CStopwatchBaseImpl, CRandStopwatch {
   public CRandStopwatchImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinIntervalOffset = new(() => Schema.GetOffset(0x538C26044BB35EE4), LazyThreadSafetyMode.None);
+
   public ref float MinInterval {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x538C26044BB35EE4));
+    get => ref _Handle.AsRef<float>(_MinIntervalOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxIntervalOffset = new(() => Schema.GetOffset(0x538C2604400B2156), LazyThreadSafetyMode.None);
+
   public ref float MaxInterval {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x538C2604400B2156));
+    get => ref _Handle.AsRef<float>(_MaxIntervalOffset.Value);
   }
 
 

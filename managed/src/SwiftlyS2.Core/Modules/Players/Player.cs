@@ -11,7 +11,7 @@ namespace SwiftlyS2.Core.Players;
 
 internal class Player : IPlayer
 {
-    public Player(int pid)
+    public Player( int pid )
     {
         Slot = pid;
     }
@@ -56,7 +56,7 @@ internal class Player : IPlayer
 
     Language IPlayer.PlayerLanguage => PlayerLanguage;
 
-    public void ChangeTeam(Team team)
+    public void ChangeTeam( Team team )
     {
         NativePlayer.ChangeTeam(Slot, (byte)team);
     }
@@ -66,42 +66,42 @@ internal class Player : IPlayer
         NativePlayer.ClearTransmitEntityBlocked(Slot);
     }
 
-    public ListenOverride GetListenOverride(int player)
+    public ListenOverride GetListenOverride( int player )
     {
         return (ListenOverride)NativeVoiceManager.GetClientListenOverride(Slot, player);
     }
 
-    public bool IsTransmitEntityBlocked(int entityid)
+    public bool IsTransmitEntityBlocked( int entityid )
     {
         return NativePlayer.IsTransmitEntityBlocked(Slot, entityid);
     }
 
-    public void Kick(string reason, ENetworkDisconnectionReason gameReason)
+    public void Kick( string reason, ENetworkDisconnectionReason gameReason )
     {
         NativePlayer.Kick(Slot, reason, (int)gameReason);
     }
 
-    public void SendMessage(MessageType kind, string message)
+    public void SendMessage( MessageType kind, string message )
     {
-        NativePlayer.SendMessage(Slot, (int)kind, message);
+        NativePlayer.SendMessage(Slot, (int)kind, message, 5000);
     }
 
-    public void SetListenOverride(int player, ListenOverride listenOverride)
+    public void SetListenOverride( int player, ListenOverride listenOverride )
     {
         NativeVoiceManager.SetClientListenOverride(Slot, player, (int)listenOverride);
     }
 
-    public void ShouldBlockTransmitEntity(int entityid, bool shouldBlockTransmit)
+    public void ShouldBlockTransmitEntity( int entityid, bool shouldBlockTransmit )
     {
         NativePlayer.ShouldBlockTransmitEntity(Slot, entityid, shouldBlockTransmit);
     }
 
-    public void SwitchTeam(Team team)
+    public void SwitchTeam( Team team )
     {
         NativePlayer.SwitchTeam(Slot, (byte)team);
     }
 
-    public void TakeDamage(CTakeDamageInfo damageInfo)
+    public void TakeDamage( CTakeDamageInfo damageInfo )
     {
         unsafe
         {
@@ -109,7 +109,7 @@ internal class Player : IPlayer
         }
     }
 
-    public void Teleport(Vector pos, QAngle angle, Vector velocity)
+    public void Teleport( Vector pos, QAngle angle, Vector velocity )
     {
         NativePlayer.Teleport(Slot, pos, angle, velocity);
     }
@@ -119,17 +119,17 @@ internal class Player : IPlayer
         Controller?.Respawn();
     }
 
-    public void ExecuteCommand(string command)
+    public void ExecuteCommand( string command )
     {
         NativePlayer.ExecuteCommand(Slot, command);
     }
 
-    public bool Equals(IPlayer? other)
+    public bool Equals( IPlayer? other )
     {
         return other is not null && PlayerID == other.PlayerID;
     }
 
-    public override bool Equals(object? obj)
+    public override bool Equals( object? obj )
     {
         return obj is IPlayer player && Equals(player);
     }
@@ -139,10 +139,50 @@ internal class Player : IPlayer
         return PlayerID.GetHashCode();
     }
 
-    public static bool operator ==(Player? left, Player? right)
+    public void SendMessage( MessageType kind, string message, int htmlDuration = 5000 )
+    {
+        NativePlayer.SendMessage(Slot, (int)kind, message, htmlDuration);
+    }
+
+    public void SendNotify( string message )
+    {
+        SendMessage(MessageType.Notify, message);
+    }
+
+    public void SendConsole( string message )
+    {
+        SendMessage(MessageType.Console, message);
+    }
+
+    public void SendChat( string message )
+    {
+        SendMessage(MessageType.Chat, message);
+    }
+
+    public void SendCenter( string message )
+    {
+        SendMessage(MessageType.Center, message);
+    }
+
+    public void SendAlert( string message )
+    {
+        SendMessage(MessageType.Alert, message);
+    }
+
+    public void SendCenterHTML( string message, int duration = 5000 )
+    {
+        SendMessage(MessageType.CenterHTML, message, duration);
+    }
+
+    public void SendChatEOT( string message )
+    {
+        SendMessage(MessageType.ChatEOT, message);
+    }
+
+    public static bool operator ==( Player? left, Player? right )
     {
         return left is not null && right is not null && left.Equals(right);
     }
 
-    public static bool operator !=(Player left, Player right) => !(left == right);
+    public static bool operator !=( Player left, Player right ) => !(left == right);
 }

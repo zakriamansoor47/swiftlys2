@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CLogicPlayerProxyImpl : CLogicalEntityImpl, CLogicPlayerP
   public CLogicPlayerProxyImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PlayerOffset = new(() => Schema.GetOffset(0x81D444EB68856C16), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Player {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x81D444EB68856C16));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_PlayerOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerHasAmmoOffset = new(() => Schema.GetOffset(0x81D444EB6A23AB96), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput PlayerHasAmmo {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x81D444EB6A23AB96));
+    get => new CEntityIOOutputImpl(_Handle + _PlayerHasAmmoOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerHasNoAmmoOffset = new(() => Schema.GetOffset(0x81D444EB06CA340D), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput PlayerHasNoAmmo {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x81D444EB06CA340D));
+    get => new CEntityIOOutputImpl(_Handle + _PlayerHasNoAmmoOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerDiedOffset = new(() => Schema.GetOffset(0x81D444EBB440E03E), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput PlayerDied {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x81D444EBB440E03E));
+    get => new CEntityIOOutputImpl(_Handle + _PlayerDiedOffset.Value);
   }
+  private static readonly Lazy<nint> _RequestedPlayerHealthOffset = new(() => Schema.GetOffset(0x81D444EBF1F83D58), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField RequestedPlayerHealth {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x81D444EBF1F83D58));
+    get => new SchemaUntypedField(_Handle + _RequestedPlayerHealthOffset.Value);
   }
 
 

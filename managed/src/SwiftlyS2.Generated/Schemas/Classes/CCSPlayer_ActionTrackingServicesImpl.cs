@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CCSPlayer_ActionTrackingServicesImpl : CPlayerPawnCompone
   public CCSPlayer_ActionTrackingServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LastWeaponBeforeC4AutoSwitchOffset = new(() => Schema.GetOffset(0xC890019D6687BAC0), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBasePlayerWeapon> LastWeaponBeforeC4AutoSwitch {
-    get => ref _Handle.AsRef<CHandle<CBasePlayerWeapon>>(Schema.GetOffset(0xC890019D6687BAC0));
+    get => ref _Handle.AsRef<CHandle<CBasePlayerWeapon>>(_LastWeaponBeforeC4AutoSwitchOffset.Value);
   }
+  private static readonly Lazy<nint> _IsRescuingOffset = new(() => Schema.GetOffset(0xC890019D225BDB2F), LazyThreadSafetyMode.None);
+
   public ref bool IsRescuing {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC890019D225BDB2F));
+    get => ref _Handle.AsRef<bool>(_IsRescuingOffset.Value);
   }
+  private static readonly Lazy<nint> _WeaponPurchasesThisMatchOffset = new(() => Schema.GetOffset(0xC890019D43F68EE0), LazyThreadSafetyMode.None);
+
   public WeaponPurchaseTracker_t WeaponPurchasesThisMatch {
-    get => new WeaponPurchaseTracker_tImpl(_Handle + Schema.GetOffset(0xC890019D43F68EE0));
+    get => new WeaponPurchaseTracker_tImpl(_Handle + _WeaponPurchasesThisMatchOffset.Value);
   }
+  private static readonly Lazy<nint> _WeaponPurchasesThisRoundOffset = new(() => Schema.GetOffset(0xC890019D7C64F835), LazyThreadSafetyMode.None);
+
   public WeaponPurchaseTracker_t WeaponPurchasesThisRound {
-    get => new WeaponPurchaseTracker_tImpl(_Handle + Schema.GetOffset(0xC890019D7C64F835));
+    get => new WeaponPurchaseTracker_tImpl(_Handle + _WeaponPurchasesThisRoundOffset.Value);
   }
 
   public void IsRescuingUpdated() {

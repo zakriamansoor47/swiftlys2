@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class MaterialGroup_tImpl : SchemaClass, MaterialGroup_t {
   public MaterialGroup_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x702431604D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x702431604D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x702431604D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _MaterialsOffset = new(() => Schema.GetOffset(0x7024316060E46909), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CStrongHandle<InfoForResourceTypeIMaterial2>> Materials {
-    get => ref _Handle.AsRef<CUtlVector<CStrongHandle<InfoForResourceTypeIMaterial2>>>(Schema.GetOffset(0x7024316060E46909));
+    get => ref _Handle.AsRef<CUtlVector<CStrongHandle<InfoForResourceTypeIMaterial2>>>(_MaterialsOffset.Value);
   }
 
 

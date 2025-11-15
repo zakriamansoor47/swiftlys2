@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_RopeSpringConstraintImpl : CParticleFunctionConstrai
   public C_OP_RopeSpringConstraintImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RestLengthOffset = new(() => Schema.GetOffset(0x2CF6156393AC4079), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput RestLength {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x2CF6156393AC4079));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _RestLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _MinDistanceOffset = new(() => Schema.GetOffset(0x2CF6156392BCAD06), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput MinDistance {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x2CF6156392BCAD06));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _MinDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxDistanceOffset = new(() => Schema.GetOffset(0x2CF6156398893360), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput MaxDistance {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x2CF6156398893360));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _MaxDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _AdjustmentScaleOffset = new(() => Schema.GetOffset(0x2CF61563A29D34AE), LazyThreadSafetyMode.None);
+
   public ref float AdjustmentScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2CF61563A29D34AE));
+    get => ref _Handle.AsRef<float>(_AdjustmentScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _InitialRestingLengthOffset = new(() => Schema.GetOffset(0x2CF61563FE9273C1), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput InitialRestingLength {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x2CF61563FE9273C1));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _InitialRestingLengthOffset.Value);
   }
 
 

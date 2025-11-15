@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class C_OP_RemapDensityToVectorImpl : CParticleFunctionOperator
   public C_OP_RemapDensityToVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0x81794CB4A7A20159), LazyThreadSafetyMode.None);
+
   public ref float RadiusScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x81794CB4A7A20159));
+    get => ref _Handle.AsRef<float>(_RadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x81794CB4E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x81794CB4E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _DensityMinOffset = new(() => Schema.GetOffset(0x81794CB4B4D8467B), LazyThreadSafetyMode.None);
+
   public ref float DensityMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x81794CB4B4D8467B));
+    get => ref _Handle.AsRef<float>(_DensityMinOffset.Value);
   }
+  private static readonly Lazy<nint> _DensityMaxOffset = new(() => Schema.GetOffset(0x81794CB4AAC31C05), LazyThreadSafetyMode.None);
+
   public ref float DensityMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x81794CB4AAC31C05));
+    get => ref _Handle.AsRef<float>(_DensityMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0x81794CB42EFED678), LazyThreadSafetyMode.None);
+
   public ref Vector OutputMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x81794CB42EFED678));
+    get => ref _Handle.AsRef<Vector>(_OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0x81794CB4451280D2), LazyThreadSafetyMode.None);
+
   public ref Vector OutputMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x81794CB4451280D2));
+    get => ref _Handle.AsRef<Vector>(_OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _UseParentDensityOffset = new(() => Schema.GetOffset(0x81794CB40FE31F64), LazyThreadSafetyMode.None);
+
   public ref bool UseParentDensity {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x81794CB40FE31F64));
+    get => ref _Handle.AsRef<bool>(_UseParentDensityOffset.Value);
   }
+  private static readonly Lazy<nint> _VoxelGridResolutionOffset = new(() => Schema.GetOffset(0x81794CB45AA7D7ED), LazyThreadSafetyMode.None);
+
   public ref int VoxelGridResolution {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x81794CB45AA7D7ED));
+    get => ref _Handle.AsRef<int>(_VoxelGridResolutionOffset.Value);
   }
 
 

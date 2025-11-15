@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_SetFloatImpl : CParticleFunctionOperatorImpl, C_OP_S
   public C_OP_SetFloatImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueOffset = new(() => Schema.GetOffset(0xF719E43734445438), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputValue {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xF719E43734445438));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputFieldOffset = new(() => Schema.GetOffset(0xF719E437324F6F74), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t OutputField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xF719E437324F6F74));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _OutputFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0xF719E437FB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0xF719E437FB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _LerpOffset = new(() => Schema.GetOffset(0xF719E4375C17F8E8), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Lerp {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xF719E4375C17F8E8));
+    get => new CPerParticleFloatInputImpl(_Handle + _LerpOffset.Value);
   }
 
 

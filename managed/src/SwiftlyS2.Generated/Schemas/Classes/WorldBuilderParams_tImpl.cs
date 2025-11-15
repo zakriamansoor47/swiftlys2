@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class WorldBuilderParams_tImpl : SchemaClass, WorldBuilderParam
   public WorldBuilderParams_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinDrawVolumeSizeOffset = new(() => Schema.GetOffset(0x37270ACBA9648390), LazyThreadSafetyMode.None);
+
   public ref float MinDrawVolumeSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x37270ACBA9648390));
+    get => ref _Handle.AsRef<float>(_MinDrawVolumeSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _BuildBakedLightingOffset = new(() => Schema.GetOffset(0x37270ACBCF369FF6), LazyThreadSafetyMode.None);
+
   public ref bool BuildBakedLighting {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x37270ACBCF369FF6));
+    get => ref _Handle.AsRef<bool>(_BuildBakedLightingOffset.Value);
   }
+  private static readonly Lazy<nint> _AggregateInstanceStreamsOffset = new(() => Schema.GetOffset(0x37270ACB36B2AE78), LazyThreadSafetyMode.None);
+
   public ref bool AggregateInstanceStreams {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x37270ACB36B2AE78));
+    get => ref _Handle.AsRef<bool>(_AggregateInstanceStreamsOffset.Value);
   }
+  private static readonly Lazy<nint> _BakedLightingInfoOffset = new(() => Schema.GetOffset(0x37270ACBC2128E04), LazyThreadSafetyMode.None);
+
   public BakedLightingInfo_t BakedLightingInfo {
-    get => new BakedLightingInfo_tImpl(_Handle + Schema.GetOffset(0x37270ACBC2128E04));
+    get => new BakedLightingInfo_tImpl(_Handle + _BakedLightingInfoOffset.Value);
   }
+  private static readonly Lazy<nint> _CompileTimestampOffset = new(() => Schema.GetOffset(0x37270ACB1CAADE3A), LazyThreadSafetyMode.None);
+
   public ref ulong CompileTimestamp {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x37270ACB1CAADE3A));
+    get => ref _Handle.AsRef<ulong>(_CompileTimestampOffset.Value);
   }
+  private static readonly Lazy<nint> _CompileFingerprintOffset = new(() => Schema.GetOffset(0x37270ACB98F6F58A), LazyThreadSafetyMode.None);
+
   public ref ulong CompileFingerprint {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x37270ACB98F6F58A));
+    get => ref _Handle.AsRef<ulong>(_CompileFingerprintOffset.Value);
   }
 
 

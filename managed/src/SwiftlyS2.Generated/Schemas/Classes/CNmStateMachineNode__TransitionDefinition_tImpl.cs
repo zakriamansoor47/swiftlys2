@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CNmStateMachineNode__TransitionDefinition_tImpl : SchemaC
   public CNmStateMachineNode__TransitionDefinition_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetStateIdxOffset = new(() => Schema.GetOffset(0x9404D2C4E5C0218C), LazyThreadSafetyMode.None);
+
   public ref short TargetStateIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x9404D2C4E5C0218C));
+    get => ref _Handle.AsRef<short>(_TargetStateIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ConditionNodeIdxOffset = new(() => Schema.GetOffset(0x9404D2C4773FE641), LazyThreadSafetyMode.None);
+
   public ref short ConditionNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x9404D2C4773FE641));
+    get => ref _Handle.AsRef<short>(_ConditionNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _TransitionNodeIdxOffset = new(() => Schema.GetOffset(0x9404D2C40D5CDE45), LazyThreadSafetyMode.None);
+
   public ref short TransitionNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x9404D2C40D5CDE45));
+    get => ref _Handle.AsRef<short>(_TransitionNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _CanBeForcedOffset = new(() => Schema.GetOffset(0x9404D2C4B6EB0555), LazyThreadSafetyMode.None);
+
   public ref bool CanBeForced {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9404D2C4B6EB0555));
+    get => ref _Handle.AsRef<bool>(_CanBeForcedOffset.Value);
   }
 
 

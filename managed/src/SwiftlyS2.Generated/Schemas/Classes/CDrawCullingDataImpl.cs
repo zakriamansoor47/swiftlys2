@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,8 +20,10 @@ internal partial class CDrawCullingDataImpl : SchemaClass, CDrawCullingData {
   public ISchemaFixedArray<byte> ConeAxis {
     get => new SchemaFixedArray<byte>(_Handle, 0x80665970C59E234F, 3, 1, 1);
   }
+  private static readonly Lazy<nint> _ConeCutoffOffset = new(() => Schema.GetOffset(0x80665970CAE61D67), LazyThreadSafetyMode.None);
+
   public ref byte ConeCutoff {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x80665970CAE61D67));
+    get => ref _Handle.AsRef<byte>(_ConeCutoffOffset.Value);
   }
 
 

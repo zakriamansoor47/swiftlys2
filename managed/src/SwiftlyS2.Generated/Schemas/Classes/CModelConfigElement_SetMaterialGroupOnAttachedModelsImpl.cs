@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CModelConfigElement_SetMaterialGroupOnAttachedModelsImpl 
   public CModelConfigElement_SetMaterialGroupOnAttachedModelsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaterialGroupNameOffset = new(() => Schema.GetOffset(0xAD67B617C2DD3048), LazyThreadSafetyMode.None);
+
   public string MaterialGroupName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xAD67B617C2DD3048));
+      var ptr = _Handle.Read<nint>(_MaterialGroupNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xAD67B617C2DD3048, value);
+    set => Schema.SetString(_Handle, _MaterialGroupNameOffset.Value, value);
   } 
 
 

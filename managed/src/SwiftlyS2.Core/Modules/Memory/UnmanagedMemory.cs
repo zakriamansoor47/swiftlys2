@@ -12,14 +12,14 @@ internal class UnmanagedMemory : NativeHandle, IUnmanagedMemory, IDisposable
     private ILogger<UnmanagedMemory> _Logger { get; set; }
     public List<Guid> Hooks { get; } = new();
 
-    public UnmanagedMemory(nint address, HookManager hookManager, ILoggerFactory loggerFactory) : base(address)
+    public UnmanagedMemory( nint address, HookManager hookManager, ILoggerFactory loggerFactory ) : base(address)
     {
         Address = address;
         _HookManager = hookManager;
         _Logger = loggerFactory.CreateLogger<UnmanagedMemory>();
     }
 
-    public Guid AddHook(MidHookDelegate callback)
+    public Guid AddHook( MidHookDelegate callback )
     {
         try
         {
@@ -29,6 +29,7 @@ internal class UnmanagedMemory : NativeHandle, IUnmanagedMemory, IDisposable
         }
         catch (Exception e)
         {
+            if (!GlobalExceptionHandler.Handle(e)) return Guid.Empty;
             _Logger.LogError(e, "Failed to add midhook to function {0}.", Address);
             return Guid.Empty;
         }
@@ -40,7 +41,7 @@ internal class UnmanagedMemory : NativeHandle, IUnmanagedMemory, IDisposable
         Hooks.Clear();
     }
 
-    public void RemoveHook(Guid id)
+    public void RemoveHook( Guid id )
     {
         try
         {
@@ -49,6 +50,7 @@ internal class UnmanagedMemory : NativeHandle, IUnmanagedMemory, IDisposable
         }
         catch (Exception e)
         {
+            if (!GlobalExceptionHandler.Handle(e)) return;
             _Logger.LogError(e, "Failed to remove midhook {0} from function {1}.", id, Address);
         }
     }

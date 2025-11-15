@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CTakeDamageSummaryScopeGuardImpl : SchemaClass, CTakeDama
   public CTakeDamageSummaryScopeGuardImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SummariesOffset = new(() => Schema.GetOffset(0x1CAF012DD0AD2A53), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointerTo<SummaryTakeDamageInfo_t>> Summaries {
-    get => ref _Handle.AsRef<CUtlVector<PointerTo<SummaryTakeDamageInfo_t>>>(Schema.GetOffset(0x1CAF012DD0AD2A53));
+    get => ref _Handle.AsRef<CUtlVector<PointerTo<SummaryTakeDamageInfo_t>>>(_SummariesOffset.Value);
   }
 
 

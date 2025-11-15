@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_DecayImpl : CParticleFunctionOperatorImpl, C_OP_Deca
   public C_OP_DecayImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RopeDecayOffset = new(() => Schema.GetOffset(0x9342606D2A5D2225), LazyThreadSafetyMode.None);
+
   public ref bool RopeDecay {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9342606D2A5D2225));
+    get => ref _Handle.AsRef<bool>(_RopeDecayOffset.Value);
   }
+  private static readonly Lazy<nint> _ForcePreserveParticleOrderOffset = new(() => Schema.GetOffset(0x9342606DFEB98B86), LazyThreadSafetyMode.None);
+
   public ref bool ForcePreserveParticleOrder {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9342606DFEB98B86));
+    get => ref _Handle.AsRef<bool>(_ForcePreserveParticleOrderOffset.Value);
   }
 
 

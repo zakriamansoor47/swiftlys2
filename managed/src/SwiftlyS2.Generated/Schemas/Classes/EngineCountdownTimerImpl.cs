@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class EngineCountdownTimerImpl : SchemaClass, EngineCountdownTi
   public EngineCountdownTimerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0x3F0C5A433D9FF5AD), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3F0C5A433D9FF5AD));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _TimestampOffset = new(() => Schema.GetOffset(0x3F0C5A43B6C56F43), LazyThreadSafetyMode.None);
+
   public ref float Timestamp {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3F0C5A43B6C56F43));
+    get => ref _Handle.AsRef<float>(_TimestampOffset.Value);
   }
+  private static readonly Lazy<nint> _TimescaleOffset = new(() => Schema.GetOffset(0x3F0C5A438A240BBE), LazyThreadSafetyMode.None);
+
   public ref float Timescale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3F0C5A438A240BBE));
+    get => ref _Handle.AsRef<float>(_TimescaleOffset.Value);
   }
 
   public void DurationUpdated() {

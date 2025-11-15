@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CDecoyProjectileImpl : CBaseCSGrenadeProjectileImpl, CDec
   public CDecoyProjectileImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DecoyShotTickOffset = new(() => Schema.GetOffset(0x69629121C4EFED0A), LazyThreadSafetyMode.None);
+
   public ref int DecoyShotTick {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x69629121C4EFED0A));
+    get => ref _Handle.AsRef<int>(_DecoyShotTickOffset.Value);
   }
+  private static readonly Lazy<nint> _ShotsRemainingOffset = new(() => Schema.GetOffset(0x6962912188CAE2A2), LazyThreadSafetyMode.None);
+
   public ref int ShotsRemaining {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6962912188CAE2A2));
+    get => ref _Handle.AsRef<int>(_ShotsRemainingOffset.Value);
   }
+  private static readonly Lazy<nint> _ExpireTimeOffset = new(() => Schema.GetOffset(0x696291216D61853F), LazyThreadSafetyMode.None);
+
   public GameTime_t ExpireTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x696291216D61853F));
+    get => new GameTime_tImpl(_Handle + _ExpireTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DecoyWeaponDefIndexOffset = new(() => Schema.GetOffset(0x69629121A9377E6A), LazyThreadSafetyMode.None);
+
   public ref ushort DecoyWeaponDefIndex {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x69629121A9377E6A));
+    get => ref _Handle.AsRef<ushort>(_DecoyWeaponDefIndexOffset.Value);
   }
 
   public void DecoyShotTickUpdated() {

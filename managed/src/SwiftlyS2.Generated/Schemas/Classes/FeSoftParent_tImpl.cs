@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class FeSoftParent_tImpl : SchemaClass, FeSoftParent_t {
   public FeSoftParent_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParentOffset = new(() => Schema.GetOffset(0x2404393716640171), LazyThreadSafetyMode.None);
+
   public ref int Parent {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x2404393716640171));
+    get => ref _Handle.AsRef<int>(_ParentOffset.Value);
   }
+  private static readonly Lazy<nint> _AlphaOffset = new(() => Schema.GetOffset(0x24043937684C8871), LazyThreadSafetyMode.None);
+
   public ref float Alpha {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x24043937684C8871));
+    get => ref _Handle.AsRef<float>(_AlphaOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_OP_SetSimulationRateImpl : CParticleFunctionPreEmission
   public C_OP_SetSimulationRateImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SimulationScaleOffset = new(() => Schema.GetOffset(0x6C806DC2994DAEC6), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput SimulationScale {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x6C806DC2994DAEC6));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _SimulationScaleOffset.Value);
   }
 
 

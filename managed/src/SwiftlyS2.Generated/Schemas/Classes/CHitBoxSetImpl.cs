@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,25 +17,33 @@ internal partial class CHitBoxSetImpl : SchemaClass, CHitBoxSet {
   public CHitBoxSetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x742AE9EC4D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x742AE9EC4D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x742AE9EC4D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _NameHashOffset = new(() => Schema.GetOffset(0x742AE9ECDE15EEFE), LazyThreadSafetyMode.None);
+
   public ref uint NameHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x742AE9ECDE15EEFE));
+    get => ref _Handle.AsRef<uint>(_NameHashOffset.Value);
   }
+  private static readonly Lazy<nint> _HitBoxesOffset = new(() => Schema.GetOffset(0x742AE9EC07A4113F), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHitBox> HitBoxes {
-    get => ref _Handle.AsRef<CUtlVector<CHitBox>>(Schema.GetOffset(0x742AE9EC07A4113F));
+    get => ref _Handle.AsRef<CUtlVector<CHitBox>>(_HitBoxesOffset.Value);
   }
+  private static readonly Lazy<nint> _SourceFilenameOffset = new(() => Schema.GetOffset(0x742AE9ECD49CE26D), LazyThreadSafetyMode.None);
+
   public string SourceFilename {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x742AE9ECD49CE26D));
+      var ptr = _Handle.Read<nint>(_SourceFilenameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x742AE9ECD49CE26D, value);
+    set => Schema.SetString(_Handle, _SourceFilenameOffset.Value, value);
   } 
 
 

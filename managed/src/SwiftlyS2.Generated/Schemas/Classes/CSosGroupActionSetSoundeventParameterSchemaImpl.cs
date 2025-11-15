@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class CSosGroupActionSetSoundeventParameterSchemaImpl : CSosGro
   public CSosGroupActionSetSoundeventParameterSchemaImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaxCountOffset = new(() => Schema.GetOffset(0x40D29D8964BED864), LazyThreadSafetyMode.None);
+
   public ref int MaxCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x40D29D8964BED864));
+    get => ref _Handle.AsRef<int>(_MaxCountOffset.Value);
   }
+  private static readonly Lazy<nint> _MinValueOffset = new(() => Schema.GetOffset(0x40D29D897C31AC56), LazyThreadSafetyMode.None);
+
   public ref float MinValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x40D29D897C31AC56));
+    get => ref _Handle.AsRef<float>(_MinValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxValueOffset = new(() => Schema.GetOffset(0x40D29D89D0A5C87C), LazyThreadSafetyMode.None);
+
   public ref float MaxValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x40D29D89D0A5C87C));
+    get => ref _Handle.AsRef<float>(_MaxValueOffset.Value);
   }
+  private static readonly Lazy<nint> _OpvarNameOffset = new(() => Schema.GetOffset(0x40D29D894ECBF7E4), LazyThreadSafetyMode.None);
+
   public string OpvarName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x40D29D894ECBF7E4));
+      var ptr = _Handle.Read<nint>(_OpvarNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x40D29D894ECBF7E4, value);
+    set => Schema.SetString(_Handle, _OpvarNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SortTypeOffset = new(() => Schema.GetOffset(0x40D29D892E0E44B5), LazyThreadSafetyMode.None);
+
   public ref SosActionSetParamSortType_t SortType {
-    get => ref _Handle.AsRef<SosActionSetParamSortType_t>(Schema.GetOffset(0x40D29D892E0E44B5));
+    get => ref _Handle.AsRef<SosActionSetParamSortType_t>(_SortTypeOffset.Value);
   }
 
 

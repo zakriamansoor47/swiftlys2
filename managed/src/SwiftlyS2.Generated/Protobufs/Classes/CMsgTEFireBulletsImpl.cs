@@ -74,6 +74,18 @@ internal class CMsgTEFireBulletsImpl : NetMessage<CMsgTEFireBullets>, CMsgTEFire
   { get => Accessor.GetUInt32("attack_type"); set => Accessor.SetUInt32("attack_type", value); }
 
 
+  public bool PlayerInair
+  { get => Accessor.GetBool("player_inair"); set => Accessor.SetBool("player_inair", value); }
+
+
+  public bool PlayerScoped
+  { get => Accessor.GetBool("player_scoped"); set => Accessor.SetBool("player_scoped", value); }
+
+
+  public int Tick
+  { get => Accessor.GetInt32("tick"); set => Accessor.SetInt32("tick", value); }
+
+
   public CMsgTEFireBullets_Extra Extra
   { get => new CMsgTEFireBullets_ExtraImpl(NativeNetMessages.GetNestedMessage(Address, "extra"), false); }
 

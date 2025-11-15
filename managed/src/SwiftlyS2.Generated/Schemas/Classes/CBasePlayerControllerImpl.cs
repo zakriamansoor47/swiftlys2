@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,85 +17,133 @@ internal partial class CBasePlayerControllerImpl : CBaseEntityImpl, CBasePlayerC
   public CBasePlayerControllerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InButtonsWhichAreTogglesOffset = new(() => Schema.GetOffset(0x3979FF6E84B9651F), LazyThreadSafetyMode.None);
+
   public ref ulong InButtonsWhichAreToggles {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x3979FF6E84B9651F));
+    get => ref _Handle.AsRef<ulong>(_InButtonsWhichAreTogglesOffset.Value);
   }
+  private static readonly Lazy<nint> _TickBaseOffset = new(() => Schema.GetOffset(0x3979FF6E09A8C76D), LazyThreadSafetyMode.None);
+
   public ref uint TickBase {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x3979FF6E09A8C76D));
+    get => ref _Handle.AsRef<uint>(_TickBaseOffset.Value);
   }
+  private static readonly Lazy<nint> _PawnOffset = new(() => Schema.GetOffset(0x3979FF6E7C628C1D), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBasePlayerPawn> Pawn {
-    get => ref _Handle.AsRef<CHandle<CBasePlayerPawn>>(Schema.GetOffset(0x3979FF6E7C628C1D));
+    get => ref _Handle.AsRef<CHandle<CBasePlayerPawn>>(_PawnOffset.Value);
   }
+  private static readonly Lazy<nint> _KnownTeamMismatchOffset = new(() => Schema.GetOffset(0x3979FF6EDDCE3C49), LazyThreadSafetyMode.None);
+
   public ref bool KnownTeamMismatch {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6EDDCE3C49));
+    get => ref _Handle.AsRef<bool>(_KnownTeamMismatchOffset.Value);
   }
+  private static readonly Lazy<nint> _SplitScreenSlotOffset = new(() => Schema.GetOffset(0x3979FF6EDB96ED47), LazyThreadSafetyMode.None);
+
   public ref uint SplitScreenSlot {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x3979FF6EDB96ED47));
+    get => ref _Handle.AsRef<uint>(_SplitScreenSlotOffset.Value);
   }
+  private static readonly Lazy<nint> _SplitOwnerOffset = new(() => Schema.GetOffset(0x3979FF6E7F6EFD54), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBasePlayerController> SplitOwner {
-    get => ref _Handle.AsRef<CHandle<CBasePlayerController>>(Schema.GetOffset(0x3979FF6E7F6EFD54));
+    get => ref _Handle.AsRef<CHandle<CBasePlayerController>>(_SplitOwnerOffset.Value);
   }
+  private static readonly Lazy<nint> _SplitScreenPlayersOffset = new(() => Schema.GetOffset(0x3979FF6E533D1C5D), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CBasePlayerController>> SplitScreenPlayers {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePlayerController>>>(Schema.GetOffset(0x3979FF6E533D1C5D));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePlayerController>>>(_SplitScreenPlayersOffset.Value);
   }
+  private static readonly Lazy<nint> _IsHLTVOffset = new(() => Schema.GetOffset(0x3979FF6E5DC66E6B), LazyThreadSafetyMode.None);
+
   public ref bool IsHLTV {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6E5DC66E6B));
+    get => ref _Handle.AsRef<bool>(_IsHLTVOffset.Value);
   }
+  private static readonly Lazy<nint> _ConnectedOffset = new(() => Schema.GetOffset(0x3979FF6E97963D8B), LazyThreadSafetyMode.None);
+
   public ref PlayerConnectedState Connected {
-    get => ref _Handle.AsRef<PlayerConnectedState>(Schema.GetOffset(0x3979FF6E97963D8B));
+    get => ref _Handle.AsRef<PlayerConnectedState>(_ConnectedOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerNameOffset = new(() => Schema.GetOffset(0x3979FF6EDE61DD3B), LazyThreadSafetyMode.None);
+
   public string PlayerName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x3979FF6EDE61DD3B);
+      var ptr = _Handle + _PlayerNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x3979FF6EDE61DD3B, value, 128);
+    set => Schema.SetFixedString(_Handle, _PlayerNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _NetworkIDStringOffset = new(() => Schema.GetOffset(0x3979FF6E0EA4B3D6), LazyThreadSafetyMode.None);
+
   public string NetworkIDString {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x3979FF6E0EA4B3D6));
+      var ptr = _Handle.Read<nint>(_NetworkIDStringOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x3979FF6E0EA4B3D6, value);
+    set => Schema.SetString(_Handle, _NetworkIDStringOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _LerpTimeOffset = new(() => Schema.GetOffset(0x3979FF6E9FF4229D), LazyThreadSafetyMode.None);
+
   public ref float LerpTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3979FF6E9FF4229D));
+    get => ref _Handle.AsRef<float>(_LerpTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _LagCompensationOffset = new(() => Schema.GetOffset(0x3979FF6E648FCFD5), LazyThreadSafetyMode.None);
+
   public ref bool LagCompensation {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6E648FCFD5));
+    get => ref _Handle.AsRef<bool>(_LagCompensationOffset.Value);
   }
+  private static readonly Lazy<nint> _PredictOffset = new(() => Schema.GetOffset(0x3979FF6E21F4FE0A), LazyThreadSafetyMode.None);
+
   public ref bool Predict {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6E21F4FE0A));
+    get => ref _Handle.AsRef<bool>(_PredictOffset.Value);
   }
+  private static readonly Lazy<nint> _IsLowViolenceOffset = new(() => Schema.GetOffset(0x3979FF6E302B094C), LazyThreadSafetyMode.None);
+
   public ref bool IsLowViolence {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6E302B094C));
+    get => ref _Handle.AsRef<bool>(_IsLowViolenceOffset.Value);
   }
+  private static readonly Lazy<nint> _GamePausedOffset = new(() => Schema.GetOffset(0x3979FF6E582909A9), LazyThreadSafetyMode.None);
+
   public ref bool GamePaused {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6E582909A9));
+    get => ref _Handle.AsRef<bool>(_GamePausedOffset.Value);
   }
+  private static readonly Lazy<nint> _IgnoreGlobalChatOffset = new(() => Schema.GetOffset(0x3979FF6E926A5FDF), LazyThreadSafetyMode.None);
+
   public ref ChatIgnoreType_t IgnoreGlobalChat {
-    get => ref _Handle.AsRef<ChatIgnoreType_t>(Schema.GetOffset(0x3979FF6E926A5FDF));
+    get => ref _Handle.AsRef<ChatIgnoreType_t>(_IgnoreGlobalChatOffset.Value);
   }
+  private static readonly Lazy<nint> _LastPlayerTalkTimeOffset = new(() => Schema.GetOffset(0x3979FF6EE68B6D11), LazyThreadSafetyMode.None);
+
   public ref float LastPlayerTalkTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3979FF6EE68B6D11));
+    get => ref _Handle.AsRef<float>(_LastPlayerTalkTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _LastEntitySteadyStateOffset = new(() => Schema.GetOffset(0x3979FF6E884773FB), LazyThreadSafetyMode.None);
+
   public ref float LastEntitySteadyState {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3979FF6E884773FB));
+    get => ref _Handle.AsRef<float>(_LastEntitySteadyStateOffset.Value);
   }
+  private static readonly Lazy<nint> _AvailableEntitySteadyStateOffset = new(() => Schema.GetOffset(0x3979FF6E77E35552), LazyThreadSafetyMode.None);
+
   public ref int AvailableEntitySteadyState {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3979FF6E77E35552));
+    get => ref _Handle.AsRef<int>(_AvailableEntitySteadyStateOffset.Value);
   }
+  private static readonly Lazy<nint> _HasAnySteadyStateEntsOffset = new(() => Schema.GetOffset(0x3979FF6E039D58D0), LazyThreadSafetyMode.None);
+
   public ref bool HasAnySteadyStateEnts {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6E039D58D0));
+    get => ref _Handle.AsRef<bool>(_HasAnySteadyStateEntsOffset.Value);
   }
+  private static readonly Lazy<nint> _SteamIDOffset = new(() => Schema.GetOffset(0x3979FF6EB22F805E), LazyThreadSafetyMode.None);
+
   public ref ulong SteamID {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x3979FF6EB22F805E));
+    get => ref _Handle.AsRef<ulong>(_SteamIDOffset.Value);
   }
+  private static readonly Lazy<nint> _NoClipEnabledOffset = new(() => Schema.GetOffset(0x3979FF6E520E7FBD), LazyThreadSafetyMode.None);
+
   public ref bool NoClipEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3979FF6E520E7FBD));
+    get => ref _Handle.AsRef<bool>(_NoClipEnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _DesiredFOVOffset = new(() => Schema.GetOffset(0x3979FF6E38022E09), LazyThreadSafetyMode.None);
+
   public ref uint DesiredFOV {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x3979FF6E38022E09));
+    get => ref _Handle.AsRef<uint>(_DesiredFOVOffset.Value);
   }
 
   public void TickBaseUpdated() {

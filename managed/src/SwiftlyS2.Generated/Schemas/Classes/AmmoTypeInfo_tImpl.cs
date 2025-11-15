@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class AmmoTypeInfo_tImpl : SchemaClass, AmmoTypeInfo_t {
   public AmmoTypeInfo_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaxCarryOffset = new(() => Schema.GetOffset(0xFC774B09B708280), LazyThreadSafetyMode.None);
+
   public ref int MaxCarry {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xFC774B09B708280));
+    get => ref _Handle.AsRef<int>(_MaxCarryOffset.Value);
   }
+  private static readonly Lazy<nint> _SplashSizeOffset = new(() => Schema.GetOffset(0xFC774B045E320D3), LazyThreadSafetyMode.None);
+
   public CRangeInt SplashSize {
-    get => new CRangeIntImpl(_Handle + Schema.GetOffset(0xFC774B045E320D3));
+    get => new CRangeIntImpl(_Handle + _SplashSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0xFC774B0CE6E9C28), LazyThreadSafetyMode.None);
+
   public ref AmmoFlags_t Flags {
-    get => ref _Handle.AsRef<AmmoFlags_t>(Schema.GetOffset(0xFC774B0CE6E9C28));
+    get => ref _Handle.AsRef<AmmoFlags_t>(_FlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _MassOffset = new(() => Schema.GetOffset(0xFC774B0CD83D263), LazyThreadSafetyMode.None);
+
   public ref float Mass {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFC774B0CD83D263));
+    get => ref _Handle.AsRef<float>(_MassOffset.Value);
   }
+  private static readonly Lazy<nint> _SpeedOffset = new(() => Schema.GetOffset(0xFC774B0C631B7EA), LazyThreadSafetyMode.None);
+
   public CRangeFloat Speed {
-    get => new CRangeFloatImpl(_Handle + Schema.GetOffset(0xFC774B0C631B7EA));
+    get => new CRangeFloatImpl(_Handle + _SpeedOffset.Value);
   }
 
 

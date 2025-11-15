@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class FeTwistConstraint_tImpl : SchemaClass, FeTwistConstraint_
   public FeTwistConstraint_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodeOrientOffset = new(() => Schema.GetOffset(0x4BD7707B59026ED8), LazyThreadSafetyMode.None);
+
   public ref ushort NodeOrient {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4BD7707B59026ED8));
+    get => ref _Handle.AsRef<ushort>(_NodeOrientOffset.Value);
   }
+  private static readonly Lazy<nint> _NodeEndOffset = new(() => Schema.GetOffset(0x4BD7707B8A00317E), LazyThreadSafetyMode.None);
+
   public ref ushort NodeEnd {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x4BD7707B8A00317E));
+    get => ref _Handle.AsRef<ushort>(_NodeEndOffset.Value);
   }
+  private static readonly Lazy<nint> _TwistRelaxOffset = new(() => Schema.GetOffset(0x4BD7707B9E4510FC), LazyThreadSafetyMode.None);
+
   public ref float TwistRelax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4BD7707B9E4510FC));
+    get => ref _Handle.AsRef<float>(_TwistRelaxOffset.Value);
   }
+  private static readonly Lazy<nint> _SwingRelaxOffset = new(() => Schema.GetOffset(0x4BD7707BE4722697), LazyThreadSafetyMode.None);
+
   public ref float SwingRelax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4BD7707BE4722697));
+    get => ref _Handle.AsRef<float>(_SwingRelaxOffset.Value);
   }
 
 

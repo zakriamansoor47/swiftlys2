@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class VMixSubgraphSwitchDesc_tImpl : SchemaClass, VMixSubgraphS
   public VMixSubgraphSwitchDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InterpolationModeOffset = new(() => Schema.GetOffset(0x9671DF890C06348A), LazyThreadSafetyMode.None);
+
   public ref VMixSubgraphSwitchInterpolationType_t InterpolationMode {
-    get => ref _Handle.AsRef<VMixSubgraphSwitchInterpolationType_t>(Schema.GetOffset(0x9671DF890C06348A));
+    get => ref _Handle.AsRef<VMixSubgraphSwitchInterpolationType_t>(_InterpolationModeOffset.Value);
   }
+  private static readonly Lazy<nint> _OnlyTailsOnFadeOutOffset = new(() => Schema.GetOffset(0x9671DF89B74519D7), LazyThreadSafetyMode.None);
+
   public ref bool OnlyTailsOnFadeOut {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9671DF89B74519D7));
+    get => ref _Handle.AsRef<bool>(_OnlyTailsOnFadeOutOffset.Value);
   }
+  private static readonly Lazy<nint> _InterpolationTimeOffset = new(() => Schema.GetOffset(0x9671DF896D3B0FB6), LazyThreadSafetyMode.None);
+
   public ref float InterpolationTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9671DF896D3B0FB6));
+    get => ref _Handle.AsRef<float>(_InterpolationTimeOffset.Value);
   }
 
 

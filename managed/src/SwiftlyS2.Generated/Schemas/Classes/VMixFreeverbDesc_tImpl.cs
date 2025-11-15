@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class VMixFreeverbDesc_tImpl : SchemaClass, VMixFreeverbDesc_t 
   public VMixFreeverbDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RoomSizeOffset = new(() => Schema.GetOffset(0xF9EB6BF8DEA95199), LazyThreadSafetyMode.None);
+
   public ref float RoomSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF9EB6BF8DEA95199));
+    get => ref _Handle.AsRef<float>(_RoomSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _DampOffset = new(() => Schema.GetOffset(0xF9EB6BF851CA5395), LazyThreadSafetyMode.None);
+
   public ref float Damp {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF9EB6BF851CA5395));
+    get => ref _Handle.AsRef<float>(_DampOffset.Value);
   }
+  private static readonly Lazy<nint> _WidthOffset = new(() => Schema.GetOffset(0xF9EB6BF8B91935E1), LazyThreadSafetyMode.None);
+
   public ref float Width {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF9EB6BF8B91935E1));
+    get => ref _Handle.AsRef<float>(_WidthOffset.Value);
   }
+  private static readonly Lazy<nint> _LateReflectionsOffset = new(() => Schema.GetOffset(0xF9EB6BF830A49ADF), LazyThreadSafetyMode.None);
+
   public ref float LateReflections {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF9EB6BF830A49ADF));
+    get => ref _Handle.AsRef<float>(_LateReflectionsOffset.Value);
   }
 
 

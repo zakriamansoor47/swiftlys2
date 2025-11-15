@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_ConstrainDistanceToUserSpecifiedPathImpl : CParticle
   public C_OP_ConstrainDistanceToUserSpecifiedPathImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinDistanceOffset = new(() => Schema.GetOffset(0x42F2CE28F016B7AC), LazyThreadSafetyMode.None);
+
   public ref float MinDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x42F2CE28F016B7AC));
+    get => ref _Handle.AsRef<float>(_MinDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxDistanceOffset = new(() => Schema.GetOffset(0x42F2CE2898893360), LazyThreadSafetyMode.None);
+
   public ref float MaxDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x42F2CE2898893360));
+    get => ref _Handle.AsRef<float>(_MaxDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _TimeScaleOffset = new(() => Schema.GetOffset(0x42F2CE28B49D735C), LazyThreadSafetyMode.None);
+
   public ref float TimeScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x42F2CE28B49D735C));
+    get => ref _Handle.AsRef<float>(_TimeScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _LoopedPathOffset = new(() => Schema.GetOffset(0x42F2CE284D64C459), LazyThreadSafetyMode.None);
+
   public ref bool LoopedPath {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x42F2CE284D64C459));
+    get => ref _Handle.AsRef<bool>(_LoopedPathOffset.Value);
   }
+  private static readonly Lazy<nint> _PointListOffset = new(() => Schema.GetOffset(0x42F2CE28976AB4FD), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointDefinitionWithTimeValues_t> PointList {
-    get => ref _Handle.AsRef<CUtlVector<PointDefinitionWithTimeValues_t>>(Schema.GetOffset(0x42F2CE28976AB4FD));
+    get => ref _Handle.AsRef<CUtlVector<PointDefinitionWithTimeValues_t>>(_PointListOffset.Value);
   }
 
 

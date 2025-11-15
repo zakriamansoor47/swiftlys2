@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CAimConstraintImpl : CBaseConstraintImpl, CAimConstraint 
   public CAimConstraintImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AimOffsetOffset = new(() => Schema.GetOffset(0x6C67AB6C43737FEA), LazyThreadSafetyMode.None);
+
   public ref Quaternion AimOffset {
-    get => ref _Handle.AsRef<Quaternion>(Schema.GetOffset(0x6C67AB6C43737FEA));
+    get => ref _Handle.AsRef<Quaternion>(_AimOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _UpTypeOffset = new(() => Schema.GetOffset(0x6C67AB6C038EA2BC), LazyThreadSafetyMode.None);
+
   public ref uint UpType {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x6C67AB6C038EA2BC));
+    get => ref _Handle.AsRef<uint>(_UpTypeOffset.Value);
   }
 
 

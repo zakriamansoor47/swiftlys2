@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CMotionGraphImpl : SchemaClass, CMotionGraph {
   public CMotionGraphImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParamSpansOffset = new(() => Schema.GetOffset(0xA24822FCDAC91553), LazyThreadSafetyMode.None);
+
   public CParamSpanUpdater ParamSpans {
-    get => new CParamSpanUpdaterImpl(_Handle + Schema.GetOffset(0xA24822FCDAC91553));
+    get => new CParamSpanUpdaterImpl(_Handle + _ParamSpansOffset.Value);
   }
+  private static readonly Lazy<nint> _TagsOffset = new(() => Schema.GetOffset(0xA24822FCB46C8540), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<TagSpan_t> Tags {
-    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(Schema.GetOffset(0xA24822FCB46C8540));
+    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(_TagsOffset.Value);
   }
+  private static readonly Lazy<nint> _RootNodeOffset = new(() => Schema.GetOffset(0xA24822FC8BB07023), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField RootNode {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA24822FC8BB07023));
+    get => new SchemaUntypedField(_Handle + _RootNodeOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterCountOffset = new(() => Schema.GetOffset(0xA24822FC3B0EE24B), LazyThreadSafetyMode.None);
+
   public ref int ParameterCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA24822FC3B0EE24B));
+    get => ref _Handle.AsRef<int>(_ParameterCountOffset.Value);
   }
+  private static readonly Lazy<nint> _ConfigStartIndexOffset = new(() => Schema.GetOffset(0xA24822FCEB4B0D77), LazyThreadSafetyMode.None);
+
   public ref int ConfigStartIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA24822FCEB4B0D77));
+    get => ref _Handle.AsRef<int>(_ConfigStartIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _ConfigCountOffset = new(() => Schema.GetOffset(0xA24822FC16549AD2), LazyThreadSafetyMode.None);
+
   public ref int ConfigCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA24822FC16549AD2));
+    get => ref _Handle.AsRef<int>(_ConfigCountOffset.Value);
   }
+  private static readonly Lazy<nint> _LoopOffset = new(() => Schema.GetOffset(0xA24822FCC668A4CB), LazyThreadSafetyMode.None);
+
   public ref bool Loop {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA24822FCC668A4CB));
+    get => ref _Handle.AsRef<bool>(_LoopOffset.Value);
   }
 
 

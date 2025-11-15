@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_DirectionBetweenVecsToVecImpl : CParticleFunctionOpe
   public C_OP_DirectionBetweenVecsToVecImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x6022BA82E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x6022BA82E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _Point1Offset = new(() => Schema.GetOffset(0x6022BA8204AD2BC0), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Point1 {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x6022BA8204AD2BC0));
+    get => new CPerParticleVecInputImpl(_Handle + _Point1Offset.Value);
   }
+  private static readonly Lazy<nint> _Point2Offset = new(() => Schema.GetOffset(0x6022BA8207AD3079), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Point2 {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x6022BA8207AD3079));
+    get => new CPerParticleVecInputImpl(_Handle + _Point2Offset.Value);
   }
 
 

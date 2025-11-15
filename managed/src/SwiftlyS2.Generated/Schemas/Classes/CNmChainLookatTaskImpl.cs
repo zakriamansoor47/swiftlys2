@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,60 @@ internal partial class CNmChainLookatTaskImpl : CNmPoseTaskImpl, CNmChainLookatT
   public CNmChainLookatTaskImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChainEndBoneIdxOffset = new(() => Schema.GetOffset(0x4021FFEBC513D7B8), LazyThreadSafetyMode.None);
+
   public ref int ChainEndBoneIdx {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4021FFEBC513D7B8));
+    get => ref _Handle.AsRef<int>(_ChainEndBoneIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _NumBonesInChainOffset = new(() => Schema.GetOffset(0x4021FFEBCAD2EB3E), LazyThreadSafetyMode.None);
+
   public ref int NumBonesInChain {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4021FFEBCAD2EB3E));
+    get => ref _Handle.AsRef<int>(_NumBonesInChainOffset.Value);
   }
+  private static readonly Lazy<nint> _ChainForwardDirOffset = new(() => Schema.GetOffset(0x4021FFEB98A5355A), LazyThreadSafetyMode.None);
+
   public ref Vector ChainForwardDir {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x4021FFEB98A5355A));
+    get => ref _Handle.AsRef<Vector>(_ChainForwardDirOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendWeightOffset = new(() => Schema.GetOffset(0x4021FFEBE5D6B9CE), LazyThreadSafetyMode.None);
+
   public ref float BlendWeight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4021FFEBE5D6B9CE));
+    get => ref _Handle.AsRef<float>(_BlendWeightOffset.Value);
   }
+  private static readonly Lazy<nint> _HorizontalAngleLimitDegreesOffset = new(() => Schema.GetOffset(0x4021FFEB0D028F1E), LazyThreadSafetyMode.None);
+
   public ref float HorizontalAngleLimitDegrees {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4021FFEB0D028F1E));
+    get => ref _Handle.AsRef<float>(_HorizontalAngleLimitDegreesOffset.Value);
   }
+  private static readonly Lazy<nint> _VerticalAngleLimitDegreesOffset = new(() => Schema.GetOffset(0x4021FFEBC3214250), LazyThreadSafetyMode.None);
+
   public ref float VerticalAngleLimitDegrees {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4021FFEBC3214250));
+    get => ref _Handle.AsRef<float>(_VerticalAngleLimitDegreesOffset.Value);
   }
+  private static readonly Lazy<nint> _LookatTargetOffset = new(() => Schema.GetOffset(0x4021FFEBBD59D4D6), LazyThreadSafetyMode.None);
+
   public ref Vector LookatTarget {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x4021FFEBBD59D4D6));
+    get => ref _Handle.AsRef<Vector>(_LookatTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _IsTargetInWorldSpaceOffset = new(() => Schema.GetOffset(0x4021FFEB5F56E0C5), LazyThreadSafetyMode.None);
+
   public ref bool IsTargetInWorldSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4021FFEB5F56E0C5));
+    get => ref _Handle.AsRef<bool>(_IsTargetInWorldSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _IsRunningFromDeserializedDataOffset = new(() => Schema.GetOffset(0x4021FFEB4791111D), LazyThreadSafetyMode.None);
+
   public ref bool IsRunningFromDeserializedData {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4021FFEB4791111D));
+    get => ref _Handle.AsRef<bool>(_IsRunningFromDeserializedDataOffset.Value);
   }
+  private static readonly Lazy<nint> _HorizontalAngleDegreesOffset = new(() => Schema.GetOffset(0x4021FFEB25C3867F), LazyThreadSafetyMode.None);
+
   public ref float HorizontalAngleDegrees {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4021FFEB25C3867F));
+    get => ref _Handle.AsRef<float>(_HorizontalAngleDegreesOffset.Value);
   }
+  private static readonly Lazy<nint> _VerticalAngleDegreesOffset = new(() => Schema.GetOffset(0x4021FFEBF1DC7205), LazyThreadSafetyMode.None);
+
   public ref float VerticalAngleDegrees {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4021FFEBF1DC7205));
+    get => ref _Handle.AsRef<float>(_VerticalAngleDegreesOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CTriggerBuoyancyImpl : CBaseTriggerImpl, CTriggerBuoyancy
   public CTriggerBuoyancyImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BuoyancyHelperOffset = new(() => Schema.GetOffset(0xE9698D106BAFFEA7), LazyThreadSafetyMode.None);
+
   public CBuoyancyHelper BuoyancyHelper {
-    get => new CBuoyancyHelperImpl(_Handle + Schema.GetOffset(0xE9698D106BAFFEA7));
+    get => new CBuoyancyHelperImpl(_Handle + _BuoyancyHelperOffset.Value);
   }
+  private static readonly Lazy<nint> _FluidDensityOffset = new(() => Schema.GetOffset(0xE9698D10DABBC5A3), LazyThreadSafetyMode.None);
+
   public ref float FluidDensity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE9698D10DABBC5A3));
+    get => ref _Handle.AsRef<float>(_FluidDensityOffset.Value);
   }
 
   public void FluidDensityUpdated() {

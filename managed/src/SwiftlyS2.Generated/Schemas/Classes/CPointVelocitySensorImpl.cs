@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CPointVelocitySensorImpl : CPointEntityImpl, CPointVeloci
   public CPointVelocitySensorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetEntityOffset = new(() => Schema.GetOffset(0x96CA232125D042A9), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> TargetEntity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x96CA232125D042A9));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_TargetEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _AxisOffset = new(() => Schema.GetOffset(0x96CA23210AF9CE54), LazyThreadSafetyMode.None);
+
   public ref Vector Axis {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x96CA23210AF9CE54));
+    get => ref _Handle.AsRef<Vector>(_AxisOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledOffset = new(() => Schema.GetOffset(0x96CA23216154EB7E), LazyThreadSafetyMode.None);
+
   public ref bool Enabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x96CA23216154EB7E));
+    get => ref _Handle.AsRef<bool>(_EnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _PrevVelocityOffset = new(() => Schema.GetOffset(0x96CA23211F9ACE5F), LazyThreadSafetyMode.None);
+
   public ref float PrevVelocity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x96CA23211F9ACE5F));
+    get => ref _Handle.AsRef<float>(_PrevVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _AvgIntervalOffset = new(() => Schema.GetOffset(0x96CA2321D6693004), LazyThreadSafetyMode.None);
+
   public ref float AvgInterval {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x96CA2321D6693004));
+    get => ref _Handle.AsRef<float>(_AvgIntervalOffset.Value);
   }
+  private static readonly Lazy<nint> _VelocityOffset = new(() => Schema.GetOffset(0x96CA23219B4CC8B2), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Velocity {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x96CA23219B4CC8B2));
+    get => new SchemaUntypedField(_Handle + _VelocityOffset.Value);
   }
 
 

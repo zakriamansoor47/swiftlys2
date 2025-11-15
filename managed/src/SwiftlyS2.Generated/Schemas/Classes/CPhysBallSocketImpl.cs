@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CPhysBallSocketImpl : CPhysConstraintImpl, CPhysBallSocke
   public CPhysBallSocketImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _JointFrictionOffset = new(() => Schema.GetOffset(0xDE2408965CA9FD47), LazyThreadSafetyMode.None);
+
   public ref float JointFriction {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDE2408965CA9FD47));
+    get => ref _Handle.AsRef<float>(_JointFrictionOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableSwingLimitOffset = new(() => Schema.GetOffset(0xDE240896DADAC14B), LazyThreadSafetyMode.None);
+
   public ref bool EnableSwingLimit {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDE240896DADAC14B));
+    get => ref _Handle.AsRef<bool>(_EnableSwingLimitOffset.Value);
   }
+  private static readonly Lazy<nint> _SwingLimitOffset = new(() => Schema.GetOffset(0xDE240896279A44C2), LazyThreadSafetyMode.None);
+
   public ref float SwingLimit {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDE240896279A44C2));
+    get => ref _Handle.AsRef<float>(_SwingLimitOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableTwistLimitOffset = new(() => Schema.GetOffset(0xDE2408967DBEA570), LazyThreadSafetyMode.None);
+
   public ref bool EnableTwistLimit {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDE2408967DBEA570));
+    get => ref _Handle.AsRef<bool>(_EnableTwistLimitOffset.Value);
   }
+  private static readonly Lazy<nint> _MinTwistAngleOffset = new(() => Schema.GetOffset(0xDE240896B6E6BB7F), LazyThreadSafetyMode.None);
+
   public ref float MinTwistAngle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDE240896B6E6BB7F));
+    get => ref _Handle.AsRef<float>(_MinTwistAngleOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxTwistAngleOffset = new(() => Schema.GetOffset(0xDE24089690C63AD5), LazyThreadSafetyMode.None);
+
   public ref float MaxTwistAngle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDE24089690C63AD5));
+    get => ref _Handle.AsRef<float>(_MaxTwistAngleOffset.Value);
   }
 
 

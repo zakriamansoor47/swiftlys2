@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFuncVPhysicsClipImpl : CBaseModelEntityImpl, CFuncVPhysi
   public CFuncVPhysicsClipImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0xE695DCD93A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE695DCD93A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CPointClientUIWorldTextPanelImpl : CPointClientUIWorldPan
   public CPointClientUIWorldTextPanelImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MessageTextOffset = new(() => Schema.GetOffset(0x9F10465EBA6E5D73), LazyThreadSafetyMode.None);
+
   public string MessageText {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x9F10465EBA6E5D73);
+      var ptr = _Handle + _MessageTextOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x9F10465EBA6E5D73, value, 512);
+    set => Schema.SetFixedString(_Handle, _MessageTextOffset.Value, value, 512);
   } 
 
   public void MessageTextUpdated() {

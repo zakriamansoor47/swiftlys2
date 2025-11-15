@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,84 +17,134 @@ internal partial class CTriggerFanImpl : CBaseTriggerImpl, CTriggerFan {
   public CTriggerFanImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FanOriginOffsetOffset = new(() => Schema.GetOffset(0x6A8B5C2BAFB9770B), LazyThreadSafetyMode.None);
+
   public ref Vector FanOriginOffset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6A8B5C2BAFB9770B));
+    get => ref _Handle.AsRef<Vector>(_FanOriginOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _DirectionOffset = new(() => Schema.GetOffset(0x6A8B5C2BDAE41DEE), LazyThreadSafetyMode.None);
+
   public ref Vector Direction {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6A8B5C2BDAE41DEE));
+    get => ref _Handle.AsRef<Vector>(_DirectionOffset.Value);
   }
+  private static readonly Lazy<nint> _PushTowardsInfoTargetOffset = new(() => Schema.GetOffset(0x6A8B5C2BB6D3B4CE), LazyThreadSafetyMode.None);
+
   public ref bool PushTowardsInfoTarget {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6A8B5C2BB6D3B4CE));
+    get => ref _Handle.AsRef<bool>(_PushTowardsInfoTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _PushAwayFromInfoTargetOffset = new(() => Schema.GetOffset(0x6A8B5C2BF3F3D5EE), LazyThreadSafetyMode.None);
+
   public ref bool PushAwayFromInfoTarget {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6A8B5C2BF3F3D5EE));
+    get => ref _Handle.AsRef<bool>(_PushAwayFromInfoTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseDeltaOffset = new(() => Schema.GetOffset(0x6A8B5C2BDC0D2AE8), LazyThreadSafetyMode.None);
+
   public ref Quaternion NoiseDelta {
-    get => ref _Handle.AsRef<Quaternion>(Schema.GetOffset(0x6A8B5C2BDC0D2AE8));
+    get => ref _Handle.AsRef<Quaternion>(_NoiseDeltaOffset.Value);
   }
+  private static readonly Lazy<nint> _InfoFanOffset = new(() => Schema.GetOffset(0x6A8B5C2B423064AC), LazyThreadSafetyMode.None);
+
   public ref CHandle<CInfoFan> InfoFan {
-    get => ref _Handle.AsRef<CHandle<CInfoFan>>(Schema.GetOffset(0x6A8B5C2B423064AC));
+    get => ref _Handle.AsRef<CHandle<CInfoFan>>(_InfoFanOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceOffset = new(() => Schema.GetOffset(0x6A8B5C2BCA90E47A), LazyThreadSafetyMode.None);
+
   public ref float Force {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2BCA90E47A));
+    get => ref _Handle.AsRef<float>(_ForceOffset.Value);
   }
+  private static readonly Lazy<nint> _FalloffOffset = new(() => Schema.GetOffset(0x6A8B5C2B76E955A5), LazyThreadSafetyMode.None);
+
   public ref bool Falloff {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6A8B5C2B76E955A5));
+    get => ref _Handle.AsRef<bool>(_FalloffOffset.Value);
   }
+  private static readonly Lazy<nint> _RampTimerOffset = new(() => Schema.GetOffset(0x6A8B5C2B21725ED6), LazyThreadSafetyMode.None);
+
   public CountdownTimer RampTimer {
-    get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x6A8B5C2B21725ED6));
+    get => new CountdownTimerImpl(_Handle + _RampTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _FanOriginWSOffset = new(() => Schema.GetOffset(0x6A8B5C2BB1BF460A), LazyThreadSafetyMode.None);
+
   public ref Vector FanOriginWS {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6A8B5C2BB1BF460A));
+    get => ref _Handle.AsRef<Vector>(_FanOriginWSOffset.Value);
   }
+  private static readonly Lazy<nint> _FanOriginLSOffset = new(() => Schema.GetOffset(0x6A8B5C2BF1CC76BD), LazyThreadSafetyMode.None);
+
   public ref Vector FanOriginLS {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6A8B5C2BF1CC76BD));
+    get => ref _Handle.AsRef<Vector>(_FanOriginLSOffset.Value);
   }
+  private static readonly Lazy<nint> _FanEndLSOffset = new(() => Schema.GetOffset(0x6A8B5C2B53F6BE42), LazyThreadSafetyMode.None);
+
   public ref Vector FanEndLS {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6A8B5C2B53F6BE42));
+    get => ref _Handle.AsRef<Vector>(_FanEndLSOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseDirectionTargetOffset = new(() => Schema.GetOffset(0x6A8B5C2B59781ABB), LazyThreadSafetyMode.None);
+
   public ref Vector NoiseDirectionTarget {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6A8B5C2B59781ABB));
+    get => ref _Handle.AsRef<Vector>(_NoiseDirectionTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _InfoFan1Offset = new(() => Schema.GetOffset(0x6A8B5C2B8E6431BA), LazyThreadSafetyMode.None);
+
   public string InfoFan1 {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6A8B5C2B8E6431BA));
+      var ptr = _Handle.Read<nint>(_InfoFan1Offset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6A8B5C2B8E6431BA, value);
+    set => Schema.SetString(_Handle, _InfoFan1Offset.Value, value);
   } 
+  private static readonly Lazy<nint> _RopeForceScaleOffset = new(() => Schema.GetOffset(0x6A8B5C2B08EB54C8), LazyThreadSafetyMode.None);
+
   public ref float RopeForceScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2B08EB54C8));
+    get => ref _Handle.AsRef<float>(_RopeForceScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ParticleForceScaleOffset = new(() => Schema.GetOffset(0x6A8B5C2B8DB0C4D2), LazyThreadSafetyMode.None);
+
   public ref float ParticleForceScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2B8DB0C4D2));
+    get => ref _Handle.AsRef<float>(_ParticleForceScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerForceOffset = new(() => Schema.GetOffset(0x6A8B5C2B3081B6B5), LazyThreadSafetyMode.None);
+
   public ref float PlayerForce {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2B3081B6B5));
+    get => ref _Handle.AsRef<float>(_PlayerForceOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerWindblockOffset = new(() => Schema.GetOffset(0x6A8B5C2B59B4AC7B), LazyThreadSafetyMode.None);
+
   public ref bool PlayerWindblock {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6A8B5C2B59B4AC7B));
+    get => ref _Handle.AsRef<bool>(_PlayerWindblockOffset.Value);
   }
+  private static readonly Lazy<nint> _NPCForceOffset = new(() => Schema.GetOffset(0x6A8B5C2B9BD16135), LazyThreadSafetyMode.None);
+
   public ref float NPCForce {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2B9BD16135));
+    get => ref _Handle.AsRef<float>(_NPCForceOffset.Value);
   }
+  private static readonly Lazy<nint> _RampTimeOffset = new(() => Schema.GetOffset(0x6A8B5C2B7F655EF6), LazyThreadSafetyMode.None);
+
   public ref float RampTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2B7F655EF6));
+    get => ref _Handle.AsRef<float>(_RampTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseDegreesOffset = new(() => Schema.GetOffset(0x6A8B5C2BB9B3398E), LazyThreadSafetyMode.None);
+
   public ref float NoiseDegrees {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2BB9B3398E));
+    get => ref _Handle.AsRef<float>(_NoiseDegreesOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseSpeedOffset = new(() => Schema.GetOffset(0x6A8B5C2B5C5BB620), LazyThreadSafetyMode.None);
+
   public ref float NoiseSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A8B5C2B5C5BB620));
+    get => ref _Handle.AsRef<float>(_NoiseSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _PushPlayerOffset = new(() => Schema.GetOffset(0x6A8B5C2B9DD4D118), LazyThreadSafetyMode.None);
+
   public ref bool PushPlayer {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6A8B5C2B9DD4D118));
+    get => ref _Handle.AsRef<bool>(_PushPlayerOffset.Value);
   }
+  private static readonly Lazy<nint> _RampDownOffset = new(() => Schema.GetOffset(0x6A8B5C2B16C1F4F9), LazyThreadSafetyMode.None);
+
   public ref bool RampDown {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6A8B5C2B16C1F4F9));
+    get => ref _Handle.AsRef<bool>(_RampDownOffset.Value);
   }
+  private static readonly Lazy<nint> _ManagerFanIdxOffset = new(() => Schema.GetOffset(0x6A8B5C2B2401CC88), LazyThreadSafetyMode.None);
+
   public ref int ManagerFanIdx {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6A8B5C2B2401CC88));
+    get => ref _Handle.AsRef<int>(_ManagerFanIdxOffset.Value);
   }
 
   public void FanOriginOffsetUpdated() {

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmIKRigImpl : SchemaClass, CNmIKRig {
   public CNmIKRigImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SkeletonOffset = new(() => Schema.GetOffset(0x9C509BCFE77F030E), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCNmSkeleton> Skeleton {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCNmSkeleton>>(Schema.GetOffset(0x9C509BCFE77F030E));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCNmSkeleton>>(_SkeletonOffset.Value);
   }
+  private static readonly Lazy<nint> _BodiesOffset = new(() => Schema.GetOffset(0x9C509BCF24483A49), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CNmIKBody> Bodies {
-    get => ref _Handle.AsRef<CUtlVector<CNmIKBody>>(Schema.GetOffset(0x9C509BCF24483A49));
+    get => ref _Handle.AsRef<CUtlVector<CNmIKBody>>(_BodiesOffset.Value);
   }
+  private static readonly Lazy<nint> _JointsOffset = new(() => Schema.GetOffset(0x9C509BCF364EA4AC), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CNmIKJoint> Joints {
-    get => ref _Handle.AsRef<CUtlVector<CNmIKJoint>>(Schema.GetOffset(0x9C509BCF364EA4AC));
+    get => ref _Handle.AsRef<CUtlVector<CNmIKJoint>>(_JointsOffset.Value);
   }
 
 

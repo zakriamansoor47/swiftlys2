@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CVectorAnimParameterImpl : CConcreteAnimParameterImpl, CV
   public CVectorAnimParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0x74346C8BBBE0341F), LazyThreadSafetyMode.None);
+
   public ref Vector DefaultValue {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x74346C8BBBE0341F));
+    get => ref _Handle.AsRef<Vector>(_DefaultValueOffset.Value);
   }
+  private static readonly Lazy<nint> _InterpolateOffset = new(() => Schema.GetOffset(0x74346C8BF6607650), LazyThreadSafetyMode.None);
+
   public ref bool Interpolate {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x74346C8BF6607650));
+    get => ref _Handle.AsRef<bool>(_InterpolateOffset.Value);
   }
+  private static readonly Lazy<nint> _VectorTypeOffset = new(() => Schema.GetOffset(0x74346C8BF251F9D2), LazyThreadSafetyMode.None);
+
   public ref AnimParamVectorType_t VectorType {
-    get => ref _Handle.AsRef<AnimParamVectorType_t>(Schema.GetOffset(0x74346C8BF251F9D2));
+    get => ref _Handle.AsRef<AnimParamVectorType_t>(_VectorTypeOffset.Value);
   }
 
 

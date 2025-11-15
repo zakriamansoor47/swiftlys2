@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CActionComponentUpdaterImpl : CAnimComponentUpdaterImpl, 
   public CActionComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ActionsOffset = new(() => Schema.GetOffset(0xA700EA248D622684), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SchemaUntypedField> Actions {
-    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(Schema.GetOffset(0xA700EA248D622684));
+    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(_ActionsOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,22 +17,28 @@ internal partial class locksound_tImpl : SchemaClass, locksound_t {
   public locksound_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LockedSoundOffset = new(() => Schema.GetOffset(0xDAD0AE229881D7AB), LazyThreadSafetyMode.None);
+
   public string LockedSound {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDAD0AE229881D7AB));
+      var ptr = _Handle.Read<nint>(_LockedSoundOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDAD0AE229881D7AB, value);
+    set => Schema.SetString(_Handle, _LockedSoundOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _UnlockedSoundOffset = new(() => Schema.GetOffset(0xDAD0AE227EE88276), LazyThreadSafetyMode.None);
+
   public string UnlockedSound {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDAD0AE227EE88276));
+      var ptr = _Handle.Read<nint>(_UnlockedSoundOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDAD0AE227EE88276, value);
+    set => Schema.SetString(_Handle, _UnlockedSoundOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _FlwaitSoundOffset = new(() => Schema.GetOffset(0xDAD0AE2297A4A845), LazyThreadSafetyMode.None);
+
   public GameTime_t FlwaitSound {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xDAD0AE2297A4A845));
+    get => new GameTime_tImpl(_Handle + _FlwaitSoundOffset.Value);
   }
 
 

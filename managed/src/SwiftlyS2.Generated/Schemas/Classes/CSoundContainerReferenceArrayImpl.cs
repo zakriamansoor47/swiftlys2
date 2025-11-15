@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CSoundContainerReferenceArrayImpl : SchemaClass, CSoundCo
   public CSoundContainerReferenceArrayImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _UseReferenceOffset = new(() => Schema.GetOffset(0x80FA0E8A45BCD5C9), LazyThreadSafetyMode.None);
+
   public ref bool UseReference {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x80FA0E8A45BCD5C9));
+    get => ref _Handle.AsRef<bool>(_UseReferenceOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundsOffset = new(() => Schema.GetOffset(0x80FA0E8ABD919645), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>> Sounds {
-    get => ref _Handle.AsRef<CUtlVector<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>>(Schema.GetOffset(0x80FA0E8ABD919645));
+    get => ref _Handle.AsRef<CUtlVector<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>>(_SoundsOffset.Value);
   }
+  private static readonly Lazy<nint> _Sounds1Offset = new(() => Schema.GetOffset(0x80FA0E8AAA82BE1F), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointerTo<CVoiceContainerBase>> Sounds1 {
-    get => ref _Handle.AsRef<CUtlVector<PointerTo<CVoiceContainerBase>>>(Schema.GetOffset(0x80FA0E8AAA82BE1F));
+    get => ref _Handle.AsRef<CUtlVector<PointerTo<CVoiceContainerBase>>>(_Sounds1Offset.Value);
   }
 
 

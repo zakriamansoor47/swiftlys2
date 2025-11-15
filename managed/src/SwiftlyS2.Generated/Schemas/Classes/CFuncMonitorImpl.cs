@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,40 +17,58 @@ internal partial class CFuncMonitorImpl : CFuncBrushImpl, CFuncMonitor {
   public CFuncMonitorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetCameraOffset = new(() => Schema.GetOffset(0x17F9564ADE5A6027), LazyThreadSafetyMode.None);
+
   public string TargetCamera {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x17F9564ADE5A6027));
+      var ptr = _Handle.Read<nint>(_TargetCameraOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x17F9564ADE5A6027, value);
+    set => Schema.SetString(_Handle, _TargetCameraOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ResolutionEnumOffset = new(() => Schema.GetOffset(0x17F9564A7A397BAA), LazyThreadSafetyMode.None);
+
   public ref int ResolutionEnum {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x17F9564A7A397BAA));
+    get => ref _Handle.AsRef<int>(_ResolutionEnumOffset.Value);
   }
+  private static readonly Lazy<nint> _RenderShadowsOffset = new(() => Schema.GetOffset(0x17F9564AB664410E), LazyThreadSafetyMode.None);
+
   public ref bool RenderShadows {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x17F9564AB664410E));
+    get => ref _Handle.AsRef<bool>(_RenderShadowsOffset.Value);
   }
+  private static readonly Lazy<nint> _UseUniqueColorTargetOffset = new(() => Schema.GetOffset(0x17F9564A53B28E5B), LazyThreadSafetyMode.None);
+
   public ref bool UseUniqueColorTarget {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x17F9564A53B28E5B));
+    get => ref _Handle.AsRef<bool>(_UseUniqueColorTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _BrushModelNameOffset = new(() => Schema.GetOffset(0x17F9564A85323213), LazyThreadSafetyMode.None);
+
   public string BrushModelName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x17F9564A85323213));
+      var ptr = _Handle.Read<nint>(_BrushModelNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x17F9564A85323213, value);
+    set => Schema.SetString(_Handle, _BrushModelNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TargetCamera1Offset = new(() => Schema.GetOffset(0x17F9564ACC7D5969), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> TargetCamera1 {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x17F9564ACC7D5969));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_TargetCamera1Offset.Value);
   }
+  private static readonly Lazy<nint> _EnabledOffset = new(() => Schema.GetOffset(0x17F9564A6154EB7E), LazyThreadSafetyMode.None);
+
   public ref bool Enabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x17F9564A6154EB7E));
+    get => ref _Handle.AsRef<bool>(_EnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _Draw3DSkyboxOffset = new(() => Schema.GetOffset(0x17F9564AA37E21FE), LazyThreadSafetyMode.None);
+
   public ref bool Draw3DSkybox {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x17F9564AA37E21FE));
+    get => ref _Handle.AsRef<bool>(_Draw3DSkyboxOffset.Value);
   }
+  private static readonly Lazy<nint> _StartEnabledOffset = new(() => Schema.GetOffset(0x17F9564A500D5C24), LazyThreadSafetyMode.None);
+
   public ref bool StartEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x17F9564A500D5C24));
+    get => ref _Handle.AsRef<bool>(_StartEnabledOffset.Value);
   }
 
   public void TargetCameraUpdated() {

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_RemapControlPointOrientationToRotationImpl : CPartic
   public C_OP_RemapControlPointOrientationToRotationImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x2CE44E90EB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x2CE44E90EB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x2CE44E90E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x2CE44E90E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetRotOffset = new(() => Schema.GetOffset(0x2CE44E90B414F849), LazyThreadSafetyMode.None);
+
   public ref float OffsetRot {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2CE44E90B414F849));
+    get => ref _Handle.AsRef<float>(_OffsetRotOffset.Value);
   }
+  private static readonly Lazy<nint> _ComponentOffset = new(() => Schema.GetOffset(0x2CE44E90BFD0952C), LazyThreadSafetyMode.None);
+
   public ref int Component {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x2CE44E90BFD0952C));
+    get => ref _Handle.AsRef<int>(_ComponentOffset.Value);
   }
 
 

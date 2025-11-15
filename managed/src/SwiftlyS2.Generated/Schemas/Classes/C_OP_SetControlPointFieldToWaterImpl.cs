@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_SetControlPointFieldToWaterImpl : CParticleFunctionP
   public C_OP_SetControlPointFieldToWaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceCPOffset = new(() => Schema.GetOffset(0x77BA8CA24C01E3B7), LazyThreadSafetyMode.None);
+
   public ref int SourceCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x77BA8CA24C01E3B7));
+    get => ref _Handle.AsRef<int>(_SourceCPOffset.Value);
   }
+  private static readonly Lazy<nint> _DestCPOffset = new(() => Schema.GetOffset(0x77BA8CA2E27355DA), LazyThreadSafetyMode.None);
+
   public ref int DestCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x77BA8CA2E27355DA));
+    get => ref _Handle.AsRef<int>(_DestCPOffset.Value);
   }
+  private static readonly Lazy<nint> _CPFieldOffset = new(() => Schema.GetOffset(0x77BA8CA250B79876), LazyThreadSafetyMode.None);
+
   public ref int CPField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x77BA8CA250B79876));
+    get => ref _Handle.AsRef<int>(_CPFieldOffset.Value);
   }
 
 

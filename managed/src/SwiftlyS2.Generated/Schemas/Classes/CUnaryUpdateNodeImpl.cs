@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CUnaryUpdateNodeImpl : CAnimUpdateNodeBaseImpl, CUnaryUpd
   public CUnaryUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChildNodeOffset = new(() => Schema.GetOffset(0x7A35EAF8C0359CFF), LazyThreadSafetyMode.None);
+
   public CAnimUpdateNodeRef ChildNode {
-    get => new CAnimUpdateNodeRefImpl(_Handle + Schema.GetOffset(0x7A35EAF8C0359CFF));
+    get => new CAnimUpdateNodeRefImpl(_Handle + _ChildNodeOffset.Value);
   }
 
 

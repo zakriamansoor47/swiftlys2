@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -27,14 +29,20 @@ internal partial class RenderHairStrandInfo_tImpl : SchemaClass, RenderHairStran
   public ISchemaFixedArray<ushort> PackedBaseUv {
     get => new SchemaFixedArray<ushort>(_Handle, 0x9037AEC6D5457D8B, 2, 2, 2);
   }
+  private static readonly Lazy<nint> _PackedSurfaceNormalOsOffset = new(() => Schema.GetOffset(0x9037AEC605444631), LazyThreadSafetyMode.None);
+
   public ref uint PackedSurfaceNormalOs {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x9037AEC605444631));
+    get => ref _Handle.AsRef<uint>(_PackedSurfaceNormalOsOffset.Value);
   }
+  private static readonly Lazy<nint> _PackedSurfaceTangentOsOffset = new(() => Schema.GetOffset(0x9037AEC6FD9896F7), LazyThreadSafetyMode.None);
+
   public ref uint PackedSurfaceTangentOs {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x9037AEC6FD9896F7));
+    get => ref _Handle.AsRef<uint>(_PackedSurfaceTangentOsOffset.Value);
   }
+  private static readonly Lazy<nint> _DataOffset_SegmentsOffset = new(() => Schema.GetOffset(0x9037AEC6BB31BC1D), LazyThreadSafetyMode.None);
+
   public ref uint DataOffset_Segments {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x9037AEC6BB31BC1D));
+    get => ref _Handle.AsRef<uint>(_DataOffset_SegmentsOffset.Value);
   }
 
 

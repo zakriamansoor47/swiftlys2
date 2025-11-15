@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CovMatrix3Impl : SchemaClass, CovMatrix3 {
   public CovMatrix3Impl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DiagOffset = new(() => Schema.GetOffset(0xA222FA6F7CC0D332), LazyThreadSafetyMode.None);
+
   public ref Vector Diag {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xA222FA6F7CC0D332));
+    get => ref _Handle.AsRef<Vector>(_DiagOffset.Value);
   }
+  private static readonly Lazy<nint> _XYOffset = new(() => Schema.GetOffset(0xA222FA6FA58DC304), LazyThreadSafetyMode.None);
+
   public ref float XY {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA222FA6FA58DC304));
+    get => ref _Handle.AsRef<float>(_XYOffset.Value);
   }
+  private static readonly Lazy<nint> _XZOffset = new(() => Schema.GetOffset(0xA222FA6FA88DC7BD), LazyThreadSafetyMode.None);
+
   public ref float XZ {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA222FA6FA88DC7BD));
+    get => ref _Handle.AsRef<float>(_XZOffset.Value);
   }
+  private static readonly Lazy<nint> _YZOffset = new(() => Schema.GetOffset(0xA222FA6F9E8B7968), LazyThreadSafetyMode.None);
+
   public ref float YZ {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA222FA6F9E8B7968));
+    get => ref _Handle.AsRef<float>(_YZOffset.Value);
   }
 
 

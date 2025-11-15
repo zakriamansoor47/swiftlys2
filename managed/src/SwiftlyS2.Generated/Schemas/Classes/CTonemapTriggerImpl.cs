@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CTonemapTriggerImpl : CBaseTriggerImpl, CTonemapTrigger {
   public CTonemapTriggerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TonemapControllerNameOffset = new(() => Schema.GetOffset(0x82562698C641A282), LazyThreadSafetyMode.None);
+
   public string TonemapControllerName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x82562698C641A282));
+      var ptr = _Handle.Read<nint>(_TonemapControllerNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x82562698C641A282, value);
+    set => Schema.SetString(_Handle, _TonemapControllerNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TonemapControllerOffset = new(() => Schema.GetOffset(0x82562698F5E1A34F), LazyThreadSafetyMode.None);
+
   public ref CHandle<CEntityInstance> TonemapController {
-    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(Schema.GetOffset(0x82562698F5E1A34F));
+    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(_TonemapControllerOffset.Value);
   }
 
 

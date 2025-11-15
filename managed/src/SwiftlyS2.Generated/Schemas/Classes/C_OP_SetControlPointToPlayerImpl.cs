@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_SetControlPointToPlayerImpl : CParticleFunctionPreEm
   public C_OP_SetControlPointToPlayerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CP1Offset = new(() => Schema.GetOffset(0xD877DC8ED4B1E579), LazyThreadSafetyMode.None);
+
   public ref int CP1 {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD877DC8ED4B1E579));
+    get => ref _Handle.AsRef<int>(_CP1Offset.Value);
   }
+  private static readonly Lazy<nint> _CP1PosOffset = new(() => Schema.GetOffset(0xD877DC8E408288D9), LazyThreadSafetyMode.None);
+
   public ref Vector CP1Pos {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD877DC8E408288D9));
+    get => ref _Handle.AsRef<Vector>(_CP1PosOffset.Value);
   }
+  private static readonly Lazy<nint> _OrientToEyesOffset = new(() => Schema.GetOffset(0xD877DC8E3270E4F3), LazyThreadSafetyMode.None);
+
   public ref bool OrientToEyes {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD877DC8E3270E4F3));
+    get => ref _Handle.AsRef<bool>(_OrientToEyesOffset.Value);
   }
 
 

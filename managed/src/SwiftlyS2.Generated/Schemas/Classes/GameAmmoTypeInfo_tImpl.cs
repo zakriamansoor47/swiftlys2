@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class GameAmmoTypeInfo_tImpl : AmmoTypeInfo_tImpl, GameAmmoType
   public GameAmmoTypeInfo_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BuySizeOffset = new(() => Schema.GetOffset(0x64034C7E8E17434E), LazyThreadSafetyMode.None);
+
   public ref int BuySize {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x64034C7E8E17434E));
+    get => ref _Handle.AsRef<int>(_BuySizeOffset.Value);
   }
+  private static readonly Lazy<nint> _CostOffset = new(() => Schema.GetOffset(0x64034C7E919660C4), LazyThreadSafetyMode.None);
+
   public ref int Cost {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x64034C7E919660C4));
+    get => ref _Handle.AsRef<int>(_CostOffset.Value);
   }
 
 

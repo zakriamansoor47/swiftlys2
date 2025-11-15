@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CBtActionParachutePositioningImpl : CBtNodeImpl, CBtActio
   public CBtActionParachutePositioningImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ActionTimerOffset = new(() => Schema.GetOffset(0x132D0F5E8777F414), LazyThreadSafetyMode.None);
+
   public CountdownTimer ActionTimer {
-    get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x132D0F5E8777F414));
+    get => new CountdownTimerImpl(_Handle + _ActionTimerOffset.Value);
   }
 
 

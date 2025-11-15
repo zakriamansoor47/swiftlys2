@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmConstTargetNode__CDefinitionImpl : CNmTargetValueNode_
   public CNmConstTargetNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xC54E1DF56B99AEEA), LazyThreadSafetyMode.None);
+
   public CNmTarget Value {
-    get => new CNmTargetImpl(_Handle + Schema.GetOffset(0xC54E1DF56B99AEEA));
+    get => new CNmTargetImpl(_Handle + _ValueOffset.Value);
   }
 
 

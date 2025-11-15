@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,35 +17,55 @@ internal partial class C_OP_CycleScalarImpl : CParticleFunctionOperatorImpl, C_O
   public C_OP_CycleScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DestFieldOffset = new(() => Schema.GetOffset(0x8E3188612E3589F3), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t DestField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x8E3188612E3589F3));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _DestFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _StartValueOffset = new(() => Schema.GetOffset(0x8E31886151C82C2A), LazyThreadSafetyMode.None);
+
   public ref float StartValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E31886151C82C2A));
+    get => ref _Handle.AsRef<float>(_StartValueOffset.Value);
   }
+  private static readonly Lazy<nint> _EndValueOffset = new(() => Schema.GetOffset(0x8E3188616EDBBCD5), LazyThreadSafetyMode.None);
+
   public ref float EndValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E3188616EDBBCD5));
+    get => ref _Handle.AsRef<float>(_EndValueOffset.Value);
   }
+  private static readonly Lazy<nint> _CycleTimeOffset = new(() => Schema.GetOffset(0x8E3188619EE036CE), LazyThreadSafetyMode.None);
+
   public ref float CycleTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E3188619EE036CE));
+    get => ref _Handle.AsRef<float>(_CycleTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DoNotRepeatCycleOffset = new(() => Schema.GetOffset(0x8E318861B2E181D4), LazyThreadSafetyMode.None);
+
   public ref bool DoNotRepeatCycle {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8E318861B2E181D4));
+    get => ref _Handle.AsRef<bool>(_DoNotRepeatCycleOffset.Value);
   }
+  private static readonly Lazy<nint> _SynchronizeParticlesOffset = new(() => Schema.GetOffset(0x8E31886132C4244C), LazyThreadSafetyMode.None);
+
   public ref bool SynchronizeParticles {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8E31886132C4244C));
+    get => ref _Handle.AsRef<bool>(_SynchronizeParticlesOffset.Value);
   }
+  private static readonly Lazy<nint> _CPScaleOffset = new(() => Schema.GetOffset(0x8E318861048A0408), LazyThreadSafetyMode.None);
+
   public ref int CPScale {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8E318861048A0408));
+    get => ref _Handle.AsRef<int>(_CPScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _CPFieldMinOffset = new(() => Schema.GetOffset(0x8E3188613B60DFC2), LazyThreadSafetyMode.None);
+
   public ref int CPFieldMin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8E3188613B60DFC2));
+    get => ref _Handle.AsRef<int>(_CPFieldMinOffset.Value);
   }
+  private static readonly Lazy<nint> _CPFieldMaxOffset = new(() => Schema.GetOffset(0x8E318861254D3568), LazyThreadSafetyMode.None);
+
   public ref int CPFieldMax {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8E318861254D3568));
+    get => ref _Handle.AsRef<int>(_CPFieldMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x8E318861FB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x8E318861FB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
 
 

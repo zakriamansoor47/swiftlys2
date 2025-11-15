@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_InheritFromParentParticlesImpl : CParticleFunctionOp
   public C_OP_InheritFromParentParticlesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x4310722BB731A42F), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4310722BB731A42F));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x4310722BE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x4310722BE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _IncrementOffset = new(() => Schema.GetOffset(0x4310722B2359F182), LazyThreadSafetyMode.None);
+
   public ref int Increment {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4310722B2359F182));
+    get => ref _Handle.AsRef<int>(_IncrementOffset.Value);
   }
+  private static readonly Lazy<nint> _RandomDistributionOffset = new(() => Schema.GetOffset(0x4310722B830F6B38), LazyThreadSafetyMode.None);
+
   public ref bool RandomDistribution {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4310722B830F6B38));
+    get => ref _Handle.AsRef<bool>(_RandomDistributionOffset.Value);
   }
 
 

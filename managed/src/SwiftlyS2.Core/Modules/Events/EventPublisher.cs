@@ -73,6 +73,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -94,6 +95,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -120,6 +122,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -136,6 +139,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -168,6 +172,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return 1;
       AnsiConsole.WriteException(e);
       return 1;
     }
@@ -191,6 +196,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -213,6 +219,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -234,6 +241,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -254,6 +262,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -274,6 +283,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -295,6 +305,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -316,6 +327,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -339,6 +351,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -360,6 +373,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -381,6 +395,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -402,6 +417,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -436,6 +452,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -472,6 +489,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return 1;
       AnsiConsole.WriteException(e);
       return 1;
     }
@@ -493,6 +511,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -511,6 +530,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
       return;
     }
@@ -529,6 +549,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
       return;
     }
@@ -547,6 +568,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
       return;
     }
@@ -565,6 +587,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
       return;
     }
@@ -583,6 +606,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
       return;
     }
@@ -605,6 +629,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
       return;
     }
@@ -622,6 +647,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -642,6 +668,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }
@@ -658,6 +685,7 @@ internal static class EventPublisher
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) return;
       AnsiConsole.WriteException(e);
     }
   }

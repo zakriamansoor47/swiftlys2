@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CSoundEventParameterImpl : CBaseEntityImpl, CSoundEventPa
   public CSoundEventParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParamNameOffset = new(() => Schema.GetOffset(0xEFEED49AFF6F4311), LazyThreadSafetyMode.None);
+
   public string ParamName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xEFEED49AFF6F4311));
+      var ptr = _Handle.Read<nint>(_ParamNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xEFEED49AFF6F4311, value);
+    set => Schema.SetString(_Handle, _ParamNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _FloatValueOffset = new(() => Schema.GetOffset(0xEFEED49A80BDA558), LazyThreadSafetyMode.None);
+
   public ref float FloatValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEFEED49A80BDA558));
+    get => ref _Handle.AsRef<float>(_FloatValueOffset.Value);
   }
 
 

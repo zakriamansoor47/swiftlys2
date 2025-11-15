@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_ConstrainDistanceImpl : CParticleFunctionConstraintI
   public C_OP_ConstrainDistanceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinDistanceOffset = new(() => Schema.GetOffset(0xDF3E3FA1F016B7AC), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput MinDistance {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xDF3E3FA1F016B7AC));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _MinDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxDistanceOffset = new(() => Schema.GetOffset(0xDF3E3FA1844E396A), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput MaxDistance {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xDF3E3FA1844E396A));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _MaxDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0xDF3E3FA13F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xDF3E3FA13F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _CenterOffsetOffset = new(() => Schema.GetOffset(0xDF3E3FA108F7D41F), LazyThreadSafetyMode.None);
+
   public ref Vector CenterOffset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xDF3E3FA108F7D41F));
+    get => ref _Handle.AsRef<Vector>(_CenterOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _GlobalCenterOffset = new(() => Schema.GetOffset(0xDF3E3FA1196669C3), LazyThreadSafetyMode.None);
+
   public ref bool GlobalCenter {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDF3E3FA1196669C3));
+    get => ref _Handle.AsRef<bool>(_GlobalCenterOffset.Value);
   }
 
 

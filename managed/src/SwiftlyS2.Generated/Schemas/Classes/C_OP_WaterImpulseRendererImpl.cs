@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class C_OP_WaterImpulseRendererImpl : CParticleFunctionRenderer
   public C_OP_WaterImpulseRendererImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PosOffset = new(() => Schema.GetOffset(0x7CC87C0C3B18EB69), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Pos {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x7CC87C0C3B18EB69));
+    get => new CPerParticleVecInputImpl(_Handle + _PosOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0x7CC87C0C5ACFC08D), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Radius {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x7CC87C0C5ACFC08D));
+    get => new CPerParticleFloatInputImpl(_Handle + _RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _MagnitudeOffset = new(() => Schema.GetOffset(0x7CC87C0CED0A1D8B), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Magnitude {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x7CC87C0CED0A1D8B));
+    get => new CPerParticleFloatInputImpl(_Handle + _MagnitudeOffset.Value);
   }
+  private static readonly Lazy<nint> _ShapeOffset = new(() => Schema.GetOffset(0x7CC87C0C5DCE07D8), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Shape {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x7CC87C0C5DCE07D8));
+    get => new CPerParticleFloatInputImpl(_Handle + _ShapeOffset.Value);
   }
+  private static readonly Lazy<nint> _WindSpeedOffset = new(() => Schema.GetOffset(0x7CC87C0CADDA5C24), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput WindSpeed {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x7CC87C0CADDA5C24));
+    get => new CPerParticleFloatInputImpl(_Handle + _WindSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _WobbleOffset = new(() => Schema.GetOffset(0x7CC87C0CF8575B0A), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Wobble {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x7CC87C0CF8575B0A));
+    get => new CPerParticleFloatInputImpl(_Handle + _WobbleOffset.Value);
   }
+  private static readonly Lazy<nint> _IsRadialWindOffset = new(() => Schema.GetOffset(0x7CC87C0C64147034), LazyThreadSafetyMode.None);
+
   public ref bool IsRadialWind {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x7CC87C0C64147034));
+    get => ref _Handle.AsRef<bool>(_IsRadialWindOffset.Value);
   }
+  private static readonly Lazy<nint> _EventTypeOffset = new(() => Schema.GetOffset(0x7CC87C0CE1F9AA93), LazyThreadSafetyMode.None);
+
   public ref EventTypeSelection_t EventType {
-    get => ref _Handle.AsRef<EventTypeSelection_t>(Schema.GetOffset(0x7CC87C0CE1F9AA93));
+    get => ref _Handle.AsRef<EventTypeSelection_t>(_EventTypeOffset.Value);
   }
 
 

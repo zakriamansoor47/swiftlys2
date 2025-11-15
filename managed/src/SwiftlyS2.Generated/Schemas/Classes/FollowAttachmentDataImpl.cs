@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class FollowAttachmentDataImpl : SchemaClass, FollowAttachmentD
   public FollowAttachmentDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoneIndexOffset = new(() => Schema.GetOffset(0x7E37AD4D6AFA4155), LazyThreadSafetyMode.None);
+
   public ref int BoneIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7E37AD4D6AFA4155));
+    get => ref _Handle.AsRef<int>(_BoneIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _AttachmentHandleOffset = new(() => Schema.GetOffset(0x7E37AD4DA203035E), LazyThreadSafetyMode.None);
+
   public AttachmentHandle_t AttachmentHandle {
-    get => new AttachmentHandle_tImpl(_Handle + Schema.GetOffset(0x7E37AD4DA203035E));
+    get => new AttachmentHandle_tImpl(_Handle + _AttachmentHandleOffset.Value);
   }
 
 

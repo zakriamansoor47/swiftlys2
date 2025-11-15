@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,11 +20,15 @@ internal partial class FeAnimStrayRadius_tImpl : SchemaClass, FeAnimStrayRadius_
   public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0xF06BE9BCD6694B9, 2, 2, 2);
   }
+  private static readonly Lazy<nint> _MaxDistOffset = new(() => Schema.GetOffset(0xF06BE9BC9FFDD57), LazyThreadSafetyMode.None);
+
   public ref float MaxDist {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF06BE9BC9FFDD57));
+    get => ref _Handle.AsRef<float>(_MaxDistOffset.Value);
   }
+  private static readonly Lazy<nint> _RelaxationFactorOffset = new(() => Schema.GetOffset(0xF06BE9B357F3BFF), LazyThreadSafetyMode.None);
+
   public ref float RelaxationFactor {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF06BE9B357F3BFF));
+    get => ref _Handle.AsRef<float>(_RelaxationFactorOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class FeCtrlSoftOffset_tImpl : SchemaClass, FeCtrlSoftOffset_t 
   public FeCtrlSoftOffset_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CtrlParentOffset = new(() => Schema.GetOffset(0xCA94FF2955049230), LazyThreadSafetyMode.None);
+
   public ref ushort CtrlParent {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xCA94FF2955049230));
+    get => ref _Handle.AsRef<ushort>(_CtrlParentOffset.Value);
   }
+  private static readonly Lazy<nint> _CtrlChildOffset = new(() => Schema.GetOffset(0xCA94FF295BE48066), LazyThreadSafetyMode.None);
+
   public ref ushort CtrlChild {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xCA94FF295BE48066));
+    get => ref _Handle.AsRef<ushort>(_CtrlChildOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xCA94FF29B2913856), LazyThreadSafetyMode.None);
+
   public ref Vector Offset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xCA94FF29B2913856));
+    get => ref _Handle.AsRef<Vector>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _AlphaOffset = new(() => Schema.GetOffset(0xCA94FF29684C8871), LazyThreadSafetyMode.None);
+
   public ref float Alpha {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCA94FF29684C8871));
+    get => ref _Handle.AsRef<float>(_AlphaOffset.Value);
   }
 
 

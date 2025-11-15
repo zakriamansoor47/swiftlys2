@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CEnumAnimParameterImpl : CConcreteAnimParameterImpl, CEnu
   public CEnumAnimParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0xCCD4BF1DBBE0341F), LazyThreadSafetyMode.None);
+
   public ref byte DefaultValue {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xCCD4BF1DBBE0341F));
+    get => ref _Handle.AsRef<byte>(_DefaultValueOffset.Value);
   }
+  private static readonly Lazy<nint> _EnumOptionsOffset = new(() => Schema.GetOffset(0xCCD4BF1D5A08D71E), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> EnumOptions {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0xCCD4BF1D5A08D71E));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_EnumOptionsOffset.Value);
   }
+  private static readonly Lazy<nint> _EnumReferencedOffset = new(() => Schema.GetOffset(0xCCD4BF1D5C66779B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ulong> EnumReferenced {
-    get => ref _Handle.AsRef<CUtlVector<ulong>>(Schema.GetOffset(0xCCD4BF1D5C66779B));
+    get => ref _Handle.AsRef<CUtlVector<ulong>>(_EnumReferencedOffset.Value);
   }
 
 

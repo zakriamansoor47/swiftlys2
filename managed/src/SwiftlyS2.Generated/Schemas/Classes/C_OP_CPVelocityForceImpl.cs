@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_CPVelocityForceImpl : CParticleFunctionForceImpl, C_
   public C_OP_CPVelocityForceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x4C04FC843F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4C04FC843F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x4C04FC84B731A42F), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Scale {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x4C04FC84B731A42F));
+    get => new CPerParticleFloatInputImpl(_Handle + _ScaleOffset.Value);
   }
 
 

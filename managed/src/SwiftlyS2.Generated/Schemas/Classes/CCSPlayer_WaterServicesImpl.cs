@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CCSPlayer_WaterServicesImpl : CPlayer_WaterServicesImpl, 
   public CCSPlayer_WaterServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NextDrownDamageTimeOffset = new(() => Schema.GetOffset(0x81EE3221161B7836), LazyThreadSafetyMode.None);
+
   public GameTime_t NextDrownDamageTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x81EE3221161B7836));
+    get => new GameTime_tImpl(_Handle + _NextDrownDamageTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DrownDmgRateOffset = new(() => Schema.GetOffset(0x81EE3221DB1DC111), LazyThreadSafetyMode.None);
+
   public ref int DrownDmgRate {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x81EE3221DB1DC111));
+    get => ref _Handle.AsRef<int>(_DrownDmgRateOffset.Value);
   }
+  private static readonly Lazy<nint> _AirFinishedTimeOffset = new(() => Schema.GetOffset(0x81EE3221F32CD208), LazyThreadSafetyMode.None);
+
   public GameTime_t AirFinishedTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x81EE3221F32CD208));
+    get => new GameTime_tImpl(_Handle + _AirFinishedTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _WaterJumpTimeOffset = new(() => Schema.GetOffset(0x81EE3221E7A7489F), LazyThreadSafetyMode.None);
+
   public ref float WaterJumpTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x81EE3221E7A7489F));
+    get => ref _Handle.AsRef<float>(_WaterJumpTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _WaterJumpVelOffset = new(() => Schema.GetOffset(0x81EE3221B3333137), LazyThreadSafetyMode.None);
+
   public ref Vector WaterJumpVel {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x81EE3221B3333137));
+    get => ref _Handle.AsRef<Vector>(_WaterJumpVelOffset.Value);
   }
+  private static readonly Lazy<nint> _SwimSoundTimeOffset = new(() => Schema.GetOffset(0x81EE32218B6E62D7), LazyThreadSafetyMode.None);
+
   public ref float SwimSoundTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x81EE32218B6E62D7));
+    get => ref _Handle.AsRef<float>(_SwimSoundTimeOffset.Value);
   }
 
 

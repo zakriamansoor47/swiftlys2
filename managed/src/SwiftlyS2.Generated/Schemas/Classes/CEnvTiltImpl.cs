@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CEnvTiltImpl : CPointEntityImpl, CEnvTilt {
   public CEnvTiltImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0xF90425169879A98D), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF90425169879A98D));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0xF90425167C5B0533), LazyThreadSafetyMode.None);
+
   public ref float Radius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF90425167C5B0533));
+    get => ref _Handle.AsRef<float>(_RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _TiltTimeOffset = new(() => Schema.GetOffset(0xF9042516B3956BFF), LazyThreadSafetyMode.None);
+
   public ref float TiltTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF9042516B3956BFF));
+    get => ref _Handle.AsRef<float>(_TiltTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _StopTimeOffset = new(() => Schema.GetOffset(0xF90425166BFFEDC4), LazyThreadSafetyMode.None);
+
   public GameTime_t StopTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xF90425166BFFEDC4));
+    get => new GameTime_tImpl(_Handle + _StopTimeOffset.Value);
   }
 
 

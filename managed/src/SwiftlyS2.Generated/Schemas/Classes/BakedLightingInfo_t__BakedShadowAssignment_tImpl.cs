@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class BakedLightingInfo_t__BakedShadowAssignment_tImpl : Schema
   public BakedLightingInfo_t__BakedShadowAssignment_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LightHashOffset = new(() => Schema.GetOffset(0x1A17A94C74E0509B), LazyThreadSafetyMode.None);
+
   public ref uint LightHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x1A17A94C74E0509B));
+    get => ref _Handle.AsRef<uint>(_LightHashOffset.Value);
   }
+  private static readonly Lazy<nint> _MapHashOffset = new(() => Schema.GetOffset(0x1A17A94CD5C02B59), LazyThreadSafetyMode.None);
+
   public ref uint MapHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x1A17A94CD5C02B59));
+    get => ref _Handle.AsRef<uint>(_MapHashOffset.Value);
   }
+  private static readonly Lazy<nint> _ShadowChannelOffset = new(() => Schema.GetOffset(0x1A17A94C10A02654), LazyThreadSafetyMode.None);
+
   public ref byte ShadowChannel {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x1A17A94C10A02654));
+    get => ref _Handle.AsRef<byte>(_ShadowChannelOffset.Value);
   }
 
 

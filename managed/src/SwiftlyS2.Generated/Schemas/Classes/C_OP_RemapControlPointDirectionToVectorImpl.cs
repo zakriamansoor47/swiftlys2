@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_RemapControlPointDirectionToVectorImpl : CParticleFu
   public C_OP_RemapControlPointDirectionToVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xB5467A62E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xB5467A62E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0xB5467A62B731A42F), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB5467A62B731A42F));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0xB5467A623F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB5467A623F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class IntervalTimerImpl : SchemaClass, IntervalTimer {
   public IntervalTimerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TimestampOffset = new(() => Schema.GetOffset(0x8FD39659B6C56F43), LazyThreadSafetyMode.None);
+
   public GameTime_t Timestamp {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8FD39659B6C56F43));
+    get => new GameTime_tImpl(_Handle + _TimestampOffset.Value);
   }
+  private static readonly Lazy<nint> _WorldGroupIdOffset = new(() => Schema.GetOffset(0x8FD396597414B193), LazyThreadSafetyMode.None);
+
   public ref uint WorldGroupId {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x8FD396597414B193));
+    get => ref _Handle.AsRef<uint>(_WorldGroupIdOffset.Value);
   }
 
   public void TimestampUpdated() {

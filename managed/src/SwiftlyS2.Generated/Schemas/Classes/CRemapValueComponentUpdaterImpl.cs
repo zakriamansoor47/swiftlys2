@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CRemapValueComponentUpdaterImpl : CAnimComponentUpdaterIm
   public CRemapValueComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ItemsOffset = new(() => Schema.GetOffset(0xA80D46C07A87EDAF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CRemapValueUpdateItem> Items {
-    get => ref _Handle.AsRef<CUtlVector<CRemapValueUpdateItem>>(Schema.GetOffset(0xA80D46C07A87EDAF));
+    get => ref _Handle.AsRef<CUtlVector<CRemapValueUpdateItem>>(_ItemsOffset.Value);
   }
 
 

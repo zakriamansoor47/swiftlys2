@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,23 @@ internal partial class CCSPlayerController_InventoryServices__NetworkedLoadoutSl
   public CCSPlayerController_InventoryServices__NetworkedLoadoutSlot_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ItemOffset = new(() => Schema.GetOffset(0x16C4EAAC5C1539E8), LazyThreadSafetyMode.None);
+
   public CEconItemView? Item {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x16C4EAAC5C1539E8));
+      var ptr = _Handle.Read<nint>(_ItemOffset.Value);
       return ptr.IsValidPtr() ? new CEconItemViewImpl(ptr) : null;
     }
   }
+  private static readonly Lazy<nint> _TeamOffset = new(() => Schema.GetOffset(0x16C4EAACA2FD7D0C), LazyThreadSafetyMode.None);
+
   public ref ushort Team {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x16C4EAACA2FD7D0C));
+    get => ref _Handle.AsRef<ushort>(_TeamOffset.Value);
   }
+  private static readonly Lazy<nint> _SlotOffset = new(() => Schema.GetOffset(0x16C4EAAC70954771), LazyThreadSafetyMode.None);
+
   public ref ushort Slot {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x16C4EAAC70954771));
+    get => ref _Handle.AsRef<ushort>(_SlotOffset.Value);
   }
 
 

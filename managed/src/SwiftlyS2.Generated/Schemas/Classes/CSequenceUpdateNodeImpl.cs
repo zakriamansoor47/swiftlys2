@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CSequenceUpdateNodeImpl : CSequenceUpdateNodeBaseImpl, CS
   public CSequenceUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SequenceOffset = new(() => Schema.GetOffset(0xB5F91396E0A0598E), LazyThreadSafetyMode.None);
+
   public HSequence Sequence {
-    get => new HSequenceImpl(_Handle + Schema.GetOffset(0xB5F91396E0A0598E));
+    get => new HSequenceImpl(_Handle + _SequenceOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0xB5F913963D9FF5AD), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB5F913963D9FF5AD));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamSpansOffset = new(() => Schema.GetOffset(0xB5F91396DAC91553), LazyThreadSafetyMode.None);
+
   public CParamSpanUpdater ParamSpans {
-    get => new CParamSpanUpdaterImpl(_Handle + Schema.GetOffset(0xB5F91396DAC91553));
+    get => new CParamSpanUpdaterImpl(_Handle + _ParamSpansOffset.Value);
   }
+  private static readonly Lazy<nint> _TagsOffset = new(() => Schema.GetOffset(0xB5F91396B46C8540), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<TagSpan_t> Tags {
-    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(Schema.GetOffset(0xB5F91396B46C8540));
+    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(_TagsOffset.Value);
   }
 
 

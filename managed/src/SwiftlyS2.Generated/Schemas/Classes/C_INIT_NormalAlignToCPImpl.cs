@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_INIT_NormalAlignToCPImpl : CParticleFunctionInitializer
   public C_INIT_NormalAlignToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TransformInputOffset = new(() => Schema.GetOffset(0xFA0441643A9ED669), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformInput {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0xFA0441643A9ED669));
+    get => new CParticleTransformInputImpl(_Handle + _TransformInputOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointAxisOffset = new(() => Schema.GetOffset(0xFA04416471763CFD), LazyThreadSafetyMode.None);
+
   public ref ParticleControlPointAxis_t ControlPointAxis {
-    get => ref _Handle.AsRef<ParticleControlPointAxis_t>(Schema.GetOffset(0xFA04416471763CFD));
+    get => ref _Handle.AsRef<ParticleControlPointAxis_t>(_ControlPointAxisOffset.Value);
   }
 
 

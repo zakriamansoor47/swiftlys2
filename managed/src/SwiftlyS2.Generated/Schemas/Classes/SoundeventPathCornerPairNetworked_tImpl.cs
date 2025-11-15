@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class SoundeventPathCornerPairNetworked_tImpl : SchemaClass, So
   public SoundeventPathCornerPairNetworked_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _P1Offset = new(() => Schema.GetOffset(0x138FC2E2CD01805E), LazyThreadSafetyMode.None);
+
   public ref Vector P1 {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x138FC2E2CD01805E));
+    get => ref _Handle.AsRef<Vector>(_P1Offset.Value);
   }
+  private static readonly Lazy<nint> _P2Offset = new(() => Schema.GetOffset(0x138FC2E2CC017ECB), LazyThreadSafetyMode.None);
+
   public ref Vector P2 {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x138FC2E2CC017ECB));
+    get => ref _Handle.AsRef<Vector>(_P2Offset.Value);
   }
+  private static readonly Lazy<nint> _PathLengthSqrOffset = new(() => Schema.GetOffset(0x138FC2E284D826AA), LazyThreadSafetyMode.None);
+
   public ref float PathLengthSqr {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x138FC2E284D826AA));
+    get => ref _Handle.AsRef<float>(_PathLengthSqrOffset.Value);
   }
+  private static readonly Lazy<nint> _P1PctOffset = new(() => Schema.GetOffset(0x138FC2E258AEE12B), LazyThreadSafetyMode.None);
+
   public ref float P1Pct {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x138FC2E258AEE12B));
+    get => ref _Handle.AsRef<float>(_P1PctOffset.Value);
   }
+  private static readonly Lazy<nint> _P2PctOffset = new(() => Schema.GetOffset(0x138FC2E294B6CBA8), LazyThreadSafetyMode.None);
+
   public ref float P2Pct {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x138FC2E294B6CBA8));
+    get => ref _Handle.AsRef<float>(_P2PctOffset.Value);
   }
 
   public void P1Updated() {

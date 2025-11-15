@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class WeightListImpl : SchemaClass, WeightList {
   public WeightListImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x4A08DD454D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x4A08DD454D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x4A08DD454D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _WeightsOffset = new(() => Schema.GetOffset(0x4A08DD4577B2F91E), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> Weights {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x4A08DD4577B2F91E));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_WeightsOffset.Value);
   }
 
 

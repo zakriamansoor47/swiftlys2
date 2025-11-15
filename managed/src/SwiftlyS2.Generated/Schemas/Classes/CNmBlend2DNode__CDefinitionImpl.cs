@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CNmBlend2DNode__CDefinitionImpl : CNmPoseNode__CDefinitio
   public CNmBlend2DNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceNodeIndicesOffset = new(() => Schema.GetOffset(0x965A04D8E90F1FE1), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SourceNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x965A04D8E90F1FE1));
+    get => new SchemaUntypedField(_Handle + _SourceNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _InputParameterNodeIdx0Offset = new(() => Schema.GetOffset(0x965A04D85A96A1AF), LazyThreadSafetyMode.None);
+
   public ref short InputParameterNodeIdx0 {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x965A04D85A96A1AF));
+    get => ref _Handle.AsRef<short>(_InputParameterNodeIdx0Offset.Value);
   }
+  private static readonly Lazy<nint> _InputParameterNodeIdx1Offset = new(() => Schema.GetOffset(0x965A04D85996A01C), LazyThreadSafetyMode.None);
+
   public ref short InputParameterNodeIdx1 {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x965A04D85996A01C));
+    get => ref _Handle.AsRef<short>(_InputParameterNodeIdx1Offset.Value);
   }
+  private static readonly Lazy<nint> _ValuesOffset = new(() => Schema.GetOffset(0x965A04D8FBEDDADB), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Values {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x965A04D8FBEDDADB));
+    get => new SchemaUntypedField(_Handle + _ValuesOffset.Value);
   }
+  private static readonly Lazy<nint> _IndicesOffset = new(() => Schema.GetOffset(0x965A04D8CF5DEE92), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Indices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x965A04D8CF5DEE92));
+    get => new SchemaUntypedField(_Handle + _IndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _HullIndicesOffset = new(() => Schema.GetOffset(0x965A04D8A014D83B), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField HullIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x965A04D8A014D83B));
+    get => new SchemaUntypedField(_Handle + _HullIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _AllowLoopingOffset = new(() => Schema.GetOffset(0x965A04D8FEB26D98), LazyThreadSafetyMode.None);
+
   public ref bool AllowLooping {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x965A04D8FEB26D98));
+    get => ref _Handle.AsRef<bool>(_AllowLoopingOffset.Value);
   }
 
 

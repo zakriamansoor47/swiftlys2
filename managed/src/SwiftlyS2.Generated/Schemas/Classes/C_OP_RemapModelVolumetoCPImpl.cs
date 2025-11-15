@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,60 @@ internal partial class C_OP_RemapModelVolumetoCPImpl : CParticleFunctionPreEmiss
   public C_OP_RemapModelVolumetoCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BBoxTypeOffset = new(() => Schema.GetOffset(0x5F3AA677780A22F6), LazyThreadSafetyMode.None);
+
   public ref BBoxVolumeType_t BBoxType {
-    get => ref _Handle.AsRef<BBoxVolumeType_t>(Schema.GetOffset(0x5F3AA677780A22F6));
+    get => ref _Handle.AsRef<BBoxVolumeType_t>(_BBoxTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _InControlPointNumberOffset = new(() => Schema.GetOffset(0x5F3AA677E7CB99DE), LazyThreadSafetyMode.None);
+
   public ref int InControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5F3AA677E7CB99DE));
+    get => ref _Handle.AsRef<int>(_InControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _OutControlPointNumberOffset = new(() => Schema.GetOffset(0x5F3AA677D021D73F), LazyThreadSafetyMode.None);
+
   public ref int OutControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5F3AA677D021D73F));
+    get => ref _Handle.AsRef<int>(_OutControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _OutControlPointMaxNumberOffset = new(() => Schema.GetOffset(0x5F3AA677420C1A45), LazyThreadSafetyMode.None);
+
   public ref int OutControlPointMaxNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5F3AA677420C1A45));
+    get => ref _Handle.AsRef<int>(_OutControlPointMaxNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOffset = new(() => Schema.GetOffset(0x5F3AA677C257B93B), LazyThreadSafetyMode.None);
+
   public ref int Field {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5F3AA677C257B93B));
+    get => ref _Handle.AsRef<int>(_FieldOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMinOffset = new(() => Schema.GetOffset(0x5F3AA677E88A0D0F), LazyThreadSafetyMode.None);
+
   public ref float InputMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5F3AA677E88A0D0F));
+    get => ref _Handle.AsRef<float>(_InputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMaxOffset = new(() => Schema.GetOffset(0x5F3AA677D6766901), LazyThreadSafetyMode.None);
+
   public ref float InputMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5F3AA677D6766901));
+    get => ref _Handle.AsRef<float>(_InputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0x5F3AA6775F8D7716), LazyThreadSafetyMode.None);
+
   public ref float OutputMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5F3AA6775F8D7716));
+    get => ref _Handle.AsRef<float>(_OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0x5F3AA67751A0E8C4), LazyThreadSafetyMode.None);
+
   public ref float OutputMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5F3AA67751A0E8C4));
+    get => ref _Handle.AsRef<float>(_OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _BBoxOnlyOffset = new(() => Schema.GetOffset(0x5F3AA67725A324B4), LazyThreadSafetyMode.None);
+
   public ref bool BBoxOnly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5F3AA67725A324B4));
+    get => ref _Handle.AsRef<bool>(_BBoxOnlyOffset.Value);
   }
+  private static readonly Lazy<nint> _CubeRootOffset = new(() => Schema.GetOffset(0x5F3AA67717695018), LazyThreadSafetyMode.None);
+
   public ref bool CubeRoot {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5F3AA67717695018));
+    get => ref _Handle.AsRef<bool>(_CubeRootOffset.Value);
   }
 
 

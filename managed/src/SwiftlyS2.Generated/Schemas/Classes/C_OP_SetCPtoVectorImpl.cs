@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_SetCPtoVectorImpl : CParticleFunctionOperatorImpl, C
   public C_OP_SetCPtoVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPInputOffset = new(() => Schema.GetOffset(0x799E4536FB805736), LazyThreadSafetyMode.None);
+
   public ref int CPInput {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x799E4536FB805736));
+    get => ref _Handle.AsRef<int>(_CPInputOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x799E4536E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x799E4536E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CVoiceContainerStaticAdditiveSynthImpl : CVoiceContainerB
   public CVoiceContainerStaticAdditiveSynthImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TonesOffset = new(() => Schema.GetOffset(0xE9663E55BAE6D716), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CVoiceContainerStaticAdditiveSynth__CTone> Tones {
-    get => ref _Handle.AsRef<CUtlVector<CVoiceContainerStaticAdditiveSynth__CTone>>(Schema.GetOffset(0xE9663E55BAE6D716));
+    get => ref _Handle.AsRef<CUtlVector<CVoiceContainerStaticAdditiveSynth__CTone>>(_TonesOffset.Value);
   }
 
 

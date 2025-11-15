@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class FilterDamageTypeImpl : CBaseFilterImpl, FilterDamageType 
   public FilterDamageTypeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DamageTypeOffset = new(() => Schema.GetOffset(0xEBD649E6AF4EB7BD), LazyThreadSafetyMode.None);
+
   public ref int DamageType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xEBD649E6AF4EB7BD));
+    get => ref _Handle.AsRef<int>(_DamageTypeOffset.Value);
   }
 
 

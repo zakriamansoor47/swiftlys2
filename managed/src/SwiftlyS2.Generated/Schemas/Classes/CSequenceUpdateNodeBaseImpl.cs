@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CSequenceUpdateNodeBaseImpl : CLeafUpdateNodeImpl, CSeque
   public CSequenceUpdateNodeBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PlaybackSpeedOffset = new(() => Schema.GetOffset(0x6FCA4DDB1AFA7387), LazyThreadSafetyMode.None);
+
   public ref float PlaybackSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6FCA4DDB1AFA7387));
+    get => ref _Handle.AsRef<float>(_PlaybackSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _LoopOffset = new(() => Schema.GetOffset(0x6FCA4DDBC668A4CB), LazyThreadSafetyMode.None);
+
   public ref bool Loop {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6FCA4DDBC668A4CB));
+    get => ref _Handle.AsRef<bool>(_LoopOffset.Value);
   }
 
 

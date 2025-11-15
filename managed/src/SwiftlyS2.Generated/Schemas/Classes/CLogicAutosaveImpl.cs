@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CLogicAutosaveImpl : CLogicalEntityImpl, CLogicAutosave {
   public CLogicAutosaveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceNewLevelUnitOffset = new(() => Schema.GetOffset(0xE30CCBF21473BFDE), LazyThreadSafetyMode.None);
+
   public ref bool ForceNewLevelUnit {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE30CCBF21473BFDE));
+    get => ref _Handle.AsRef<bool>(_ForceNewLevelUnitOffset.Value);
   }
+  private static readonly Lazy<nint> _MinHitPointsOffset = new(() => Schema.GetOffset(0xE30CCBF22C7E0C57), LazyThreadSafetyMode.None);
+
   public ref int MinHitPoints {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE30CCBF22C7E0C57));
+    get => ref _Handle.AsRef<int>(_MinHitPointsOffset.Value);
   }
+  private static readonly Lazy<nint> _MinHitPointsToCommitOffset = new(() => Schema.GetOffset(0xE30CCBF23AAC1C7F), LazyThreadSafetyMode.None);
+
   public ref int MinHitPointsToCommit {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE30CCBF23AAC1C7F));
+    get => ref _Handle.AsRef<int>(_MinHitPointsToCommitOffset.Value);
   }
 
 

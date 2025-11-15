@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmSyncTrack__Event_tImpl : SchemaClass, CNmSyncTrack__Ev
   public CNmSyncTrack__Event_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IDOffset = new(() => Schema.GetOffset(0x8B8C5B0A95066900), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol ID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x8B8C5B0A95066900));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_IDOffset.Value);
   }
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0x8B8C5B0A6330E7EE), LazyThreadSafetyMode.None);
+
   public NmPercent_t StartTime {
-    get => new NmPercent_tImpl(_Handle + Schema.GetOffset(0x8B8C5B0A6330E7EE));
+    get => new NmPercent_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0x8B8C5B0A3D9FF5AD), LazyThreadSafetyMode.None);
+
   public NmPercent_t Duration {
-    get => new NmPercent_tImpl(_Handle + Schema.GetOffset(0x8B8C5B0A3D9FF5AD));
+    get => new NmPercent_tImpl(_Handle + _DurationOffset.Value);
   }
 
 

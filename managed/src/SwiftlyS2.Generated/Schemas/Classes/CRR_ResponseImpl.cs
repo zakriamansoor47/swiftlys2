@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,51 +17,71 @@ internal partial class CRR_ResponseImpl : SchemaClass, CRR_Response {
   public CRR_ResponseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x7B8008788ED6D5CD), LazyThreadSafetyMode.None);
+
   public ref byte Type {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x7B8008788ED6D5CD));
+    get => ref _Handle.AsRef<byte>(_TypeOffset.Value);
   }
+  private static readonly Lazy<nint> _ResponseNameOffset = new(() => Schema.GetOffset(0x7B800878C2716964), LazyThreadSafetyMode.None);
+
   public string ResponseName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x7B800878C2716964);
+      var ptr = _Handle + _ResponseNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x7B800878C2716964, value, 192);
+    set => Schema.SetFixedString(_Handle, _ResponseNameOffset.Value, value, 192);
   } 
+  private static readonly Lazy<nint> _MatchingRuleOffset = new(() => Schema.GetOffset(0x7B80087820850239), LazyThreadSafetyMode.None);
+
   public string MatchingRule {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x7B80087820850239);
+      var ptr = _Handle + _MatchingRuleOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x7B80087820850239, value, 128);
+    set => Schema.SetFixedString(_Handle, _MatchingRuleOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _ParamsOffset = new(() => Schema.GetOffset(0x7B800878900020D3), LazyThreadSafetyMode.None);
+
   public ResponseParams Params {
-    get => new ResponseParamsImpl(_Handle + Schema.GetOffset(0x7B800878900020D3));
+    get => new ResponseParamsImpl(_Handle + _ParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _MatchScoreOffset = new(() => Schema.GetOffset(0x7B80087861BE6F08), LazyThreadSafetyMode.None);
+
   public ref float MatchScore {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7B80087861BE6F08));
+    get => ref _Handle.AsRef<float>(_MatchScoreOffset.Value);
   }
+  private static readonly Lazy<nint> _AnyMatchingRulesInCooldownOffset = new(() => Schema.GetOffset(0x7B800878579F1BE7), LazyThreadSafetyMode.None);
+
   public ref bool AnyMatchingRulesInCooldown {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x7B800878579F1BE7));
+    get => ref _Handle.AsRef<bool>(_AnyMatchingRulesInCooldownOffset.Value);
   }
+  private static readonly Lazy<nint> _SpeakerContextOffset = new(() => Schema.GetOffset(0x7B80087877C70A38), LazyThreadSafetyMode.None);
+
   public string SpeakerContext {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x7B80087877C70A38));
+      var ptr = _Handle.Read<nint>(_SpeakerContextOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x7B80087877C70A38, value);
+    set => Schema.SetString(_Handle, _SpeakerContextOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _WorldContextOffset = new(() => Schema.GetOffset(0x7B8008781DC998DF), LazyThreadSafetyMode.None);
+
   public string WorldContext {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x7B8008781DC998DF));
+      var ptr = _Handle.Read<nint>(_WorldContextOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x7B8008781DC998DF, value);
+    set => Schema.SetString(_Handle, _WorldContextOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _FollowupOffset = new(() => Schema.GetOffset(0x7B800878B1F72BFD), LazyThreadSafetyMode.None);
+
   public ResponseFollowup Followup {
-    get => new ResponseFollowupImpl(_Handle + Schema.GetOffset(0x7B800878B1F72BFD));
+    get => new ResponseFollowupImpl(_Handle + _FollowupOffset.Value);
   }
+  private static readonly Lazy<nint> _RecipientFilterOffset = new(() => Schema.GetOffset(0x7B800878CC301E4A), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField RecipientFilter {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x7B800878CC301E4A));
+    get => new SchemaUntypedField(_Handle + _RecipientFilterOffset.Value);
   }
 
 

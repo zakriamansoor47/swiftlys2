@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNavLinkAnimgraphVarImpl : SchemaClass, CNavLinkAnimgraph
   public CNavLinkAnimgraphVarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AnimGraphNavlinkTypeOffset = new(() => Schema.GetOffset(0xD079ABDB24A7FCF6), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol AnimGraphNavlinkType {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xD079ABDB24A7FCF6));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_AnimGraphNavlinkTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _AlignmentDegreesOffset = new(() => Schema.GetOffset(0xD079ABDB371747C0), LazyThreadSafetyMode.None);
+
   public ref uint AlignmentDegrees {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xD079ABDB371747C0));
+    get => ref _Handle.AsRef<uint>(_AlignmentDegreesOffset.Value);
   }
 
 

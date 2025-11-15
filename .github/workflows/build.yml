@@ -45,7 +45,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
     - name: Build managed
       run: |
         cd managed
@@ -231,14 +231,14 @@ jobs:
       run: |
         mkdir -p ./linux-runtimes
         cd ./linux-runtimes
-        wget https://builds.dotnet.microsoft.com/dotnet/Runtime/8.0.20/dotnet-runtime-8.0.20-linux-x64.tar.gz
+        wget https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.0/dotnet-runtime-10.0.0-linux-x64.tar.gz
         mkdir -p content
-        tar -xzf dotnet-runtime-8.0.20-linux-x64.tar.gz -C content
+        tar -xzf dotnet-runtime-10.0.0-linux-x64.tar.gz -C content
         cd ..
         mkdir -p ./windows-runtimes
         cd ./windows-runtimes
-        wget https://builds.dotnet.microsoft.com/dotnet/Runtime/8.0.20/dotnet-runtime-8.0.20-win-x64.zip
-        unzip dotnet-runtime-8.0.20-win-x64.zip -d content
+        wget https://builds.dotnet.microsoft.com/dotnet/Runtime/10.0.0/dotnet-runtime-10.0.0-win-x64.zip
+        unzip dotnet-runtime-10.0.0-win-x64.zip -d content
         cd ..
       
     - name: Create package
@@ -262,8 +262,8 @@ jobs:
         cp -r linux-runtimes/content/ ${{ env.LINUX_FOLDER }}-with-runtimes/swiftlys2/bin/managed/dotnet
         cp -r windows-runtimes/content/ ${{ env.WINDOWS_FOLDER }}-with-runtimes/swiftlys2/bin/managed/dotnet
 
-        cp linux-runtimes/content/host/fxr/8.0.20/libhostfxr.so ${{ env.LINUX_FOLDER }}-with-runtimes/swiftlys2/bin/linuxsteamrt64/libhostfxr.so
-        cp windows-runtimes/content/host/fxr/8.0.20/hostfxr.dll ${{ env.WINDOWS_FOLDER }}-with-runtimes/swiftlys2/bin/win64/hostfxr.dll
+        cp linux-runtimes/content/host/fxr/10.0.0/libhostfxr.so ${{ env.LINUX_FOLDER }}-with-runtimes/swiftlys2/bin/linuxsteamrt64/libhostfxr.so
+        cp windows-runtimes/content/host/fxr/10.0.0/hostfxr.dll ${{ env.WINDOWS_FOLDER }}-with-runtimes/swiftlys2/bin/win64/hostfxr.dll
 
         mkdir -p ${{ env.LINUX_FOLDER }}/addons/
         mkdir -p ${{ env.WINDOWS_FOLDER }}/addons/
@@ -334,6 +334,95 @@ jobs:
         tag_name: ${{ env.TAG_NAME }}
         name: Release v${{ needs.versioning.outputs.semVer }}
         body: ${{ needs.versioning.outputs.semVer  }}
+
+    - name: Get commit summary for beta
+      if: github.ref == 'refs/heads/beta'
+      id: beta_commits
+      run: |
+        # Get the previous tag
+        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+        # Get commits since previous tag, or last 10 if no previous tag
+        if [ -n "$PREV_TAG" ]; then
+          COMMITS=$(git log ${PREV_TAG}..HEAD --pretty=format:"• %s (\`%h\`)" | head -c 900)
+        else
+          COMMITS=$(git log -10 --pretty=format:"• %s (\`%h\`)" | head -c 900)
+        fi
+
+        # If commits are empty, set a default message
+        if [ -z "$COMMITS" ]; then
+          COMMITS="No commit information available"
+        fi
+
+        echo "summary<<EOF" >> $GITHUB_OUTPUT
+        echo "$COMMITS" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Send Discord notification (Beta)
+      if: github.ref == 'refs/heads/beta'
+      uses: tsickert/discord-webhook@v6.0.0
+      with:
+        webhook-url: ${{ secrets.DISCORD_WEBHOOK_BETA }}
+        embed-title: "🚀 New Beta Release"
+        embed-description: |
+          **SwiftlyS2** v${{ needs.versioning.outputs.semVer }} has been released!
+
+          **📦 Version:** `${{ needs.versioning.outputs.semVer }}`
+          **🔖 Tag:** `${{ env.TAG_NAME }}`
+
+          **📝 Recent Commits:**
+          ${{ steps.beta_commits.outputs.summary }}
+
+          **📥 Download:** [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ env.TAG_NAME }})
+        embed-color: 65261
+        embed-timestamp: ${{ github.event.head_commit.timestamp }}
+        embed-footer-text: "Beta Release • SwiftlyS2"
+        content: <@&1438068022706311279>
+
+    - name: Get commit summary for master
+      if: github.ref == 'refs/heads/master'
+      id: master_commits
+      run: |
+        # Get the previous tag
+        PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+        # Get commits since previous tag, or last 15 if no previous tag
+        if [ -n "$PREV_TAG" ]; then
+          COMMITS=$(git log ${PREV_TAG}..HEAD --pretty=format:"• %s (\`%h\`)" | head -c 900)
+        else
+          COMMITS=$(git log -15 --pretty=format:"• %s (\`%h\`)" | head -c 900)
+        fi
+
+        # If commits are empty, set a default message
+        if [ -z "$COMMITS" ]; then
+          COMMITS="No commit information available"
+        fi
+
+        echo "summary<<EOF" >> $GITHUB_OUTPUT
+        echo "$COMMITS" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Send Discord notification (Master)
+      if: github.ref == 'refs/heads/master'
+      uses: tsickert/discord-webhook@v6.0.0
+      with:
+        webhook-url: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+        embed-title: "✨ New Stable Release"
+        embed-description: |
+          **SwiftlyS2** v${{ needs.versioning.outputs.semVer }} is now available!
+
+          **📦 Version:** `${{ needs.versioning.outputs.semVer }}`
+          **🔖 Tag:** `${{ env.TAG_NAME }}`
+
+          **📝 Changelog Summary:**
+          ${{ steps.master_commits.outputs.summary }}
+
+          **📥 Download:** [View Release](https://github.com/${{ github.repository }}/releases/tag/${{ env.TAG_NAME }})
+        embed-color: 65261
+        embed-timestamp: ${{ github.event.head_commit.timestamp }}
+        embed-footer-text: "Stable Release • SwiftlyS2"
+        content: <@&1438068068587933706>
+
   nuget:
     if: ${{ github.event_name == 'push' && github.repository_owner == 'swiftly-solution' }}
     needs: [versioning, releasing]
@@ -346,7 +435,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
     - name: Publish to nuget
       run: |
         cd managed

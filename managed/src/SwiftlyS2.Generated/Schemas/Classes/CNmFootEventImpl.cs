@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmFootEventImpl : CNmEventImpl, CNmFootEvent {
   public CNmFootEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PhaseOffset = new(() => Schema.GetOffset(0x1F9E5CE14846D318), LazyThreadSafetyMode.None);
+
   public ref NmFootPhase_t Phase {
-    get => ref _Handle.AsRef<NmFootPhase_t>(Schema.GetOffset(0x1F9E5CE14846D318));
+    get => ref _Handle.AsRef<NmFootPhase_t>(_PhaseOffset.Value);
   }
 
 

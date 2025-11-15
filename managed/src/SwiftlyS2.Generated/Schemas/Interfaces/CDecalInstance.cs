@@ -44,6 +44,8 @@ public partial interface CDecalInstance : ISchemaClass<CDecalInstance> {
   
   public ref float AnimationScale { get; }
   
+  public ref float AnimationStartTime { get; }
+  
   public GameTime_t PlaceTime { get; }
   
   public ref float FadeStartTime { get; }

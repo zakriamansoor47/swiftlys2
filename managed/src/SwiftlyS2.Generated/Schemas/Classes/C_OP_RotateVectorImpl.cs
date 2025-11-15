@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_OP_RotateVectorImpl : CParticleFunctionOperatorImpl, C_
   public C_OP_RotateVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x43DEF471E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x43DEF471E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _RotAxisMinOffset = new(() => Schema.GetOffset(0x43DEF471E51ED175), LazyThreadSafetyMode.None);
+
   public ref Vector RotAxisMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x43DEF471E51ED175));
+    get => ref _Handle.AsRef<Vector>(_RotAxisMinOffset.Value);
   }
+  private static readonly Lazy<nint> _RotAxisMaxOffset = new(() => Schema.GetOffset(0x43DEF471CF32368B), LazyThreadSafetyMode.None);
+
   public ref Vector RotAxisMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x43DEF471CF32368B));
+    get => ref _Handle.AsRef<Vector>(_RotAxisMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _RotRateMinOffset = new(() => Schema.GetOffset(0x43DEF4710EE55F62), LazyThreadSafetyMode.None);
+
   public ref float RotRateMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43DEF4710EE55F62));
+    get => ref _Handle.AsRef<float>(_RotRateMinOffset.Value);
   }
+  private static readonly Lazy<nint> _RotRateMaxOffset = new(() => Schema.GetOffset(0x43DEF471F8D1B508), LazyThreadSafetyMode.None);
+
   public ref float RotRateMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43DEF471F8D1B508));
+    get => ref _Handle.AsRef<float>(_RotRateMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _NormalizeOffset = new(() => Schema.GetOffset(0x43DEF47148BC424C), LazyThreadSafetyMode.None);
+
   public ref bool Normalize {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x43DEF47148BC424C));
+    get => ref _Handle.AsRef<bool>(_NormalizeOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x43DEF471B731A42F), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Scale {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x43DEF471B731A42F));
+    get => new CPerParticleFloatInputImpl(_Handle + _ScaleOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CHandleTestImpl : CBaseEntityImpl, CHandleTest {
   public CHandleTestImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HandleOffset = new(() => Schema.GetOffset(0xCC5023E89D208453), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Handle {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xCC5023E89D208453));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_HandleOffset.Value);
   }
+  private static readonly Lazy<nint> _SendHandleOffset = new(() => Schema.GetOffset(0xCC5023E8EACC8501), LazyThreadSafetyMode.None);
+
   public ref bool SendHandle {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCC5023E8EACC8501));
+    get => ref _Handle.AsRef<bool>(_SendHandleOffset.Value);
   }
 
   public void HandleUpdated() {

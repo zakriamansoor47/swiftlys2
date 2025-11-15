@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CFuncPlatImpl : CBasePlatTrainImpl, CFuncPlat {
   public CFuncPlatImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NoiseOffset = new(() => Schema.GetOffset(0x57400D651F22B8CC), LazyThreadSafetyMode.None);
+
   public string Noise {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x57400D651F22B8CC));
+      var ptr = _Handle.Read<nint>(_NoiseOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x57400D651F22B8CC, value);
+    set => Schema.SetString(_Handle, _NoiseOffset.Value, value);
   } 
 
 

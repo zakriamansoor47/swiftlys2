@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CVoiceContainerStaticAdditiveSynth__CToneImpl : SchemaCla
   public CVoiceContainerStaticAdditiveSynth__CToneImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HarmonicsOffset = new(() => Schema.GetOffset(0x1501082A3A08CDBF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CVoiceContainerStaticAdditiveSynth__CHarmonic> Harmonics {
-    get => ref _Handle.AsRef<CUtlVector<CVoiceContainerStaticAdditiveSynth__CHarmonic>>(Schema.GetOffset(0x1501082A3A08CDBF));
+    get => ref _Handle.AsRef<CUtlVector<CVoiceContainerStaticAdditiveSynth__CHarmonic>>(_HarmonicsOffset.Value);
   }
+  private static readonly Lazy<nint> _CurveOffset = new(() => Schema.GetOffset(0x1501082ABFFA0B34), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Curve {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x1501082ABFFA0B34));
+    get => new SchemaUntypedField(_Handle + _CurveOffset.Value);
   }
+  private static readonly Lazy<nint> _SyncInstancesOffset = new(() => Schema.GetOffset(0x1501082A21EE9902), LazyThreadSafetyMode.None);
+
   public ref bool SyncInstances {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1501082A21EE9902));
+    get => ref _Handle.AsRef<bool>(_SyncInstancesOffset.Value);
   }
 
 

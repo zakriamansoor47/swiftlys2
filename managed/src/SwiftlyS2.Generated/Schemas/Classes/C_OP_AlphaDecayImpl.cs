@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_OP_AlphaDecayImpl : CParticleFunctionOperatorImpl, C_OP
   public C_OP_AlphaDecayImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinAlphaOffset = new(() => Schema.GetOffset(0x26EE2FFBEC24C4FF), LazyThreadSafetyMode.None);
+
   public ref float MinAlpha {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x26EE2FFBEC24C4FF));
+    get => ref _Handle.AsRef<float>(_MinAlphaOffset.Value);
   }
 
 

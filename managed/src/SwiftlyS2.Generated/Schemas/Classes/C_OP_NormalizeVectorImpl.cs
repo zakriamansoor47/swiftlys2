@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_NormalizeVectorImpl : CParticleFunctionOperatorImpl,
   public C_OP_NormalizeVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x53107B8BE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x53107B8BE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x53107B8BB731A42F), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x53107B8BB731A42F));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
 
 

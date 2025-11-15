@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CCSPlayer_BulletServicesImpl : CPlayerPawnComponentImpl, 
   public CCSPlayer_BulletServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TotalHitsOnServerOffset = new(() => Schema.GetOffset(0x39B0E99E8006CF29), LazyThreadSafetyMode.None);
+
   public ref int TotalHitsOnServer {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x39B0E99E8006CF29));
+    get => ref _Handle.AsRef<int>(_TotalHitsOnServerOffset.Value);
   }
 
   public void TotalHitsOnServerUpdated() {

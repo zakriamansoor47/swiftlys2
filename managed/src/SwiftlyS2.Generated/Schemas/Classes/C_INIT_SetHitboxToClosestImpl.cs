@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,36 +17,54 @@ internal partial class C_INIT_SetHitboxToClosestImpl : CParticleFunctionInitiali
   public C_INIT_SetHitboxToClosestImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x10F3322C3F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x10F3322C3F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _DesiredHitboxOffset = new(() => Schema.GetOffset(0x10F3322CFD09531B), LazyThreadSafetyMode.None);
+
   public ref int DesiredHitbox {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x10F3322CFD09531B));
+    get => ref _Handle.AsRef<int>(_DesiredHitboxOffset.Value);
   }
+  private static readonly Lazy<nint> _HitBoxScaleOffset = new(() => Schema.GetOffset(0x10F3322C58EE3FB7), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput HitBoxScale {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x10F3322C58EE3FB7));
+    get => new CParticleCollectionVecInputImpl(_Handle + _HitBoxScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxSetNameOffset = new(() => Schema.GetOffset(0x10F3322C6A21BB0E), LazyThreadSafetyMode.None);
+
   public string HitboxSetName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x10F3322C6A21BB0E);
+      var ptr = _Handle + _HitboxSetNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x10F3322C6A21BB0E, value, 128);
+    set => Schema.SetFixedString(_Handle, _HitboxSetNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _UseBonesOffset = new(() => Schema.GetOffset(0x10F3322C10D1938B), LazyThreadSafetyMode.None);
+
   public ref bool UseBones {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x10F3322C10D1938B));
+    get => ref _Handle.AsRef<bool>(_UseBonesOffset.Value);
   }
+  private static readonly Lazy<nint> _UseClosestPointOnHitboxOffset = new(() => Schema.GetOffset(0x10F3322CA983A934), LazyThreadSafetyMode.None);
+
   public ref bool UseClosestPointOnHitbox {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x10F3322CA983A934));
+    get => ref _Handle.AsRef<bool>(_UseClosestPointOnHitboxOffset.Value);
   }
+  private static readonly Lazy<nint> _TestTypeOffset = new(() => Schema.GetOffset(0x10F3322CEB021501), LazyThreadSafetyMode.None);
+
   public ref ClosestPointTestType_t TestType {
-    get => ref _Handle.AsRef<ClosestPointTestType_t>(Schema.GetOffset(0x10F3322CEB021501));
+    get => ref _Handle.AsRef<ClosestPointTestType_t>(_TestTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _HybridRatioOffset = new(() => Schema.GetOffset(0x10F3322CC2A9455C), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput HybridRatio {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x10F3322CC2A9455C));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _HybridRatioOffset.Value);
   }
+  private static readonly Lazy<nint> _UpdatePositionOffset = new(() => Schema.GetOffset(0x10F3322C65B36E87), LazyThreadSafetyMode.None);
+
   public ref bool UpdatePosition {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x10F3322C65B36E87));
+    get => ref _Handle.AsRef<bool>(_UpdatePositionOffset.Value);
   }
 
 

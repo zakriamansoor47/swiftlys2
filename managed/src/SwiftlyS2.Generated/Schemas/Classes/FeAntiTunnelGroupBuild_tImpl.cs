@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class FeAntiTunnelGroupBuild_tImpl : SchemaClass, FeAntiTunnelG
   public FeAntiTunnelGroupBuild_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VertexMapHashOffset = new(() => Schema.GetOffset(0x8189225C06BCA0A3), LazyThreadSafetyMode.None);
+
   public ref uint VertexMapHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x8189225C06BCA0A3));
+    get => ref _Handle.AsRef<uint>(_VertexMapHashOffset.Value);
   }
+  private static readonly Lazy<nint> _CollisionMaskOffset = new(() => Schema.GetOffset(0x8189225C0CCF1BEF), LazyThreadSafetyMode.None);
+
   public ref uint CollisionMask {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x8189225C0CCF1BEF));
+    get => ref _Handle.AsRef<uint>(_CollisionMaskOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,33 +17,49 @@ internal partial class C_INIT_LifespanFromVelocityImpl : CParticleFunctionInitia
   public C_INIT_LifespanFromVelocityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ComponentScaleOffset = new(() => Schema.GetOffset(0x50DB3853B17954E2), LazyThreadSafetyMode.None);
+
   public ref Vector ComponentScale {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x50DB3853B17954E2));
+    get => ref _Handle.AsRef<Vector>(_ComponentScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _TraceOffsetOffset = new(() => Schema.GetOffset(0x50DB38537EF6C397), LazyThreadSafetyMode.None);
+
   public ref float TraceOffset {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x50DB38537EF6C397));
+    get => ref _Handle.AsRef<float>(_TraceOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxTraceLengthOffset = new(() => Schema.GetOffset(0x50DB3853543C3798), LazyThreadSafetyMode.None);
+
   public ref float MaxTraceLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x50DB3853543C3798));
+    get => ref _Handle.AsRef<float>(_MaxTraceLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _TraceToleranceOffset = new(() => Schema.GetOffset(0x50DB38538AA4F663), LazyThreadSafetyMode.None);
+
   public ref float TraceTolerance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x50DB38538AA4F663));
+    get => ref _Handle.AsRef<float>(_TraceToleranceOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxPlanesOffset = new(() => Schema.GetOffset(0x50DB3853ADB06362), LazyThreadSafetyMode.None);
+
   public ref int MaxPlanes {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x50DB3853ADB06362));
+    get => ref _Handle.AsRef<int>(_MaxPlanesOffset.Value);
   }
+  private static readonly Lazy<nint> _CollisionGroupNameOffset = new(() => Schema.GetOffset(0x50DB3853D58A3195), LazyThreadSafetyMode.None);
+
   public string CollisionGroupName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x50DB3853D58A3195);
+      var ptr = _Handle + _CollisionGroupNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x50DB3853D58A3195, value, 128);
+    set => Schema.SetFixedString(_Handle, _CollisionGroupNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _TraceSetOffset = new(() => Schema.GetOffset(0x50DB3853BD26C5B2), LazyThreadSafetyMode.None);
+
   public ref ParticleTraceSet_t TraceSet {
-    get => ref _Handle.AsRef<ParticleTraceSet_t>(Schema.GetOffset(0x50DB3853BD26C5B2));
+    get => ref _Handle.AsRef<ParticleTraceSet_t>(_TraceSetOffset.Value);
   }
+  private static readonly Lazy<nint> _IncludeWaterOffset = new(() => Schema.GetOffset(0x50DB3853EB8D4646), LazyThreadSafetyMode.None);
+
   public ref bool IncludeWater {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x50DB3853EB8D4646));
+    get => ref _Handle.AsRef<bool>(_IncludeWaterOffset.Value);
   }
 
 

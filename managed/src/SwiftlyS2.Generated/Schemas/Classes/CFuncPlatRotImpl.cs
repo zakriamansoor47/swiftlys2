@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CFuncPlatRotImpl : CFuncPlatImpl, CFuncPlatRot {
   public CFuncPlatRotImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EndOffset = new(() => Schema.GetOffset(0xF566498E5B29CFCA), LazyThreadSafetyMode.None);
+
   public ref QAngle End {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0xF566498E5B29CFCA));
+    get => ref _Handle.AsRef<QAngle>(_EndOffset.Value);
   }
+  private static readonly Lazy<nint> _StartOffset = new(() => Schema.GetOffset(0xF566498EA539BEFF), LazyThreadSafetyMode.None);
+
   public ref QAngle Start {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0xF566498EA539BEFF));
+    get => ref _Handle.AsRef<QAngle>(_StartOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmFrameSnapEventImpl : CNmEventImpl, CNmFrameSnapEvent {
   public CNmFrameSnapEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FrameSnapModeOffset = new(() => Schema.GetOffset(0x948CA66C6C68AC59), LazyThreadSafetyMode.None);
+
   public ref NmFrameSnapEventMode_t FrameSnapMode {
-    get => ref _Handle.AsRef<NmFrameSnapEventMode_t>(Schema.GetOffset(0x948CA66C6C68AC59));
+    get => ref _Handle.AsRef<NmFrameSnapEventMode_t>(_FrameSnapModeOffset.Value);
   }
 
 

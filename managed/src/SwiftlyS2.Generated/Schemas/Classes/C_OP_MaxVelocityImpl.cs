@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_MaxVelocityImpl : CParticleFunctionOperatorImpl, C_O
   public C_OP_MaxVelocityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaxVelocityOffset = new(() => Schema.GetOffset(0xE7D67D7E281BD640), LazyThreadSafetyMode.None);
+
   public ref float MaxVelocity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE7D67D7E281BD640));
+    get => ref _Handle.AsRef<float>(_MaxVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _MinVelocityOffset = new(() => Schema.GetOffset(0xE7D67D7EAE8F0ADE), LazyThreadSafetyMode.None);
+
   public ref float MinVelocity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE7D67D7EAE8F0ADE));
+    get => ref _Handle.AsRef<float>(_MinVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _OverrideCPOffset = new(() => Schema.GetOffset(0xE7D67D7EDD495162), LazyThreadSafetyMode.None);
+
   public ref int OverrideCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE7D67D7EDD495162));
+    get => ref _Handle.AsRef<int>(_OverrideCPOffset.Value);
   }
+  private static readonly Lazy<nint> _OverrideCPFieldOffset = new(() => Schema.GetOffset(0xE7D67D7E2FF9A086), LazyThreadSafetyMode.None);
+
   public ref int OverrideCPField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE7D67D7E2FF9A086));
+    get => ref _Handle.AsRef<int>(_OverrideCPFieldOffset.Value);
   }
 
 

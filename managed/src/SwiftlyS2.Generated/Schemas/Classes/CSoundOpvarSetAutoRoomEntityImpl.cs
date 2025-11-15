@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CSoundOpvarSetAutoRoomEntityImpl : CSoundOpvarSetPointEnt
   public CSoundOpvarSetAutoRoomEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TraceResultsOffset = new(() => Schema.GetOffset(0x13ABD76E24ADC8DC), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SoundOpvarTraceResult_t> TraceResults {
-    get => ref _Handle.AsRef<CUtlVector<SoundOpvarTraceResult_t>>(Schema.GetOffset(0x13ABD76E24ADC8DC));
+    get => ref _Handle.AsRef<CUtlVector<SoundOpvarTraceResult_t>>(_TraceResultsOffset.Value);
   }
+  private static readonly Lazy<nint> _DoorwayPairsOffset = new(() => Schema.GetOffset(0x13ABD76EFAD6453D), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<AutoRoomDoorwayPairs_t> DoorwayPairs {
-    get => ref _Handle.AsRef<CUtlVector<AutoRoomDoorwayPairs_t>>(Schema.GetOffset(0x13ABD76EFAD6453D));
+    get => ref _Handle.AsRef<CUtlVector<AutoRoomDoorwayPairs_t>>(_DoorwayPairsOffset.Value);
   }
+  private static readonly Lazy<nint> _SizeOffset = new(() => Schema.GetOffset(0x13ABD76E4CF0EBC6), LazyThreadSafetyMode.None);
+
   public ref float Size {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x13ABD76E4CF0EBC6));
+    get => ref _Handle.AsRef<float>(_SizeOffset.Value);
   }
+  private static readonly Lazy<nint> _HeightToleranceOffset = new(() => Schema.GetOffset(0x13ABD76EB388225F), LazyThreadSafetyMode.None);
+
   public ref float HeightTolerance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x13ABD76EB388225F));
+    get => ref _Handle.AsRef<float>(_HeightToleranceOffset.Value);
   }
+  private static readonly Lazy<nint> _SizeSqrOffset = new(() => Schema.GetOffset(0x13ABD76E063EF878), LazyThreadSafetyMode.None);
+
   public ref float SizeSqr {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x13ABD76E063EF878));
+    get => ref _Handle.AsRef<float>(_SizeSqrOffset.Value);
   }
 
 

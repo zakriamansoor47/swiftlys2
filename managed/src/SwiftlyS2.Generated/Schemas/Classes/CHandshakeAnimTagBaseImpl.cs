@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CHandshakeAnimTagBaseImpl : CAnimTagBaseImpl, CHandshakeA
   public CHandshakeAnimTagBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IsDisableTagOffset = new(() => Schema.GetOffset(0x73566C0F04E21131), LazyThreadSafetyMode.None);
+
   public ref bool IsDisableTag {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x73566C0F04E21131));
+    get => ref _Handle.AsRef<bool>(_IsDisableTagOffset.Value);
   }
 
 

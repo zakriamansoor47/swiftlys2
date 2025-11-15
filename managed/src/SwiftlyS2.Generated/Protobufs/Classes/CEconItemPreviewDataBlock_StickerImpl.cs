@@ -57,4 +57,8 @@ internal class CEconItemPreviewDataBlock_StickerImpl : TypedProtobuf<CEconItemPr
   public uint HighlightReel
   { get => Accessor.GetUInt32("highlight_reel"); set => Accessor.SetUInt32("highlight_reel", value); }
 
+
+  public uint WrappedSticker
+  { get => Accessor.GetUInt32("wrapped_sticker"); set => Accessor.SetUInt32("wrapped_sticker", value); }
+
 }

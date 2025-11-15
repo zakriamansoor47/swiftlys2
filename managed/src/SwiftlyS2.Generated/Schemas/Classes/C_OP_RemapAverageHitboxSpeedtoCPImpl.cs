@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,42 +17,64 @@ internal partial class C_OP_RemapAverageHitboxSpeedtoCPImpl : CParticleFunctionP
   public C_OP_RemapAverageHitboxSpeedtoCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InControlPointNumberOffset = new(() => Schema.GetOffset(0xE6055FBCE7CB99DE), LazyThreadSafetyMode.None);
+
   public ref int InControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE6055FBCE7CB99DE));
+    get => ref _Handle.AsRef<int>(_InControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _OutControlPointNumberOffset = new(() => Schema.GetOffset(0xE6055FBCD021D73F), LazyThreadSafetyMode.None);
+
   public ref int OutControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE6055FBCD021D73F));
+    get => ref _Handle.AsRef<int>(_OutControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOffset = new(() => Schema.GetOffset(0xE6055FBCC257B93B), LazyThreadSafetyMode.None);
+
   public ref int Field {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE6055FBCC257B93B));
+    get => ref _Handle.AsRef<int>(_FieldOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxDataTypeOffset = new(() => Schema.GetOffset(0xE6055FBCAB1666E3), LazyThreadSafetyMode.None);
+
   public ref ParticleHitboxDataSelection_t HitboxDataType {
-    get => ref _Handle.AsRef<ParticleHitboxDataSelection_t>(Schema.GetOffset(0xE6055FBCAB1666E3));
+    get => ref _Handle.AsRef<ParticleHitboxDataSelection_t>(_HitboxDataTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMinOffset = new(() => Schema.GetOffset(0xE6055FBCE88A0D0F), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput InputMin {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xE6055FBCE88A0D0F));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _InputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMaxOffset = new(() => Schema.GetOffset(0xE6055FBCD6766901), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput InputMax {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xE6055FBCD6766901));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _InputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0xE6055FBC5F8D7716), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput OutputMin {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xE6055FBC5F8D7716));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0xE6055FBC51A0E8C4), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput OutputMax {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xE6055FBC51A0E8C4));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _HeightControlPointNumberOffset = new(() => Schema.GetOffset(0xE6055FBCF2D4BC82), LazyThreadSafetyMode.None);
+
   public ref int HeightControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE6055FBCF2D4BC82));
+    get => ref _Handle.AsRef<int>(_HeightControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _ComparisonVelocityOffset = new(() => Schema.GetOffset(0xE6055FBC23BF409F), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput ComparisonVelocity {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xE6055FBC23BF409F));
+    get => new CParticleCollectionVecInputImpl(_Handle + _ComparisonVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxSetNameOffset = new(() => Schema.GetOffset(0xE6055FBC6A21BB0E), LazyThreadSafetyMode.None);
+
   public string HitboxSetName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xE6055FBC6A21BB0E);
+      var ptr = _Handle + _HitboxSetNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xE6055FBC6A21BB0E, value, 128);
+    set => Schema.SetFixedString(_Handle, _HitboxSetNameOffset.Value, value, 128);
   } 
 
 

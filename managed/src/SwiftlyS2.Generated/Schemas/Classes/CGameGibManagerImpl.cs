@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CGameGibManagerImpl : CBaseEntityImpl, CGameGibManager {
   public CGameGibManagerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AllowNewGibsOffset = new(() => Schema.GetOffset(0x1068CB09FD80F507), LazyThreadSafetyMode.None);
+
   public ref bool AllowNewGibs {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1068CB09FD80F507));
+    get => ref _Handle.AsRef<bool>(_AllowNewGibsOffset.Value);
   }
+  private static readonly Lazy<nint> _CurrentMaxPiecesOffset = new(() => Schema.GetOffset(0x1068CB0999B0D602), LazyThreadSafetyMode.None);
+
   public ref int CurrentMaxPieces {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1068CB0999B0D602));
+    get => ref _Handle.AsRef<int>(_CurrentMaxPiecesOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxPiecesOffset = new(() => Schema.GetOffset(0x1068CB092DDFB63D), LazyThreadSafetyMode.None);
+
   public ref int MaxPieces {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1068CB092DDFB63D));
+    get => ref _Handle.AsRef<int>(_MaxPiecesOffset.Value);
   }
+  private static readonly Lazy<nint> _LastFrameOffset = new(() => Schema.GetOffset(0x1068CB09F0B58C21), LazyThreadSafetyMode.None);
+
   public ref int LastFrame {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1068CB09F0B58C21));
+    get => ref _Handle.AsRef<int>(_LastFrameOffset.Value);
   }
 
 

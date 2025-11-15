@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPlayer_ObserverServicesImpl : CPlayerPawnComponentImpl, 
   public CPlayer_ObserverServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ObserverModeOffset = new(() => Schema.GetOffset(0x1611315ADAB57B35), LazyThreadSafetyMode.None);
+
   public ref byte ObserverMode {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x1611315ADAB57B35));
+    get => ref _Handle.AsRef<byte>(_ObserverModeOffset.Value);
   }
+  private static readonly Lazy<nint> _ObserverTargetOffset = new(() => Schema.GetOffset(0x1611315A24779C4C), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> ObserverTarget {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x1611315A24779C4C));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_ObserverTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _ObserverLastModeOffset = new(() => Schema.GetOffset(0x1611315A555EDA49), LazyThreadSafetyMode.None);
+
   public ref ObserverMode_t ObserverLastMode {
-    get => ref _Handle.AsRef<ObserverMode_t>(Schema.GetOffset(0x1611315A555EDA49));
+    get => ref _Handle.AsRef<ObserverMode_t>(_ObserverLastModeOffset.Value);
   }
+  private static readonly Lazy<nint> _ForcedObserverModeOffset = new(() => Schema.GetOffset(0x1611315A276632E1), LazyThreadSafetyMode.None);
+
   public ref bool ForcedObserverMode {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1611315A276632E1));
+    get => ref _Handle.AsRef<bool>(_ForcedObserverModeOffset.Value);
   }
 
   public void ObserverModeUpdated() {

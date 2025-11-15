@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CSceneListManagerImpl : CLogicalEntityImpl, CSceneListMan
   public CSceneListManagerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ListManagersOffset = new(() => Schema.GetOffset(0x6DF51C6DAD7882DF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CSceneListManager>> ListManagers {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CSceneListManager>>>(Schema.GetOffset(0x6DF51C6DAD7882DF));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CSceneListManager>>>(_ListManagersOffset.Value);
   }
+  private static readonly Lazy<nint> _ScenesOffset = new(() => Schema.GetOffset(0x6DF51C6D967363E8), LazyThreadSafetyMode.None);
+
   public string Scenes {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6DF51C6D967363E8));
+      var ptr = _Handle.Read<nint>(_ScenesOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6DF51C6D967363E8, value);
+    set => Schema.SetString(_Handle, _ScenesOffset.Value, value);
   } 
   public ISchemaFixedArray<CHandle<CBaseEntity>> Scenes1 {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x6DF51C6D2B7EE872, 16, 4, 4);

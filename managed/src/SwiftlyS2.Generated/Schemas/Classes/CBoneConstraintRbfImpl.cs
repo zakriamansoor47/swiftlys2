@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CBoneConstraintRbfImpl : CBoneConstraintBaseImpl, CBoneCo
   public CBoneConstraintRbfImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputBonesOffset = new(() => Schema.GetOffset(0x45CB33BF83336B6E), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SchemaUntypedField> InputBones {
-    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(Schema.GetOffset(0x45CB33BF83336B6E));
+    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(_InputBonesOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputBonesOffset = new(() => Schema.GetOffset(0x45CB33BF84D3A41B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SchemaUntypedField> OutputBones {
-    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(Schema.GetOffset(0x45CB33BF84D3A41B));
+    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(_OutputBonesOffset.Value);
   }
 
 

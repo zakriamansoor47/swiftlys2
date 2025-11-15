@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CBodyComponentSkeletonInstanceImpl : CBodyComponentImpl, 
   public CBodyComponentSkeletonInstanceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SkeletonInstanceOffset = new(() => Schema.GetOffset(0x4581C459228537B9), LazyThreadSafetyMode.None);
+
   public CSkeletonInstance SkeletonInstance {
-    get => new CSkeletonInstanceImpl(_Handle + Schema.GetOffset(0x4581C459228537B9));
+    get => new CSkeletonInstanceImpl(_Handle + _SkeletonInstanceOffset.Value);
   }
 
   public void SkeletonInstanceUpdated() {

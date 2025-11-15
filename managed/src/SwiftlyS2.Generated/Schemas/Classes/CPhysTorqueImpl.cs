@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPhysTorqueImpl : CPhysForceImpl, CPhysTorque {
   public CPhysTorqueImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AxisOffset = new(() => Schema.GetOffset(0x6EADFD042B06DE94), LazyThreadSafetyMode.None);
+
   public ref Vector Axis {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6EADFD042B06DE94));
+    get => ref _Handle.AsRef<Vector>(_AxisOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CLogicNavigationImpl : CLogicalEntityImpl, CLogicNavigati
   public CLogicNavigationImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IsOnOffset = new(() => Schema.GetOffset(0x8E444D6254B260A0), LazyThreadSafetyMode.None);
+
   public ref bool IsOn {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8E444D6254B260A0));
+    get => ref _Handle.AsRef<bool>(_IsOnOffset.Value);
   }
+  private static readonly Lazy<nint> _NavPropertyOffset = new(() => Schema.GetOffset(0x8E444D62C9E0B3E7), LazyThreadSafetyMode.None);
+
   public ref navproperties_t NavProperty {
-    get => ref _Handle.AsRef<navproperties_t>(Schema.GetOffset(0x8E444D62C9E0B3E7));
+    get => ref _Handle.AsRef<navproperties_t>(_NavPropertyOffset.Value);
   }
 
 

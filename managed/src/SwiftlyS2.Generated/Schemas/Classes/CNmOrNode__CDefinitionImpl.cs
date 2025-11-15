@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmOrNode__CDefinitionImpl : CNmBoolValueNode__CDefinitio
   public CNmOrNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConditionNodeIndicesOffset = new(() => Schema.GetOffset(0x9BF82E864A144D0F), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ConditionNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x9BF82E864A144D0F));
+    get => new SchemaUntypedField(_Handle + _ConditionNodeIndicesOffset.Value);
   }
 
 

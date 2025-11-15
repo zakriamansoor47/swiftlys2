@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmStateMachineNode__CDefinitionImpl : CNmPoseNode__CDefi
   public CNmStateMachineNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StateDefinitionsOffset = new(() => Schema.GetOffset(0xA73F392775230B54), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField StateDefinitions {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA73F392775230B54));
+    get => new SchemaUntypedField(_Handle + _StateDefinitionsOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultStateIndexOffset = new(() => Schema.GetOffset(0xA73F39276C1EC5ED), LazyThreadSafetyMode.None);
+
   public ref short DefaultStateIndex {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xA73F39276C1EC5ED));
+    get => ref _Handle.AsRef<short>(_DefaultStateIndexOffset.Value);
   }
 
 

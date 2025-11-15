@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CRenderComponentImpl : CEntityComponentImpl, CRenderCompo
   public CRenderComponentImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> ___m_pChainEntityOffset = new(() => Schema.GetOffset(0x8830FA5F63F0E7D), LazyThreadSafetyMode.None);
+
   public ref CNetworkVarChainer __m_pChainEntity {
-    get => ref _Handle.AsRef<CNetworkVarChainer>(Schema.GetOffset(0x8830FA5F63F0E7D));
+    get => ref _Handle.AsRef<CNetworkVarChainer>(___m_pChainEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _IsRenderingWithViewModelsOffset = new(() => Schema.GetOffset(0x8830FA5700AA428), LazyThreadSafetyMode.None);
+
   public ref bool IsRenderingWithViewModels {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8830FA5700AA428));
+    get => ref _Handle.AsRef<bool>(_IsRenderingWithViewModelsOffset.Value);
   }
+  private static readonly Lazy<nint> _SplitscreenFlagsOffset = new(() => Schema.GetOffset(0x8830FA5CACF9032), LazyThreadSafetyMode.None);
+
   public ref uint SplitscreenFlags {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x8830FA5CACF9032));
+    get => ref _Handle.AsRef<uint>(_SplitscreenFlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableRenderingOffset = new(() => Schema.GetOffset(0x8830FA50FAC7C5E), LazyThreadSafetyMode.None);
+
   public ref bool EnableRendering {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8830FA50FAC7C5E));
+    get => ref _Handle.AsRef<bool>(_EnableRenderingOffset.Value);
   }
+  private static readonly Lazy<nint> _InterpolationReadyToDrawOffset = new(() => Schema.GetOffset(0x8830FA51A075A53), LazyThreadSafetyMode.None);
+
   public ref bool InterpolationReadyToDraw {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8830FA51A075A53));
+    get => ref _Handle.AsRef<bool>(_InterpolationReadyToDrawOffset.Value);
   }
 
 

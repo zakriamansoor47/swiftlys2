@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CCSPlayer_UseServicesImpl : CPlayer_UseServicesImpl, CCSP
   public CCSPlayer_UseServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LastKnownUseEntityOffset = new(() => Schema.GetOffset(0xE5F718912806F946), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> LastKnownUseEntity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xE5F718912806F946));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_LastKnownUseEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _LastUseTimeStampOffset = new(() => Schema.GetOffset(0xE5F7189104BF376E), LazyThreadSafetyMode.None);
+
   public GameTime_t LastUseTimeStamp {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xE5F7189104BF376E));
+    get => new GameTime_tImpl(_Handle + _LastUseTimeStampOffset.Value);
   }
+  private static readonly Lazy<nint> _TimeLastUsedWindowOffset = new(() => Schema.GetOffset(0xE5F7189165762AEB), LazyThreadSafetyMode.None);
+
   public GameTime_t TimeLastUsedWindow {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xE5F7189165762AEB));
+    get => new GameTime_tImpl(_Handle + _TimeLastUsedWindowOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CAnimComponentUpdaterImpl : SchemaClass, CAnimComponentUp
   public CAnimComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x3E0F51C74D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x3E0F51C74D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x3E0F51C74D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _IdOffset = new(() => Schema.GetOffset(0x3E0F51C7B4B6E980), LazyThreadSafetyMode.None);
+
   public AnimComponentID Id {
-    get => new AnimComponentIDImpl(_Handle + Schema.GetOffset(0x3E0F51C7B4B6E980));
+    get => new AnimComponentIDImpl(_Handle + _IdOffset.Value);
   }
+  private static readonly Lazy<nint> _NetworkModeOffset = new(() => Schema.GetOffset(0x3E0F51C7E3307112), LazyThreadSafetyMode.None);
+
   public ref AnimNodeNetworkMode NetworkMode {
-    get => ref _Handle.AsRef<AnimNodeNetworkMode>(Schema.GetOffset(0x3E0F51C7E3307112));
+    get => ref _Handle.AsRef<AnimNodeNetworkMode>(_NetworkModeOffset.Value);
   }
+  private static readonly Lazy<nint> _StartEnabledOffset = new(() => Schema.GetOffset(0x3E0F51C7500D5C24), LazyThreadSafetyMode.None);
+
   public ref bool StartEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3E0F51C7500D5C24));
+    get => ref _Handle.AsRef<bool>(_StartEnabledOffset.Value);
   }
 
 

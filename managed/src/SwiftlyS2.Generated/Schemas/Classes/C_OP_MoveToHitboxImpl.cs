@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,36 +17,54 @@ internal partial class C_OP_MoveToHitboxImpl : CParticleFunctionOperatorImpl, C_
   public C_OP_MoveToHitboxImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModelInputOffset = new(() => Schema.GetOffset(0x4ACEA8FFEB74120E), LazyThreadSafetyMode.None);
+
   public CParticleModelInput ModelInput {
-    get => new CParticleModelInputImpl(_Handle + Schema.GetOffset(0x4ACEA8FFEB74120E));
+    get => new CParticleModelInputImpl(_Handle + _ModelInputOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformInputOffset = new(() => Schema.GetOffset(0x4ACEA8FF3A9ED669), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformInput {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0x4ACEA8FF3A9ED669));
+    get => new CParticleTransformInputImpl(_Handle + _TransformInputOffset.Value);
   }
+  private static readonly Lazy<nint> _LifeTimeLerpStartOffset = new(() => Schema.GetOffset(0x4ACEA8FFB9B0BE37), LazyThreadSafetyMode.None);
+
   public ref float LifeTimeLerpStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4ACEA8FFB9B0BE37));
+    get => ref _Handle.AsRef<float>(_LifeTimeLerpStartOffset.Value);
   }
+  private static readonly Lazy<nint> _LifeTimeLerpEndOffset = new(() => Schema.GetOffset(0x4ACEA8FF3BE2C292), LazyThreadSafetyMode.None);
+
   public ref float LifeTimeLerpEnd {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4ACEA8FF3BE2C292));
+    get => ref _Handle.AsRef<float>(_LifeTimeLerpEndOffset.Value);
   }
+  private static readonly Lazy<nint> _PrevPosScaleOffset = new(() => Schema.GetOffset(0x4ACEA8FF46CED122), LazyThreadSafetyMode.None);
+
   public ref float PrevPosScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4ACEA8FF46CED122));
+    get => ref _Handle.AsRef<float>(_PrevPosScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxSetNameOffset = new(() => Schema.GetOffset(0x4ACEA8FF6A21BB0E), LazyThreadSafetyMode.None);
+
   public string HitboxSetName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x4ACEA8FF6A21BB0E);
+      var ptr = _Handle + _HitboxSetNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x4ACEA8FF6A21BB0E, value, 128);
+    set => Schema.SetFixedString(_Handle, _HitboxSetNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _UseBonesOffset = new(() => Schema.GetOffset(0x4ACEA8FF10D1938B), LazyThreadSafetyMode.None);
+
   public ref bool UseBones {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4ACEA8FF10D1938B));
+    get => ref _Handle.AsRef<bool>(_UseBonesOffset.Value);
   }
+  private static readonly Lazy<nint> _LerpTypeOffset = new(() => Schema.GetOffset(0x4ACEA8FF74114DCC), LazyThreadSafetyMode.None);
+
   public ref HitboxLerpType_t LerpType {
-    get => ref _Handle.AsRef<HitboxLerpType_t>(Schema.GetOffset(0x4ACEA8FF74114DCC));
+    get => ref _Handle.AsRef<HitboxLerpType_t>(_LerpTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _InterpolationOffset = new(() => Schema.GetOffset(0x4ACEA8FFCF55B987), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Interpolation {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x4ACEA8FFCF55B987));
+    get => new CPerParticleFloatInputImpl(_Handle + _InterpolationOffset.Value);
   }
 
 

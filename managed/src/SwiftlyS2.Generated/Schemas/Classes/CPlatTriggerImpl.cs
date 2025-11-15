@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPlatTriggerImpl : CBaseModelEntityImpl, CPlatTrigger {
   public CPlatTriggerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PlatformOffset = new(() => Schema.GetOffset(0xE5D76A656D16AFF0), LazyThreadSafetyMode.None);
+
   public ref CHandle<CFuncPlat> Platform {
-    get => ref _Handle.AsRef<CHandle<CFuncPlat>>(Schema.GetOffset(0xE5D76A656D16AFF0));
+    get => ref _Handle.AsRef<CHandle<CFuncPlat>>(_PlatformOffset.Value);
   }
 
 

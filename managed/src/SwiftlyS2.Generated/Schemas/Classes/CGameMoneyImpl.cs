@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CGameMoneyImpl : CRulePointEntityImpl, CGameMoney {
   public CGameMoneyImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnMoneySpentOffset = new(() => Schema.GetOffset(0xED17C684B6CD990C), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnMoneySpent {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xED17C684B6CD990C));
+    get => new CEntityIOOutputImpl(_Handle + _OnMoneySpentOffset.Value);
   }
+  private static readonly Lazy<nint> _OnMoneySpentFailOffset = new(() => Schema.GetOffset(0xED17C684DB165FC0), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnMoneySpentFail {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xED17C684DB165FC0));
+    get => new CEntityIOOutputImpl(_Handle + _OnMoneySpentFailOffset.Value);
   }
+  private static readonly Lazy<nint> _MoneyOffset = new(() => Schema.GetOffset(0xED17C6845BE25D03), LazyThreadSafetyMode.None);
+
   public ref int Money {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xED17C6845BE25D03));
+    get => ref _Handle.AsRef<int>(_MoneyOffset.Value);
   }
+  private static readonly Lazy<nint> _StrAwardTextOffset = new(() => Schema.GetOffset(0xED17C684B48AB662), LazyThreadSafetyMode.None);
+
   public string StrAwardText {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xED17C684B48AB662));
+      var ptr = _Handle.Read<nint>(_StrAwardTextOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xED17C684B48AB662, value);
+    set => Schema.SetString(_Handle, _StrAwardTextOffset.Value, value);
   } 
 
 

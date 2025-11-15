@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CTriggerSoundscapeImpl : CBaseTriggerImpl, CTriggerSounds
   public CTriggerSoundscapeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SoundscapeOffset = new(() => Schema.GetOffset(0xA8ED7219EF1F0180), LazyThreadSafetyMode.None);
+
   public ref CHandle<CEnvSoundscapeTriggerable> Soundscape {
-    get => ref _Handle.AsRef<CHandle<CEnvSoundscapeTriggerable>>(Schema.GetOffset(0xA8ED7219EF1F0180));
+    get => ref _Handle.AsRef<CHandle<CEnvSoundscapeTriggerable>>(_SoundscapeOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundscapeNameOffset = new(() => Schema.GetOffset(0xA8ED7219BDF7AA81), LazyThreadSafetyMode.None);
+
   public string SoundscapeName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA8ED7219BDF7AA81));
+      var ptr = _Handle.Read<nint>(_SoundscapeNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xA8ED7219BDF7AA81, value);
+    set => Schema.SetString(_Handle, _SoundscapeNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SpectatorsOffset = new(() => Schema.GetOffset(0xA8ED7219149EB35B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CBasePlayerPawn>> Spectators {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePlayerPawn>>>(Schema.GetOffset(0xA8ED7219149EB35B));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePlayerPawn>>>(_SpectatorsOffset.Value);
   }
 
 

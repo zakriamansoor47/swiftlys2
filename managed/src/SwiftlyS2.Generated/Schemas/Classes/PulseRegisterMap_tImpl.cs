@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class PulseRegisterMap_tImpl : SchemaClass, PulseRegisterMap_t 
   public PulseRegisterMap_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InparamsOffset = new(() => Schema.GetOffset(0x833FEA64B9B18E04), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Inparams {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x833FEA64B9B18E04));
+    get => new SchemaUntypedField(_Handle + _InparamsOffset.Value);
   }
+  private static readonly Lazy<nint> _InparamsWhichCanBeMovedOffset = new(() => Schema.GetOffset(0x833FEA6405245E23), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField InparamsWhichCanBeMoved {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x833FEA6405245E23));
+    get => new SchemaUntypedField(_Handle + _InparamsWhichCanBeMovedOffset.Value);
   }
+  private static readonly Lazy<nint> _OutparamsOffset = new(() => Schema.GetOffset(0x833FEA64798D964D), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Outparams {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x833FEA64798D964D));
+    get => new SchemaUntypedField(_Handle + _OutparamsOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,30 +17,44 @@ internal partial class C_OP_ModelDampenMovementImpl : CParticleFunctionOperatorI
   public C_OP_ModelDampenMovementImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x74BD8BB63F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x74BD8BB63F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _BoundBoxOffset = new(() => Schema.GetOffset(0x74BD8BB6AB65CDDC), LazyThreadSafetyMode.None);
+
   public ref bool BoundBox {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x74BD8BB6AB65CDDC));
+    get => ref _Handle.AsRef<bool>(_BoundBoxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutsideOffset = new(() => Schema.GetOffset(0x74BD8BB6733FEEA4), LazyThreadSafetyMode.None);
+
   public ref bool Outside {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x74BD8BB6733FEEA4));
+    get => ref _Handle.AsRef<bool>(_OutsideOffset.Value);
   }
+  private static readonly Lazy<nint> _UseBonesOffset = new(() => Schema.GetOffset(0x74BD8BB610D1938B), LazyThreadSafetyMode.None);
+
   public ref bool UseBones {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x74BD8BB610D1938B));
+    get => ref _Handle.AsRef<bool>(_UseBonesOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxSetNameOffset = new(() => Schema.GetOffset(0x74BD8BB66A21BB0E), LazyThreadSafetyMode.None);
+
   public string HitboxSetName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x74BD8BB66A21BB0E);
+      var ptr = _Handle + _HitboxSetNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x74BD8BB66A21BB0E, value, 128);
+    set => Schema.SetFixedString(_Handle, _HitboxSetNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _PosOffsetOffset = new(() => Schema.GetOffset(0x74BD8BB655D114B6), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput PosOffset {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x74BD8BB655D114B6));
+    get => new CPerParticleVecInputImpl(_Handle + _PosOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _DragOffset = new(() => Schema.GetOffset(0x74BD8BB650DA6497), LazyThreadSafetyMode.None);
+
   public ref float Drag {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x74BD8BB650DA6497));
+    get => ref _Handle.AsRef<float>(_DragOffset.Value);
   }
 
 

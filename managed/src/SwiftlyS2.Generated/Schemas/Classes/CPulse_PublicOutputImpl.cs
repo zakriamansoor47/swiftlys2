@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CPulse_PublicOutputImpl : SchemaClass, CPulse_PublicOutpu
   public CPulse_PublicOutputImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x74B3BCA4CAE8A266), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Name {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x74B3BCA4CAE8A266));
+    get => new SchemaUntypedField(_Handle + _NameOffset.Value);
   }
+  private static readonly Lazy<nint> _DescriptionOffset = new(() => Schema.GetOffset(0x74B3BCA4678744E9), LazyThreadSafetyMode.None);
+
   public string Description {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x74B3BCA4678744E9));
+      var ptr = _Handle.Read<nint>(_DescriptionOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x74B3BCA4678744E9, value);
+    set => Schema.SetString(_Handle, _DescriptionOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ArgsOffset = new(() => Schema.GetOffset(0x74B3BCA4DAB98BBC), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<CPulseRuntimeMethodArg, int> Args {
-    get => ref _Handle.AsRef<CUtlLeanVector<CPulseRuntimeMethodArg, int>>(Schema.GetOffset(0x74B3BCA4DAB98BBC));
+    get => ref _Handle.AsRef<CUtlLeanVector<CPulseRuntimeMethodArg, int>>(_ArgsOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CFootTrajectoryImpl : SchemaClass, CFootTrajectory {
   public CFootTrajectoryImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0x193297AFFE159136), LazyThreadSafetyMode.None);
+
   public ref Vector Offset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x193297AFFE159136));
+    get => ref _Handle.AsRef<Vector>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _RotationOffsetOffset = new(() => Schema.GetOffset(0x193297AFF811C66E), LazyThreadSafetyMode.None);
+
   public ref float RotationOffset {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x193297AFF811C66E));
+    get => ref _Handle.AsRef<float>(_RotationOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _ProgressionOffset = new(() => Schema.GetOffset(0x193297AF4C9E1656), LazyThreadSafetyMode.None);
+
   public ref float Progression {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x193297AF4C9E1656));
+    get => ref _Handle.AsRef<float>(_ProgressionOffset.Value);
   }
 
 

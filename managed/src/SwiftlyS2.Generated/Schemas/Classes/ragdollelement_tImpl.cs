@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class ragdollelement_tImpl : SchemaClass, ragdollelement_t {
   public ragdollelement_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OriginParentSpaceOffset = new(() => Schema.GetOffset(0x6DFDA0AB476AA8AB), LazyThreadSafetyMode.None);
+
   public ref Vector OriginParentSpace {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6DFDA0AB476AA8AB));
+    get => ref _Handle.AsRef<Vector>(_OriginParentSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _ParentIndexOffset = new(() => Schema.GetOffset(0x6DFDA0ABFE49C863), LazyThreadSafetyMode.None);
+
   public ref int ParentIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6DFDA0ABFE49C863));
+    get => ref _Handle.AsRef<int>(_ParentIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0x6DFDA0AB5ACFC08D), LazyThreadSafetyMode.None);
+
   public ref float Radius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6DFDA0AB5ACFC08D));
+    get => ref _Handle.AsRef<float>(_RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _HeightOffset = new(() => Schema.GetOffset(0x6DFDA0ABCAB61C56), LazyThreadSafetyMode.None);
+
   public ref int Height {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6DFDA0ABCAB61C56));
+    get => ref _Handle.AsRef<int>(_HeightOffset.Value);
   }
 
 

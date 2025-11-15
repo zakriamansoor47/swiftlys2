@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_OP_RenderLightBeamImpl : CParticleFunctionRendererImpl,
   public C_OP_RenderLightBeamImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ColorBlendOffset = new(() => Schema.GetOffset(0xD8A78450740E9A5F), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput ColorBlend {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xD8A78450740E9A5F));
+    get => new CParticleCollectionVecInputImpl(_Handle + _ColorBlendOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorBlendTypeOffset = new(() => Schema.GetOffset(0xD8A78450DBC6EFCF), LazyThreadSafetyMode.None);
+
   public ref ParticleColorBlendType_t ColorBlendType {
-    get => ref _Handle.AsRef<ParticleColorBlendType_t>(Schema.GetOffset(0xD8A78450DBC6EFCF));
+    get => ref _Handle.AsRef<ParticleColorBlendType_t>(_ColorBlendTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _BrightnessLumensPerMeterOffset = new(() => Schema.GetOffset(0xD8A78450889235AE), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput BrightnessLumensPerMeter {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xD8A78450889235AE));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _BrightnessLumensPerMeterOffset.Value);
   }
+  private static readonly Lazy<nint> _CastShadowsOffset = new(() => Schema.GetOffset(0xD8A7845036113167), LazyThreadSafetyMode.None);
+
   public ref bool CastShadows {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD8A7845036113167));
+    get => ref _Handle.AsRef<bool>(_CastShadowsOffset.Value);
   }
+  private static readonly Lazy<nint> _SkirtOffset = new(() => Schema.GetOffset(0xD8A78450EAFB6D2A), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Skirt {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xD8A78450EAFB6D2A));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _SkirtOffset.Value);
   }
+  private static readonly Lazy<nint> _RangeOffset = new(() => Schema.GetOffset(0xD8A784503FC92844), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Range {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xD8A784503FC92844));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _RangeOffset.Value);
   }
+  private static readonly Lazy<nint> _ThicknessOffset = new(() => Schema.GetOffset(0xD8A78450DC7C1987), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Thickness {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xD8A78450DC7C1987));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ThicknessOffset.Value);
   }
 
 

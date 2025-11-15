@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CQuaternionAnimParameterImpl : CConcreteAnimParameterImpl
   public CQuaternionAnimParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0xFAFCCCCABBE0341F), LazyThreadSafetyMode.None);
+
   public ref Quaternion DefaultValue {
-    get => ref _Handle.AsRef<Quaternion>(Schema.GetOffset(0xFAFCCCCABBE0341F));
+    get => ref _Handle.AsRef<Quaternion>(_DefaultValueOffset.Value);
   }
+  private static readonly Lazy<nint> _InterpolateOffset = new(() => Schema.GetOffset(0xFAFCCCCAF6607650), LazyThreadSafetyMode.None);
+
   public ref bool Interpolate {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFAFCCCCAF6607650));
+    get => ref _Handle.AsRef<bool>(_InterpolateOffset.Value);
   }
 
 

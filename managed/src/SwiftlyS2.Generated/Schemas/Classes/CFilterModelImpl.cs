@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CFilterModelImpl : CBaseFilterImpl, CFilterModel {
   public CFilterModelImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FilterModelOffset = new(() => Schema.GetOffset(0x59DA03B921E36753), LazyThreadSafetyMode.None);
+
   public string FilterModel {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x59DA03B921E36753));
+      var ptr = _Handle.Read<nint>(_FilterModelOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x59DA03B921E36753, value);
+    set => Schema.SetString(_Handle, _FilterModelOffset.Value, value);
   } 
 
 

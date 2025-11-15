@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CCSPlayer_RadioServicesImpl : CPlayerPawnComponentImpl, C
   public CCSPlayer_RadioServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GotHostageTalkTimerOffset = new(() => Schema.GetOffset(0x8E7F7B35729FE1A3), LazyThreadSafetyMode.None);
+
   public GameTime_t GotHostageTalkTimer {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8E7F7B35729FE1A3));
+    get => new GameTime_tImpl(_Handle + _GotHostageTalkTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _DefusingTalkTimerOffset = new(() => Schema.GetOffset(0x8E7F7B355AF7F835), LazyThreadSafetyMode.None);
+
   public GameTime_t DefusingTalkTimer {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8E7F7B355AF7F835));
+    get => new GameTime_tImpl(_Handle + _DefusingTalkTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _C4PlantTalkTimerOffset = new(() => Schema.GetOffset(0x8E7F7B35CE58ABD4), LazyThreadSafetyMode.None);
+
   public GameTime_t C4PlantTalkTimer {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8E7F7B35CE58ABD4));
+    get => new GameTime_tImpl(_Handle + _C4PlantTalkTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _RadioTokenSlotsOffset = new(() => Schema.GetOffset(0x8E7F7B356FB722D0), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField RadioTokenSlots {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x8E7F7B356FB722D0));
+    get => new SchemaUntypedField(_Handle + _RadioTokenSlotsOffset.Value);
   }
+  private static readonly Lazy<nint> _IgnoreRadioOffset = new(() => Schema.GetOffset(0x8E7F7B3562FA7576), LazyThreadSafetyMode.None);
+
   public ref bool IgnoreRadio {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8E7F7B3562FA7576));
+    get => ref _Handle.AsRef<bool>(_IgnoreRadioOffset.Value);
   }
 
 

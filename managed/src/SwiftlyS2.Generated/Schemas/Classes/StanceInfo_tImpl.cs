@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class StanceInfo_tImpl : SchemaClass, StanceInfo_t {
   public StanceInfo_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PositionOffset = new(() => Schema.GetOffset(0x5DBAB98EBD6A6C9E), LazyThreadSafetyMode.None);
+
   public ref Vector Position {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x5DBAB98EBD6A6C9E));
+    get => ref _Handle.AsRef<Vector>(_PositionOffset.Value);
   }
+  private static readonly Lazy<nint> _DirectionOffset = new(() => Schema.GetOffset(0x5DBAB98E28D81988), LazyThreadSafetyMode.None);
+
   public ref float Direction {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5DBAB98E28D81988));
+    get => ref _Handle.AsRef<float>(_DirectionOffset.Value);
   }
 
 

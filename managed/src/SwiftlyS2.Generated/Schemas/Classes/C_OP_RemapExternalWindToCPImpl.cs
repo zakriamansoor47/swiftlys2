@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_RemapExternalWindToCPImpl : CParticleFunctionPreEmis
   public C_OP_RemapExternalWindToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x19366DF9EB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x19366DF9EB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOutputOffset = new(() => Schema.GetOffset(0x19366DF92077C953), LazyThreadSafetyMode.None);
+
   public ref int CPOutput {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x19366DF92077C953));
+    get => ref _Handle.AsRef<int>(_CPOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x19366DF95F596B51), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Scale {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x19366DF95F596B51));
+    get => new CParticleCollectionVecInputImpl(_Handle + _ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMagnitudeOffset = new(() => Schema.GetOffset(0x19366DF9B87FB05F), LazyThreadSafetyMode.None);
+
   public ref bool SetMagnitude {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x19366DF9B87FB05F));
+    get => ref _Handle.AsRef<bool>(_SetMagnitudeOffset.Value);
   }
+  private static readonly Lazy<nint> _OutVectorFieldOffset = new(() => Schema.GetOffset(0x19366DF9F9041E74), LazyThreadSafetyMode.None);
+
   public ref int OutVectorField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x19366DF9F9041E74));
+    get => ref _Handle.AsRef<int>(_OutVectorFieldOffset.Value);
   }
 
 

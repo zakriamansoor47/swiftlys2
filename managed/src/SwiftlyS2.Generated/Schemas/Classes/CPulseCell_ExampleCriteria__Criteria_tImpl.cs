@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPulseCell_ExampleCriteria__Criteria_tImpl : SchemaClass,
   public CPulseCell_ExampleCriteria__Criteria_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FloatValue1Offset = new(() => Schema.GetOffset(0x9C86EC19138B644B), LazyThreadSafetyMode.None);
+
   public ref float FloatValue1 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9C86EC19138B644B));
+    get => ref _Handle.AsRef<float>(_FloatValue1Offset.Value);
   }
+  private static readonly Lazy<nint> _FloatValue2Offset = new(() => Schema.GetOffset(0x9C86EC19148B65DE), LazyThreadSafetyMode.None);
+
   public ref float FloatValue2 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9C86EC19148B65DE));
+    get => ref _Handle.AsRef<float>(_FloatValue2Offset.Value);
   }
+  private static readonly Lazy<nint> _MyBoolOffset = new(() => Schema.GetOffset(0x9C86EC19BAFBA8C7), LazyThreadSafetyMode.None);
+
   public ref bool MyBool {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9C86EC19BAFBA8C7));
+    get => ref _Handle.AsRef<bool>(_MyBoolOffset.Value);
   }
 
 

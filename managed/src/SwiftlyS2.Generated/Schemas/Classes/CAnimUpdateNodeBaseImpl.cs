@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CAnimUpdateNodeBaseImpl : SchemaClass, CAnimUpdateNodeBas
   public CAnimUpdateNodeBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodePathOffset = new(() => Schema.GetOffset(0xA16B836B69EE5E4E), LazyThreadSafetyMode.None);
+
   public CAnimNodePath NodePath {
-    get => new CAnimNodePathImpl(_Handle + Schema.GetOffset(0xA16B836B69EE5E4E));
+    get => new CAnimNodePathImpl(_Handle + _NodePathOffset.Value);
   }
+  private static readonly Lazy<nint> _NetworkModeOffset = new(() => Schema.GetOffset(0xA16B836BE3307112), LazyThreadSafetyMode.None);
+
   public ref AnimNodeNetworkMode NetworkMode {
-    get => ref _Handle.AsRef<AnimNodeNetworkMode>(Schema.GetOffset(0xA16B836BE3307112));
+    get => ref _Handle.AsRef<AnimNodeNetworkMode>(_NetworkModeOffset.Value);
   }
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0xA16B836B4D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA16B836B4D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xA16B836B4D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
 
 

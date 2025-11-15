@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimScriptComponentUpdaterImpl : CAnimComponentUpdaterIm
   public CAnimScriptComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScriptOffset = new(() => Schema.GetOffset(0x2BD2101829D70FB0), LazyThreadSafetyMode.None);
+
   public AnimScriptHandle Script {
-    get => new AnimScriptHandleImpl(_Handle + Schema.GetOffset(0x2BD2101829D70FB0));
+    get => new AnimScriptHandleImpl(_Handle + _ScriptOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_MovementMaintainOffsetImpl : CParticleFunctionOperat
   public C_OP_MovementMaintainOffsetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xD9B3E796BD25CC2A), LazyThreadSafetyMode.None);
+
   public ref Vector Offset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD9B3E796BD25CC2A));
+    get => ref _Handle.AsRef<Vector>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0xD9B3E796EB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD9B3E796EB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0xD9B3E796BBCB728B), LazyThreadSafetyMode.None);
+
   public ref bool RadiusScale {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD9B3E796BBCB728B));
+    get => ref _Handle.AsRef<bool>(_RadiusScaleOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class GameTime_tImpl : SchemaClass, GameTime_t {
   public GameTime_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0x1DBEBD4DDCB0894A), LazyThreadSafetyMode.None);
+
   public ref float Value {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1DBEBD4DDCB0894A));
+    get => ref _Handle.AsRef<float>(_ValueOffset.Value);
   }
 
 

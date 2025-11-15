@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CVoiceContainerEnvelopeAnalyzerImpl : CVoiceContainerAnal
   public CVoiceContainerEnvelopeAnalyzerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModeOffset = new(() => Schema.GetOffset(0xC5D0FF1990FD5BB2), LazyThreadSafetyMode.None);
+
   public ref EMode_t Mode {
-    get => ref _Handle.AsRef<EMode_t>(Schema.GetOffset(0xC5D0FF1990FD5BB2));
+    get => ref _Handle.AsRef<EMode_t>(_ModeOffset.Value);
   }
+  private static readonly Lazy<nint> _AnalysisWindowMsOffset = new(() => Schema.GetOffset(0xC5D0FF198349BF07), LazyThreadSafetyMode.None);
+
   public ref float AnalysisWindowMs {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC5D0FF198349BF07));
+    get => ref _Handle.AsRef<float>(_AnalysisWindowMsOffset.Value);
   }
+  private static readonly Lazy<nint> _ThresholdOffset = new(() => Schema.GetOffset(0xC5D0FF197872FFEA), LazyThreadSafetyMode.None);
+
   public ref float Threshold {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC5D0FF197872FFEA));
+    get => ref _Handle.AsRef<float>(_ThresholdOffset.Value);
   }
 
 

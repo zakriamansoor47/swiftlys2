@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CTransitionUpdateDataImpl : SchemaClass, CTransitionUpdat
   public CTransitionUpdateDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SrcStateIndexOffset = new(() => Schema.GetOffset(0xF3F18D08D2AF559E), LazyThreadSafetyMode.None);
+
   public ref byte SrcStateIndex {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xF3F18D08D2AF559E));
+    get => ref _Handle.AsRef<byte>(_SrcStateIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _DestStateIndexOffset = new(() => Schema.GetOffset(0xF3F18D0876246C8A), LazyThreadSafetyMode.None);
+
   public ref byte DestStateIndex {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xF3F18D0876246C8A));
+    get => ref _Handle.AsRef<byte>(_DestStateIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _HandshakeMaskToDisableFirstOffset = new(() => Schema.GetOffset(0xF3F18D08E58422C5), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField HandshakeMaskToDisableFirst {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xF3F18D08E58422C5));
+    get => new SchemaUntypedField(_Handle + _HandshakeMaskToDisableFirstOffset.Value);
   }
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0xF3F18D083A7C5965), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Disabled {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xF3F18D083A7C5965));
+    get => new SchemaUntypedField(_Handle + _DisabledOffset.Value);
   }
 
 

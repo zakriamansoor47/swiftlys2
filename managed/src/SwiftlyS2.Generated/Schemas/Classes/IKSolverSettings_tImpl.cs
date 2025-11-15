@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class IKSolverSettings_tImpl : SchemaClass, IKSolverSettings_t 
   public IKSolverSettings_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SolverTypeOffset = new(() => Schema.GetOffset(0x368DC59819CA61B6), LazyThreadSafetyMode.None);
+
   public ref IKSolverType SolverType {
-    get => ref _Handle.AsRef<IKSolverType>(Schema.GetOffset(0x368DC59819CA61B6));
+    get => ref _Handle.AsRef<IKSolverType>(_SolverTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _NumIterationsOffset = new(() => Schema.GetOffset(0x368DC59878BB0057), LazyThreadSafetyMode.None);
+
   public ref int NumIterations {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x368DC59878BB0057));
+    get => ref _Handle.AsRef<int>(_NumIterationsOffset.Value);
   }
+  private static readonly Lazy<nint> _EndEffectorRotationFixUpModeOffset = new(() => Schema.GetOffset(0x368DC5980B45E281), LazyThreadSafetyMode.None);
+
   public ref EIKEndEffectorRotationFixUpMode EndEffectorRotationFixUpMode {
-    get => ref _Handle.AsRef<EIKEndEffectorRotationFixUpMode>(Schema.GetOffset(0x368DC5980B45E281));
+    get => ref _Handle.AsRef<EIKEndEffectorRotationFixUpMode>(_EndEffectorRotationFixUpModeOffset.Value);
   }
 
 

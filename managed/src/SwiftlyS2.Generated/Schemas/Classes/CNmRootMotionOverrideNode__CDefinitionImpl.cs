@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CNmRootMotionOverrideNode__CDefinitionImpl : CNmPassthrou
   public CNmRootMotionOverrideNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DesiredMovingVelocityNodeIdxOffset = new(() => Schema.GetOffset(0x63AAD28BA5EFD80B), LazyThreadSafetyMode.None);
+
   public ref short DesiredMovingVelocityNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x63AAD28BA5EFD80B));
+    get => ref _Handle.AsRef<short>(_DesiredMovingVelocityNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _DesiredFacingDirectionNodeIdxOffset = new(() => Schema.GetOffset(0x63AAD28BAC723A63), LazyThreadSafetyMode.None);
+
   public ref short DesiredFacingDirectionNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x63AAD28BAC723A63));
+    get => ref _Handle.AsRef<short>(_DesiredFacingDirectionNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _LinearVelocityLimitNodeIdxOffset = new(() => Schema.GetOffset(0x63AAD28B56A698BD), LazyThreadSafetyMode.None);
+
   public ref short LinearVelocityLimitNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x63AAD28B56A698BD));
+    get => ref _Handle.AsRef<short>(_LinearVelocityLimitNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _AngularVelocityLimitNodeIdxOffset = new(() => Schema.GetOffset(0x63AAD28BCC9208F8), LazyThreadSafetyMode.None);
+
   public ref short AngularVelocityLimitNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x63AAD28BCC9208F8));
+    get => ref _Handle.AsRef<short>(_AngularVelocityLimitNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxLinearVelocityOffset = new(() => Schema.GetOffset(0x63AAD28B70FC93F7), LazyThreadSafetyMode.None);
+
   public ref float MaxLinearVelocity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x63AAD28B70FC93F7));
+    get => ref _Handle.AsRef<float>(_MaxLinearVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxAngularVelocityRadiansOffset = new(() => Schema.GetOffset(0x63AAD28BC15BAB90), LazyThreadSafetyMode.None);
+
   public ref float MaxAngularVelocityRadians {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x63AAD28BC15BAB90));
+    get => ref _Handle.AsRef<float>(_MaxAngularVelocityRadiansOffset.Value);
   }
+  private static readonly Lazy<nint> _OverrideFlagsOffset = new(() => Schema.GetOffset(0x63AAD28BBDB571A4), LazyThreadSafetyMode.None);
+
   public CNmBitFlags OverrideFlags {
-    get => new CNmBitFlagsImpl(_Handle + Schema.GetOffset(0x63AAD28BBDB571A4));
+    get => new CNmBitFlagsImpl(_Handle + _OverrideFlagsOffset.Value);
   }
 
 

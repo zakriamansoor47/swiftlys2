@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CBodyComponentPointImpl : CBodyComponentImpl, CBodyCompon
   public CBodyComponentPointImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SceneNodeOffset = new(() => Schema.GetOffset(0x21A4C11041577E3), LazyThreadSafetyMode.None);
+
   public CGameSceneNode SceneNode {
-    get => new CGameSceneNodeImpl(_Handle + Schema.GetOffset(0x21A4C11041577E3));
+    get => new CGameSceneNodeImpl(_Handle + _SceneNodeOffset.Value);
   }
 
   public void SceneNodeUpdated() {

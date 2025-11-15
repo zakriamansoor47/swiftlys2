@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CCSPlayer_HostageServicesImpl : CPlayerPawnComponentImpl,
   public CCSPlayer_HostageServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CarriedHostageOffset = new(() => Schema.GetOffset(0x1742920F695FDF3C), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> CarriedHostage {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x1742920F695FDF3C));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_CarriedHostageOffset.Value);
   }
+  private static readonly Lazy<nint> _CarriedHostagePropOffset = new(() => Schema.GetOffset(0x1742920F7270EB65), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> CarriedHostageProp {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x1742920F7270EB65));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_CarriedHostagePropOffset.Value);
   }
 
   public void CarriedHostageUpdated() {

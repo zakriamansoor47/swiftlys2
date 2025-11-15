@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,17 +20,25 @@ internal partial class FeSpringIntegrator_tImpl : SchemaClass, FeSpringIntegrato
   public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0xFC6DF38BCD6694B9, 2, 2, 2);
   }
+  private static readonly Lazy<nint> _SpringRestLengthOffset = new(() => Schema.GetOffset(0xFC6DF38B28C609E8), LazyThreadSafetyMode.None);
+
   public ref float SpringRestLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFC6DF38B28C609E8));
+    get => ref _Handle.AsRef<float>(_SpringRestLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _SpringConstantOffset = new(() => Schema.GetOffset(0xFC6DF38B9346E79E), LazyThreadSafetyMode.None);
+
   public ref float SpringConstant {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFC6DF38B9346E79E));
+    get => ref _Handle.AsRef<float>(_SpringConstantOffset.Value);
   }
+  private static readonly Lazy<nint> _SpringDampingOffset = new(() => Schema.GetOffset(0xFC6DF38B20E775D0), LazyThreadSafetyMode.None);
+
   public ref float SpringDamping {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFC6DF38B20E775D0));
+    get => ref _Handle.AsRef<float>(_SpringDampingOffset.Value);
   }
+  private static readonly Lazy<nint> _NodeWeight0Offset = new(() => Schema.GetOffset(0xFC6DF38B6E62FEA1), LazyThreadSafetyMode.None);
+
   public ref float NodeWeight0 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFC6DF38B6E62FEA1));
+    get => ref _Handle.AsRef<float>(_NodeWeight0Offset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,35 +17,55 @@ internal partial class CCSWeaponBaseGunImpl : CCSWeaponBaseImpl, CCSWeaponBaseGu
   public CCSWeaponBaseGunImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ZoomLevelOffset = new(() => Schema.GetOffset(0xBC30B081444E63A0), LazyThreadSafetyMode.None);
+
   public ref int ZoomLevel {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBC30B081444E63A0));
+    get => ref _Handle.AsRef<int>(_ZoomLevelOffset.Value);
   }
+  private static readonly Lazy<nint> _BurstShotsRemainingOffset = new(() => Schema.GetOffset(0xBC30B081F53841A5), LazyThreadSafetyMode.None);
+
   public ref int BurstShotsRemaining {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBC30B081F53841A5));
+    get => ref _Handle.AsRef<int>(_BurstShotsRemainingOffset.Value);
   }
+  private static readonly Lazy<nint> _SilencedModelIndexOffset = new(() => Schema.GetOffset(0xBC30B08178E5CAAB), LazyThreadSafetyMode.None);
+
   public ref int SilencedModelIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBC30B08178E5CAAB));
+    get => ref _Handle.AsRef<int>(_SilencedModelIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _InPrecacheOffset = new(() => Schema.GetOffset(0xBC30B081495003CB), LazyThreadSafetyMode.None);
+
   public ref bool InPrecache {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBC30B081495003CB));
+    get => ref _Handle.AsRef<bool>(_InPrecacheOffset.Value);
   }
+  private static readonly Lazy<nint> _NeedsBoltActionOffset = new(() => Schema.GetOffset(0xBC30B0813632E797), LazyThreadSafetyMode.None);
+
   public ref bool NeedsBoltAction {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBC30B0813632E797));
+    get => ref _Handle.AsRef<bool>(_NeedsBoltActionOffset.Value);
   }
+  private static readonly Lazy<nint> _RevolverCylinderIdxOffset = new(() => Schema.GetOffset(0xBC30B08119D0E90B), LazyThreadSafetyMode.None);
+
   public ref int RevolverCylinderIdx {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBC30B08119D0E90B));
+    get => ref _Handle.AsRef<int>(_RevolverCylinderIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _SkillReloadAvailableOffset = new(() => Schema.GetOffset(0xBC30B081C7961BE2), LazyThreadSafetyMode.None);
+
   public ref bool SkillReloadAvailable {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBC30B081C7961BE2));
+    get => ref _Handle.AsRef<bool>(_SkillReloadAvailableOffset.Value);
   }
+  private static readonly Lazy<nint> _SkillReloadLiftedReloadKeyOffset = new(() => Schema.GetOffset(0xBC30B0819C3A15B5), LazyThreadSafetyMode.None);
+
   public ref bool SkillReloadLiftedReloadKey {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBC30B0819C3A15B5));
+    get => ref _Handle.AsRef<bool>(_SkillReloadLiftedReloadKeyOffset.Value);
   }
+  private static readonly Lazy<nint> _SkillBoltInterruptAvailableOffset = new(() => Schema.GetOffset(0xBC30B0816FE62EEF), LazyThreadSafetyMode.None);
+
   public ref bool SkillBoltInterruptAvailable {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBC30B0816FE62EEF));
+    get => ref _Handle.AsRef<bool>(_SkillBoltInterruptAvailableOffset.Value);
   }
+  private static readonly Lazy<nint> _SkillBoltLiftedFireKeyOffset = new(() => Schema.GetOffset(0xBC30B081AB7AEB7C), LazyThreadSafetyMode.None);
+
   public ref bool SkillBoltLiftedFireKey {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBC30B081AB7AEB7C));
+    get => ref _Handle.AsRef<bool>(_SkillBoltLiftedFireKeyOffset.Value);
   }
 
   public void ZoomLevelUpdated() {

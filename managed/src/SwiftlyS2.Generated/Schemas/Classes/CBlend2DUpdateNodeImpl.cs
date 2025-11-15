@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,50 +17,80 @@ internal partial class CBlend2DUpdateNodeImpl : CAnimUpdateNodeBaseImpl, CBlend2
   public CBlend2DUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ItemsOffset = new(() => Schema.GetOffset(0xEA40B5A7A87EDAF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<BlendItem_t> Items {
-    get => ref _Handle.AsRef<CUtlVector<BlendItem_t>>(Schema.GetOffset(0xEA40B5A7A87EDAF));
+    get => ref _Handle.AsRef<CUtlVector<BlendItem_t>>(_ItemsOffset.Value);
   }
+  private static readonly Lazy<nint> _TagsOffset = new(() => Schema.GetOffset(0xEA40B5AB46C8540), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<TagSpan_t> Tags {
-    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(Schema.GetOffset(0xEA40B5AB46C8540));
+    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(_TagsOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamSpansOffset = new(() => Schema.GetOffset(0xEA40B5ADAC91553), LazyThreadSafetyMode.None);
+
   public CParamSpanUpdater ParamSpans {
-    get => new CParamSpanUpdaterImpl(_Handle + Schema.GetOffset(0xEA40B5ADAC91553));
+    get => new CParamSpanUpdaterImpl(_Handle + _ParamSpansOffset.Value);
   }
+  private static readonly Lazy<nint> _NodeItemIndicesOffset = new(() => Schema.GetOffset(0xEA40B5AE050EB13), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> NodeItemIndices {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0xEA40B5AE050EB13));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_NodeItemIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _DampingOffset = new(() => Schema.GetOffset(0xEA40B5A15440FB5), LazyThreadSafetyMode.None);
+
   public CAnimInputDamping Damping {
-    get => new CAnimInputDampingImpl(_Handle + Schema.GetOffset(0xEA40B5A15440FB5));
+    get => new CAnimInputDampingImpl(_Handle + _DampingOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendSourceXOffset = new(() => Schema.GetOffset(0xEA40B5A6AABD08F), LazyThreadSafetyMode.None);
+
   public ref AnimValueSource BlendSourceX {
-    get => ref _Handle.AsRef<AnimValueSource>(Schema.GetOffset(0xEA40B5A6AABD08F));
+    get => ref _Handle.AsRef<AnimValueSource>(_BlendSourceXOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamXOffset = new(() => Schema.GetOffset(0xEA40B5A4D0E84BE), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParamX {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xEA40B5A4D0E84BE));
+    get => new CAnimParamHandleImpl(_Handle + _ParamXOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendSourceYOffset = new(() => Schema.GetOffset(0xEA40B5A69ABCEFC), LazyThreadSafetyMode.None);
+
   public ref AnimValueSource BlendSourceY {
-    get => ref _Handle.AsRef<AnimValueSource>(Schema.GetOffset(0xEA40B5A69ABCEFC));
+    get => ref _Handle.AsRef<AnimValueSource>(_BlendSourceYOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamYOffset = new(() => Schema.GetOffset(0xEA40B5A4E0E8651), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParamY {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xEA40B5A4E0E8651));
+    get => new CAnimParamHandleImpl(_Handle + _ParamYOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendModeOffset = new(() => Schema.GetOffset(0xEA40B5ADBED6224), LazyThreadSafetyMode.None);
+
   public ref Blend2DMode BlendMode {
-    get => ref _Handle.AsRef<Blend2DMode>(Schema.GetOffset(0xEA40B5ADBED6224));
+    get => ref _Handle.AsRef<Blend2DMode>(_BlendModeOffset.Value);
   }
+  private static readonly Lazy<nint> _PlaybackSpeedOffset = new(() => Schema.GetOffset(0xEA40B5A1AFA7387), LazyThreadSafetyMode.None);
+
   public ref float PlaybackSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEA40B5A1AFA7387));
+    get => ref _Handle.AsRef<float>(_PlaybackSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _LoopOffset = new(() => Schema.GetOffset(0xEA40B5AC668A4CB), LazyThreadSafetyMode.None);
+
   public ref bool Loop {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEA40B5AC668A4CB));
+    get => ref _Handle.AsRef<bool>(_LoopOffset.Value);
   }
+  private static readonly Lazy<nint> _LockBlendOnResetOffset = new(() => Schema.GetOffset(0xEA40B5A76334223), LazyThreadSafetyMode.None);
+
   public ref bool LockBlendOnReset {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEA40B5A76334223));
+    get => ref _Handle.AsRef<bool>(_LockBlendOnResetOffset.Value);
   }
+  private static readonly Lazy<nint> _LockWhenWaningOffset = new(() => Schema.GetOffset(0xEA40B5AEED48004), LazyThreadSafetyMode.None);
+
   public ref bool LockWhenWaning {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEA40B5AEED48004));
+    get => ref _Handle.AsRef<bool>(_LockWhenWaningOffset.Value);
   }
+  private static readonly Lazy<nint> _AnimEventsAndTagsOnMostWeightedOnlyOffset = new(() => Schema.GetOffset(0xEA40B5AB97E1262), LazyThreadSafetyMode.None);
+
   public ref bool AnimEventsAndTagsOnMostWeightedOnly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEA40B5AB97E1262));
+    get => ref _Handle.AsRef<bool>(_AnimEventsAndTagsOnMostWeightedOnlyOffset.Value);
   }
 
 

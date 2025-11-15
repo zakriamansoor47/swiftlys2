@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CVectorQuantizerImpl : SchemaClass, CVectorQuantizer {
   public CVectorQuantizerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CentroidVectorsOffset = new(() => Schema.GetOffset(0x9E79F13089538103), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> CentroidVectors {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x9E79F13089538103));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_CentroidVectorsOffset.Value);
   }
+  private static readonly Lazy<nint> _CentroidsOffset = new(() => Schema.GetOffset(0x9E79F13064667B2E), LazyThreadSafetyMode.None);
+
   public ref int Centroids {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9E79F13064667B2E));
+    get => ref _Handle.AsRef<int>(_CentroidsOffset.Value);
   }
+  private static readonly Lazy<nint> _DimensionsOffset = new(() => Schema.GetOffset(0x9E79F1302D8795AC), LazyThreadSafetyMode.None);
+
   public ref int Dimensions {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9E79F1302D8795AC));
+    get => ref _Handle.AsRef<int>(_DimensionsOffset.Value);
   }
 
 

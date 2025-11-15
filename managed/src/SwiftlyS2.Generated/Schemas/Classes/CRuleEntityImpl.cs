@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CRuleEntityImpl : CBaseModelEntityImpl, CRuleEntity {
   public CRuleEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MasterOffset = new(() => Schema.GetOffset(0x5C9BFE2FAC57FE5B), LazyThreadSafetyMode.None);
+
   public string Master {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x5C9BFE2FAC57FE5B));
+      var ptr = _Handle.Read<nint>(_MasterOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x5C9BFE2FAC57FE5B, value);
+    set => Schema.SetString(_Handle, _MasterOffset.Value, value);
   } 
 
 

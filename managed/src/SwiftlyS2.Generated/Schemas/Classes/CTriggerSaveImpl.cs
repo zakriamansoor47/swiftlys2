@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CTriggerSaveImpl : CBaseTriggerImpl, CTriggerSave {
   public CTriggerSaveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceNewLevelUnitOffset = new(() => Schema.GetOffset(0xFA0C03F1473BFDE), LazyThreadSafetyMode.None);
+
   public ref bool ForceNewLevelUnit {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFA0C03F1473BFDE));
+    get => ref _Handle.AsRef<bool>(_ForceNewLevelUnitOffset.Value);
   }
+  private static readonly Lazy<nint> _DangerousTimerOffset = new(() => Schema.GetOffset(0xFA0C03F5CF80EC4), LazyThreadSafetyMode.None);
+
   public ref float DangerousTimer {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFA0C03F5CF80EC4));
+    get => ref _Handle.AsRef<float>(_DangerousTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _MinHitPointsOffset = new(() => Schema.GetOffset(0xFA0C03F2C7E0C57), LazyThreadSafetyMode.None);
+
   public ref int MinHitPoints {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xFA0C03F2C7E0C57));
+    get => ref _Handle.AsRef<int>(_MinHitPointsOffset.Value);
   }
 
 

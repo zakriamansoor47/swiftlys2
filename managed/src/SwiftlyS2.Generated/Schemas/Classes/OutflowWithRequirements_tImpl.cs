@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class OutflowWithRequirements_tImpl : SchemaClass, OutflowWithR
   public OutflowWithRequirements_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConnectionOffset = new(() => Schema.GetOffset(0x5BFC4DD4D4CD5F59), LazyThreadSafetyMode.None);
+
   public CPulse_OutflowConnection Connection {
-    get => new CPulse_OutflowConnectionImpl(_Handle + Schema.GetOffset(0x5BFC4DD4D4CD5F59));
+    get => new CPulse_OutflowConnectionImpl(_Handle + _ConnectionOffset.Value);
   }
+  private static readonly Lazy<nint> _DestinationFlowNodeIDOffset = new(() => Schema.GetOffset(0x5BFC4DD4C986A186), LazyThreadSafetyMode.None);
+
   public PulseDocNodeID_t DestinationFlowNodeID {
-    get => new PulseDocNodeID_tImpl(_Handle + Schema.GetOffset(0x5BFC4DD4C986A186));
+    get => new PulseDocNodeID_tImpl(_Handle + _DestinationFlowNodeIDOffset.Value);
   }
+  private static readonly Lazy<nint> _RequirementNodeIDsOffset = new(() => Schema.GetOffset(0x5BFC4DD47DAC9EFE), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PulseDocNodeID_t> RequirementNodeIDs {
-    get => ref _Handle.AsRef<CUtlVector<PulseDocNodeID_t>>(Schema.GetOffset(0x5BFC4DD47DAC9EFE));
+    get => ref _Handle.AsRef<CUtlVector<PulseDocNodeID_t>>(_RequirementNodeIDsOffset.Value);
   }
+  private static readonly Lazy<nint> _CursorStateBlockIndexOffset = new(() => Schema.GetOffset(0x5BFC4DD46CECC07B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> CursorStateBlockIndex {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0x5BFC4DD46CECC07B));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_CursorStateBlockIndexOffset.Value);
   }
 
 

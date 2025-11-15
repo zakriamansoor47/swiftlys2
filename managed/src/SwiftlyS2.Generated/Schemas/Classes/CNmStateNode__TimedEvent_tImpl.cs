@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmStateNode__TimedEvent_tImpl : SchemaClass, CNmStateNod
   public CNmStateNode__TimedEvent_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IDOffset = new(() => Schema.GetOffset(0x256373A95066900), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol ID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x256373A95066900));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_IDOffset.Value);
   }
+  private static readonly Lazy<nint> _TimeValueSecondsOffset = new(() => Schema.GetOffset(0x256373A3B175F1C), LazyThreadSafetyMode.None);
+
   public ref float TimeValueSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x256373A3B175F1C));
+    get => ref _Handle.AsRef<float>(_TimeValueSecondsOffset.Value);
   }
+  private static readonly Lazy<nint> _ComparisionOperatorOffset = new(() => Schema.GetOffset(0x256373A5C6D84A1), LazyThreadSafetyMode.None);
+
   public ref CNmStateNode__TimedEvent_t__Comparison_t ComparisionOperator {
-    get => ref _Handle.AsRef<CNmStateNode__TimedEvent_t__Comparison_t>(Schema.GetOffset(0x256373A5C6D84A1));
+    get => ref _Handle.AsRef<CNmStateNode__TimedEvent_t__Comparison_t>(_ComparisionOperatorOffset.Value);
   }
 
 

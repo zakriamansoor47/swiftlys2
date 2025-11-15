@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_InterpolateRadiusImpl : CParticleFunctionOperatorImp
   public C_OP_InterpolateRadiusImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0x1912EFA667FE9DC4), LazyThreadSafetyMode.None);
+
   public ref float StartTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1912EFA667FE9DC4));
+    get => ref _Handle.AsRef<float>(_StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndTimeOffset = new(() => Schema.GetOffset(0x1912EFA62041DF9D), LazyThreadSafetyMode.None);
+
   public ref float EndTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1912EFA62041DF9D));
+    get => ref _Handle.AsRef<float>(_EndTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _StartScaleOffset = new(() => Schema.GetOffset(0x1912EFA6634567D1), LazyThreadSafetyMode.None);
+
   public ref float StartScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1912EFA6634567D1));
+    get => ref _Handle.AsRef<float>(_StartScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _EndScaleOffset = new(() => Schema.GetOffset(0x1912EFA67F017DB6), LazyThreadSafetyMode.None);
+
   public ref float EndScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1912EFA67F017DB6));
+    get => ref _Handle.AsRef<float>(_EndScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _EaseInAndOutOffset = new(() => Schema.GetOffset(0x1912EFA6D14612BF), LazyThreadSafetyMode.None);
+
   public ref bool EaseInAndOut {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1912EFA6D14612BF));
+    get => ref _Handle.AsRef<bool>(_EaseInAndOutOffset.Value);
   }
+  private static readonly Lazy<nint> _BiasOffset = new(() => Schema.GetOffset(0x1912EFA6E7EF43B6), LazyThreadSafetyMode.None);
+
   public ref float Bias {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1912EFA6E7EF43B6));
+    get => ref _Handle.AsRef<float>(_BiasOffset.Value);
   }
 
 

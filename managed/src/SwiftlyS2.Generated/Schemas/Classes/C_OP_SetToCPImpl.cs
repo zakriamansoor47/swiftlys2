@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_SetToCPImpl : CParticleFunctionOperatorImpl, C_OP_Se
   public C_OP_SetToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0xF80ACA353F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xF80ACA353F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xF80ACA35BD25CC2A), LazyThreadSafetyMode.None);
+
   public ref Vector Offset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xF80ACA35BD25CC2A));
+    get => ref _Handle.AsRef<Vector>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetLocalOffset = new(() => Schema.GetOffset(0xF80ACA35F07D31C1), LazyThreadSafetyMode.None);
+
   public ref bool OffsetLocal {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF80ACA35F07D31C1));
+    get => ref _Handle.AsRef<bool>(_OffsetLocalOffset.Value);
   }
 
 

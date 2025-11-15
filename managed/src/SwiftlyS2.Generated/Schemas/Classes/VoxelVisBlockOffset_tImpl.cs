@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class VoxelVisBlockOffset_tImpl : SchemaClass, VoxelVisBlockOff
   public VoxelVisBlockOffset_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0x17D2B49827734C8E), LazyThreadSafetyMode.None);
+
   public ref uint Offset {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x17D2B49827734C8E));
+    get => ref _Handle.AsRef<uint>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _ElementCountOffset = new(() => Schema.GetOffset(0x17D2B49851A2EF12), LazyThreadSafetyMode.None);
+
   public ref uint ElementCount {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x17D2B49851A2EF12));
+    get => ref _Handle.AsRef<uint>(_ElementCountOffset.Value);
   }
 
 

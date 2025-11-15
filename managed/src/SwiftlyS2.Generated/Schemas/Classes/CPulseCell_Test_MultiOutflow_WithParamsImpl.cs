@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_Test_MultiOutflow_WithParamsImpl : CPulseCell_
   public CPulseCell_Test_MultiOutflow_WithParamsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _Out1Offset = new(() => Schema.GetOffset(0x99BFB89905F293AA), LazyThreadSafetyMode.None);
+
   public SignatureOutflow_Continue Out1 {
-    get => new SignatureOutflow_ContinueImpl(_Handle + Schema.GetOffset(0x99BFB89905F293AA));
+    get => new SignatureOutflow_ContinueImpl(_Handle + _Out1Offset.Value);
   }
+  private static readonly Lazy<nint> _Out2Offset = new(() => Schema.GetOffset(0x99BFB89904F29217), LazyThreadSafetyMode.None);
+
   public SignatureOutflow_Continue Out2 {
-    get => new SignatureOutflow_ContinueImpl(_Handle + Schema.GetOffset(0x99BFB89904F29217));
+    get => new SignatureOutflow_ContinueImpl(_Handle + _Out2Offset.Value);
   }
 
 

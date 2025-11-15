@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CSkyboxReferenceImpl : CBaseEntityImpl, CSkyboxReference 
   public CSkyboxReferenceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WorldGroupIdOffset = new(() => Schema.GetOffset(0x98809790BECFAC7), LazyThreadSafetyMode.None);
+
   public ref uint WorldGroupId {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x98809790BECFAC7));
+    get => ref _Handle.AsRef<uint>(_WorldGroupIdOffset.Value);
   }
+  private static readonly Lazy<nint> _SkyCameraOffset = new(() => Schema.GetOffset(0x988097906BB5B33), LazyThreadSafetyMode.None);
+
   public ref CHandle<CSkyCamera> SkyCamera {
-    get => ref _Handle.AsRef<CHandle<CSkyCamera>>(Schema.GetOffset(0x988097906BB5B33));
+    get => ref _Handle.AsRef<CHandle<CSkyCamera>>(_SkyCameraOffset.Value);
   }
 
 

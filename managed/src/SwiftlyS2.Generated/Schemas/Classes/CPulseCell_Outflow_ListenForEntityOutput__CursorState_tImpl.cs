@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Outflow_ListenForEntityOutput__CursorState_tIm
   public CPulseCell_Outflow_ListenForEntityOutput__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EntityOffset = new(() => Schema.GetOffset(0xC31517AD2F3BEB7A), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Entity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xC31517AD2F3BEB7A));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_EntityOffset.Value);
   }
 
 

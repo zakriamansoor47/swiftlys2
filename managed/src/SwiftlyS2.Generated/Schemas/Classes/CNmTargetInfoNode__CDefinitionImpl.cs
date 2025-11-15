@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmTargetInfoNode__CDefinitionImpl : CNmFloatValueNode__C
   public CNmTargetInfoNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0x2288EABA95E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x2288EABA95E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _InfoTypeOffset = new(() => Schema.GetOffset(0x2288EABACE6BA20D), LazyThreadSafetyMode.None);
+
   public ref CNmTargetInfoNode__Info_t InfoType {
-    get => ref _Handle.AsRef<CNmTargetInfoNode__Info_t>(Schema.GetOffset(0x2288EABACE6BA20D));
+    get => ref _Handle.AsRef<CNmTargetInfoNode__Info_t>(_InfoTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _IsWorldSpaceTargetOffset = new(() => Schema.GetOffset(0x2288EABAB81D53F2), LazyThreadSafetyMode.None);
+
   public ref bool IsWorldSpaceTarget {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x2288EABAB81D53F2));
+    get => ref _Handle.AsRef<bool>(_IsWorldSpaceTargetOffset.Value);
   }
 
 

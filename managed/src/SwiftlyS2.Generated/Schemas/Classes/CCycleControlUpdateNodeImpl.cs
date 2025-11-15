@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CCycleControlUpdateNodeImpl : CUnaryUpdateNodeImpl, CCycl
   public CCycleControlUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueSourceOffset = new(() => Schema.GetOffset(0xB811C15CD4D5B6B7), LazyThreadSafetyMode.None);
+
   public ref AnimValueSource ValueSource {
-    get => ref _Handle.AsRef<AnimValueSource>(Schema.GetOffset(0xB811C15CD4D5B6B7));
+    get => ref _Handle.AsRef<AnimValueSource>(_ValueSourceOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamIndexOffset = new(() => Schema.GetOffset(0xB811C15C61990A86), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParamIndex {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xB811C15C61990A86));
+    get => new CAnimParamHandleImpl(_Handle + _ParamIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _LockWhenWaningOffset = new(() => Schema.GetOffset(0xB811C15CEED48004), LazyThreadSafetyMode.None);
+
   public ref bool LockWhenWaning {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB811C15CEED48004));
+    get => ref _Handle.AsRef<bool>(_LockWhenWaningOffset.Value);
   }
 
 

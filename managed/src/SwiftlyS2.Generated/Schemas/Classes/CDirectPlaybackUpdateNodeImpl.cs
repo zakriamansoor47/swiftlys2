@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CDirectPlaybackUpdateNodeImpl : CUnaryUpdateNodeImpl, CDi
   public CDirectPlaybackUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FinishEarlyOffset = new(() => Schema.GetOffset(0x4E1CBFEFC2E75991), LazyThreadSafetyMode.None);
+
   public ref bool FinishEarly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4E1CBFEFC2E75991));
+    get => ref _Handle.AsRef<bool>(_FinishEarlyOffset.Value);
   }
+  private static readonly Lazy<nint> _ResetOnFinishOffset = new(() => Schema.GetOffset(0x4E1CBFEFD5293C96), LazyThreadSafetyMode.None);
+
   public ref bool ResetOnFinish {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4E1CBFEFD5293C96));
+    get => ref _Handle.AsRef<bool>(_ResetOnFinishOffset.Value);
   }
+  private static readonly Lazy<nint> _AllTagsOffset = new(() => Schema.GetOffset(0x4E1CBFEF7A57C5AD), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CDirectPlaybackTagData> AllTags {
-    get => ref _Handle.AsRef<CUtlVector<CDirectPlaybackTagData>>(Schema.GetOffset(0x4E1CBFEF7A57C5AD));
+    get => ref _Handle.AsRef<CUtlVector<CDirectPlaybackTagData>>(_AllTagsOffset.Value);
   }
 
 

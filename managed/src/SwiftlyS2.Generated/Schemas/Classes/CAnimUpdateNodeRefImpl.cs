@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimUpdateNodeRefImpl : SchemaClass, CAnimUpdateNodeRef 
   public CAnimUpdateNodeRefImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodeIndexOffset = new(() => Schema.GetOffset(0x71F7CF87E37313D3), LazyThreadSafetyMode.None);
+
   public ref int NodeIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x71F7CF87E37313D3));
+    get => ref _Handle.AsRef<int>(_NodeIndexOffset.Value);
   }
 
 

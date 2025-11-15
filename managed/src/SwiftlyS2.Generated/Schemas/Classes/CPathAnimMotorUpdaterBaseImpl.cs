@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPathAnimMotorUpdaterBaseImpl : CAnimMotorUpdaterBaseImpl
   public CPathAnimMotorUpdaterBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LockToPathOffset = new(() => Schema.GetOffset(0x165EE5771F2F0960), LazyThreadSafetyMode.None);
+
   public ref bool LockToPath {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x165EE5771F2F0960));
+    get => ref _Handle.AsRef<bool>(_LockToPathOffset.Value);
   }
 
 

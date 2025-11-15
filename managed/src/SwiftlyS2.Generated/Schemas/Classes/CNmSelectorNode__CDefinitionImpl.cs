@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmSelectorNode__CDefinitionImpl : CNmPoseNode__CDefiniti
   public CNmSelectorNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OptionNodeIndicesOffset = new(() => Schema.GetOffset(0x4E964386DA97B15D), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField OptionNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x4E964386DA97B15D));
+    get => new SchemaUntypedField(_Handle + _OptionNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _ConditionNodeIndicesOffset = new(() => Schema.GetOffset(0x4E9643864A144D0F), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ConditionNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x4E9643864A144D0F));
+    get => new SchemaUntypedField(_Handle + _ConditionNodeIndicesOffset.Value);
   }
 
 

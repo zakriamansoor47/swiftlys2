@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CFloatAnimParameterImpl : CConcreteAnimParameterImpl, CFl
   public CFloatAnimParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0x6CE7934089D370B3), LazyThreadSafetyMode.None);
+
   public ref float DefaultValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6CE7934089D370B3));
+    get => ref _Handle.AsRef<float>(_DefaultValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MinValueOffset = new(() => Schema.GetOffset(0x6CE79340AD86BD50), LazyThreadSafetyMode.None);
+
   public ref float MinValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6CE79340AD86BD50));
+    get => ref _Handle.AsRef<float>(_MinValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxValueOffset = new(() => Schema.GetOffset(0x6CE79340DB7358B2), LazyThreadSafetyMode.None);
+
   public ref float MaxValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6CE79340DB7358B2));
+    get => ref _Handle.AsRef<float>(_MaxValueOffset.Value);
   }
+  private static readonly Lazy<nint> _InterpolateOffset = new(() => Schema.GetOffset(0x6CE79340F6607650), LazyThreadSafetyMode.None);
+
   public ref bool Interpolate {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6CE79340F6607650));
+    get => ref _Handle.AsRef<bool>(_InterpolateOffset.Value);
   }
 
 

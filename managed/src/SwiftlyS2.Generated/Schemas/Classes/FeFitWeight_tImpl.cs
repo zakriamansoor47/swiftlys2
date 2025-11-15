@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class FeFitWeight_tImpl : SchemaClass, FeFitWeight_t {
   public FeFitWeight_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WeightOffset = new(() => Schema.GetOffset(0x292AB604CFFC66CB), LazyThreadSafetyMode.None);
+
   public ref float Weight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x292AB604CFFC66CB));
+    get => ref _Handle.AsRef<float>(_WeightOffset.Value);
   }
+  private static readonly Lazy<nint> _NodeOffset = new(() => Schema.GetOffset(0x292AB604CD6694B9), LazyThreadSafetyMode.None);
+
   public ref ushort Node {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x292AB604CD6694B9));
+    get => ref _Handle.AsRef<ushort>(_NodeOffset.Value);
   }
+  private static readonly Lazy<nint> _DummyOffset = new(() => Schema.GetOffset(0x292AB604CD8BAE5F), LazyThreadSafetyMode.None);
+
   public ref ushort Dummy {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x292AB604CD8BAE5F));
+    get => ref _Handle.AsRef<ushort>(_DummyOffset.Value);
   }
 
 

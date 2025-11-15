@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CSeqIKLockImpl : SchemaClass, CSeqIKLock {
   public CSeqIKLockImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PosWeightOffset = new(() => Schema.GetOffset(0x9813F59E9CC6C04B), LazyThreadSafetyMode.None);
+
   public ref float PosWeight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9813F59E9CC6C04B));
+    get => ref _Handle.AsRef<float>(_PosWeightOffset.Value);
   }
+  private static readonly Lazy<nint> _AngleWeightOffset = new(() => Schema.GetOffset(0x9813F59E51DFB6EE), LazyThreadSafetyMode.None);
+
   public ref float AngleWeight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9813F59E51DFB6EE));
+    get => ref _Handle.AsRef<float>(_AngleWeightOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalBoneOffset = new(() => Schema.GetOffset(0x9813F59EC2F7B8CA), LazyThreadSafetyMode.None);
+
   public ref short LocalBone {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x9813F59EC2F7B8CA));
+    get => ref _Handle.AsRef<short>(_LocalBoneOffset.Value);
   }
+  private static readonly Lazy<nint> _BonesOrientedAlongPositiveXOffset = new(() => Schema.GetOffset(0x9813F59ED3FDAB3A), LazyThreadSafetyMode.None);
+
   public ref bool BonesOrientedAlongPositiveX {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9813F59ED3FDAB3A));
+    get => ref _Handle.AsRef<bool>(_BonesOrientedAlongPositiveXOffset.Value);
   }
 
 

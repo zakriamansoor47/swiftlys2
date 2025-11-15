@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CEconWearableImpl : CEconEntityImpl, CEconWearable {
   public CEconWearableImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceSkinOffset = new(() => Schema.GetOffset(0x491C03F4E5817B39), LazyThreadSafetyMode.None);
+
   public ref int ForceSkin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x491C03F4E5817B39));
+    get => ref _Handle.AsRef<int>(_ForceSkinOffset.Value);
   }
+  private static readonly Lazy<nint> _AlwaysAllowOffset = new(() => Schema.GetOffset(0x491C03F4AD06B805), LazyThreadSafetyMode.None);
+
   public ref bool AlwaysAllow {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x491C03F4AD06B805));
+    get => ref _Handle.AsRef<bool>(_AlwaysAllowOffset.Value);
   }
 
 

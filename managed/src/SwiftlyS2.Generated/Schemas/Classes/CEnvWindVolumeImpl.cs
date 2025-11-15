@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,32 +17,50 @@ internal partial class CEnvWindVolumeImpl : CBaseEntityImpl, CEnvWindVolume {
   public CEnvWindVolumeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ActiveOffset = new(() => Schema.GetOffset(0xCD7AC5418334208F), LazyThreadSafetyMode.None);
+
   public ref bool Active {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCD7AC5418334208F));
+    get => ref _Handle.AsRef<bool>(_ActiveOffset.Value);
   }
+  private static readonly Lazy<nint> _BoxMinsOffset = new(() => Schema.GetOffset(0xCD7AC541D8201373), LazyThreadSafetyMode.None);
+
   public ref Vector BoxMins {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xCD7AC541D8201373));
+    get => ref _Handle.AsRef<Vector>(_BoxMinsOffset.Value);
   }
+  private static readonly Lazy<nint> _BoxMaxsOffset = new(() => Schema.GetOffset(0xCD7AC541817A3B31), LazyThreadSafetyMode.None);
+
   public ref Vector BoxMaxs {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xCD7AC541817A3B31));
+    get => ref _Handle.AsRef<Vector>(_BoxMaxsOffset.Value);
   }
+  private static readonly Lazy<nint> _StartDisabledOffset = new(() => Schema.GetOffset(0xCD7AC54161ED0C4F), LazyThreadSafetyMode.None);
+
   public ref bool StartDisabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCD7AC54161ED0C4F));
+    get => ref _Handle.AsRef<bool>(_StartDisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _ShapeOffset = new(() => Schema.GetOffset(0xCD7AC54121208A02), LazyThreadSafetyMode.None);
+
   public ref int Shape {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xCD7AC54121208A02));
+    get => ref _Handle.AsRef<int>(_ShapeOffset.Value);
   }
+  private static readonly Lazy<nint> _WindSpeedMultiplierOffset = new(() => Schema.GetOffset(0xCD7AC541A22A3F81), LazyThreadSafetyMode.None);
+
   public ref float WindSpeedMultiplier {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCD7AC541A22A3F81));
+    get => ref _Handle.AsRef<float>(_WindSpeedMultiplierOffset.Value);
   }
+  private static readonly Lazy<nint> _WindTurbulenceMultiplierOffset = new(() => Schema.GetOffset(0xCD7AC54120DA30CD), LazyThreadSafetyMode.None);
+
   public ref float WindTurbulenceMultiplier {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCD7AC54120DA30CD));
+    get => ref _Handle.AsRef<float>(_WindTurbulenceMultiplierOffset.Value);
   }
+  private static readonly Lazy<nint> _WindSpeedVariationMultiplierOffset = new(() => Schema.GetOffset(0xCD7AC5416B9AC20C), LazyThreadSafetyMode.None);
+
   public ref float WindSpeedVariationMultiplier {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCD7AC5416B9AC20C));
+    get => ref _Handle.AsRef<float>(_WindSpeedVariationMultiplierOffset.Value);
   }
+  private static readonly Lazy<nint> _WindDirectionVariationMultiplierOffset = new(() => Schema.GetOffset(0xCD7AC5417F3AB3AA), LazyThreadSafetyMode.None);
+
   public ref float WindDirectionVariationMultiplier {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCD7AC5417F3AB3AA));
+    get => ref _Handle.AsRef<float>(_WindDirectionVariationMultiplierOffset.Value);
   }
 
   public void ActiveUpdated() {

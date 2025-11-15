@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CRagdollAnimTagImpl : CAnimTagBaseImpl, CRagdollAnimTag {
   public CRagdollAnimTagImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ProfileNameOffset = new(() => Schema.GetOffset(0xC5917190285D878D), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol ProfileName {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xC5917190285D878D));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_ProfileNameOffset.Value);
   }
 
 

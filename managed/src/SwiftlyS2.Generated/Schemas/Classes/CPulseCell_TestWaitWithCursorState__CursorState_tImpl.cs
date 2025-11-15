@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_TestWaitWithCursorState__CursorState_tImpl : S
   public CPulseCell_TestWaitWithCursorState__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WaitValueOffset = new(() => Schema.GetOffset(0x9C2318A48BB02277), LazyThreadSafetyMode.None);
+
   public ref float WaitValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9C2318A48BB02277));
+    get => ref _Handle.AsRef<float>(_WaitValueOffset.Value);
   }
+  private static readonly Lazy<nint> _FailOnCancelOffset = new(() => Schema.GetOffset(0x9C2318A4BEE5ED52), LazyThreadSafetyMode.None);
+
   public ref bool FailOnCancel {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9C2318A4BEE5ED52));
+    get => ref _Handle.AsRef<bool>(_FailOnCancelOffset.Value);
   }
 
 

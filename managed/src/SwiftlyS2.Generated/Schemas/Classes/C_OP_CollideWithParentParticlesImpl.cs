@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_CollideWithParentParticlesImpl : CParticleFunctionCo
   public C_OP_CollideWithParentParticlesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParentRadiusScaleOffset = new(() => Schema.GetOffset(0x73030DD0CD77EF69), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput ParentRadiusScale {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x73030DD0CD77EF69));
+    get => new CPerParticleFloatInputImpl(_Handle + _ParentRadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0x73030DD0A7A20159), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput RadiusScale {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x73030DD0A7A20159));
+    get => new CPerParticleFloatInputImpl(_Handle + _RadiusScaleOffset.Value);
   }
 
 

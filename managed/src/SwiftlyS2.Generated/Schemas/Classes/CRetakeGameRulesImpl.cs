@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CRetakeGameRulesImpl : SchemaClass, CRetakeGameRules {
   public CRetakeGameRulesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MatchSeedOffset = new(() => Schema.GetOffset(0x34813D492DE0044B), LazyThreadSafetyMode.None);
+
   public ref int MatchSeed {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x34813D492DE0044B));
+    get => ref _Handle.AsRef<int>(_MatchSeedOffset.Value);
   }
+  private static readonly Lazy<nint> _BlockersPresentOffset = new(() => Schema.GetOffset(0x34813D49BE2F2F2D), LazyThreadSafetyMode.None);
+
   public ref bool BlockersPresent {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x34813D49BE2F2F2D));
+    get => ref _Handle.AsRef<bool>(_BlockersPresentOffset.Value);
   }
+  private static readonly Lazy<nint> _RoundInProgressOffset = new(() => Schema.GetOffset(0x34813D49AE69021B), LazyThreadSafetyMode.None);
+
   public ref bool RoundInProgress {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x34813D49AE69021B));
+    get => ref _Handle.AsRef<bool>(_RoundInProgressOffset.Value);
   }
+  private static readonly Lazy<nint> _FirstSecondHalfRoundOffset = new(() => Schema.GetOffset(0x34813D49E229A099), LazyThreadSafetyMode.None);
+
   public ref int FirstSecondHalfRound {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x34813D49E229A099));
+    get => ref _Handle.AsRef<int>(_FirstSecondHalfRoundOffset.Value);
   }
+  private static readonly Lazy<nint> _BombSiteOffset = new(() => Schema.GetOffset(0x34813D49E7E88ECF), LazyThreadSafetyMode.None);
+
   public ref int BombSite {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x34813D49E7E88ECF));
+    get => ref _Handle.AsRef<int>(_BombSiteOffset.Value);
   }
+  private static readonly Lazy<nint> _BombPlanterOffset = new(() => Schema.GetOffset(0x34813D491A1306A3), LazyThreadSafetyMode.None);
+
   public ref CHandle<CCSPlayerPawn> BombPlanter {
-    get => ref _Handle.AsRef<CHandle<CCSPlayerPawn>>(Schema.GetOffset(0x34813D491A1306A3));
+    get => ref _Handle.AsRef<CHandle<CCSPlayerPawn>>(_BombPlanterOffset.Value);
   }
 
   public void MatchSeedUpdated() {

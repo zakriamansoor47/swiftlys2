@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CMotionGraphUpdateNodeImpl : CLeafUpdateNodeImpl, CMotion
   public CMotionGraphUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MotionGraphOffset = new(() => Schema.GetOffset(0x69396A054F70C737), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField MotionGraph {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x69396A054F70C737));
+    get => new SchemaUntypedField(_Handle + _MotionGraphOffset.Value);
   }
 
 

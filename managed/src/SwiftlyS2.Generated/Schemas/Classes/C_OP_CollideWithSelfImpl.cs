@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_CollideWithSelfImpl : CParticleFunctionConstraintImp
   public C_OP_CollideWithSelfImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0xEF46C0CBA7A20159), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput RadiusScale {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xEF46C0CBA7A20159));
+    get => new CPerParticleFloatInputImpl(_Handle + _RadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _MinimumSpeedOffset = new(() => Schema.GetOffset(0xEF46C0CB2F9BEFCC), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput MinimumSpeed {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xEF46C0CB2F9BEFCC));
+    get => new CPerParticleFloatInputImpl(_Handle + _MinimumSpeedOffset.Value);
   }
 
 

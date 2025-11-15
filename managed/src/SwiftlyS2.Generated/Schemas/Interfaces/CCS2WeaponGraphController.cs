@@ -11,7 +11,7 @@ namespace SwiftlyS2.Shared.SchemaDefinitions;
 public partial interface CCS2WeaponGraphController : CAnimGraphControllerBase, ISchemaClass<CCS2WeaponGraphController> {
 
   static CCS2WeaponGraphController ISchemaClass<CCS2WeaponGraphController>.From(nint handle) => new CCS2WeaponGraphControllerImpl(handle);
-  static int ISchemaClass<CCS2WeaponGraphController>.Size => 1512;
+  static int ISchemaClass<CCS2WeaponGraphController>.Size => 1536;
 
   
   // CAnimGraph2ParamOptionalRef< CGlobalSymbol >
@@ -19,6 +19,9 @@ public partial interface CCS2WeaponGraphController : CAnimGraphControllerBase, I
   
   // CAnimGraph2ParamOptionalRef< bool >
   public SchemaUntypedField ActionReset { get; }
+  
+  // CAnimGraph2ParamOptionalRef< float32 >
+  public SchemaUntypedField WeaponActionSpeedScale { get; }
   
   // CAnimGraph2ParamOptionalRef< CGlobalSymbol >
   public SchemaUntypedField WeaponCategory { get; }

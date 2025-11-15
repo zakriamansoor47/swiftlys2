@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_RampCPLinearRandomImpl : CParticleFunctionPreEmissio
   public C_OP_RampCPLinearRandomImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OutControlPointNumberOffset = new(() => Schema.GetOffset(0xF3F4631CD021D73F), LazyThreadSafetyMode.None);
+
   public ref int OutControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xF3F4631CD021D73F));
+    get => ref _Handle.AsRef<int>(_OutControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _RateMinOffset = new(() => Schema.GetOffset(0xF3F4631CB1C06501), LazyThreadSafetyMode.None);
+
   public ref Vector RateMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xF3F4631CB1C06501));
+    get => ref _Handle.AsRef<Vector>(_RateMinOffset.Value);
   }
+  private static readonly Lazy<nint> _RateMaxOffset = new(() => Schema.GetOffset(0xF3F4631CA3D569AF), LazyThreadSafetyMode.None);
+
   public ref Vector RateMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xF3F4631CA3D569AF));
+    get => ref _Handle.AsRef<Vector>(_RateMaxOffset.Value);
   }
 
 

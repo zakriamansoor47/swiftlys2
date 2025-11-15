@@ -31,7 +31,7 @@ public:
     virtual void Initialize(int playerid) override;
     virtual void Shutdown() override;
 
-    virtual void SendMsg(MessageType type, const std::string& message) override;
+    virtual void SendMsg(MessageType type, const std::string& message, int duration) override;
 
     virtual bool IsFakeClient() override;
     virtual bool IsAuthorized() override;

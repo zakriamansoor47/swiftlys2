@@ -491,7 +491,8 @@ bool Configuration::Load()
         RegisterConfigurationVector<std::string>(wasEdited, config_json, "core", "core", "Menu.AvailableInputModes", { "button", "wasd" }, true, " ");
         RegisterConfiguration(wasEdited, config_json, "core", "core", "Menu.InputMode", "button");
 
-        RegisterConfiguration(wasEdited, config_json, "core", "core", "Menu.KindSettings.Center.ItemsPerPage", 4);
+        // RegisterConfiguration(wasEdited, config_json, "core", "core", "Menu.KindSettings.Center.ItemsPerPage", 4);
+        RegisterConfiguration(wasEdited, config_json, "core", "core", "Menu.ItemsPerPage", 5);
 
         // RegisterConfiguration(wasEdited, config_json, "core", "core", "Menu.KindSettings.Screen.Mode", "compatibility");
 

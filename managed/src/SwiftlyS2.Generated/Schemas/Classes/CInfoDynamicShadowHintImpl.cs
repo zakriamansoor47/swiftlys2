@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CInfoDynamicShadowHintImpl : CPointEntityImpl, CInfoDynam
   public CInfoDynamicShadowHintImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0x46DDE8EE3A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x46DDE8EE3A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _RangeOffset = new(() => Schema.GetOffset(0x46DDE8EE3FC92844), LazyThreadSafetyMode.None);
+
   public ref float Range {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x46DDE8EE3FC92844));
+    get => ref _Handle.AsRef<float>(_RangeOffset.Value);
   }
+  private static readonly Lazy<nint> _ImportanceOffset = new(() => Schema.GetOffset(0x46DDE8EE85D7F083), LazyThreadSafetyMode.None);
+
   public ref int Importance {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x46DDE8EE85D7F083));
+    get => ref _Handle.AsRef<int>(_ImportanceOffset.Value);
   }
+  private static readonly Lazy<nint> _LightChoiceOffset = new(() => Schema.GetOffset(0x46DDE8EED82DFBD8), LazyThreadSafetyMode.None);
+
   public ref int LightChoice {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x46DDE8EED82DFBD8));
+    get => ref _Handle.AsRef<int>(_LightChoiceOffset.Value);
   }
+  private static readonly Lazy<nint> _LightOffset = new(() => Schema.GetOffset(0x46DDE8EEF68359B1), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Light {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x46DDE8EEF68359B1));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_LightOffset.Value);
   }
 
 

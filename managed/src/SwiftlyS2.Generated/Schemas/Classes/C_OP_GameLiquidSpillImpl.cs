@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_GameLiquidSpillImpl : CParticleFunctionRendererImpl,
   public C_OP_GameLiquidSpillImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LiquidContentsFieldOffset = new(() => Schema.GetOffset(0xB07185274F9A10CB), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput LiquidContentsField {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xB07185274F9A10CB));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _LiquidContentsFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _ExpirationTimeOffset = new(() => Schema.GetOffset(0xB07185272A34213F), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput ExpirationTime {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xB07185272A34213F));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ExpirationTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _AmountAttributeOffset = new(() => Schema.GetOffset(0xB071852755424147), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t AmountAttribute {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xB071852755424147));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _AmountAttributeOffset.Value);
   }
 
 

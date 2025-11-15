@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,27 +17,41 @@ internal partial class CRenderMeshImpl : SchemaClass, CRenderMesh {
   public CRenderMeshImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SceneObjectsOffset = new(() => Schema.GetOffset(0x8593C3BF332235A1), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SceneObjects {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x8593C3BF332235A1));
+    get => new SchemaUntypedField(_Handle + _SceneObjectsOffset.Value);
   }
+  private static readonly Lazy<nint> _ConstraintsOffset = new(() => Schema.GetOffset(0x8593C3BF251CBAAB), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<PointerTo<CBaseConstraint>, int> Constraints {
-    get => ref _Handle.AsRef<CUtlLeanVector<PointerTo<CBaseConstraint>, int>>(Schema.GetOffset(0x8593C3BF251CBAAB));
+    get => ref _Handle.AsRef<CUtlLeanVector<PointerTo<CBaseConstraint>, int>>(_ConstraintsOffset.Value);
   }
+  private static readonly Lazy<nint> _SkeletonOffset = new(() => Schema.GetOffset(0x8593C3BFE77F030E), LazyThreadSafetyMode.None);
+
   public CRenderSkeleton Skeleton {
-    get => new CRenderSkeletonImpl(_Handle + Schema.GetOffset(0x8593C3BFE77F030E));
+    get => new CRenderSkeletonImpl(_Handle + _SkeletonOffset.Value);
   }
+  private static readonly Lazy<nint> _UseUV2ForChartingOffset = new(() => Schema.GetOffset(0x8593C3BFFE2DF46A), LazyThreadSafetyMode.None);
+
   public ref bool UseUV2ForCharting {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8593C3BFFE2DF46A));
+    get => ref _Handle.AsRef<bool>(_UseUV2ForChartingOffset.Value);
   }
+  private static readonly Lazy<nint> _EmbeddedMapMeshOffset = new(() => Schema.GetOffset(0x8593C3BF6E866052), LazyThreadSafetyMode.None);
+
   public ref bool EmbeddedMapMesh {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8593C3BF6E866052));
+    get => ref _Handle.AsRef<bool>(_EmbeddedMapMeshOffset.Value);
   }
+  private static readonly Lazy<nint> _MeshDeformParamsOffset = new(() => Schema.GetOffset(0x8593C3BF061DBB9B), LazyThreadSafetyMode.None);
+
   public DynamicMeshDeformParams_t MeshDeformParams {
-    get => new DynamicMeshDeformParams_tImpl(_Handle + Schema.GetOffset(0x8593C3BF061DBB9B));
+    get => new DynamicMeshDeformParams_tImpl(_Handle + _MeshDeformParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _GroomDataOffset = new(() => Schema.GetOffset(0x8593C3BFCFCDEA93), LazyThreadSafetyMode.None);
+
   public CRenderGroom? GroomData {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x8593C3BFCFCDEA93));
+      var ptr = _Handle.Read<nint>(_GroomDataOffset.Value);
       return ptr.IsValidPtr() ? new CRenderGroomImpl(ptr) : null;
     }
   }

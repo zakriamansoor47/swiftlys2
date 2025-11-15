@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 namespace SwiftlyS2.Core.NetMessages;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate int EntityOutputHookCallbackDelegate(nint entityio, nint outputName, nint activator, nint caller, float delay);
+internal delegate int EntityOutputHookCallbackDelegate( nint entityio, nint outputName, nint activator, nint caller, float delay );
 
-internal class EntityOutputHookCallback: IDisposable
+internal class EntityOutputHookCallback : IDisposable
 {
     public Guid Guid { get; init; }
     public IContextedProfilerService Profiler { get; }
@@ -21,13 +21,13 @@ internal class EntityOutputHookCallback: IDisposable
     private nint _unmanagedCallbackPtr;
     private ulong _nativeHookId;
 
-    public EntityOutputHookCallback(string className, string outputName, IEntitySystemService.EntityOutputHandler callback, ILoggerFactory loggerFactory, IContextedProfilerService profiler)
+    public EntityOutputHookCallback( string className, string outputName, IEntitySystemService.EntityOutputHandler callback, ILoggerFactory loggerFactory, IContextedProfilerService profiler )
     {
         Guid = Guid.NewGuid();
         Profiler = profiler;
         _logger = loggerFactory.CreateLogger<EntityOutputHookCallback>();
         _callback = callback;
-        _unmanagedCallback = (entityio, outputName, activator, caller, delay) =>
+        _unmanagedCallback = ( entityio, outputName, activator, caller, delay ) =>
         {
             try
             {
@@ -46,6 +46,7 @@ internal class EntityOutputHookCallback: IDisposable
             }
             catch (Exception e)
             {
+                if (!GlobalExceptionHandler.Handle(e)) return 0;
                 _logger.LogError(e, "Failed to execute entity output callback {0}.", Guid);
             }
             return 0;

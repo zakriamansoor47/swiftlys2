@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNavHullPresetVDataImpl : SchemaClass, CNavHullPresetVDat
   public CNavHullPresetVDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NavHullsOffset = new(() => Schema.GetOffset(0x9963D667366CCF96), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> NavHulls {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0x9963D667366CCF96));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_NavHullsOffset.Value);
   }
 
 

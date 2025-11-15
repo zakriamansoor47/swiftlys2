@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,45 +17,69 @@ internal partial class MoodAnimationLayer_tImpl : SchemaClass, MoodAnimationLaye
   public MoodAnimationLayer_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x3663914263D22D49), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x3663914263D22D49));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x3663914263D22D49, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ActiveListeningOffset = new(() => Schema.GetOffset(0x36639142122973A0), LazyThreadSafetyMode.None);
+
   public ref bool ActiveListening {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x36639142122973A0));
+    get => ref _Handle.AsRef<bool>(_ActiveListeningOffset.Value);
   }
+  private static readonly Lazy<nint> _ActiveTalkingOffset = new(() => Schema.GetOffset(0x366391423033E5C3), LazyThreadSafetyMode.None);
+
   public ref bool ActiveTalking {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x366391423033E5C3));
+    get => ref _Handle.AsRef<bool>(_ActiveTalkingOffset.Value);
   }
+  private static readonly Lazy<nint> _LayerAnimationsOffset = new(() => Schema.GetOffset(0x3663914250279465), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MoodAnimation_t> LayerAnimations {
-    get => ref _Handle.AsRef<CUtlVector<MoodAnimation_t>>(Schema.GetOffset(0x3663914250279465));
+    get => ref _Handle.AsRef<CUtlVector<MoodAnimation_t>>(_LayerAnimationsOffset.Value);
   }
+  private static readonly Lazy<nint> _IntensityOffset = new(() => Schema.GetOffset(0x3663914267B5578C), LazyThreadSafetyMode.None);
+
   public CRangeFloat Intensity {
-    get => new CRangeFloatImpl(_Handle + Schema.GetOffset(0x3663914267B5578C));
+    get => new CRangeFloatImpl(_Handle + _IntensityOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationScaleOffset = new(() => Schema.GetOffset(0x36639142776D4203), LazyThreadSafetyMode.None);
+
   public CRangeFloat DurationScale {
-    get => new CRangeFloatImpl(_Handle + Schema.GetOffset(0x36639142776D4203));
+    get => new CRangeFloatImpl(_Handle + _DurationScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleWithIntsOffset = new(() => Schema.GetOffset(0x366391427C46A077), LazyThreadSafetyMode.None);
+
   public ref bool ScaleWithInts {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x366391427C46A077));
+    get => ref _Handle.AsRef<bool>(_ScaleWithIntsOffset.Value);
   }
+  private static readonly Lazy<nint> _NextStartOffset = new(() => Schema.GetOffset(0x3663914202956BDE), LazyThreadSafetyMode.None);
+
   public CRangeFloat NextStart {
-    get => new CRangeFloatImpl(_Handle + Schema.GetOffset(0x3663914202956BDE));
+    get => new CRangeFloatImpl(_Handle + _NextStartOffset.Value);
   }
+  private static readonly Lazy<nint> _StartOffsetOffset = new(() => Schema.GetOffset(0x3663914269A449AA), LazyThreadSafetyMode.None);
+
   public CRangeFloat StartOffset {
-    get => new CRangeFloatImpl(_Handle + Schema.GetOffset(0x3663914269A449AA));
+    get => new CRangeFloatImpl(_Handle + _StartOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _EndOffsetOffset = new(() => Schema.GetOffset(0x36639142C863E027), LazyThreadSafetyMode.None);
+
   public CRangeFloat EndOffset {
-    get => new CRangeFloatImpl(_Handle + Schema.GetOffset(0x36639142C863E027));
+    get => new CRangeFloatImpl(_Handle + _EndOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeInOffset = new(() => Schema.GetOffset(0x36639142FCA835D2), LazyThreadSafetyMode.None);
+
   public ref float FadeIn {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x36639142FCA835D2));
+    get => ref _Handle.AsRef<float>(_FadeInOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeOutOffset = new(() => Schema.GetOffset(0x36639142FEBCE80B), LazyThreadSafetyMode.None);
+
   public ref float FadeOut {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x36639142FEBCE80B));
+    get => ref _Handle.AsRef<float>(_FadeOutOffset.Value);
   }
 
 

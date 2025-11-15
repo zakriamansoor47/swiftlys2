@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimTagManagerUpdaterImpl : SchemaClass, CAnimTagManager
   public CAnimTagManagerUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TagsOffset = new(() => Schema.GetOffset(0xF09D3FB1B46C8540), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SchemaUntypedField> Tags {
-    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(Schema.GetOffset(0xF09D3FB1B46C8540));
+    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(_TagsOffset.Value);
   }
 
 

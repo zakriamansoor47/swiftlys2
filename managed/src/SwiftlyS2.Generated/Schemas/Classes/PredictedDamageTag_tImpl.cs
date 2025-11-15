@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class PredictedDamageTag_tImpl : SchemaClass, PredictedDamageTa
   public PredictedDamageTag_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TagTickOffset = new(() => Schema.GetOffset(0x43420069BBCAAE16), LazyThreadSafetyMode.None);
+
   public GameTick_t TagTick {
-    get => new GameTick_tImpl(_Handle + Schema.GetOffset(0x43420069BBCAAE16));
+    get => new GameTick_tImpl(_Handle + _TagTickOffset.Value);
   }
+  private static readonly Lazy<nint> _FlinchModSmallOffset = new(() => Schema.GetOffset(0x4342006970E7E18A), LazyThreadSafetyMode.None);
+
   public ref float FlinchModSmall {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4342006970E7E18A));
+    get => ref _Handle.AsRef<float>(_FlinchModSmallOffset.Value);
   }
+  private static readonly Lazy<nint> _FlinchModLargeOffset = new(() => Schema.GetOffset(0x43420069E052DA66), LazyThreadSafetyMode.None);
+
   public ref float FlinchModLarge {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43420069E052DA66));
+    get => ref _Handle.AsRef<float>(_FlinchModLargeOffset.Value);
   }
+  private static readonly Lazy<nint> _FriendlyFireDamageReductionRatioOffset = new(() => Schema.GetOffset(0x43420069BA6A7F4D), LazyThreadSafetyMode.None);
+
   public ref float FriendlyFireDamageReductionRatio {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43420069BA6A7F4D));
+    get => ref _Handle.AsRef<float>(_FriendlyFireDamageReductionRatioOffset.Value);
   }
 
   public void TagTickUpdated() {

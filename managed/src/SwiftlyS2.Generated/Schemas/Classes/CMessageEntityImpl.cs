@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class CMessageEntityImpl : CPointEntityImpl, CMessageEntity {
   public CMessageEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0x893EADCEA921CA53), LazyThreadSafetyMode.None);
+
   public ref int Radius {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x893EADCEA921CA53));
+    get => ref _Handle.AsRef<int>(_RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _MessageTextOffset = new(() => Schema.GetOffset(0x893EADCEBA6E5D73), LazyThreadSafetyMode.None);
+
   public string MessageText {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x893EADCEBA6E5D73));
+      var ptr = _Handle.Read<nint>(_MessageTextOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x893EADCEBA6E5D73, value);
+    set => Schema.SetString(_Handle, _MessageTextOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _DrawTextOffset = new(() => Schema.GetOffset(0x893EADCE598871D4), LazyThreadSafetyMode.None);
+
   public ref bool DrawText {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x893EADCE598871D4));
+    get => ref _Handle.AsRef<bool>(_DrawTextOffset.Value);
   }
+  private static readonly Lazy<nint> _DeveloperOnlyOffset = new(() => Schema.GetOffset(0x893EADCE981A6E5F), LazyThreadSafetyMode.None);
+
   public ref bool DeveloperOnly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x893EADCE981A6E5F));
+    get => ref _Handle.AsRef<bool>(_DeveloperOnlyOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledOffset = new(() => Schema.GetOffset(0x893EADCE6154EB7E), LazyThreadSafetyMode.None);
+
   public ref bool Enabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x893EADCE6154EB7E));
+    get => ref _Handle.AsRef<bool>(_EnabledOffset.Value);
   }
 
 

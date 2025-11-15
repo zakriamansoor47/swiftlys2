@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_SetParentControlPointsToChildCPImpl : CParticleFunct
   public C_OP_SetParentControlPointsToChildCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChildGroupIDOffset = new(() => Schema.GetOffset(0x9A9F20B7E3F3C965), LazyThreadSafetyMode.None);
+
   public ref int ChildGroupID {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9A9F20B7E3F3C965));
+    get => ref _Handle.AsRef<int>(_ChildGroupIDOffset.Value);
   }
+  private static readonly Lazy<nint> _ChildControlPointOffset = new(() => Schema.GetOffset(0x9A9F20B78DDB3CFC), LazyThreadSafetyMode.None);
+
   public ref int ChildControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9A9F20B78DDB3CFC));
+    get => ref _Handle.AsRef<int>(_ChildControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _NumControlPointsOffset = new(() => Schema.GetOffset(0x9A9F20B7551EBC4F), LazyThreadSafetyMode.None);
+
   public ref int NumControlPoints {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9A9F20B7551EBC4F));
+    get => ref _Handle.AsRef<int>(_NumControlPointsOffset.Value);
   }
+  private static readonly Lazy<nint> _FirstSourcePointOffset = new(() => Schema.GetOffset(0x9A9F20B79D7DC18E), LazyThreadSafetyMode.None);
+
   public ref int FirstSourcePoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9A9F20B79D7DC18E));
+    get => ref _Handle.AsRef<int>(_FirstSourcePointOffset.Value);
   }
+  private static readonly Lazy<nint> _SetOrientationOffset = new(() => Schema.GetOffset(0x9A9F20B7E1390E37), LazyThreadSafetyMode.None);
+
   public ref bool SetOrientation {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9A9F20B7E1390E37));
+    get => ref _Handle.AsRef<bool>(_SetOrientationOffset.Value);
   }
 
 

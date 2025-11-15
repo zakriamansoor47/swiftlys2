@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CParticleFunctionRendererImpl : CParticleFunctionImpl, CP
   public CParticleFunctionRendererImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VisibilityInputsOffset = new(() => Schema.GetOffset(0xAE332DA3CF8264F8), LazyThreadSafetyMode.None);
+
   public CParticleVisibilityInputs VisibilityInputs {
-    get => new CParticleVisibilityInputsImpl(_Handle + Schema.GetOffset(0xAE332DA3CF8264F8));
+    get => new CParticleVisibilityInputsImpl(_Handle + _VisibilityInputsOffset.Value);
   }
+  private static readonly Lazy<nint> _CannotBeRefractedOffset = new(() => Schema.GetOffset(0xAE332DA3CC78C4FB), LazyThreadSafetyMode.None);
+
   public ref bool CannotBeRefracted {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAE332DA3CC78C4FB));
+    get => ref _Handle.AsRef<bool>(_CannotBeRefractedOffset.Value);
   }
+  private static readonly Lazy<nint> _SkipRenderingOnMobileOffset = new(() => Schema.GetOffset(0xAE332DA33F34EA75), LazyThreadSafetyMode.None);
+
   public ref bool SkipRenderingOnMobile {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAE332DA33F34EA75));
+    get => ref _Handle.AsRef<bool>(_SkipRenderingOnMobileOffset.Value);
   }
 
 

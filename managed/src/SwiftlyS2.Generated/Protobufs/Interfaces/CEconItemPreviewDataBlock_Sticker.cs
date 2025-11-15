@@ -42,4 +42,7 @@ public interface CEconItemPreviewDataBlock_Sticker : ITypedProtobuf<CEconItemPre
 
   public uint HighlightReel { get; set; }
 
+
+  public uint WrappedSticker { get; set; }
+
 }

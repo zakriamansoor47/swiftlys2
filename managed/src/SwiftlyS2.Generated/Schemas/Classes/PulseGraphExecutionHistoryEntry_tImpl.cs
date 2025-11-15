@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class PulseGraphExecutionHistoryEntry_tImpl : SchemaClass, Puls
   public PulseGraphExecutionHistoryEntry_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CursorIDOffset = new(() => Schema.GetOffset(0x9346B0AB0B44CBF6), LazyThreadSafetyMode.None);
+
   public PulseCursorID_t CursorID {
-    get => new PulseCursorID_tImpl(_Handle + Schema.GetOffset(0x9346B0AB0B44CBF6));
+    get => new PulseCursorID_tImpl(_Handle + _CursorIDOffset.Value);
   }
+  private static readonly Lazy<nint> _EditorIDOffset = new(() => Schema.GetOffset(0x9346B0AB74188E69), LazyThreadSafetyMode.None);
+
   public PulseDocNodeID_t EditorID {
-    get => new PulseDocNodeID_tImpl(_Handle + Schema.GetOffset(0x9346B0AB74188E69));
+    get => new PulseDocNodeID_tImpl(_Handle + _EditorIDOffset.Value);
   }
+  private static readonly Lazy<nint> _ExecTimeOffset = new(() => Schema.GetOffset(0x9346B0ABFAE08483), LazyThreadSafetyMode.None);
+
   public ref float ExecTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9346B0ABFAE08483));
+    get => ref _Handle.AsRef<float>(_ExecTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0x9346B0AB5E9538F5), LazyThreadSafetyMode.None);
+
   public ref uint Flags {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x9346B0AB5E9538F5));
+    get => ref _Handle.AsRef<uint>(_FlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _TagNameOffset = new(() => Schema.GetOffset(0x9346B0ABBD7B50F8), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField TagName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x9346B0ABBD7B50F8));
+    get => new SchemaUntypedField(_Handle + _TagNameOffset.Value);
   }
 
 

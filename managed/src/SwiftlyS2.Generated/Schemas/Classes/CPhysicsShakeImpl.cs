@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPhysicsShakeImpl : SchemaClass, CPhysicsShake {
   public CPhysicsShakeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceOffset = new(() => Schema.GetOffset(0x904CE6CFB9B6AFA4), LazyThreadSafetyMode.None);
+
   public ref Vector Force {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x904CE6CFB9B6AFA4));
+    get => ref _Handle.AsRef<Vector>(_ForceOffset.Value);
   }
 
 

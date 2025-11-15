@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_BoxConstraintImpl : CParticleFunctionConstraintImpl,
   public C_OP_BoxConstraintImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinOffset = new(() => Schema.GetOffset(0x111EED71B0765F37), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Min {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x111EED71B0765F37));
+    get => new CParticleCollectionVecInputImpl(_Handle + _MinOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxOffset = new(() => Schema.GetOffset(0x111EED71BE89FCF9), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Max {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x111EED71BE89FCF9));
+    get => new CParticleCollectionVecInputImpl(_Handle + _MaxOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x111EED71EB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x111EED71EB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalSpaceOffset = new(() => Schema.GetOffset(0x111EED7162418E6E), LazyThreadSafetyMode.None);
+
   public ref bool LocalSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x111EED7162418E6E));
+    get => ref _Handle.AsRef<bool>(_LocalSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _AccountForRadiusOffset = new(() => Schema.GetOffset(0x111EED71E4DE9E21), LazyThreadSafetyMode.None);
+
   public ref bool AccountForRadius {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x111EED71E4DE9E21));
+    get => ref _Handle.AsRef<bool>(_AccountForRadiusOffset.Value);
   }
 
 

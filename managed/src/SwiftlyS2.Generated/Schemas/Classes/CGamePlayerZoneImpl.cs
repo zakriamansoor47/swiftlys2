@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CGamePlayerZoneImpl : CRuleBrushEntityImpl, CGamePlayerZo
   public CGamePlayerZoneImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnPlayerInZoneOffset = new(() => Schema.GetOffset(0x35811C97FBD22730), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnPlayerInZone {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x35811C97FBD22730));
+    get => new CEntityIOOutputImpl(_Handle + _OnPlayerInZoneOffset.Value);
   }
+  private static readonly Lazy<nint> _OnPlayerOutZoneOffset = new(() => Schema.GetOffset(0x35811C97E3DE880D), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnPlayerOutZone {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x35811C97E3DE880D));
+    get => new CEntityIOOutputImpl(_Handle + _OnPlayerOutZoneOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayersInCountOffset = new(() => Schema.GetOffset(0x35811C9706A59501), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField PlayersInCount {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x35811C9706A59501));
+    get => new SchemaUntypedField(_Handle + _PlayersInCountOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayersOutCountOffset = new(() => Schema.GetOffset(0x35811C976894D862), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField PlayersOutCount {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x35811C976894D862));
+    get => new SchemaUntypedField(_Handle + _PlayersOutCountOffset.Value);
   }
 
 

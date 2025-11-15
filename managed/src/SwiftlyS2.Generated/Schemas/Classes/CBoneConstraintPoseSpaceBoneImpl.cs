@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CBoneConstraintPoseSpaceBoneImpl : CBaseConstraintImpl, C
   public CBoneConstraintPoseSpaceBoneImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputListOffset = new(() => Schema.GetOffset(0x496EBC215EB8D83), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CBoneConstraintPoseSpaceBone__Input_t> InputList {
-    get => ref _Handle.AsRef<CUtlVector<CBoneConstraintPoseSpaceBone__Input_t>>(Schema.GetOffset(0x496EBC215EB8D83));
+    get => ref _Handle.AsRef<CUtlVector<CBoneConstraintPoseSpaceBone__Input_t>>(_InputListOffset.Value);
   }
 
 

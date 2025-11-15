@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmAimCSNode__CDefinitionImpl : CNmPassthroughNode__CDefi
   public CNmAimCSNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VerticalAngleNodeIdxOffset = new(() => Schema.GetOffset(0xE1CD14C20A1F17AD), LazyThreadSafetyMode.None);
+
   public ref short VerticalAngleNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xE1CD14C20A1F17AD));
+    get => ref _Handle.AsRef<short>(_VerticalAngleNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _HorizontalAngleNodeIdxOffset = new(() => Schema.GetOffset(0xE1CD14C28E2FD3DB), LazyThreadSafetyMode.None);
+
   public ref short HorizontalAngleNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xE1CD14C28E2FD3DB));
+    get => ref _Handle.AsRef<short>(_HorizontalAngleNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _WeaponCategoryNodeIdxOffset = new(() => Schema.GetOffset(0xE1CD14C216D198E4), LazyThreadSafetyMode.None);
+
   public ref short WeaponCategoryNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xE1CD14C216D198E4));
+    get => ref _Handle.AsRef<short>(_WeaponCategoryNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledNodeIdxOffset = new(() => Schema.GetOffset(0xE1CD14C2F7CDF5E9), LazyThreadSafetyMode.None);
+
   public ref short EnabledNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xE1CD14C2F7CDF5E9));
+    get => ref _Handle.AsRef<short>(_EnabledNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendTimeSecondsOffset = new(() => Schema.GetOffset(0xE1CD14C26D3A08FC), LazyThreadSafetyMode.None);
+
   public ref float BlendTimeSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE1CD14C26D3A08FC));
+    get => ref _Handle.AsRef<float>(_BlendTimeSecondsOffset.Value);
   }
 
 

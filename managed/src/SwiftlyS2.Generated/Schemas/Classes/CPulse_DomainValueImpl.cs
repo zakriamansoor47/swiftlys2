@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPulse_DomainValueImpl : SchemaClass, CPulse_DomainValue 
   public CPulse_DomainValueImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x8F29D60118853D59), LazyThreadSafetyMode.None);
+
   public ref PulseDomainValueType_t Type {
-    get => ref _Handle.AsRef<PulseDomainValueType_t>(Schema.GetOffset(0x8F29D60118853D59));
+    get => ref _Handle.AsRef<PulseDomainValueType_t>(_TypeOffset.Value);
   }
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0x8F29D601DCB0894A), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol Value {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x8F29D601DCB0894A));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_ValueOffset.Value);
   }
+  private static readonly Lazy<nint> _RequiredRuntimeTypeOffset = new(() => Schema.GetOffset(0x8F29D6013355393C), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField RequiredRuntimeType {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x8F29D6013355393C));
+    get => new SchemaUntypedField(_Handle + _RequiredRuntimeTypeOffset.Value);
   }
 
 

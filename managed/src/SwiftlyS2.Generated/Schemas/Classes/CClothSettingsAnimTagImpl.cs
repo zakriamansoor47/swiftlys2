@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CClothSettingsAnimTagImpl : CAnimTagBaseImpl, CClothSetti
   public CClothSettingsAnimTagImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StiffnessOffset = new(() => Schema.GetOffset(0xF6B586864344C684), LazyThreadSafetyMode.None);
+
   public ref float Stiffness {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF6B586864344C684));
+    get => ref _Handle.AsRef<float>(_StiffnessOffset.Value);
   }
+  private static readonly Lazy<nint> _EaseInOffset = new(() => Schema.GetOffset(0xF6B586864514C026), LazyThreadSafetyMode.None);
+
   public ref float EaseIn {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF6B586864514C026));
+    get => ref _Handle.AsRef<float>(_EaseInOffset.Value);
   }
+  private static readonly Lazy<nint> _EaseOutOffset = new(() => Schema.GetOffset(0xF6B5868646B49C07), LazyThreadSafetyMode.None);
+
   public ref float EaseOut {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF6B5868646B49C07));
+    get => ref _Handle.AsRef<float>(_EaseOutOffset.Value);
   }
+  private static readonly Lazy<nint> _VertexSetOffset = new(() => Schema.GetOffset(0xF6B586863EE1A571), LazyThreadSafetyMode.None);
+
   public string VertexSet {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF6B586863EE1A571));
+      var ptr = _Handle.Read<nint>(_VertexSetOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF6B586863EE1A571, value);
+    set => Schema.SetString(_Handle, _VertexSetOffset.Value, value);
   } 
 
 

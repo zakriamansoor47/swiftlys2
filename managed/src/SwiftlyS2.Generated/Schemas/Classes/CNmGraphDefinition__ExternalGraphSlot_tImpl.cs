@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmGraphDefinition__ExternalGraphSlot_tImpl : SchemaClass
   public CNmGraphDefinition__ExternalGraphSlot_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodeIdxOffset = new(() => Schema.GetOffset(0xFF128092124AB5CC), LazyThreadSafetyMode.None);
+
   public ref short NodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xFF128092124AB5CC));
+    get => ref _Handle.AsRef<short>(_NodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _SlotIDOffset = new(() => Schema.GetOffset(0xFF128092EA2BB724), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol SlotID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xFF128092EA2BB724));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_SlotIDOffset.Value);
   }
 
 

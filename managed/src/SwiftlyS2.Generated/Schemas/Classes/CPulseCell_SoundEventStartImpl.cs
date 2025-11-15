@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_SoundEventStartImpl : CPulseCell_BaseFlowImpl,
   public CPulseCell_SoundEventStartImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x9CC546478ED6D5CD), LazyThreadSafetyMode.None);
+
   public ref SoundEventStartType_t Type {
-    get => ref _Handle.AsRef<SoundEventStartType_t>(Schema.GetOffset(0x9CC546478ED6D5CD));
+    get => ref _Handle.AsRef<SoundEventStartType_t>(_TypeOffset.Value);
   }
 
 

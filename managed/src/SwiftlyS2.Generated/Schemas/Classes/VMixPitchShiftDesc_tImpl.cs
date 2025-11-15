@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class VMixPitchShiftDesc_tImpl : SchemaClass, VMixPitchShiftDes
   public VMixPitchShiftDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GrainSampleCountOffset = new(() => Schema.GetOffset(0xE7EEA08D6AA1D059), LazyThreadSafetyMode.None);
+
   public ref int GrainSampleCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE7EEA08D6AA1D059));
+    get => ref _Handle.AsRef<int>(_GrainSampleCountOffset.Value);
   }
+  private static readonly Lazy<nint> _PitchShiftOffset = new(() => Schema.GetOffset(0xE7EEA08DD8E35569), LazyThreadSafetyMode.None);
+
   public ref float PitchShift {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE7EEA08DD8E35569));
+    get => ref _Handle.AsRef<float>(_PitchShiftOffset.Value);
   }
+  private static readonly Lazy<nint> _QualityOffset = new(() => Schema.GetOffset(0xE7EEA08D60857B42), LazyThreadSafetyMode.None);
+
   public ref int Quality {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE7EEA08D60857B42));
+    get => ref _Handle.AsRef<int>(_QualityOffset.Value);
   }
+  private static readonly Lazy<nint> _ProcTypeOffset = new(() => Schema.GetOffset(0xE7EEA08DB256235D), LazyThreadSafetyMode.None);
+
   public ref int ProcType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE7EEA08DB256235D));
+    get => ref _Handle.AsRef<int>(_ProcTypeOffset.Value);
   }
 
 

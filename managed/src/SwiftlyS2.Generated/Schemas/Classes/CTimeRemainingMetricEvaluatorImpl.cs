@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CTimeRemainingMetricEvaluatorImpl : CMotionMetricEvaluato
   public CTimeRemainingMetricEvaluatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MatchByTimeRemainingOffset = new(() => Schema.GetOffset(0xAB802C86BB70462E), LazyThreadSafetyMode.None);
+
   public ref bool MatchByTimeRemaining {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAB802C86BB70462E));
+    get => ref _Handle.AsRef<bool>(_MatchByTimeRemainingOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxTimeRemainingOffset = new(() => Schema.GetOffset(0xAB802C8686818AD6), LazyThreadSafetyMode.None);
+
   public ref float MaxTimeRemaining {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xAB802C8686818AD6));
+    get => ref _Handle.AsRef<float>(_MaxTimeRemainingOffset.Value);
   }
+  private static readonly Lazy<nint> _FilterByTimeRemainingOffset = new(() => Schema.GetOffset(0xAB802C8668E9E5BD), LazyThreadSafetyMode.None);
+
   public ref bool FilterByTimeRemaining {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAB802C8668E9E5BD));
+    get => ref _Handle.AsRef<bool>(_FilterByTimeRemainingOffset.Value);
   }
+  private static readonly Lazy<nint> _MinTimeRemainingOffset = new(() => Schema.GetOffset(0xAB802C8604DD377C), LazyThreadSafetyMode.None);
+
   public ref float MinTimeRemaining {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xAB802C8604DD377C));
+    get => ref _Handle.AsRef<float>(_MinTimeRemainingOffset.Value);
   }
 
 

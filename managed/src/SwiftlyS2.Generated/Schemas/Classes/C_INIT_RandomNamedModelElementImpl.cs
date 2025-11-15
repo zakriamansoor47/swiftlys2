@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_INIT_RandomNamedModelElementImpl : CParticleFunctionIni
   public C_INIT_RandomNamedModelElementImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModelOffset = new(() => Schema.GetOffset(0xA3E776D5E100C814), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCModel> Model {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(Schema.GetOffset(0xA3E776D5E100C814));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(_ModelOffset.Value);
   }
+  private static readonly Lazy<nint> _NamesOffset = new(() => Schema.GetOffset(0xA3E776D50DA776AF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> Names {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0xA3E776D50DA776AF));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_NamesOffset.Value);
   }
+  private static readonly Lazy<nint> _ShuffleOffset = new(() => Schema.GetOffset(0xA3E776D528BD2B2E), LazyThreadSafetyMode.None);
+
   public ref bool Shuffle {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA3E776D528BD2B2E));
+    get => ref _Handle.AsRef<bool>(_ShuffleOffset.Value);
   }
+  private static readonly Lazy<nint> _LinearOffset = new(() => Schema.GetOffset(0xA3E776D5B9313720), LazyThreadSafetyMode.None);
+
   public ref bool Linear {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA3E776D5B9313720));
+    get => ref _Handle.AsRef<bool>(_LinearOffset.Value);
   }
+  private static readonly Lazy<nint> _ModelFromRendererOffset = new(() => Schema.GetOffset(0xA3E776D5AEBA1F25), LazyThreadSafetyMode.None);
+
   public ref bool ModelFromRenderer {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA3E776D5AEBA1F25));
+    get => ref _Handle.AsRef<bool>(_ModelFromRendererOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xA3E776D5E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xA3E776D5E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
 
 

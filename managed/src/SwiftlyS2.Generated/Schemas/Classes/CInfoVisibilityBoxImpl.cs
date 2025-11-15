@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CInfoVisibilityBoxImpl : CBaseEntityImpl, CInfoVisibility
   public CInfoVisibilityBoxImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModeOffset = new(() => Schema.GetOffset(0xD226824F137F1E0E), LazyThreadSafetyMode.None);
+
   public ref int Mode {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD226824F137F1E0E));
+    get => ref _Handle.AsRef<int>(_ModeOffset.Value);
   }
+  private static readonly Lazy<nint> _BoxSizeOffset = new(() => Schema.GetOffset(0xD226824FE553E487), LazyThreadSafetyMode.None);
+
   public ref Vector BoxSize {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD226824FE553E487));
+    get => ref _Handle.AsRef<Vector>(_BoxSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledOffset = new(() => Schema.GetOffset(0xD226824F6154EB7E), LazyThreadSafetyMode.None);
+
   public ref bool Enabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD226824F6154EB7E));
+    get => ref _Handle.AsRef<bool>(_EnabledOffset.Value);
   }
 
   public void ModeUpdated() {

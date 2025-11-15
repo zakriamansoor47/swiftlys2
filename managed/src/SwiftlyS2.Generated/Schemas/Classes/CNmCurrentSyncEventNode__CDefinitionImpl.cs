@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmCurrentSyncEventNode__CDefinitionImpl : CNmFloatValueN
   public CNmCurrentSyncEventNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceStateNodeIdxOffset = new(() => Schema.GetOffset(0x1F6A7BCB63F0228C), LazyThreadSafetyMode.None);
+
   public ref short SourceStateNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x1F6A7BCB63F0228C));
+    get => ref _Handle.AsRef<short>(_SourceStateNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _InfoTypeOffset = new(() => Schema.GetOffset(0x1F6A7BCBCE6BA20D), LazyThreadSafetyMode.None);
+
   public ref CNmCurrentSyncEventNode__InfoType_t InfoType {
-    get => ref _Handle.AsRef<CNmCurrentSyncEventNode__InfoType_t>(Schema.GetOffset(0x1F6A7BCBCE6BA20D));
+    get => ref _Handle.AsRef<CNmCurrentSyncEventNode__InfoType_t>(_InfoTypeOffset.Value);
   }
 
 

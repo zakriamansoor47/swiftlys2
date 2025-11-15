@@ -44,7 +44,7 @@ public:
     virtual int GetPlayerCount() override;
     virtual int GetPlayerCap() override;
 
-    virtual void SendMsg(MessageType type, const std::string& message) override;
+    virtual void SendMsg(MessageType type, const std::string& message, int duration) override;
 
     virtual void SteamAPIServerActivated() override;
 

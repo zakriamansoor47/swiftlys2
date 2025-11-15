@@ -70,7 +70,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnTick.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnTick.");
     }
     finally
     {
@@ -88,7 +88,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnClientConnected.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnClientConnected.");
     }
     finally
     {
@@ -106,7 +106,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnClientDisconnected.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnClientDisconnected.");
     }
     finally
     {
@@ -124,7 +124,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnClientKeyStateChanged.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnClientKeyStateChanged.");
     }
     finally
     {
@@ -142,7 +142,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnClientPutInServer.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnClientPutInServer.");
     }
     finally
     {
@@ -160,7 +160,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnClientSteamAuthorize.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnClientSteamAuthorize.");
     }
     finally
     {
@@ -178,7 +178,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnClientSteamAuthorizeFail.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnClientSteamAuthorizeFail.");
     }
     finally
     {
@@ -196,7 +196,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityCreated.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityCreated.");
     }
     finally
     {
@@ -214,7 +214,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityDeleted.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityDeleted.");
     }
     finally
     {
@@ -232,7 +232,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityParentChanged.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityParentChanged.");
     }
     finally
     {
@@ -250,7 +250,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntitySpawned.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntitySpawned.");
     }
     finally
     {
@@ -268,7 +268,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnMapLoad.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnMapLoad.");
     }
     finally
     {
@@ -286,7 +286,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnMapUnload.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnMapUnload.");
     }
     finally
     {
@@ -304,7 +304,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnClientProcessUsercmds.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnClientProcessUsercmds.");
     }
     finally
     {
@@ -322,7 +322,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityTakeDamage.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityTakeDamage.");
     }
     finally
     {
@@ -340,7 +340,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnPrecacheResource.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnPrecacheResource.");
     }
     finally
     {
@@ -359,7 +359,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityTouchHook.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityTouchHook.");
     }
     finally
     {
@@ -377,7 +377,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityStartTouch.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityStartTouch.");
     }
     finally
     {
@@ -395,7 +395,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityTouch.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityTouch.");
     }
     finally
     {
@@ -413,7 +413,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnEntityEndTouch.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnEntityEndTouch.");
     }
     finally
     {
@@ -430,7 +430,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnSteamAPIActivatedHook.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnSteamAPIActivatedHook.");
     }
     finally
     {
@@ -448,7 +448,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnItemServicesCanAcquireHook.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnItemServicesCanAcquireHook.");
     }
     finally
     {
@@ -466,7 +466,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnWeaponServicesCanUseHook.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnWeaponServicesCanUseHook.");
     }
     finally
     {
@@ -484,7 +484,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnConsoleOutput.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnConsoleOutput.");
     }
     finally
     {
@@ -502,7 +502,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnConVarValueChanged.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnConVarValueChanged.");
     }
     finally
     {
@@ -520,7 +520,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnConCommandCreated.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnConCommandCreated.");
     }
     finally
     {
@@ -538,7 +538,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnConVarCreated.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnConVarCreated.");
     }
     finally
     {
@@ -556,7 +556,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Error invoking OnCommandExecuteHook.");
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnCommandExecuteHook.");
     }
     finally
     {

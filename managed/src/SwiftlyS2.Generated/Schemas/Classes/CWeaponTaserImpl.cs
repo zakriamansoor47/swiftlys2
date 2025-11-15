@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CWeaponTaserImpl : CCSWeaponBaseGunImpl, CWeaponTaser {
   public CWeaponTaserImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FireTimeOffset = new(() => Schema.GetOffset(0xA91A6CB965DBC00C), LazyThreadSafetyMode.None);
+
   public GameTime_t FireTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xA91A6CB965DBC00C));
+    get => new GameTime_tImpl(_Handle + _FireTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _LastAttackTickOffset = new(() => Schema.GetOffset(0xA91A6CB90BCAAD3C), LazyThreadSafetyMode.None);
+
   public ref int LastAttackTick {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA91A6CB90BCAAD3C));
+    get => ref _Handle.AsRef<int>(_LastAttackTickOffset.Value);
   }
 
   public void FireTimeUpdated() {

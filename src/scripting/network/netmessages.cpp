@@ -110,9 +110,10 @@
         return return_value;                                                              \
     }
 
+extern INetworkMessages* networkMessages;
+
 void* Bridge_NetMessages_AllocateNetMessageByID(int msgid)
 {
-    auto networkMessages = g_ifaceService.FetchInterface<INetworkMessages>(NETWORKMESSAGES_INTERFACE_VERSION);
     auto netmsg = networkMessages->FindNetworkMessageById(msgid);
     if (!netmsg) return nullptr;
 
@@ -121,7 +122,6 @@ void* Bridge_NetMessages_AllocateNetMessageByID(int msgid)
 
 void* Bridge_NetMessages_AllocateNetMessageByPartialName(const char* name)
 {
-    auto networkMessages = g_ifaceService.FetchInterface<INetworkMessages>(NETWORKMESSAGES_INTERFACE_VERSION);
     auto netmsg = networkMessages->FindNetworkMessagePartial(name);
     if (!netmsg) return nullptr;
 
@@ -152,7 +152,8 @@ int Bridge_NetMessages_GetInt32(void* pmsg, const char* fieldName)
     if (field->cpp_type() == google::protobuf::FieldDescriptor::CPPTYPE_ENUM)
     {
         return msg->GetReflection()->GetEnum(*msg, field)->number();
-    } else {
+    }
+    else {
         return msg->GetReflection()->GetInt32(*msg, field);
     }
 }
@@ -167,7 +168,8 @@ int Bridge_NetMessages_GetRepeatedInt32(void* pmsg, const char* fieldName, int i
     if (field->cpp_type() == google::protobuf::FieldDescriptor::CPPTYPE_ENUM)
     {
         return msg->GetReflection()->GetRepeatedEnum(*msg, field, index)->number();
-    } else {
+    }
+    else {
         return msg->GetReflection()->GetRepeatedInt32(*msg, field, index);
     }
 }
@@ -182,9 +184,10 @@ void Bridge_NetMessages_SetInt32(void* pmsg, const char* fieldName, int value)
     {
         const google::protobuf::EnumValueDescriptor* pEnumValue = field->enum_type()->FindValueByNumber(value);
         if (!pEnumValue) return;
-        
+
         msg->GetReflection()->SetEnum(msg, field, pEnumValue);
-    } else {
+    }
+    else {
         msg->GetReflection()->SetInt32(msg, field, value);
     }
 }
@@ -202,7 +205,8 @@ void Bridge_NetMessages_SetRepeatedInt32(void* pmsg, const char* fieldName, int 
         if (!pEnumValue) return;
 
         msg->GetReflection()->SetRepeatedEnum(msg, field, index, pEnumValue);
-    } else {
+    }
+    else {
         msg->GetReflection()->SetRepeatedInt32(msg, field, index, value);
     }
 }
@@ -219,7 +223,8 @@ void Bridge_NetMessages_AddInt32(void* pmsg, const char* fieldName, int value)
         if (!pEnumValue) return;
 
         msg->GetReflection()->AddEnum(msg, field, pEnumValue);
-    } else {
+    }
+    else {
         msg->GetReflection()->AddInt32(msg, field, value);
     }
 }
@@ -903,8 +908,7 @@ void Bridge_NetMessages_SendMessage(void* pmsg, int msgid, int playerid)
 {
     CNetMessagePB<google::protobuf::Message>* msg = (CNetMessagePB<google::protobuf::Message>*)pmsg;
 
-    auto networkMessages = g_ifaceService.FetchInterface<INetworkMessages>(NETWORKMESSAGES_INTERFACE_VERSION);
-    auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
+    static auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
 
     auto netmsg = networkMessages->FindNetworkMessageById(msgid);
     if (!netmsg) return;
@@ -917,8 +921,7 @@ void Bridge_NetMessages_SendMessageToPlayers(void* pmsg, int msgid, uint64_t pla
 {
     CNetMessagePB<google::protobuf::Message>* msg = (CNetMessagePB<google::protobuf::Message>*)pmsg;
 
-    auto networkMessages = g_ifaceService.FetchInterface<INetworkMessages>(NETWORKMESSAGES_INTERFACE_VERSION);
-    auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
+    static auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
 
     auto netmsg = networkMessages->FindNetworkMessageById(msgid);
     if (!netmsg) return;

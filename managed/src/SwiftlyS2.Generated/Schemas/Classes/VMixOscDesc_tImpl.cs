@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class VMixOscDesc_tImpl : SchemaClass, VMixOscDesc_t {
   public VMixOscDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OscTypeOffset = new(() => Schema.GetOffset(0x414F0016106B4054), LazyThreadSafetyMode.None);
+
   public ref VMixLFOShape_t OscType {
-    get => ref _Handle.AsRef<VMixLFOShape_t>(Schema.GetOffset(0x414F0016106B4054));
+    get => ref _Handle.AsRef<VMixLFOShape_t>(_OscTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _FreqOffset = new(() => Schema.GetOffset(0x414F00164E0B0897), LazyThreadSafetyMode.None);
+
   public ref float Freq {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x414F00164E0B0897));
+    get => ref _Handle.AsRef<float>(_FreqOffset.Value);
   }
+  private static readonly Lazy<nint> _PhaseOffset = new(() => Schema.GetOffset(0x414F00163C22A9CA), LazyThreadSafetyMode.None);
+
   public ref float Phase {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x414F00163C22A9CA));
+    get => ref _Handle.AsRef<float>(_PhaseOffset.Value);
   }
 
 

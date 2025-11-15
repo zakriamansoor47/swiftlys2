@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,35 +17,55 @@ internal partial class CCS2ChickenGraphControllerImpl : CAnimGraphControllerBase
   public CCS2ChickenGraphControllerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ActionOffset = new(() => Schema.GetOffset(0xC887F1577918619F), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Action {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F1577918619F));
+    get => new SchemaUntypedField(_Handle + _ActionOffset.Value);
   }
+  private static readonly Lazy<nint> _ActionSubtypeOffset = new(() => Schema.GetOffset(0xC887F157FC94FE0B), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ActionSubtype {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F157FC94FE0B));
+    get => new SchemaUntypedField(_Handle + _ActionSubtypeOffset.Value);
   }
+  private static readonly Lazy<nint> _ActionResetOffset = new(() => Schema.GetOffset(0xC887F157580F422E), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ActionReset {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F157580F422E));
+    get => new SchemaUntypedField(_Handle + _ActionResetOffset.Value);
   }
+  private static readonly Lazy<nint> _IdleVariationOffset = new(() => Schema.GetOffset(0xC887F157CF0EF118), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField IdleVariation {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F157CF0EF118));
+    get => new SchemaUntypedField(_Handle + _IdleVariationOffset.Value);
   }
+  private static readonly Lazy<nint> _RunVariationOffset = new(() => Schema.GetOffset(0xC887F1575E32595B), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField RunVariation {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F1575E32595B));
+    get => new SchemaUntypedField(_Handle + _RunVariationOffset.Value);
   }
+  private static readonly Lazy<nint> _PanicVariationOffset = new(() => Schema.GetOffset(0xC887F157802F1EA1), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField PanicVariation {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F157802F1EA1));
+    get => new SchemaUntypedField(_Handle + _PanicVariationOffset.Value);
   }
+  private static readonly Lazy<nint> _SquatVariationOffset = new(() => Schema.GetOffset(0xC887F15791127162), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SquatVariation {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F15791127162));
+    get => new SchemaUntypedField(_Handle + _SquatVariationOffset.Value);
   }
+  private static readonly Lazy<nint> _InWaterOffset = new(() => Schema.GetOffset(0xC887F157E47F9BA9), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField InWater {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC887F157E47F9BA9));
+    get => new SchemaUntypedField(_Handle + _InWaterOffset.Value);
   }
+  private static readonly Lazy<nint> _HasActionCompletedEventOffset = new(() => Schema.GetOffset(0xC887F157CD4A37EA), LazyThreadSafetyMode.None);
+
   public ref bool HasActionCompletedEvent {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC887F157CD4A37EA));
+    get => ref _Handle.AsRef<bool>(_HasActionCompletedEventOffset.Value);
   }
+  private static readonly Lazy<nint> _WaitingForCompletedEventOffset = new(() => Schema.GetOffset(0xC887F15754876F98), LazyThreadSafetyMode.None);
+
   public ref bool WaitingForCompletedEvent {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC887F15754876F98));
+    get => ref _Handle.AsRef<bool>(_WaitingForCompletedEventOffset.Value);
   }
 
 

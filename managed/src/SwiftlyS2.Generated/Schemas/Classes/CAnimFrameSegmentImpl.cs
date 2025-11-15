@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CAnimFrameSegmentImpl : SchemaClass, CAnimFrameSegment {
   public CAnimFrameSegmentImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _UniqueFrameIndexOffset = new(() => Schema.GetOffset(0x1D6E27D17D02E339), LazyThreadSafetyMode.None);
+
   public ref int UniqueFrameIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1D6E27D17D02E339));
+    get => ref _Handle.AsRef<int>(_UniqueFrameIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalElementMasksOffset = new(() => Schema.GetOffset(0x1D6E27D16981357D), LazyThreadSafetyMode.None);
+
   public ref uint LocalElementMasks {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x1D6E27D16981357D));
+    get => ref _Handle.AsRef<uint>(_LocalElementMasksOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalChannelOffset = new(() => Schema.GetOffset(0x1D6E27D10BCF9E77), LazyThreadSafetyMode.None);
+
   public ref int LocalChannel {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1D6E27D10BCF9E77));
+    get => ref _Handle.AsRef<int>(_LocalChannelOffset.Value);
   }
+  private static readonly Lazy<nint> _ContainerOffset = new(() => Schema.GetOffset(0x1D6E27D13F54D498), LazyThreadSafetyMode.None);
+
   public ref CUtlBinaryBlock Container {
-    get => ref _Handle.AsRef<CUtlBinaryBlock>(Schema.GetOffset(0x1D6E27D13F54D498));
+    get => ref _Handle.AsRef<CUtlBinaryBlock>(_ContainerOffset.Value);
   }
 
 

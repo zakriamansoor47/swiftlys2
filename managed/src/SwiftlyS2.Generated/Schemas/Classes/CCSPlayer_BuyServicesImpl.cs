@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CCSPlayer_BuyServicesImpl : CPlayerPawnComponentImpl, CCS
   public CCSPlayer_BuyServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SellbackPurchaseEntriesOffset = new(() => Schema.GetOffset(0xF0C2C12231D8CF7F), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SellbackPurchaseEntry_t> SellbackPurchaseEntries {
-    get => ref _Handle.AsRef<CUtlVector<SellbackPurchaseEntry_t>>(Schema.GetOffset(0xF0C2C12231D8CF7F));
+    get => ref _Handle.AsRef<CUtlVector<SellbackPurchaseEntry_t>>(_SellbackPurchaseEntriesOffset.Value);
   }
 
   public void SellbackPurchaseEntriesUpdated() {

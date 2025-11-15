@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CMultiplayer_ExpresserImpl : CAI_ExpresserWithFollowupImp
   public CMultiplayer_ExpresserImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AllowMultipleScenesOffset = new(() => Schema.GetOffset(0x19772F22AE5FCD97), LazyThreadSafetyMode.None);
+
   public ref bool AllowMultipleScenes {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x19772F22AE5FCD97));
+    get => ref _Handle.AsRef<bool>(_AllowMultipleScenesOffset.Value);
   }
 
 

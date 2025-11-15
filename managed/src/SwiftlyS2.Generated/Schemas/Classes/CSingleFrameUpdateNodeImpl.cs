@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CSingleFrameUpdateNodeImpl : CLeafUpdateNodeImpl, CSingle
   public CSingleFrameUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ActionsOffset = new(() => Schema.GetOffset(0x5A65D6168D622684), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SchemaUntypedField> Actions {
-    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(Schema.GetOffset(0x5A65D6168D622684));
+    get => ref _Handle.AsRef<CUtlVector<SchemaUntypedField>>(_ActionsOffset.Value);
   }
+  private static readonly Lazy<nint> _PoseCacheHandleOffset = new(() => Schema.GetOffset(0x5A65D6164719447A), LazyThreadSafetyMode.None);
+
   public CPoseHandle PoseCacheHandle {
-    get => new CPoseHandleImpl(_Handle + Schema.GetOffset(0x5A65D6164719447A));
+    get => new CPoseHandleImpl(_Handle + _PoseCacheHandleOffset.Value);
   }
+  private static readonly Lazy<nint> _SequenceOffset = new(() => Schema.GetOffset(0x5A65D616E0A0598E), LazyThreadSafetyMode.None);
+
   public HSequence Sequence {
-    get => new HSequenceImpl(_Handle + Schema.GetOffset(0x5A65D616E0A0598E));
+    get => new HSequenceImpl(_Handle + _SequenceOffset.Value);
   }
+  private static readonly Lazy<nint> _CycleOffset = new(() => Schema.GetOffset(0x5A65D6160C77829F), LazyThreadSafetyMode.None);
+
   public ref float Cycle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5A65D6160C77829F));
+    get => ref _Handle.AsRef<float>(_CycleOffset.Value);
   }
 
 

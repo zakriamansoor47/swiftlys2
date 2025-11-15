@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFuncTankTrainImpl : CFuncTrackTrainImpl, CFuncTankTrain 
   public CFuncTankTrainImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnDeathOffset = new(() => Schema.GetOffset(0xF7897E7E6F756BD2), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnDeath {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xF7897E7E6F756BD2));
+    get => new CEntityIOOutputImpl(_Handle + _OnDeathOffset.Value);
   }
 
 

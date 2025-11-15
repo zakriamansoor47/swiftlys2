@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Test_MultiOutflow_WithParams_Yielding__CursorS
   public CPulseCell_Test_MultiOutflow_WithParams_Yielding__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TestStepOffset = new(() => Schema.GetOffset(0xE579E02F4D61CC93), LazyThreadSafetyMode.None);
+
   public ref int TestStep {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE579E02F4D61CC93));
+    get => ref _Handle.AsRef<int>(_TestStepOffset.Value);
   }
 
 

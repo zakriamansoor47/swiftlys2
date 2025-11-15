@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_StopAfterCPDurationImpl : CParticleFunctionPreEmissi
   public C_OP_StopAfterCPDurationImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0xFC2AFAC6BC5E3BAB), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Duration {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xFC2AFAC6BC5E3BAB));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _DestroyImmediatelyOffset = new(() => Schema.GetOffset(0xFC2AFAC675F43101), LazyThreadSafetyMode.None);
+
   public ref bool DestroyImmediately {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFC2AFAC675F43101));
+    get => ref _Handle.AsRef<bool>(_DestroyImmediatelyOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayEndCapOffset = new(() => Schema.GetOffset(0xFC2AFAC6A7AB4A38), LazyThreadSafetyMode.None);
+
   public ref bool PlayEndCap {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFC2AFAC6A7AB4A38));
+    get => ref _Handle.AsRef<bool>(_PlayEndCapOffset.Value);
   }
 
 

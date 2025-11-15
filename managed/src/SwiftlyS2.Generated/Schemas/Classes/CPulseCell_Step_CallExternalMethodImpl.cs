@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CPulseCell_Step_CallExternalMethodImpl : CPulseCell_BaseY
   public CPulseCell_Step_CallExternalMethodImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MethodNameOffset = new(() => Schema.GetOffset(0x6A5B3EF57D863B13), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField MethodName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6A5B3EF57D863B13));
+    get => new SchemaUntypedField(_Handle + _MethodNameOffset.Value);
   }
+  private static readonly Lazy<nint> _GameBlackboardOffset = new(() => Schema.GetOffset(0x6A5B3EF536FB1236), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField GameBlackboard {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6A5B3EF536FB1236));
+    get => new SchemaUntypedField(_Handle + _GameBlackboardOffset.Value);
   }
+  private static readonly Lazy<nint> _ExpectedArgsOffset = new(() => Schema.GetOffset(0x6A5B3EF594EB10E8), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<CPulseRuntimeMethodArg, int> ExpectedArgs {
-    get => ref _Handle.AsRef<CUtlLeanVector<CPulseRuntimeMethodArg, int>>(Schema.GetOffset(0x6A5B3EF594EB10E8));
+    get => ref _Handle.AsRef<CUtlLeanVector<CPulseRuntimeMethodArg, int>>(_ExpectedArgsOffset.Value);
   }
+  private static readonly Lazy<nint> _AsyncCallModeOffset = new(() => Schema.GetOffset(0x6A5B3EF535F27204), LazyThreadSafetyMode.None);
+
   public ref PulseMethodCallMode_t AsyncCallMode {
-    get => ref _Handle.AsRef<PulseMethodCallMode_t>(Schema.GetOffset(0x6A5B3EF535F27204));
+    get => ref _Handle.AsRef<PulseMethodCallMode_t>(_AsyncCallModeOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFinishedOffset = new(() => Schema.GetOffset(0x6A5B3EF58D903E5E), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnFinished {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0x6A5B3EF58D903E5E));
+    get => new CPulse_ResumePointImpl(_Handle + _OnFinishedOffset.Value);
   }
 
 

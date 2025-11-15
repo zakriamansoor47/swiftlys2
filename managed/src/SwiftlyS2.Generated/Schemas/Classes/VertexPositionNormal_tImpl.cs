@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class VertexPositionNormal_tImpl : SchemaClass, VertexPositionN
   public VertexPositionNormal_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PositionOffset = new(() => Schema.GetOffset(0x47BDE764BD6A6C9E), LazyThreadSafetyMode.None);
+
   public ref Vector Position {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x47BDE764BD6A6C9E));
+    get => ref _Handle.AsRef<Vector>(_PositionOffset.Value);
   }
+  private static readonly Lazy<nint> _NormalOffset = new(() => Schema.GetOffset(0x47BDE764AFB36E96), LazyThreadSafetyMode.None);
+
   public ref Vector Normal {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x47BDE764AFB36E96));
+    get => ref _Handle.AsRef<Vector>(_NormalOffset.Value);
   }
 
 

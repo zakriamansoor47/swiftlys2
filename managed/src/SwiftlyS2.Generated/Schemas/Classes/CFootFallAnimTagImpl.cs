@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFootFallAnimTagImpl : CAnimTagBaseImpl, CFootFallAnimTag
   public CFootFallAnimTagImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FootOffset = new(() => Schema.GetOffset(0xC142B61EEB2B8B39), LazyThreadSafetyMode.None);
+
   public ref FootFallTagFoot_t Foot {
-    get => ref _Handle.AsRef<FootFallTagFoot_t>(Schema.GetOffset(0xC142B61EEB2B8B39));
+    get => ref _Handle.AsRef<FootFallTagFoot_t>(_FootOffset.Value);
   }
 
 

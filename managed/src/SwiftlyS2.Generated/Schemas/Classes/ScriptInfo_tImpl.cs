@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class ScriptInfo_tImpl : SchemaClass, ScriptInfo_t {
   public ScriptInfo_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CodeOffset = new(() => Schema.GetOffset(0xDB402399B70C9D94), LazyThreadSafetyMode.None);
+
   public string Code {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDB402399B70C9D94));
+      var ptr = _Handle.Read<nint>(_CodeOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDB402399B70C9D94, value);
+    set => Schema.SetString(_Handle, _CodeOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ParamsModifiedOffset = new(() => Schema.GetOffset(0xDB402399E9EAFC30), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CAnimParamHandle> ParamsModified {
-    get => ref _Handle.AsRef<CUtlVector<CAnimParamHandle>>(Schema.GetOffset(0xDB402399E9EAFC30));
+    get => ref _Handle.AsRef<CUtlVector<CAnimParamHandle>>(_ParamsModifiedOffset.Value);
   }
+  private static readonly Lazy<nint> _ProxyReadParamsOffset = new(() => Schema.GetOffset(0xDB40239944FCCB9D), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> ProxyReadParams {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0xDB40239944FCCB9D));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_ProxyReadParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _ProxyWriteParamsOffset = new(() => Schema.GetOffset(0xDB4023993EAFD134), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> ProxyWriteParams {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0xDB4023993EAFD134));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_ProxyWriteParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _ScriptTypeOffset = new(() => Schema.GetOffset(0xDB40239949576EFB), LazyThreadSafetyMode.None);
+
   public ref AnimScriptType ScriptType {
-    get => ref _Handle.AsRef<AnimScriptType>(Schema.GetOffset(0xDB40239949576EFB));
+    get => ref _Handle.AsRef<AnimScriptType>(_ScriptTypeOffset.Value);
   }
 
 

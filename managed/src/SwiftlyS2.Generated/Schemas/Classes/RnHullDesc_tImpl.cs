@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class RnHullDesc_tImpl : RnShapeDesc_tImpl, RnHullDesc_t {
   public RnHullDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HullOffset = new(() => Schema.GetOffset(0xBB74EDD8AC535D36), LazyThreadSafetyMode.None);
+
   public RnHull_t Hull {
-    get => new RnHull_tImpl(_Handle + Schema.GetOffset(0xBB74EDD8AC535D36));
+    get => new RnHull_tImpl(_Handle + _HullOffset.Value);
   }
 
 

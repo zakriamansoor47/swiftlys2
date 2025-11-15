@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPairedSequenceUpdateNodeImpl : CSequenceUpdateNodeBaseIm
   public CPairedSequenceUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PairedSequenceRoleOffset = new(() => Schema.GetOffset(0xB2B6F0EB4A4CFB12), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol PairedSequenceRole {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xB2B6F0EB4A4CFB12));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_PairedSequenceRoleOffset.Value);
   }
 
 

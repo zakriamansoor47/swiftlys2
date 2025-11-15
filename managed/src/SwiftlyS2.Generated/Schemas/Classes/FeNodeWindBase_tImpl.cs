@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class FeNodeWindBase_tImpl : SchemaClass, FeNodeWindBase_t {
   public FeNodeWindBase_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodeX0Offset = new(() => Schema.GetOffset(0x3892EC5081C7FEB9), LazyThreadSafetyMode.None);
+
   public ref ushort NodeX0 {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x3892EC5081C7FEB9));
+    get => ref _Handle.AsRef<ushort>(_NodeX0Offset.Value);
   }
+  private static readonly Lazy<nint> _NodeX1Offset = new(() => Schema.GetOffset(0x3892EC5080C7FD26), LazyThreadSafetyMode.None);
+
   public ref ushort NodeX1 {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x3892EC5080C7FD26));
+    get => ref _Handle.AsRef<ushort>(_NodeX1Offset.Value);
   }
+  private static readonly Lazy<nint> _NodeY0Offset = new(() => Schema.GetOffset(0x3892EC507BC5B6B0), LazyThreadSafetyMode.None);
+
   public ref ushort NodeY0 {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x3892EC507BC5B6B0));
+    get => ref _Handle.AsRef<ushort>(_NodeY0Offset.Value);
   }
+  private static readonly Lazy<nint> _NodeY1Offset = new(() => Schema.GetOffset(0x3892EC507CC5B843), LazyThreadSafetyMode.None);
+
   public ref ushort NodeY1 {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x3892EC507CC5B843));
+    get => ref _Handle.AsRef<ushort>(_NodeY1Offset.Value);
   }
 
 

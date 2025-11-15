@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_RenderStatusEffectCitadelImpl : CParticleFunctionRen
   public C_OP_RenderStatusEffectCitadelImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TextureColorWarpOffset = new(() => Schema.GetOffset(0x3A3089C2C99DEE43), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> TextureColorWarp {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x3A3089C2C99DEE43));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_TextureColorWarpOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureNormalOffset = new(() => Schema.GetOffset(0x3A3089C298E8363D), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> TextureNormal {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x3A3089C298E8363D));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_TextureNormalOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureMetalnessOffset = new(() => Schema.GetOffset(0x3A3089C25ABD9B42), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> TextureMetalness {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x3A3089C25ABD9B42));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_TextureMetalnessOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureRoughnessOffset = new(() => Schema.GetOffset(0x3A3089C2BD0AD95C), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> TextureRoughness {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x3A3089C2BD0AD95C));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_TextureRoughnessOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureSelfIllumOffset = new(() => Schema.GetOffset(0x3A3089C2D815240D), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> TextureSelfIllum {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x3A3089C2D815240D));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_TextureSelfIllumOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureDetailOffset = new(() => Schema.GetOffset(0x3A3089C28D414A8F), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> TextureDetail {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x3A3089C28D414A8F));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_TextureDetailOffset.Value);
   }
 
 

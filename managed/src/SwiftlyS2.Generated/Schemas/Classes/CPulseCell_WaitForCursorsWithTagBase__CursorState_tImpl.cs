@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_WaitForCursorsWithTagBase__CursorState_tImpl :
   public CPulseCell_WaitForCursorsWithTagBase__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TagNameOffset = new(() => Schema.GetOffset(0x71EA6190647DC278), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField TagName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x71EA6190647DC278));
+    get => new SchemaUntypedField(_Handle + _TagNameOffset.Value);
   }
 
 

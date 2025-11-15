@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class C_OP_RenderMaterialProxyImpl : CParticleFunctionRendererI
   public C_OP_RenderMaterialProxyImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaterialControlPointOffset = new(() => Schema.GetOffset(0xA7258058EACD475D), LazyThreadSafetyMode.None);
+
   public ref int MaterialControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA7258058EACD475D));
+    get => ref _Handle.AsRef<int>(_MaterialControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _ProxyTypeOffset = new(() => Schema.GetOffset(0xA7258058066A337F), LazyThreadSafetyMode.None);
+
   public ref MaterialProxyType_t ProxyType {
-    get => ref _Handle.AsRef<MaterialProxyType_t>(Schema.GetOffset(0xA7258058066A337F));
+    get => ref _Handle.AsRef<MaterialProxyType_t>(_ProxyTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _MaterialVarsOffset = new(() => Schema.GetOffset(0xA7258058FA861D66), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialVariable_t> MaterialVars {
-    get => ref _Handle.AsRef<CUtlVector<MaterialVariable_t>>(Schema.GetOffset(0xA7258058FA861D66));
+    get => ref _Handle.AsRef<CUtlVector<MaterialVariable_t>>(_MaterialVarsOffset.Value);
   }
+  private static readonly Lazy<nint> _OverrideMaterialOffset = new(() => Schema.GetOffset(0xA72580582C055CBE), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeIMaterial2> OverrideMaterial {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(Schema.GetOffset(0xA72580582C055CBE));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(_OverrideMaterialOffset.Value);
   }
+  private static readonly Lazy<nint> _MaterialOverrideEnabledOffset = new(() => Schema.GetOffset(0xA725805832275723), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput MaterialOverrideEnabled {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xA725805832275723));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _MaterialOverrideEnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorScaleOffset = new(() => Schema.GetOffset(0xA72580589F9BB8BA), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput ColorScale {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xA72580589F9BB8BA));
+    get => new CParticleCollectionVecInputImpl(_Handle + _ColorScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _AlphaOffset = new(() => Schema.GetOffset(0xA7258058A0DB7DD1), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Alpha {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xA7258058A0DB7DD1));
+    get => new CPerParticleFloatInputImpl(_Handle + _AlphaOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorBlendTypeOffset = new(() => Schema.GetOffset(0xA7258058DBC6EFCF), LazyThreadSafetyMode.None);
+
   public ref ParticleColorBlendType_t ColorBlendType {
-    get => ref _Handle.AsRef<ParticleColorBlendType_t>(Schema.GetOffset(0xA7258058DBC6EFCF));
+    get => ref _Handle.AsRef<ParticleColorBlendType_t>(_ColorBlendTypeOffset.Value);
   }
 
 

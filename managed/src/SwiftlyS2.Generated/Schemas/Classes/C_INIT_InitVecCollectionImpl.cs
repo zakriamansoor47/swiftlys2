@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_INIT_InitVecCollectionImpl : CParticleFunctionInitializ
   public C_INIT_InitVecCollectionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueOffset = new(() => Schema.GetOffset(0x2F5AD47234445438), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput InputValue {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x2F5AD47234445438));
+    get => new CParticleCollectionVecInputImpl(_Handle + _InputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputFieldOffset = new(() => Schema.GetOffset(0x2F5AD472324F6F74), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t OutputField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x2F5AD472324F6F74));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _OutputFieldOffset.Value);
   }
 
 

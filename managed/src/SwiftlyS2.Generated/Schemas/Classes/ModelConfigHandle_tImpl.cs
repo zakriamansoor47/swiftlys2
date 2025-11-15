@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class ModelConfigHandle_tImpl : SchemaClass, ModelConfigHandle_
   public ModelConfigHandle_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0x5DC9B751DCB0894A), LazyThreadSafetyMode.None);
+
   public ref uint Value {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x5DC9B751DCB0894A));
+    get => ref _Handle.AsRef<uint>(_ValueOffset.Value);
   }
 
 

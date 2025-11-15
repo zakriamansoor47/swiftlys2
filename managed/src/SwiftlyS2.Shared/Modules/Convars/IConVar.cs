@@ -11,34 +11,44 @@ public interface IConVar<T> {
   T Value { get; set; }
 
   /// <summary>
-  /// Add flags to the convar.
+  /// The max value of the convar.
+  /// 
+  /// <exception cref="InvalidOperationException">Thrown when the convar is not a min/max type or doesn't have a max value.</exception>
   /// </summary>
-  /// <param name="flags">flags.</param>
-  void AddFlags(ConvarFlags flags);
+  T MaxValue { get; set; }
 
   /// <summary>
-  /// Remove flags from the convar.
+  /// The min value of the convar.
+  /// 
+  /// <exception cref="InvalidOperationException">Thrown when the convar is not a min/max type or doesn't have a min value.</exception>
   /// </summary>
-  /// <param name="flags">flags.</param>
-  void RemoveFlags(ConvarFlags flags);
+  T MinValue { get; set; }
 
   /// <summary>
-  /// Clear all flags from the convar.
+  /// The default value of the convar.
   /// </summary>
-  void ClearFlags();
+  T DefaultValue { get; set; }
 
   /// <summary>
-  /// Get the flags of the convar.
+  /// Whether the convar has a default value.
   /// </summary>
-  /// <returns>The flags of the convar.</returns>
-  ConvarFlags GetFlags();
+  bool HasDefaultValue { get; }
 
   /// <summary>
-  /// Check if the convar has the given flags.
+  /// Whether the convar has a min value.
   /// </summary>
-  /// <param name="flags">flags.</param>
-  /// <returns>True if the convar has all the given flags, false otherwise.</returns>
-  bool HasFlags(ConvarFlags flags);
+  bool HasMinValue { get; }
+
+  /// <summary>
+  /// Whether the convar has a max value.
+  /// </summary>
+  bool HasMaxValue { get; }
+
+  /// <summary>
+  /// The flags of the convar.
+  /// </summary>
+  ConvarFlags Flags { get; set; }
+
 
   /// <summary>
   /// Internally set the value of the convar.
@@ -57,6 +67,27 @@ public interface IConVar<T> {
   /// Query the value of the convar from specified client.
   /// </summary>
   /// <param name="clientId"></param>
-  /// <param name="value">The action to execute with the value.</param>
+  /// <param name="callback">The action to execute with the value.</param>
   void QueryClient(int clientId, Action<string> callback);
+
+  /// <summary>
+  /// Try to get the min value of the convar.
+  /// </summary>
+  /// <param name="minValue">The min value of the convar.</param>
+  /// <returns>True if the min value is found, false otherwise.</returns>
+  bool TryGetMinValue(out T minValue);
+
+  /// <summary>
+  /// Try to get the max value of the convar.
+  /// </summary>
+  /// <param name="maxValue">The max value of the convar.</param>
+  /// <returns>True if the max value is found, false otherwise.</returns>
+  bool TryGetMaxValue(out T maxValue);
+
+  /// <summary>
+  /// Try to get the default value of the convar.
+  /// </summary>
+  /// <param name="defaultValue">The default value of the convar.</param>
+  /// <returns>True if the default value is found, false otherwise.</returns>
+  bool TryGetDefaultValue(out T defaultValue);
 }

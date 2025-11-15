@@ -22,11 +22,11 @@
             "Use": "e"
         },
         "InputMode": "button",
-        "KindSettings": {
-            "Center": {
-                "ItemsPerPage": 4
-            }
-        },
+        // "KindSettings": {
+        //     "Center": {
+        //         "ItemsPerPage": 4
+        //     }
+        // },
         "NavigationPrefix": "➤",
         "Sound": {
             "Exit": {
@@ -41,7 +41,8 @@
                 "Name": "Vote.Cast.Yes",
                 "Volume": 0.75
             }
-        }
+        },
+        "ItemsPerPage": 5
     },
     "PatchesToPerform": [],
     "SteamAuth": {

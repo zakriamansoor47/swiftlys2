@@ -1,0 +1,54 @@
+---
+# Base style
+BasedOnStyle: LLVM
+
+# Indentation settings
+IndentWidth: 4
+UseTab: Never
+TabWidth: 4
+
+# Access modifier offset
+AccessModifierOffset: -4
+
+# Brace breaking style
+BreakBeforeBraces: Allman
+
+# Pointer and reference alignment
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+# Space settings
+SpaceBeforeParens: ControlStatements
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
+SpacesInContainerLiterals: true
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# Column limit
+ColumnLimit: 256
+
+# Namespace indentation
+NamespaceIndentation: All
+
+# Keep short statements on single line
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+
+# Constructor initializer list
+ConstructorInitializerIndentWidth: 4
+BreakConstructorInitializers: BeforeColon
+
+# Binary operator line breaking
+BreakBeforeBinaryOperators: None
+
+# Comment alignment
+AlignTrailingComments: true
+
+# Consecutive assignment alignment
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false

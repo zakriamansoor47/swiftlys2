@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmFloatRemapNode__CDefinitionImpl : CNmFloatValueNode__C
   public CNmFloatRemapNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0x5169293495E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x5169293495E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _InputRangeOffset = new(() => Schema.GetOffset(0x51692934096AEBF0), LazyThreadSafetyMode.None);
+
   public CNmFloatRemapNode__RemapRange_t InputRange {
-    get => new CNmFloatRemapNode__RemapRange_tImpl(_Handle + Schema.GetOffset(0x51692934096AEBF0));
+    get => new CNmFloatRemapNode__RemapRange_tImpl(_Handle + _InputRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputRangeOffset = new(() => Schema.GetOffset(0x5169293437E0CA29), LazyThreadSafetyMode.None);
+
   public CNmFloatRemapNode__RemapRange_t OutputRange {
-    get => new CNmFloatRemapNode__RemapRange_tImpl(_Handle + Schema.GetOffset(0x5169293437E0CA29));
+    get => new CNmFloatRemapNode__RemapRange_tImpl(_Handle + _OutputRangeOffset.Value);
   }
 
 

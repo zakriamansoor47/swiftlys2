@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_RenderVRHapticEventImpl : CParticleFunctionRendererI
   public C_OP_RenderVRHapticEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HandOffset = new(() => Schema.GetOffset(0xB83C5242D49ECB4C), LazyThreadSafetyMode.None);
+
   public ref ParticleVRHandChoiceList_t Hand {
-    get => ref _Handle.AsRef<ParticleVRHandChoiceList_t>(Schema.GetOffset(0xB83C5242D49ECB4C));
+    get => ref _Handle.AsRef<ParticleVRHandChoiceList_t>(_HandOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputHandCPOffset = new(() => Schema.GetOffset(0xB83C52428D35D26A), LazyThreadSafetyMode.None);
+
   public ref int OutputHandCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB83C52428D35D26A));
+    get => ref _Handle.AsRef<int>(_OutputHandCPOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputFieldOffset = new(() => Schema.GetOffset(0xB83C5242324F6F74), LazyThreadSafetyMode.None);
+
   public ref int OutputField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB83C5242324F6F74));
+    get => ref _Handle.AsRef<int>(_OutputFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _AmplitudeOffset = new(() => Schema.GetOffset(0xB83C5242B44B0E18), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Amplitude {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xB83C5242B44B0E18));
+    get => new CPerParticleFloatInputImpl(_Handle + _AmplitudeOffset.Value);
   }
 
 

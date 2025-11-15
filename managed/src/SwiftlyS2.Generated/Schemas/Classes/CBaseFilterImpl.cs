@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CBaseFilterImpl : CLogicalEntityImpl, CBaseFilter {
   public CBaseFilterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NegatedOffset = new(() => Schema.GetOffset(0x2D59B2893803BF0D), LazyThreadSafetyMode.None);
+
   public ref bool Negated {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x2D59B2893803BF0D));
+    get => ref _Handle.AsRef<bool>(_NegatedOffset.Value);
   }
+  private static readonly Lazy<nint> _OnPassOffset = new(() => Schema.GetOffset(0x2D59B2899B527249), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnPass {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x2D59B2899B527249));
+    get => new CEntityIOOutputImpl(_Handle + _OnPassOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFailOffset = new(() => Schema.GetOffset(0x2D59B289794EF854), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnFail {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x2D59B289794EF854));
+    get => new CEntityIOOutputImpl(_Handle + _OnFailOffset.Value);
   }
 
 

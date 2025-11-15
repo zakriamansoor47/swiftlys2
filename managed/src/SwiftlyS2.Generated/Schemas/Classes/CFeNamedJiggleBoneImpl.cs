@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CFeNamedJiggleBoneImpl : SchemaClass, CFeNamedJiggleBone 
   public CFeNamedJiggleBoneImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StrParentBoneOffset = new(() => Schema.GetOffset(0x51055B3A22DD827E), LazyThreadSafetyMode.None);
+
   public string StrParentBone {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x51055B3A22DD827E));
+      var ptr = _Handle.Read<nint>(_StrParentBoneOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x51055B3A22DD827E, value);
+    set => Schema.SetString(_Handle, _StrParentBoneOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TransformOffset = new(() => Schema.GetOffset(0x51055B3A3A9A393B), LazyThreadSafetyMode.None);
+
   public ref CTransform Transform {
-    get => ref _Handle.AsRef<CTransform>(Schema.GetOffset(0x51055B3A3A9A393B));
+    get => ref _Handle.AsRef<CTransform>(_TransformOffset.Value);
   }
+  private static readonly Lazy<nint> _JiggleParentOffset = new(() => Schema.GetOffset(0x51055B3A8AABF3B9), LazyThreadSafetyMode.None);
+
   public ref uint JiggleParent {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x51055B3A8AABF3B9));
+    get => ref _Handle.AsRef<uint>(_JiggleParentOffset.Value);
   }
+  private static readonly Lazy<nint> _JiggleBoneOffset = new(() => Schema.GetOffset(0x51055B3A6038C557), LazyThreadSafetyMode.None);
+
   public CFeJiggleBone JiggleBone {
-    get => new CFeJiggleBoneImpl(_Handle + Schema.GetOffset(0x51055B3A6038C557));
+    get => new CFeJiggleBoneImpl(_Handle + _JiggleBoneOffset.Value);
   }
 
 

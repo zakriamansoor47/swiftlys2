@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class PointCameraSettings_tImpl : SchemaClass, PointCameraSetti
   public PointCameraSettings_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NearBlurryDistanceOffset = new(() => Schema.GetOffset(0x4BE8175CEB0CA47E), LazyThreadSafetyMode.None);
+
   public ref float NearBlurryDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4BE8175CEB0CA47E));
+    get => ref _Handle.AsRef<float>(_NearBlurryDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _NearCrispDistanceOffset = new(() => Schema.GetOffset(0x4BE8175CF0C9A8C7), LazyThreadSafetyMode.None);
+
   public ref float NearCrispDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4BE8175CF0C9A8C7));
+    get => ref _Handle.AsRef<float>(_NearCrispDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _FarCrispDistanceOffset = new(() => Schema.GetOffset(0x4BE8175CE95AEE28), LazyThreadSafetyMode.None);
+
   public ref float FarCrispDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4BE8175CE95AEE28));
+    get => ref _Handle.AsRef<float>(_FarCrispDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _FarBlurryDistanceOffset = new(() => Schema.GetOffset(0x4BE8175CF8892257), LazyThreadSafetyMode.None);
+
   public ref float FarBlurryDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4BE8175CF8892257));
+    get => ref _Handle.AsRef<float>(_FarBlurryDistanceOffset.Value);
   }
 
 

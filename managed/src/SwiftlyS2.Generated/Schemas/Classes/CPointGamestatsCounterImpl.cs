@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CPointGamestatsCounterImpl : CPointEntityImpl, CPointGame
   public CPointGamestatsCounterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StrStatisticNameOffset = new(() => Schema.GetOffset(0xDB27C27354212AB1), LazyThreadSafetyMode.None);
+
   public string StrStatisticName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDB27C27354212AB1));
+      var ptr = _Handle.Read<nint>(_StrStatisticNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDB27C27354212AB1, value);
+    set => Schema.SetString(_Handle, _StrStatisticNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0xDB27C2733A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDB27C2733A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
 
 

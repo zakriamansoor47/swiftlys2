@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CInfoGameEventProxyImpl : CPointEntityImpl, CInfoGameEven
   public CInfoGameEventProxyImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EventNameOffset = new(() => Schema.GetOffset(0x483B3FC078114A54), LazyThreadSafetyMode.None);
+
   public string EventName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x483B3FC078114A54));
+      var ptr = _Handle.Read<nint>(_EventNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x483B3FC078114A54, value);
+    set => Schema.SetString(_Handle, _EventNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _RangeOffset = new(() => Schema.GetOffset(0x483B3FC03FC92844), LazyThreadSafetyMode.None);
+
   public ref float Range {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x483B3FC03FC92844));
+    get => ref _Handle.AsRef<float>(_RangeOffset.Value);
   }
 
 

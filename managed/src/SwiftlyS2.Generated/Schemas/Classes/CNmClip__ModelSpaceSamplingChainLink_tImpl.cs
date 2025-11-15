@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmClip__ModelSpaceSamplingChainLink_tImpl : SchemaClass,
   public CNmClip__ModelSpaceSamplingChainLink_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoneIdxOffset = new(() => Schema.GetOffset(0xAFAB55410E26A9C2), LazyThreadSafetyMode.None);
+
   public ref int BoneIdx {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAFAB55410E26A9C2));
+    get => ref _Handle.AsRef<int>(_BoneIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ParentBoneIdxOffset = new(() => Schema.GetOffset(0xAFAB554185076542), LazyThreadSafetyMode.None);
+
   public ref int ParentBoneIdx {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAFAB554185076542));
+    get => ref _Handle.AsRef<int>(_ParentBoneIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ParentChainLinkIdxOffset = new(() => Schema.GetOffset(0xAFAB5541DB4E7C5D), LazyThreadSafetyMode.None);
+
   public ref int ParentChainLinkIdx {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAFAB5541DB4E7C5D));
+    get => ref _Handle.AsRef<int>(_ParentChainLinkIdxOffset.Value);
   }
 
 

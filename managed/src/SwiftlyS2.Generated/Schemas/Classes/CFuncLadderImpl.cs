@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,45 +17,69 @@ internal partial class CFuncLadderImpl : CBaseModelEntityImpl, CFuncLadder {
   public CFuncLadderImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LadderDirOffset = new(() => Schema.GetOffset(0xD85E0238BEE3D218), LazyThreadSafetyMode.None);
+
   public ref Vector LadderDir {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD85E0238BEE3D218));
+    get => ref _Handle.AsRef<Vector>(_LadderDirOffset.Value);
   }
+  private static readonly Lazy<nint> _DismountsOffset = new(() => Schema.GetOffset(0xD85E0238E1BF2F19), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CInfoLadderDismount>> Dismounts {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CInfoLadderDismount>>>(Schema.GetOffset(0xD85E0238E1BF2F19));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CInfoLadderDismount>>>(_DismountsOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalTopOffset = new(() => Schema.GetOffset(0xD85E0238A709E4E3), LazyThreadSafetyMode.None);
+
   public ref Vector LocalTop {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD85E0238A709E4E3));
+    get => ref _Handle.AsRef<Vector>(_LocalTopOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerMountPositionTopOffset = new(() => Schema.GetOffset(0xD85E02383DC07685), LazyThreadSafetyMode.None);
+
   public ref Vector PlayerMountPositionTop {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD85E02383DC07685));
+    get => ref _Handle.AsRef<Vector>(_PlayerMountPositionTopOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerMountPositionBottomOffset = new(() => Schema.GetOffset(0xD85E02387AC961B1), LazyThreadSafetyMode.None);
+
   public ref Vector PlayerMountPositionBottom {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD85E02387AC961B1));
+    get => ref _Handle.AsRef<Vector>(_PlayerMountPositionBottomOffset.Value);
   }
+  private static readonly Lazy<nint> _AutoRideSpeedOffset = new(() => Schema.GetOffset(0xD85E0238B5C8CE19), LazyThreadSafetyMode.None);
+
   public ref float AutoRideSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD85E0238B5C8CE19));
+    get => ref _Handle.AsRef<float>(_AutoRideSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0xD85E02383A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD85E02383A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _FakeLadderOffset = new(() => Schema.GetOffset(0xD85E023887708598), LazyThreadSafetyMode.None);
+
   public ref bool FakeLadder {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD85E023887708598));
+    get => ref _Handle.AsRef<bool>(_FakeLadderOffset.Value);
   }
+  private static readonly Lazy<nint> _HasSlackOffset = new(() => Schema.GetOffset(0xD85E02381745DB1D), LazyThreadSafetyMode.None);
+
   public ref bool HasSlack {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD85E02381745DB1D));
+    get => ref _Handle.AsRef<bool>(_HasSlackOffset.Value);
   }
+  private static readonly Lazy<nint> _SurfacePropNameOffset = new(() => Schema.GetOffset(0xD85E0238749EACC6), LazyThreadSafetyMode.None);
+
   public string SurfacePropName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xD85E0238749EACC6));
+      var ptr = _Handle.Read<nint>(_SurfacePropNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xD85E0238749EACC6, value);
+    set => Schema.SetString(_Handle, _SurfacePropNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _OnPlayerGotOnLadderOffset = new(() => Schema.GetOffset(0xD85E02381B2BA3FC), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnPlayerGotOnLadder {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xD85E02381B2BA3FC));
+    get => new CEntityIOOutputImpl(_Handle + _OnPlayerGotOnLadderOffset.Value);
   }
+  private static readonly Lazy<nint> _OnPlayerGotOffLadderOffset = new(() => Schema.GetOffset(0xD85E02388AD8997A), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnPlayerGotOffLadder {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xD85E02388AD8997A));
+    get => new CEntityIOOutputImpl(_Handle + _OnPlayerGotOffLadderOffset.Value);
   }
 
   public void LadderDirUpdated() {

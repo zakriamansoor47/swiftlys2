@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_PlayEndCapWhenFinishedImpl : CParticleFunctionPreEmi
   public C_OP_PlayEndCapWhenFinishedImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FireOnEmissionEndOffset = new(() => Schema.GetOffset(0xFC89982E01C357B0), LazyThreadSafetyMode.None);
+
   public ref bool FireOnEmissionEnd {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFC89982E01C357B0));
+    get => ref _Handle.AsRef<bool>(_FireOnEmissionEndOffset.Value);
   }
+  private static readonly Lazy<nint> _IncludeChildrenOffset = new(() => Schema.GetOffset(0xFC89982EA7706C80), LazyThreadSafetyMode.None);
+
   public ref bool IncludeChildren {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFC89982EA7706C80));
+    get => ref _Handle.AsRef<bool>(_IncludeChildrenOffset.Value);
   }
 
 

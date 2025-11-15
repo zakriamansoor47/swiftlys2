@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_OP_CurlNoiseForceImpl : CParticleFunctionForceImpl, C_O
   public C_OP_CurlNoiseForceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NoiseTypeOffset = new(() => Schema.GetOffset(0xC8D644B26758ED35), LazyThreadSafetyMode.None);
+
   public ref ParticleDirectionNoiseType_t NoiseType {
-    get => ref _Handle.AsRef<ParticleDirectionNoiseType_t>(Schema.GetOffset(0xC8D644B26758ED35));
+    get => ref _Handle.AsRef<ParticleDirectionNoiseType_t>(_NoiseTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseFreqOffset = new(() => Schema.GetOffset(0xC8D644B20A299A63), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput NoiseFreq {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xC8D644B20A299A63));
+    get => new CPerParticleVecInputImpl(_Handle + _NoiseFreqOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseScaleOffset = new(() => Schema.GetOffset(0xC8D644B29CE92E45), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput NoiseScale {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xC8D644B29CE92E45));
+    get => new CPerParticleVecInputImpl(_Handle + _NoiseScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xC8D644B2BD25CC2A), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Offset {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xC8D644B2BD25CC2A));
+    get => new CPerParticleVecInputImpl(_Handle + _OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetRateOffset = new(() => Schema.GetOffset(0xC8D644B23D58FFB8), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput OffsetRate {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xC8D644B23D58FFB8));
+    get => new CPerParticleVecInputImpl(_Handle + _OffsetRateOffset.Value);
   }
+  private static readonly Lazy<nint> _WorleySeedOffset = new(() => Schema.GetOffset(0xC8D644B2D6881198), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput WorleySeed {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xC8D644B2D6881198));
+    get => new CPerParticleFloatInputImpl(_Handle + _WorleySeedOffset.Value);
   }
+  private static readonly Lazy<nint> _WorleyJitterOffset = new(() => Schema.GetOffset(0xC8D644B2C7509CCF), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput WorleyJitter {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xC8D644B2C7509CCF));
+    get => new CPerParticleFloatInputImpl(_Handle + _WorleyJitterOffset.Value);
   }
 
 

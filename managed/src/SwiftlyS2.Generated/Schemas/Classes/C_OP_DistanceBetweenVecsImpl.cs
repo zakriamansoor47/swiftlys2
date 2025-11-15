@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,32 +17,50 @@ internal partial class C_OP_DistanceBetweenVecsImpl : CParticleFunctionOperatorI
   public C_OP_DistanceBetweenVecsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xA94A9A29E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xA94A9A29E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _Point1Offset = new(() => Schema.GetOffset(0xA94A9A2904AD2BC0), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Point1 {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xA94A9A2904AD2BC0));
+    get => new CPerParticleVecInputImpl(_Handle + _Point1Offset.Value);
   }
+  private static readonly Lazy<nint> _Point2Offset = new(() => Schema.GetOffset(0xA94A9A2907AD3079), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Point2 {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xA94A9A2907AD3079));
+    get => new CPerParticleVecInputImpl(_Handle + _Point2Offset.Value);
   }
+  private static readonly Lazy<nint> _InputMinOffset = new(() => Schema.GetOffset(0xA94A9A29E88A0D0F), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputMin {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xA94A9A29E88A0D0F));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMaxOffset = new(() => Schema.GetOffset(0xA94A9A29D6766901), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputMax {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xA94A9A29D6766901));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0xA94A9A295F8D7716), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput OutputMin {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xA94A9A295F8D7716));
+    get => new CPerParticleFloatInputImpl(_Handle + _OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0xA94A9A2951A0E8C4), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput OutputMax {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xA94A9A2951A0E8C4));
+    get => new CPerParticleFloatInputImpl(_Handle + _OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0xA94A9A29FB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0xA94A9A29FB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _DeltaTimeOffset = new(() => Schema.GetOffset(0xA94A9A29464DB858), LazyThreadSafetyMode.None);
+
   public ref bool DeltaTime {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA94A9A29464DB858));
+    get => ref _Handle.AsRef<bool>(_DeltaTimeOffset.Value);
   }
 
 

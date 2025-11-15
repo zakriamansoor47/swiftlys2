@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CPhysSurfacePropertiesPhysicsImpl : SchemaClass, CPhysSur
   public CPhysSurfacePropertiesPhysicsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FrictionOffset = new(() => Schema.GetOffset(0xF44ED88D5DBDE05B), LazyThreadSafetyMode.None);
+
   public ref float Friction {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF44ED88D5DBDE05B));
+    get => ref _Handle.AsRef<float>(_FrictionOffset.Value);
   }
+  private static readonly Lazy<nint> _ElasticityOffset = new(() => Schema.GetOffset(0xF44ED88DEFAD1ED4), LazyThreadSafetyMode.None);
+
   public ref float Elasticity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF44ED88DEFAD1ED4));
+    get => ref _Handle.AsRef<float>(_ElasticityOffset.Value);
   }
+  private static readonly Lazy<nint> _DensityOffset = new(() => Schema.GetOffset(0xF44ED88D870F96BB), LazyThreadSafetyMode.None);
+
   public ref float Density {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF44ED88D870F96BB));
+    get => ref _Handle.AsRef<float>(_DensityOffset.Value);
   }
+  private static readonly Lazy<nint> _ThicknessOffset = new(() => Schema.GetOffset(0xF44ED88D5B5FCC35), LazyThreadSafetyMode.None);
+
   public ref float Thickness {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF44ED88D5B5FCC35));
+    get => ref _Handle.AsRef<float>(_ThicknessOffset.Value);
   }
+  private static readonly Lazy<nint> _SoftContactFrequencyOffset = new(() => Schema.GetOffset(0xF44ED88D2103A65B), LazyThreadSafetyMode.None);
+
   public ref float SoftContactFrequency {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF44ED88D2103A65B));
+    get => ref _Handle.AsRef<float>(_SoftContactFrequencyOffset.Value);
   }
+  private static readonly Lazy<nint> _SoftContactDampingRatioOffset = new(() => Schema.GetOffset(0xF44ED88D1FD70102), LazyThreadSafetyMode.None);
+
   public ref float SoftContactDampingRatio {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF44ED88D1FD70102));
+    get => ref _Handle.AsRef<float>(_SoftContactDampingRatioOffset.Value);
   }
 
 

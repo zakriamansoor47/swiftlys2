@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CMotionMetricEvaluatorImpl : SchemaClass, CMotionMetricEv
   public CMotionMetricEvaluatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MeansOffset = new(() => Schema.GetOffset(0x1C07D08DAB070085), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> Means {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x1C07D08DAB070085));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_MeansOffset.Value);
   }
+  private static readonly Lazy<nint> _StandardDeviationsOffset = new(() => Schema.GetOffset(0x1C07D08D9114EB60), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> StandardDeviations {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x1C07D08D9114EB60));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_StandardDeviationsOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightOffset = new(() => Schema.GetOffset(0x1C07D08D7B81E7AB), LazyThreadSafetyMode.None);
+
   public ref float Weight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1C07D08D7B81E7AB));
+    get => ref _Handle.AsRef<float>(_WeightOffset.Value);
   }
+  private static readonly Lazy<nint> _DimensionStartIndexOffset = new(() => Schema.GetOffset(0x1C07D08D3448F2E3), LazyThreadSafetyMode.None);
+
   public ref int DimensionStartIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1C07D08D3448F2E3));
+    get => ref _Handle.AsRef<int>(_DimensionStartIndexOffset.Value);
   }
 
 

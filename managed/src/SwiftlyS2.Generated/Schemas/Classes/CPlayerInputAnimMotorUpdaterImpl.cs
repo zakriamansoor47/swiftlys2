@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CPlayerInputAnimMotorUpdaterImpl : CAnimMotorUpdaterBaseI
   public CPlayerInputAnimMotorUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SampleTimesOffset = new(() => Schema.GetOffset(0xA117CC02471975DF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> SampleTimes {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0xA117CC02471975DF));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_SampleTimesOffset.Value);
   }
+  private static readonly Lazy<nint> _SpringConstantOffset = new(() => Schema.GetOffset(0xA117CC02CE2260BE), LazyThreadSafetyMode.None);
+
   public ref float SpringConstant {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA117CC02CE2260BE));
+    get => ref _Handle.AsRef<float>(_SpringConstantOffset.Value);
   }
+  private static readonly Lazy<nint> _AnticipationDistanceOffset = new(() => Schema.GetOffset(0xA117CC0264273401), LazyThreadSafetyMode.None);
+
   public ref float AnticipationDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA117CC0264273401));
+    get => ref _Handle.AsRef<float>(_AnticipationDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _AnticipationPosParamOffset = new(() => Schema.GetOffset(0xA117CC0286389829), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle AnticipationPosParam {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xA117CC0286389829));
+    get => new CAnimParamHandleImpl(_Handle + _AnticipationPosParamOffset.Value);
   }
+  private static readonly Lazy<nint> _AnticipationHeadingParamOffset = new(() => Schema.GetOffset(0xA117CC02095DAB6D), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle AnticipationHeadingParam {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xA117CC02095DAB6D));
+    get => new CAnimParamHandleImpl(_Handle + _AnticipationHeadingParamOffset.Value);
   }
+  private static readonly Lazy<nint> _UseAccelerationOffset = new(() => Schema.GetOffset(0xA117CC02254F8B08), LazyThreadSafetyMode.None);
+
   public ref bool UseAcceleration {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA117CC02254F8B08));
+    get => ref _Handle.AsRef<bool>(_UseAccelerationOffset.Value);
   }
 
 

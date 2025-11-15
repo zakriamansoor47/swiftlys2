@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CAnimMotorUpdaterBaseImpl : SchemaClass, CAnimMotorUpdate
   public CAnimMotorUpdaterBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x3FB6E1144D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x3FB6E1144D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x3FB6E1144D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _DefaultOffset = new(() => Schema.GetOffset(0x3FB6E11485F067BE), LazyThreadSafetyMode.None);
+
   public ref bool Default {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3FB6E11485F067BE));
+    get => ref _Handle.AsRef<bool>(_DefaultOffset.Value);
   }
 
 

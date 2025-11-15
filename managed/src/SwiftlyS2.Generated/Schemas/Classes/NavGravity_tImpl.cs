@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class NavGravity_tImpl : SchemaClass, NavGravity_t {
   public NavGravity_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GravityOffset = new(() => Schema.GetOffset(0xAF45EC63A5AE4779), LazyThreadSafetyMode.None);
+
   public ref Vector Gravity {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xAF45EC63A5AE4779));
+    get => ref _Handle.AsRef<Vector>(_GravityOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultOffset = new(() => Schema.GetOffset(0xAF45EC6385F067BE), LazyThreadSafetyMode.None);
+
   public ref bool Default {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAF45EC6385F067BE));
+    get => ref _Handle.AsRef<bool>(_DefaultOffset.Value);
   }
 
 

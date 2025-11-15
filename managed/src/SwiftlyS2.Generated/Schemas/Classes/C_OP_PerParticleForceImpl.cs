@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_PerParticleForceImpl : CParticleFunctionForceImpl, C
   public C_OP_PerParticleForceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceScaleOffset = new(() => Schema.GetOffset(0x70EFAEAD4817F390), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput ForceScale {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x70EFAEAD4817F390));
+    get => new CPerParticleFloatInputImpl(_Handle + _ForceScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceOffset = new(() => Schema.GetOffset(0x70EFAEADE530B0A8), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Force {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x70EFAEADE530B0A8));
+    get => new CPerParticleVecInputImpl(_Handle + _ForceOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x70EFAEADEB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x70EFAEADEB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
 
 

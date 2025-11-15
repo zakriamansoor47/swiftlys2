@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CStateActionUpdaterImpl : SchemaClass, CStateActionUpdate
   public CStateActionUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ActionOffset = new(() => Schema.GetOffset(0xCA33DCAAE9CB47D5), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Action {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xCA33DCAAE9CB47D5));
+    get => new SchemaUntypedField(_Handle + _ActionOffset.Value);
   }
+  private static readonly Lazy<nint> _BehaviorOffset = new(() => Schema.GetOffset(0xCA33DCAA436DB10A), LazyThreadSafetyMode.None);
+
   public ref StateActionBehavior Behavior {
-    get => ref _Handle.AsRef<StateActionBehavior>(Schema.GetOffset(0xCA33DCAA436DB10A));
+    get => ref _Handle.AsRef<StateActionBehavior>(_BehaviorOffset.Value);
   }
 
 

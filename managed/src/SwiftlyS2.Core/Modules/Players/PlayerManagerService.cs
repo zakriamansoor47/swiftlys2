@@ -17,22 +17,22 @@ internal class PlayerManagerService : IPlayerManagerService
         NativePlayerManager.ClearAllBlockedTransmitEntity();
     }
 
-    public IPlayer GetPlayer(int playerid)
+    public IPlayer GetPlayer( int playerid )
     {
         return new Player(playerid);
     }
 
-    public bool IsPlayerOnline(int playerid)
+    public bool IsPlayerOnline( int playerid )
     {
         return NativePlayerManager.IsPlayerOnline(playerid);
     }
 
-    public void SendMessage(MessageType kind, string message)
+    public void SendMessage( MessageType kind, string message )
     {
-        NativePlayerManager.SendMessage((int)kind, message);
+        NativePlayerManager.SendMessage((int)kind, message, 5000);
     }
 
-    public void ShouldBlockTransmitEntity(int entityid, bool shouldBlockTransmit)
+    public void ShouldBlockTransmitEntity( int entityid, bool shouldBlockTransmit )
     {
         NativePlayerManager.ShouldBlockTransmitEntity(entityid, shouldBlockTransmit);
     }
@@ -44,7 +44,7 @@ internal class PlayerManagerService : IPlayerManagerService
             .Select(GetPlayer);
     }
 
-    private static ulong SteamIDToSteamID64(string steamID)
+    private static ulong SteamIDToSteamID64( string steamID )
     {
         string[] parts = steamID.Split(':');
         if (parts.Length != 3) return 0;
@@ -57,7 +57,7 @@ internal class PlayerManagerService : IPlayerManagerService
     }
 
 
-    public IEnumerable<IPlayer> FindTargettedPlayers(IPlayer player, string target, TargetSearchMode searchMode)
+    public IEnumerable<IPlayer> FindTargettedPlayers( IPlayer player, string target, TargetSearchMode searchMode )
     {
         IEnumerable<IPlayer> allPlayers = [];
 
@@ -162,5 +162,45 @@ internal class PlayerManagerService : IPlayerManagerService
         }
 
         return allPlayers;
+    }
+
+    public void SendMessage( MessageType kind, string message, int htmlDuration = 5000 )
+    {
+        NativePlayerManager.SendMessage((int)kind, message, htmlDuration);
+    }
+
+    public void SendNotify( string message )
+    {
+        SendMessage(MessageType.Notify, message);
+    }
+
+    public void SendConsole( string message )
+    {
+        SendMessage(MessageType.Console, message);
+    }
+
+    public void SendChat( string message )
+    {
+        SendMessage(MessageType.Chat, message);
+    }
+
+    public void SendCenter( string message )
+    {
+        SendMessage(MessageType.Center, message);
+    }
+
+    public void SendAlert( string message )
+    {
+        SendMessage(MessageType.Alert, message);
+    }
+
+    public void SendCenterHTML( string message, int duration = 5000 )
+    {
+        SendMessage(MessageType.CenterHTML, message, duration);
+    }
+
+    public void SendChatEOT( string message )
+    {
+        SendMessage(MessageType.ChatEOT, message);
     }
 }

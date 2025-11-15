@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_PlaySequence__CursorState_tImpl : SchemaClass,
   public CPulseCell_PlaySequence__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetOffset = new(() => Schema.GetOffset(0x2C22B771CE35901A), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseAnimGraph> Target {
-    get => ref _Handle.AsRef<CHandle<CBaseAnimGraph>>(Schema.GetOffset(0x2C22B771CE35901A));
+    get => ref _Handle.AsRef<CHandle<CBaseAnimGraph>>(_TargetOffset.Value);
   }
 
 

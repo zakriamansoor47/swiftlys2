@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,21 @@ internal partial class CHintMessageQueueImpl : SchemaClass, CHintMessageQueue {
   public CHintMessageQueueImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TmMessageEndOffset = new(() => Schema.GetOffset(0xBE13489745AC0F6), LazyThreadSafetyMode.None);
+
   public ref float TmMessageEnd {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBE13489745AC0F6));
+    get => ref _Handle.AsRef<float>(_TmMessageEndOffset.Value);
   }
+  private static readonly Lazy<nint> _MessagesOffset = new(() => Schema.GetOffset(0xBE134896139CC55), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointerTo<CHintMessage>> Messages {
-    get => ref _Handle.AsRef<CUtlVector<PointerTo<CHintMessage>>>(Schema.GetOffset(0xBE134896139CC55));
+    get => ref _Handle.AsRef<CUtlVector<PointerTo<CHintMessage>>>(_MessagesOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerControllerOffset = new(() => Schema.GetOffset(0xBE13489DCE6762E), LazyThreadSafetyMode.None);
+
   public CBasePlayerController? PlayerController {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xBE13489DCE6762E));
+      var ptr = _Handle.Read<nint>(_PlayerControllerOffset.Value);
       return ptr.IsValidPtr() ? new CBasePlayerControllerImpl(ptr) : null;
     }
   }

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,60 @@ internal partial class CGlowPropertyImpl : SchemaClass, CGlowProperty {
   public CGlowPropertyImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GlowColorOffset = new(() => Schema.GetOffset(0x3ABE6F3E15CEA997), LazyThreadSafetyMode.None);
+
   public ref Vector GlowColor {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x3ABE6F3E15CEA997));
+    get => ref _Handle.AsRef<Vector>(_GlowColorOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowTypeOffset = new(() => Schema.GetOffset(0x3ABE6F3E0600E8DD), LazyThreadSafetyMode.None);
+
   public ref int GlowType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3ABE6F3E0600E8DD));
+    get => ref _Handle.AsRef<int>(_GlowTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowTeamOffset = new(() => Schema.GetOffset(0x3ABE6F3E34FAFCDC), LazyThreadSafetyMode.None);
+
   public ref int GlowTeam {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3ABE6F3E34FAFCDC));
+    get => ref _Handle.AsRef<int>(_GlowTeamOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowRangeOffset = new(() => Schema.GetOffset(0x3ABE6F3ED03F97ED), LazyThreadSafetyMode.None);
+
   public ref int GlowRange {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3ABE6F3ED03F97ED));
+    get => ref _Handle.AsRef<int>(_GlowRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowRangeMinOffset = new(() => Schema.GetOffset(0x3ABE6F3EA28EDB1F), LazyThreadSafetyMode.None);
+
   public ref int GlowRangeMin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3ABE6F3EA28EDB1F));
+    get => ref _Handle.AsRef<int>(_GlowRangeMinOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowColorOverrideOffset = new(() => Schema.GetOffset(0x3ABE6F3E50C6E26B), LazyThreadSafetyMode.None);
+
   public ref Color GlowColorOverride {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x3ABE6F3E50C6E26B));
+    get => ref _Handle.AsRef<Color>(_GlowColorOverrideOffset.Value);
   }
+  private static readonly Lazy<nint> _FlashingOffset = new(() => Schema.GetOffset(0x3ABE6F3EB646AC57), LazyThreadSafetyMode.None);
+
   public ref bool Flashing {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3ABE6F3EB646AC57));
+    get => ref _Handle.AsRef<bool>(_FlashingOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowTimeOffset = new(() => Schema.GetOffset(0x3ABE6F3E11622DBB), LazyThreadSafetyMode.None);
+
   public ref float GlowTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3ABE6F3E11622DBB));
+    get => ref _Handle.AsRef<float>(_GlowTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowStartTimeOffset = new(() => Schema.GetOffset(0x3ABE6F3E411532C3), LazyThreadSafetyMode.None);
+
   public ref float GlowStartTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3ABE6F3E411532C3));
+    get => ref _Handle.AsRef<float>(_GlowStartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EligibleForScreenHighlightOffset = new(() => Schema.GetOffset(0x3ABE6F3E23B89FB9), LazyThreadSafetyMode.None);
+
   public ref bool EligibleForScreenHighlight {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3ABE6F3E23B89FB9));
+    get => ref _Handle.AsRef<bool>(_EligibleForScreenHighlightOffset.Value);
   }
+  private static readonly Lazy<nint> _GlowingOffset = new(() => Schema.GetOffset(0x3ABE6F3E3DEA07DC), LazyThreadSafetyMode.None);
+
   public ref bool Glowing {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3ABE6F3E3DEA07DC));
+    get => ref _Handle.AsRef<bool>(_GlowingOffset.Value);
   }
 
   public void GlowTypeUpdated() {

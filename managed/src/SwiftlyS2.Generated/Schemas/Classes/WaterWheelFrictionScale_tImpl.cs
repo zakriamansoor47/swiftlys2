@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class WaterWheelFrictionScale_tImpl : SchemaClass, WaterWheelFr
   public WaterWheelFrictionScale_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FractionOfWheelSubmergedOffset = new(() => Schema.GetOffset(0x79315E8EF2D4C09B), LazyThreadSafetyMode.None);
+
   public ref float FractionOfWheelSubmerged {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x79315E8EF2D4C09B));
+    get => ref _Handle.AsRef<float>(_FractionOfWheelSubmergedOffset.Value);
   }
+  private static readonly Lazy<nint> _FrictionScaleOffset = new(() => Schema.GetOffset(0x79315E8ECB7D1875), LazyThreadSafetyMode.None);
+
   public ref float FrictionScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x79315E8ECB7D1875));
+    get => ref _Handle.AsRef<float>(_FrictionScaleOffset.Value);
   }
 
 

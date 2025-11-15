@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class PermModelDataAnimatedMaterialAttribute_tImpl : SchemaClas
   public PermModelDataAnimatedMaterialAttribute_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttributeNameOffset = new(() => Schema.GetOffset(0x6489C15F1408864C), LazyThreadSafetyMode.None);
+
   public string AttributeName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6489C15F1408864C));
+      var ptr = _Handle.Read<nint>(_AttributeNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6489C15F1408864C, value);
+    set => Schema.SetString(_Handle, _AttributeNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _NumChannelsOffset = new(() => Schema.GetOffset(0x6489C15FEA44FE77), LazyThreadSafetyMode.None);
+
   public ref int NumChannels {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6489C15FEA44FE77));
+    get => ref _Handle.AsRef<int>(_NumChannelsOffset.Value);
   }
 
 

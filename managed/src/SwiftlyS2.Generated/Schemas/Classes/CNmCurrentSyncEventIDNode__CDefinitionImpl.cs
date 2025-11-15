@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmCurrentSyncEventIDNode__CDefinitionImpl : CNmIDValueNo
   public CNmCurrentSyncEventIDNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceStateNodeIdxOffset = new(() => Schema.GetOffset(0x792E5F1463F0228C), LazyThreadSafetyMode.None);
+
   public ref short SourceStateNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x792E5F1463F0228C));
+    get => ref _Handle.AsRef<short>(_SourceStateNodeIdxOffset.Value);
   }
 
 

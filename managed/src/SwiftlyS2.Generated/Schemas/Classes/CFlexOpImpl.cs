@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CFlexOpImpl : SchemaClass, CFlexOp {
   public CFlexOpImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OpCodeOffset = new(() => Schema.GetOffset(0xC684CC9A9850F387), LazyThreadSafetyMode.None);
+
   public ref FlexOpCode_t OpCode {
-    get => ref _Handle.AsRef<FlexOpCode_t>(Schema.GetOffset(0xC684CC9A9850F387));
+    get => ref _Handle.AsRef<FlexOpCode_t>(_OpCodeOffset.Value);
   }
+  private static readonly Lazy<nint> _DataOffset = new(() => Schema.GetOffset(0xC684CC9A1621C725), LazyThreadSafetyMode.None);
+
   public ref int Data {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC684CC9A1621C725));
+    get => ref _Handle.AsRef<int>(_DataOffset.Value);
   }
 
 

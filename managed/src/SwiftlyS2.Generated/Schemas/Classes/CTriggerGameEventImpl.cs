@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,32 @@ internal partial class CTriggerGameEventImpl : CBaseTriggerImpl, CTriggerGameEve
   public CTriggerGameEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StrStartTouchEventNameOffset = new(() => Schema.GetOffset(0xF8B194884B1EB67A), LazyThreadSafetyMode.None);
+
   public string StrStartTouchEventName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF8B194884B1EB67A));
+      var ptr = _Handle.Read<nint>(_StrStartTouchEventNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF8B194884B1EB67A, value);
+    set => Schema.SetString(_Handle, _StrStartTouchEventNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _StrEndTouchEventNameOffset = new(() => Schema.GetOffset(0xF8B194886EDE6893), LazyThreadSafetyMode.None);
+
   public string StrEndTouchEventName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF8B194886EDE6893));
+      var ptr = _Handle.Read<nint>(_StrEndTouchEventNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF8B194886EDE6893, value);
+    set => Schema.SetString(_Handle, _StrEndTouchEventNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _StrTriggerIDOffset = new(() => Schema.GetOffset(0xF8B19488EA731D41), LazyThreadSafetyMode.None);
+
   public string StrTriggerID {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF8B19488EA731D41));
+      var ptr = _Handle.Read<nint>(_StrTriggerIDOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF8B19488EA731D41, value);
+    set => Schema.SetString(_Handle, _StrTriggerIDOffset.Value, value);
   } 
 
   public void StrStartTouchEventNameUpdated() {

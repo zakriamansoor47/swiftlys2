@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CPulse_InvokeBindingImpl : SchemaClass, CPulse_InvokeBind
   public CPulse_InvokeBindingImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RegisterMapOffset = new(() => Schema.GetOffset(0x3632DF0D7BD4CE96), LazyThreadSafetyMode.None);
+
   public PulseRegisterMap_t RegisterMap {
-    get => new PulseRegisterMap_tImpl(_Handle + Schema.GetOffset(0x3632DF0D7BD4CE96));
+    get => new PulseRegisterMap_tImpl(_Handle + _RegisterMapOffset.Value);
   }
+  private static readonly Lazy<nint> _FuncNameOffset = new(() => Schema.GetOffset(0x3632DF0D1B5BC2A4), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField FuncName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x3632DF0D1B5BC2A4));
+    get => new SchemaUntypedField(_Handle + _FuncNameOffset.Value);
   }
+  private static readonly Lazy<nint> _CellIndexOffset = new(() => Schema.GetOffset(0x3632DF0DACE41A7F), LazyThreadSafetyMode.None);
+
   public PulseRuntimeCellIndex_t CellIndex {
-    get => new PulseRuntimeCellIndex_tImpl(_Handle + Schema.GetOffset(0x3632DF0DACE41A7F));
+    get => new PulseRuntimeCellIndex_tImpl(_Handle + _CellIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _SrcChunkOffset = new(() => Schema.GetOffset(0x3632DF0D313F814A), LazyThreadSafetyMode.None);
+
   public PulseRuntimeChunkIndex_t SrcChunk {
-    get => new PulseRuntimeChunkIndex_tImpl(_Handle + Schema.GetOffset(0x3632DF0D313F814A));
+    get => new PulseRuntimeChunkIndex_tImpl(_Handle + _SrcChunkOffset.Value);
   }
+  private static readonly Lazy<nint> _SrcInstructionOffset = new(() => Schema.GetOffset(0x3632DF0D99E09AE7), LazyThreadSafetyMode.None);
+
   public ref int SrcInstruction {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3632DF0D99E09AE7));
+    get => ref _Handle.AsRef<int>(_SrcInstructionOffset.Value);
   }
 
 

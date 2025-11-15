@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,28 @@ internal partial class CPlayer_WeaponServicesImpl : CPlayerPawnComponentImpl, CP
   public CPlayer_WeaponServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MyWeaponsOffset = new(() => Schema.GetOffset(0x634D22804C8A13A6), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CBasePlayerWeapon>> MyWeapons {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePlayerWeapon>>>(Schema.GetOffset(0x634D22804C8A13A6));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePlayerWeapon>>>(_MyWeaponsOffset.Value);
   }
+  private static readonly Lazy<nint> _ActiveWeaponOffset = new(() => Schema.GetOffset(0x634D2280940131C5), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBasePlayerWeapon> ActiveWeapon {
-    get => ref _Handle.AsRef<CHandle<CBasePlayerWeapon>>(Schema.GetOffset(0x634D2280940131C5));
+    get => ref _Handle.AsRef<CHandle<CBasePlayerWeapon>>(_ActiveWeaponOffset.Value);
   }
+  private static readonly Lazy<nint> _LastWeaponOffset = new(() => Schema.GetOffset(0x634D2280EA5C9547), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBasePlayerWeapon> LastWeapon {
-    get => ref _Handle.AsRef<CHandle<CBasePlayerWeapon>>(Schema.GetOffset(0x634D2280EA5C9547));
+    get => ref _Handle.AsRef<CHandle<CBasePlayerWeapon>>(_LastWeaponOffset.Value);
   }
   public ISchemaFixedArray<ushort> Ammo {
     get => new SchemaFixedArray<ushort>(_Handle, 0x634D22800D59E6CA, 32, 2, 2);
   }
+  private static readonly Lazy<nint> _PreventWeaponPickupOffset = new(() => Schema.GetOffset(0x634D228093894029), LazyThreadSafetyMode.None);
+
   public ref bool PreventWeaponPickup {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x634D228093894029));
+    get => ref _Handle.AsRef<bool>(_PreventWeaponPickupOffset.Value);
   }
 
   public void MyWeaponsUpdated() {

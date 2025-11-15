@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class MaterialParamVector_tImpl : MaterialParam_tImpl, Material
   public MaterialParamVector_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xC82210956B99AEEA), LazyThreadSafetyMode.None);
+
   public ref Vector4D Value {
-    get => ref _Handle.AsRef<Vector4D>(Schema.GetOffset(0xC82210956B99AEEA));
+    get => ref _Handle.AsRef<Vector4D>(_ValueOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CMapSharedEnvironmentImpl : CLogicalEntityImpl, CMapShare
   public CMapSharedEnvironmentImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetMapNameOffset = new(() => Schema.GetOffset(0xDA50C2DE129742FD), LazyThreadSafetyMode.None);
+
   public string TargetMapName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xDA50C2DE129742FD));
+      var ptr = _Handle.Read<nint>(_TargetMapNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xDA50C2DE129742FD, value);
+    set => Schema.SetString(_Handle, _TargetMapNameOffset.Value, value);
   } 
 
 

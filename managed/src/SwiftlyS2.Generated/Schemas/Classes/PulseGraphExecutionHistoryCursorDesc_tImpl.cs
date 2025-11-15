@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class PulseGraphExecutionHistoryCursorDesc_tImpl : SchemaClass,
   public PulseGraphExecutionHistoryCursorDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AncestorCursorIDsOffset = new(() => Schema.GetOffset(0xC94C4C1C39FD1094), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PulseCursorID_t> AncestorCursorIDs {
-    get => ref _Handle.AsRef<CUtlVector<PulseCursorID_t>>(Schema.GetOffset(0xC94C4C1C39FD1094));
+    get => ref _Handle.AsRef<CUtlVector<PulseCursorID_t>>(_AncestorCursorIDsOffset.Value);
   }
+  private static readonly Lazy<nint> _SpawnNodeIDOffset = new(() => Schema.GetOffset(0xC94C4C1C95FE4E15), LazyThreadSafetyMode.None);
+
   public PulseDocNodeID_t SpawnNodeID {
-    get => new PulseDocNodeID_tImpl(_Handle + Schema.GetOffset(0xC94C4C1C95FE4E15));
+    get => new PulseDocNodeID_tImpl(_Handle + _SpawnNodeIDOffset.Value);
   }
+  private static readonly Lazy<nint> _RetiredAtNodeIDOffset = new(() => Schema.GetOffset(0xC94C4C1C7FD10E42), LazyThreadSafetyMode.None);
+
   public PulseDocNodeID_t RetiredAtNodeID {
-    get => new PulseDocNodeID_tImpl(_Handle + Schema.GetOffset(0xC94C4C1C7FD10E42));
+    get => new PulseDocNodeID_tImpl(_Handle + _RetiredAtNodeIDOffset.Value);
   }
+  private static readonly Lazy<nint> _LastReferencedOffset = new(() => Schema.GetOffset(0xC94C4C1C22F5B0C8), LazyThreadSafetyMode.None);
+
   public ref float LastReferenced {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC94C4C1C22F5B0C8));
+    get => ref _Handle.AsRef<float>(_LastReferencedOffset.Value);
   }
+  private static readonly Lazy<nint> _LastValidEntryIdxOffset = new(() => Schema.GetOffset(0xC94C4C1CBFAF995E), LazyThreadSafetyMode.None);
+
   public ref int LastValidEntryIdx {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC94C4C1CBFAF995E));
+    get => ref _Handle.AsRef<int>(_LastValidEntryIdxOffset.Value);
   }
 
 

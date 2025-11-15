@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CToggleComponentActionUpdaterImpl : CAnimActionUpdaterImp
   public CToggleComponentActionUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ComponentIDOffset = new(() => Schema.GetOffset(0x4641AA28C1B9267D), LazyThreadSafetyMode.None);
+
   public AnimComponentID ComponentID {
-    get => new AnimComponentIDImpl(_Handle + Schema.GetOffset(0x4641AA28C1B9267D));
+    get => new AnimComponentIDImpl(_Handle + _ComponentIDOffset.Value);
   }
+  private static readonly Lazy<nint> _SetEnabledOffset = new(() => Schema.GetOffset(0x4641AA28BC6294B8), LazyThreadSafetyMode.None);
+
   public ref bool SetEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4641AA28BC6294B8));
+    get => ref _Handle.AsRef<bool>(_SetEnabledOffset.Value);
   }
 
 

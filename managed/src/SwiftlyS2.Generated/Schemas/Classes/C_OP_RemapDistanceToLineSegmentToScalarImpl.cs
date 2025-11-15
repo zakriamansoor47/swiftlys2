@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_RemapDistanceToLineSegmentToScalarImpl : C_OP_RemapD
   public C_OP_RemapDistanceToLineSegmentToScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xF4B67462E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xF4B67462E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _MinOutputValueOffset = new(() => Schema.GetOffset(0xF4B67462F63C7011), LazyThreadSafetyMode.None);
+
   public ref float MinOutputValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF4B67462F63C7011));
+    get => ref _Handle.AsRef<float>(_MinOutputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxOutputValueOffset = new(() => Schema.GetOffset(0xF4B67462A91B71B3), LazyThreadSafetyMode.None);
+
   public ref float MaxOutputValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF4B67462A91B71B3));
+    get => ref _Handle.AsRef<float>(_MaxOutputValueOffset.Value);
   }
 
 

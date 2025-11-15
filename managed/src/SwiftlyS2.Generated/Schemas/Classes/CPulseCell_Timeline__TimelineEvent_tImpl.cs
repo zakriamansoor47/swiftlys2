@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_Timeline__TimelineEvent_tImpl : SchemaClass, C
   public CPulseCell_Timeline__TimelineEvent_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TimeFromPreviousOffset = new(() => Schema.GetOffset(0x1CEAA89BD23FC4AF), LazyThreadSafetyMode.None);
+
   public ref float TimeFromPrevious {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1CEAA89BD23FC4AF));
+    get => ref _Handle.AsRef<float>(_TimeFromPreviousOffset.Value);
   }
+  private static readonly Lazy<nint> _EventOutflowOffset = new(() => Schema.GetOffset(0x1CEAA89BC72D3231), LazyThreadSafetyMode.None);
+
   public CPulse_OutflowConnection EventOutflow {
-    get => new CPulse_OutflowConnectionImpl(_Handle + Schema.GetOffset(0x1CEAA89BC72D3231));
+    get => new CPulse_OutflowConnectionImpl(_Handle + _EventOutflowOffset.Value);
   }
 
 

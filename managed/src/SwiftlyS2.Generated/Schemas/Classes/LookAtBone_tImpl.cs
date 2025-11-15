@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class LookAtBone_tImpl : SchemaClass, LookAtBone_t {
   public LookAtBone_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IndexOffset = new(() => Schema.GetOffset(0x25E8B58A491963CB), LazyThreadSafetyMode.None);
+
   public ref int Index {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x25E8B58A491963CB));
+    get => ref _Handle.AsRef<int>(_IndexOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightOffset = new(() => Schema.GetOffset(0x25E8B58A07D0CD59), LazyThreadSafetyMode.None);
+
   public ref float Weight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x25E8B58A07D0CD59));
+    get => ref _Handle.AsRef<float>(_WeightOffset.Value);
   }
 
 

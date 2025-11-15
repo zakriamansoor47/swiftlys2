@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class PointDefinitionWithTimeValues_tImpl : PointDefinition_tIm
   public PointDefinitionWithTimeValues_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TimeDurationOffset = new(() => Schema.GetOffset(0xF2BE4F108B84C052), LazyThreadSafetyMode.None);
+
   public ref float TimeDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF2BE4F108B84C052));
+    get => ref _Handle.AsRef<float>(_TimeDurationOffset.Value);
   }
 
 

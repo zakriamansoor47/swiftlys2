@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Inflow_EventHandlerImpl : CPulseCell_Inflow_Ba
   public CPulseCell_Inflow_EventHandlerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EventNameOffset = new(() => Schema.GetOffset(0x9BAF9AD81DFEB13C), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField EventName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x9BAF9AD81DFEB13C));
+    get => new SchemaUntypedField(_Handle + _EventNameOffset.Value);
   }
 
 

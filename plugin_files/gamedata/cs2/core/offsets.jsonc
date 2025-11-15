@@ -140,22 +140,6 @@
         "windows": 12,
         "linux": 13
     },
-    "IEngineServiceMgr::RegisterLoopMode": {
-        "windows": 13,
-        "linux": 13
-    },
-    "IEngineServiceMgr::UnregisterLoopMode": {
-        "windows": 14,
-        "linux": 14
-    },
-    "ILoopModeFactory::CreateLoopMode": {
-        "windows": 2,
-        "linux": 2
-    },
-    "ILoopModeFactory::DestroyLoopMode": {
-        "windows": 3,
-        "linux": 3
-    },
     "ILoopMode::LoopInit": {
         "windows": 0,
         "linux": 0

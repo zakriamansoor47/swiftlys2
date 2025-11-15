@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,33 +17,49 @@ internal partial class FeMorphLayerDepr_tImpl : SchemaClass, FeMorphLayerDepr_t 
   public FeMorphLayerDepr_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x5895C19CAE8A266), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x5895C19CAE8A266));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x5895C19CAE8A266, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _NameHashOffset = new(() => Schema.GetOffset(0x5895C19DE15EEFE), LazyThreadSafetyMode.None);
+
   public ref uint NameHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x5895C19DE15EEFE));
+    get => ref _Handle.AsRef<uint>(_NameHashOffset.Value);
   }
+  private static readonly Lazy<nint> _NodesOffset = new(() => Schema.GetOffset(0x5895C19EBA045DA), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ushort> Nodes {
-    get => ref _Handle.AsRef<CUtlVector<ushort>>(Schema.GetOffset(0x5895C19EBA045DA));
+    get => ref _Handle.AsRef<CUtlVector<ushort>>(_NodesOffset.Value);
   }
+  private static readonly Lazy<nint> _InitPosOffset = new(() => Schema.GetOffset(0x5895C198D152323), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<Vector> InitPos {
-    get => ref _Handle.AsRef<CUtlVector<Vector>>(Schema.GetOffset(0x5895C198D152323));
+    get => ref _Handle.AsRef<CUtlVector<Vector>>(_InitPosOffset.Value);
   }
+  private static readonly Lazy<nint> _GravityOffset = new(() => Schema.GetOffset(0x5895C19790C70C5), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> Gravity {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x5895C19790C70C5));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_GravityOffset.Value);
   }
+  private static readonly Lazy<nint> _GoalStrengthOffset = new(() => Schema.GetOffset(0x5895C19686343FF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> GoalStrength {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x5895C19686343FF));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_GoalStrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _GoalDampingOffset = new(() => Schema.GetOffset(0x5895C190F3CA820), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> GoalDamping {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x5895C190F3CA820));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_GoalDampingOffset.Value);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0x5895C19CE6E9C28), LazyThreadSafetyMode.None);
+
   public ref uint Flags {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x5895C19CE6E9C28));
+    get => ref _Handle.AsRef<uint>(_FlagsOffset.Value);
   }
 
 

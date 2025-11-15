@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_INIT_PositionOffsetImpl : CParticleFunctionInitializerI
   public C_INIT_PositionOffsetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OffsetMinOffset = new(() => Schema.GetOffset(0x263FD76A7E1ECBDE), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput OffsetMin {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x263FD76A7E1ECBDE));
+    get => new CPerParticleVecInputImpl(_Handle + _OffsetMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetMaxOffset = new(() => Schema.GetOffset(0x263FD76A9009CD7C), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput OffsetMax {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x263FD76A9009CD7C));
+    get => new CPerParticleVecInputImpl(_Handle + _OffsetMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformInputOffset = new(() => Schema.GetOffset(0x263FD76AB3FDC289), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformInput {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0x263FD76AB3FDC289));
+    get => new CParticleTransformInputImpl(_Handle + _TransformInputOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalCoordsOffset = new(() => Schema.GetOffset(0x263FD76A30E716DE), LazyThreadSafetyMode.None);
+
   public ref bool LocalCoords {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x263FD76A30E716DE));
+    get => ref _Handle.AsRef<bool>(_LocalCoordsOffset.Value);
   }
+  private static readonly Lazy<nint> _ProportionalOffset = new(() => Schema.GetOffset(0x263FD76A891F328A), LazyThreadSafetyMode.None);
+
   public ref bool Proportional {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x263FD76A891F328A));
+    get => ref _Handle.AsRef<bool>(_ProportionalOffset.Value);
   }
+  private static readonly Lazy<nint> _RandomnessParametersOffset = new(() => Schema.GetOffset(0x263FD76A7EDF50AD), LazyThreadSafetyMode.None);
+
   public CRandomNumberGeneratorParameters RandomnessParameters {
-    get => new CRandomNumberGeneratorParametersImpl(_Handle + Schema.GetOffset(0x263FD76A7EDF50AD));
+    get => new CRandomNumberGeneratorParametersImpl(_Handle + _RandomnessParametersOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_DistanceCullImpl : CParticleFunctionInitializerImp
   public C_INIT_DistanceCullImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointOffset = new(() => Schema.GetOffset(0x78EE30C90D0DDF8C), LazyThreadSafetyMode.None);
+
   public ref int ControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x78EE30C90D0DDF8C));
+    get => ref _Handle.AsRef<int>(_ControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0x78EE30C900DC4A68), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Distance {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x78EE30C900DC4A68));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _DistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _CullInsideOffset = new(() => Schema.GetOffset(0x78EE30C9293E00AD), LazyThreadSafetyMode.None);
+
   public ref bool CullInside {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x78EE30C9293E00AD));
+    get => ref _Handle.AsRef<bool>(_CullInsideOffset.Value);
   }
 
 

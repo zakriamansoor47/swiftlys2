@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CNmIDToFloatNode__CDefinitionImpl : CNmFloatValueNode__CD
   public CNmIDToFloatNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0x9F6F687D95E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x9F6F687D95E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0x9F6F687DBBE0341F), LazyThreadSafetyMode.None);
+
   public ref float DefaultValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9F6F687DBBE0341F));
+    get => ref _Handle.AsRef<float>(_DefaultValueOffset.Value);
   }
+  private static readonly Lazy<nint> _IDsOffset = new(() => Schema.GetOffset(0x9F6F687D0C180009), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField IDs {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x9F6F687D0C180009));
+    get => new SchemaUntypedField(_Handle + _IDsOffset.Value);
   }
+  private static readonly Lazy<nint> _ValuesOffset = new(() => Schema.GetOffset(0x9F6F687DFBEDDADB), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Values {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x9F6F687DFBEDDADB));
+    get => new SchemaUntypedField(_Handle + _ValuesOffset.Value);
   }
 
 

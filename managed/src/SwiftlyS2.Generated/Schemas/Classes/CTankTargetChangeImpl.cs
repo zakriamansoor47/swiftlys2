@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CTankTargetChangeImpl : CPointEntityImpl, CTankTargetChan
   public CTankTargetChangeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NewTargetOffset = new(() => Schema.GetOffset(0xC9633A4FC35D87C4), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField NewTarget {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC9633A4FC35D87C4));
+    get => new SchemaUntypedField(_Handle + _NewTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _NewTargetNameOffset = new(() => Schema.GetOffset(0xC9633A4FFCD3FD1F), LazyThreadSafetyMode.None);
+
   public string NewTargetName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xC9633A4FFCD3FD1F));
+      var ptr = _Handle.Read<nint>(_NewTargetNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xC9633A4FFCD3FD1F, value);
+    set => Schema.SetString(_Handle, _NewTargetNameOffset.Value, value);
   } 
 
 

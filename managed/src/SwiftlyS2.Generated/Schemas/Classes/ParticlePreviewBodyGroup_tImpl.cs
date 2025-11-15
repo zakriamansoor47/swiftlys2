@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class ParticlePreviewBodyGroup_tImpl : SchemaClass, ParticlePre
   public ParticlePreviewBodyGroup_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BodyGroupNameOffset = new(() => Schema.GetOffset(0xB53436EB1E953217), LazyThreadSafetyMode.None);
+
   public string BodyGroupName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB53436EB1E953217));
+      var ptr = _Handle.Read<nint>(_BodyGroupNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xB53436EB1E953217, value);
+    set => Schema.SetString(_Handle, _BodyGroupNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xB53436EB077D337E), LazyThreadSafetyMode.None);
+
   public ref int Value {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB53436EB077D337E));
+    get => ref _Handle.AsRef<int>(_ValueOffset.Value);
   }
 
 

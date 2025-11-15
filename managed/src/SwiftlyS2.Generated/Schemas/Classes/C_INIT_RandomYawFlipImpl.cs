@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_INIT_RandomYawFlipImpl : CParticleFunctionInitializerIm
   public C_INIT_RandomYawFlipImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PercentOffset = new(() => Schema.GetOffset(0x86C3C253183D7FC4), LazyThreadSafetyMode.None);
+
   public ref float Percent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x86C3C253183D7FC4));
+    get => ref _Handle.AsRef<float>(_PercentOffset.Value);
   }
 
 

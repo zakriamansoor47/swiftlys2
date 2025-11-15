@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,30 +17,44 @@ internal partial class CKeepUprightImpl : CPointEntityImpl, CKeepUpright {
   public CKeepUprightImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WorldGoalAxisOffset = new(() => Schema.GetOffset(0xB65A0D30836922ED), LazyThreadSafetyMode.None);
+
   public ref Vector WorldGoalAxis {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB65A0D30836922ED));
+    get => ref _Handle.AsRef<Vector>(_WorldGoalAxisOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalTestAxisOffset = new(() => Schema.GetOffset(0xB65A0D30B678975D), LazyThreadSafetyMode.None);
+
   public ref Vector LocalTestAxis {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB65A0D30B678975D));
+    get => ref _Handle.AsRef<Vector>(_LocalTestAxisOffset.Value);
   }
+  private static readonly Lazy<nint> _NameAttachOffset = new(() => Schema.GetOffset(0xB65A0D30BECAEF3F), LazyThreadSafetyMode.None);
+
   public string NameAttach {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB65A0D30BECAEF3F));
+      var ptr = _Handle.Read<nint>(_NameAttachOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xB65A0D30BECAEF3F, value);
+    set => Schema.SetString(_Handle, _NameAttachOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _AttachedObjectOffset = new(() => Schema.GetOffset(0xB65A0D301AE8F30A), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> AttachedObject {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xB65A0D301AE8F30A));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_AttachedObjectOffset.Value);
   }
+  private static readonly Lazy<nint> _AngularLimitOffset = new(() => Schema.GetOffset(0xB65A0D30497B8D18), LazyThreadSafetyMode.None);
+
   public ref float AngularLimit {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB65A0D30497B8D18));
+    get => ref _Handle.AsRef<float>(_AngularLimitOffset.Value);
   }
+  private static readonly Lazy<nint> _ActiveOffset = new(() => Schema.GetOffset(0xB65A0D308334208F), LazyThreadSafetyMode.None);
+
   public ref bool Active {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB65A0D308334208F));
+    get => ref _Handle.AsRef<bool>(_ActiveOffset.Value);
   }
+  private static readonly Lazy<nint> _DampAllRotationOffset = new(() => Schema.GetOffset(0xB65A0D30AAA70B9C), LazyThreadSafetyMode.None);
+
   public ref bool DampAllRotation {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB65A0D30AAA70B9C));
+    get => ref _Handle.AsRef<bool>(_DampAllRotationOffset.Value);
   }
 
 

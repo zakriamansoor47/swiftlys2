@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class SelectedEditItemInfo_tImpl : SchemaClass, SelectedEditIte
   public SelectedEditItemInfo_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EditItemsOffset = new(() => Schema.GetOffset(0xDF4D8E78F11EB01B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SosEditItemInfo_t> EditItems {
-    get => ref _Handle.AsRef<CUtlVector<SosEditItemInfo_t>>(Schema.GetOffset(0xDF4D8E78F11EB01B));
+    get => ref _Handle.AsRef<CUtlVector<SosEditItemInfo_t>>(_EditItemsOffset.Value);
   }
 
 

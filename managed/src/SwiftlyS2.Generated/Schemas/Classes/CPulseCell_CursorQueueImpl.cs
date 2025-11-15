@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_CursorQueueImpl : CPulseCell_WaitForCursorsWit
   public CPulseCell_CursorQueueImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CursorsAllowedToRunParallelOffset = new(() => Schema.GetOffset(0xDAB7EC55AC04AAF9), LazyThreadSafetyMode.None);
+
   public ref int CursorsAllowedToRunParallel {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xDAB7EC55AC04AAF9));
+    get => ref _Handle.AsRef<int>(_CursorsAllowedToRunParallelOffset.Value);
   }
 
 

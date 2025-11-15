@@ -9,12 +9,12 @@ internal class DependencyResolver
     private readonly Dictionary<string, List<string>> _dependencyGraph = new();
     private readonly Dictionary<string, string> _pluginPaths = new();
 
-    public DependencyResolver(ILogger logger)
+    public DependencyResolver( ILogger logger )
     {
         _logger = logger;
     }
 
-    private void ReadDependencies(string pluginDir, ref Dictionary<string, string> exportAssemblies)
+    private void ReadDependencies( string pluginDir, ref Dictionary<string, string> exportAssemblies )
     {
         var exportDir = Path.Combine(pluginDir, "resources", "exports");
         if (Directory.Exists(exportDir))
@@ -38,13 +38,14 @@ internal class DependencyResolver
                 }
                 catch (Exception ex)
                 {
+                    if (!GlobalExceptionHandler.Handle(ex)) return;
                     _logger.LogWarning(ex, $"Failed to read assembly {exportFile}");
                 }
             }
         }
     }
 
-    private void PopulateAssemblies(string startDirectory, ref Dictionary<string, string> exportAssemblies)
+    private void PopulateAssemblies( string startDirectory, ref Dictionary<string, string> exportAssemblies )
     {
         var pluginDirs = Directory.GetDirectories(startDirectory);
         foreach (var pluginDir in pluginDirs)
@@ -55,7 +56,7 @@ internal class DependencyResolver
         }
     }
 
-    public void AnalyzeDependencies(string startDirectory)
+    public void AnalyzeDependencies( string startDirectory )
     {
         _dependencyGraph.Clear();
         _pluginPaths.Clear();
@@ -86,6 +87,7 @@ internal class DependencyResolver
             }
             catch (Exception ex)
             {
+                if (!GlobalExceptionHandler.Handle(ex)) return;
                 _logger.LogWarning(ex, $"Failed to analyze dependencies for {assemblyName}");
             }
         }
@@ -112,7 +114,7 @@ internal class DependencyResolver
         string assembly,
         HashSet<string> visited,
         HashSet<string> visiting,
-        List<string> result)
+        List<string> result )
     {
         if (visiting.Contains(assembly))
         {
@@ -140,7 +142,7 @@ internal class DependencyResolver
         visited.Add(assembly);
         result.Add(assembly);
     }
-    private string BuildCyclePath(string start, HashSet<string> visiting)
+    private string BuildCyclePath( string start, HashSet<string> visiting )
     {
         var path = new List<string> { start };
         var current = start;

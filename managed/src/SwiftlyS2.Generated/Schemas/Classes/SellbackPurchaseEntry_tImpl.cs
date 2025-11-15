@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class SellbackPurchaseEntry_tImpl : SchemaClass, SellbackPurcha
   public SellbackPurchaseEntry_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefIdxOffset = new(() => Schema.GetOffset(0xAC9E0914F02DD274), LazyThreadSafetyMode.None);
+
   public ref ushort DefIdx {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xAC9E0914F02DD274));
+    get => ref _Handle.AsRef<ushort>(_DefIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _CostOffset = new(() => Schema.GetOffset(0xAC9E0914919660C4), LazyThreadSafetyMode.None);
+
   public ref int Cost {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAC9E0914919660C4));
+    get => ref _Handle.AsRef<int>(_CostOffset.Value);
   }
+  private static readonly Lazy<nint> _PrevArmorOffset = new(() => Schema.GetOffset(0xAC9E09143A18A19B), LazyThreadSafetyMode.None);
+
   public ref int PrevArmor {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAC9E09143A18A19B));
+    get => ref _Handle.AsRef<int>(_PrevArmorOffset.Value);
   }
+  private static readonly Lazy<nint> _PrevHelmetOffset = new(() => Schema.GetOffset(0xAC9E0914DA638D65), LazyThreadSafetyMode.None);
+
   public ref bool PrevHelmet {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAC9E0914DA638D65));
+    get => ref _Handle.AsRef<bool>(_PrevHelmetOffset.Value);
   }
+  private static readonly Lazy<nint> _ItemOffset = new(() => Schema.GetOffset(0xAC9E091452FF0710), LazyThreadSafetyMode.None);
+
   public ref CHandle<CEntityInstance> Item {
-    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(Schema.GetOffset(0xAC9E091452FF0710));
+    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(_ItemOffset.Value);
   }
 
   public void DefIdxUpdated() {

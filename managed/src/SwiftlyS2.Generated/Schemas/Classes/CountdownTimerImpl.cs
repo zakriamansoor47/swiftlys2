@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CountdownTimerImpl : SchemaClass, CountdownTimer {
   public CountdownTimerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0x8A632F13D9FF5AD), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8A632F13D9FF5AD));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _TimestampOffset = new(() => Schema.GetOffset(0x8A632F1B6C56F43), LazyThreadSafetyMode.None);
+
   public GameTime_t Timestamp {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8A632F1B6C56F43));
+    get => new GameTime_tImpl(_Handle + _TimestampOffset.Value);
   }
+  private static readonly Lazy<nint> _TimescaleOffset = new(() => Schema.GetOffset(0x8A632F18A240BBE), LazyThreadSafetyMode.None);
+
   public ref float Timescale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8A632F18A240BBE));
+    get => ref _Handle.AsRef<float>(_TimescaleOffset.Value);
   }
+  private static readonly Lazy<nint> _WorldGroupIdOffset = new(() => Schema.GetOffset(0x8A632F17414B193), LazyThreadSafetyMode.None);
+
   public ref uint WorldGroupId {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x8A632F17414B193));
+    get => ref _Handle.AsRef<uint>(_WorldGroupIdOffset.Value);
   }
 
   public void DurationUpdated() {

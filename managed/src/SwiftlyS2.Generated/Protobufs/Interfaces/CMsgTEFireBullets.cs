@@ -60,6 +60,15 @@ public interface CMsgTEFireBullets : ITypedProtobuf<CMsgTEFireBullets>, INetMess
   public uint AttackType { get; set; }
 
 
+  public bool PlayerInair { get; set; }
+
+
+  public bool PlayerScoped { get; set; }
+
+
+  public int Tick { get; set; }
+
+
   public CMsgTEFireBullets_Extra Extra { get; }
 
 }

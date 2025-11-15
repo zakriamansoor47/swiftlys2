@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,60 @@ internal partial class ClutterSceneObject_tImpl : SchemaClass, ClutterSceneObjec
   public ClutterSceneObject_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoundsOffset = new(() => Schema.GetOffset(0xAE8D1536ABF76288), LazyThreadSafetyMode.None);
+
   public AABB_t Bounds {
-    get => new AABB_tImpl(_Handle + Schema.GetOffset(0xAE8D1536ABF76288));
+    get => new AABB_tImpl(_Handle + _BoundsOffset.Value);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0xAE8D1536DC74A14C), LazyThreadSafetyMode.None);
+
   public ref ObjectTypeFlags_t Flags {
-    get => ref _Handle.AsRef<ObjectTypeFlags_t>(Schema.GetOffset(0xAE8D1536DC74A14C));
+    get => ref _Handle.AsRef<ObjectTypeFlags_t>(_FlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _LayerOffset = new(() => Schema.GetOffset(0xAE8D1536477C7B2A), LazyThreadSafetyMode.None);
+
   public ref short Layer {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xAE8D1536477C7B2A));
+    get => ref _Handle.AsRef<short>(_LayerOffset.Value);
   }
+  private static readonly Lazy<nint> _InstancePositionsOffset = new(() => Schema.GetOffset(0xAE8D15369B4D36BA), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<Vector> InstancePositions {
-    get => ref _Handle.AsRef<CUtlVector<Vector>>(Schema.GetOffset(0xAE8D15369B4D36BA));
+    get => ref _Handle.AsRef<CUtlVector<Vector>>(_InstancePositionsOffset.Value);
   }
+  private static readonly Lazy<nint> _InstanceScalesOffset = new(() => Schema.GetOffset(0xAE8D1536F0D43B61), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> InstanceScales {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0xAE8D1536F0D43B61));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_InstanceScalesOffset.Value);
   }
+  private static readonly Lazy<nint> _InstanceTintSrgbOffset = new(() => Schema.GetOffset(0xAE8D15369EE1C08B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<Color> InstanceTintSrgb {
-    get => ref _Handle.AsRef<CUtlVector<Color>>(Schema.GetOffset(0xAE8D15369EE1C08B));
+    get => ref _Handle.AsRef<CUtlVector<Color>>(_InstanceTintSrgbOffset.Value);
   }
+  private static readonly Lazy<nint> _TilesOffset = new(() => Schema.GetOffset(0xAE8D15361FD2CAEE), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ClutterTile_t> Tiles {
-    get => ref _Handle.AsRef<CUtlVector<ClutterTile_t>>(Schema.GetOffset(0xAE8D15361FD2CAEE));
+    get => ref _Handle.AsRef<CUtlVector<ClutterTile_t>>(_TilesOffset.Value);
   }
+  private static readonly Lazy<nint> _RenderableModelOffset = new(() => Schema.GetOffset(0xAE8D15362AEEFA82), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCModel> RenderableModel {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(Schema.GetOffset(0xAE8D15362AEEFA82));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(_RenderableModelOffset.Value);
   }
+  private static readonly Lazy<nint> _MaterialGroupOffset = new(() => Schema.GetOffset(0xAE8D15362B778F03), LazyThreadSafetyMode.None);
+
   public ref CUtlStringToken MaterialGroup {
-    get => ref _Handle.AsRef<CUtlStringToken>(Schema.GetOffset(0xAE8D15362B778F03));
+    get => ref _Handle.AsRef<CUtlStringToken>(_MaterialGroupOffset.Value);
   }
+  private static readonly Lazy<nint> _BeginCullSizeOffset = new(() => Schema.GetOffset(0xAE8D153680809565), LazyThreadSafetyMode.None);
+
   public ref float BeginCullSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xAE8D153680809565));
+    get => ref _Handle.AsRef<float>(_BeginCullSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndCullSizeOffset = new(() => Schema.GetOffset(0xAE8D153664AC3931), LazyThreadSafetyMode.None);
+
   public ref float EndCullSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xAE8D153664AC3931));
+    get => ref _Handle.AsRef<float>(_EndCullSizeOffset.Value);
   }
 
 

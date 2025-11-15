@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_RenderFlattenGrassImpl : CParticleFunctionRendererIm
   public C_OP_RenderFlattenGrassImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FlattenStrengthOffset = new(() => Schema.GetOffset(0x81877FD959D69362), LazyThreadSafetyMode.None);
+
   public ref float FlattenStrength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x81877FD959D69362));
+    get => ref _Handle.AsRef<float>(_FlattenStrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _StrengthFieldOverrideOffset = new(() => Schema.GetOffset(0x81877FD91996F4F8), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t StrengthFieldOverride {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x81877FD91996F4F8));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _StrengthFieldOverrideOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0x81877FD9A7A20159), LazyThreadSafetyMode.None);
+
   public ref float RadiusScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x81877FD9A7A20159));
+    get => ref _Handle.AsRef<float>(_RadiusScaleOffset.Value);
   }
 
 

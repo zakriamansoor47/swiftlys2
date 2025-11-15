@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_OP_ShapeMatchingConstraintImpl : CParticleFunctionConst
   public C_OP_ShapeMatchingConstraintImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ShapeRestorationTimeOffset = new(() => Schema.GetOffset(0x4FF42FB6A86E05A9), LazyThreadSafetyMode.None);
+
   public ref float ShapeRestorationTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4FF42FB6A86E05A9));
+    get => ref _Handle.AsRef<float>(_ShapeRestorationTimeOffset.Value);
   }
 
 

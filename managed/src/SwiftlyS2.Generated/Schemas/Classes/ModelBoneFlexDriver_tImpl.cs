@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class ModelBoneFlexDriver_tImpl : SchemaClass, ModelBoneFlexDri
   public ModelBoneFlexDriver_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoneNameOffset = new(() => Schema.GetOffset(0xBCBDE5AAFDEE0E0C), LazyThreadSafetyMode.None);
+
   public string BoneName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xBCBDE5AAFDEE0E0C));
+      var ptr = _Handle.Read<nint>(_BoneNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xBCBDE5AAFDEE0E0C, value);
+    set => Schema.SetString(_Handle, _BoneNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _BoneNameTokenOffset = new(() => Schema.GetOffset(0xBCBDE5AA44D1E369), LazyThreadSafetyMode.None);
+
   public ref uint BoneNameToken {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xBCBDE5AA44D1E369));
+    get => ref _Handle.AsRef<uint>(_BoneNameTokenOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlsOffset = new(() => Schema.GetOffset(0xBCBDE5AA5FCAD2B7), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ModelBoneFlexDriverControl_t> Controls {
-    get => ref _Handle.AsRef<CUtlVector<ModelBoneFlexDriverControl_t>>(Schema.GetOffset(0xBCBDE5AA5FCAD2B7));
+    get => ref _Handle.AsRef<CUtlVector<ModelBoneFlexDriverControl_t>>(_ControlsOffset.Value);
   }
 
 

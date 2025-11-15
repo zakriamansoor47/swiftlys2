@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CPhysImpactImpl : CPointEntityImpl, CPhysImpact {
   public CPhysImpactImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DamageOffset = new(() => Schema.GetOffset(0x2C5E7E549C988CE0), LazyThreadSafetyMode.None);
+
   public ref float Damage {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2C5E7E549C988CE0));
+    get => ref _Handle.AsRef<float>(_DamageOffset.Value);
   }
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0x2C5E7E543CB20D02), LazyThreadSafetyMode.None);
+
   public ref float Distance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2C5E7E543CB20D02));
+    get => ref _Handle.AsRef<float>(_DistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _DirectionEntityNameOffset = new(() => Schema.GetOffset(0x2C5E7E54329C8132), LazyThreadSafetyMode.None);
+
   public string DirectionEntityName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x2C5E7E54329C8132));
+      var ptr = _Handle.Read<nint>(_DirectionEntityNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x2C5E7E54329C8132, value);
+    set => Schema.SetString(_Handle, _DirectionEntityNameOffset.Value, value);
   } 
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Outflow_CycleRandomImpl : CPulseCell_BaseFlowI
   public CPulseCell_Outflow_CycleRandomImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OutputsOffset = new(() => Schema.GetOffset(0xF24A555AA38A89D5), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CPulse_OutflowConnection> Outputs {
-    get => ref _Handle.AsRef<CUtlVector<CPulse_OutflowConnection>>(Schema.GetOffset(0xF24A555AA38A89D5));
+    get => ref _Handle.AsRef<CUtlVector<CPulse_OutflowConnection>>(_OutputsOffset.Value);
   }
 
 

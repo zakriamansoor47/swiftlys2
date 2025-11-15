@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPhysicsBodyGameMarkupDataImpl : SchemaClass, CPhysicsBod
   public CPhysicsBodyGameMarkupDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PhysicsBodyMarkupByBoneNameOffset = new(() => Schema.GetOffset(0x29262AE188A1FE22), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField PhysicsBodyMarkupByBoneName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x29262AE188A1FE22));
+    get => new SchemaUntypedField(_Handle + _PhysicsBodyMarkupByBoneNameOffset.Value);
   }
 
 

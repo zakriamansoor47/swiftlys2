@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_OP_SetControlPointFieldFromVectorExpressionImpl : CPart
   public C_OP_SetControlPointFieldFromVectorExpressionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ExpressionOffset = new(() => Schema.GetOffset(0x1A9FFD07160B2427), LazyThreadSafetyMode.None);
+
   public ref VectorFloatExpressionType_t Expression {
-    get => ref _Handle.AsRef<VectorFloatExpressionType_t>(Schema.GetOffset(0x1A9FFD07160B2427));
+    get => ref _Handle.AsRef<VectorFloatExpressionType_t>(_ExpressionOffset.Value);
   }
+  private static readonly Lazy<nint> _Input1Offset = new(() => Schema.GetOffset(0x1A9FFD07A155BDDE), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Input1 {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x1A9FFD07A155BDDE));
+    get => new CParticleCollectionVecInputImpl(_Handle + _Input1Offset.Value);
   }
+  private static readonly Lazy<nint> _Input2Offset = new(() => Schema.GetOffset(0x1A9FFD07A055BC4B), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Input2 {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x1A9FFD07A055BC4B));
+    get => new CParticleCollectionVecInputImpl(_Handle + _Input2Offset.Value);
   }
+  private static readonly Lazy<nint> _LerpOffset = new(() => Schema.GetOffset(0x1A9FFD07622FAB06), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Lerp {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x1A9FFD07622FAB06));
+    get => new CPerParticleFloatInputImpl(_Handle + _LerpOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputRemapOffset = new(() => Schema.GetOffset(0x1A9FFD071239396F), LazyThreadSafetyMode.None);
+
   public CParticleRemapFloatInput OutputRemap {
-    get => new CParticleRemapFloatInputImpl(_Handle + Schema.GetOffset(0x1A9FFD071239396F));
+    get => new CParticleRemapFloatInputImpl(_Handle + _OutputRemapOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputCPOffset = new(() => Schema.GetOffset(0x1A9FFD0750DF5703), LazyThreadSafetyMode.None);
+
   public ref int OutputCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1A9FFD0750DF5703));
+    get => ref _Handle.AsRef<int>(_OutputCPOffset.Value);
   }
+  private static readonly Lazy<nint> _OutVectorFieldOffset = new(() => Schema.GetOffset(0x1A9FFD07F9041E74), LazyThreadSafetyMode.None);
+
   public ref int OutVectorField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1A9FFD07F9041E74));
+    get => ref _Handle.AsRef<int>(_OutVectorFieldOffset.Value);
   }
 
 

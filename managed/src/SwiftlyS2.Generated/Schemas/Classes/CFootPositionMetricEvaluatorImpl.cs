@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CFootPositionMetricEvaluatorImpl : CMotionMetricEvaluator
   public CFootPositionMetricEvaluatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FootIndicesOffset = new(() => Schema.GetOffset(0x67E807C64C840316), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> FootIndices {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0x67E807C64C840316));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_FootIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _IgnoreSlopeOffset = new(() => Schema.GetOffset(0x67E807C6541E43F2), LazyThreadSafetyMode.None);
+
   public ref bool IgnoreSlope {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x67E807C6541E43F2));
+    get => ref _Handle.AsRef<bool>(_IgnoreSlopeOffset.Value);
   }
 
 

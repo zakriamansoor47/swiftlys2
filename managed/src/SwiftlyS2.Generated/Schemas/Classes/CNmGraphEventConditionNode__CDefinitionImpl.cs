@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmGraphEventConditionNode__CDefinitionImpl : CNmBoolValu
   public CNmGraphEventConditionNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceStateNodeIdxOffset = new(() => Schema.GetOffset(0x8806734863F0228C), LazyThreadSafetyMode.None);
+
   public ref short SourceStateNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x8806734863F0228C));
+    get => ref _Handle.AsRef<short>(_SourceStateNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EventConditionRulesOffset = new(() => Schema.GetOffset(0x88067348A904315F), LazyThreadSafetyMode.None);
+
   public CNmBitFlags EventConditionRules {
-    get => new CNmBitFlagsImpl(_Handle + Schema.GetOffset(0x88067348A904315F));
+    get => new CNmBitFlagsImpl(_Handle + _EventConditionRulesOffset.Value);
   }
+  private static readonly Lazy<nint> _ConditionsOffset = new(() => Schema.GetOffset(0x88067348EDDF6757), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Conditions {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x88067348EDDF6757));
+    get => new SchemaUntypedField(_Handle + _ConditionsOffset.Value);
   }
 
 

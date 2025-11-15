@@ -7,7 +7,8 @@ using System.Runtime.InteropServices;
 
 namespace SwiftlyS2.Core.Schemas;
 
-internal static class Schema {
+internal static class Schema
+{
   private static readonly HashSet<ulong> dangerousFields = new() {
     0x509D90A88DFCB984, // CMaterialAttributeAnimTag.m_flValue
     0xCB1D2D708DFCB984, // CNmConstFloatNode__CDefinition.m_flValue
@@ -46,53 +47,55 @@ internal static class Schema {
 
   private static readonly bool isFollowingServerGuidelines = NativeServerHelpers.IsFollowingServerGuidelines();
 
-  [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-  public static int GetOffset(ulong hash) {
-    if (isFollowingServerGuidelines && dangerousFields.Contains(hash)) {
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static nint GetOffset( ulong hash )
+  {
+    if (isFollowingServerGuidelines && dangerousFields.Contains(hash))
+    {
       throw new InvalidOperationException($"Cannot get or set 0x{hash:X16} while \"FollowCS2ServerGuidelines\" is enabled.\n\tTo use this operation, disable the option in core.jsonc.");
     }
     return NativeSchema.GetOffset(hash);
   }
 
-  [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-  public static void Update(nint handle, ulong hash) {
-    if (isFollowingServerGuidelines && dangerousFields.Contains(hash)) {
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static void Update( nint handle, ulong hash )
+  {
+    if (isFollowingServerGuidelines && dangerousFields.Contains(hash))
+    {
       throw new InvalidOperationException($"Cannot get or set 0x{hash:X16} while \"FollowCS2ServerGuidelines\" is enabled.\n\tTo use this operation, disable the option in core.jsonc.");
     }
     NativeSchema.SetStateChanged(handle, hash);
   }
 
-  [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-  public static void SetString(nint handle, ulong hash, string value) {
-    if (isFollowingServerGuidelines && dangerousFields.Contains(hash)) {
-      throw new InvalidOperationException($"Cannot get or set 0x{hash:X16} while \"FollowCS2ServerGuidelines\" is enabled.\n\tTo use this operation, disable the option in core.jsonc.");
-    }
-    (handle + GetOffset(hash)).Write(StringPool.Allocate(value));
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static void SetString( nint handle, nint offset, string value )
+  {
+    handle.Write(offset, StringPool.Allocate(value));
   }
 
-  [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-  public static void SetFixedString(nint handle, ulong hash, string value, int maxSize) {
-    if (isFollowingServerGuidelines && dangerousFields.Contains(hash)) {
-      throw new InvalidOperationException($"Cannot get or set 0x{hash:X16} while \"FollowCS2ServerGuidelines\" is enabled.\n\tTo use this operation, disable the option in core.jsonc.");
-    }
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static void SetFixedString( nint handle, nint offset, string value, int maxSize )
+  {
     var pool = ArrayPool<byte>.Shared;
     var size = Encoding.UTF8.GetByteCount(value);
-    if (size + 1 > maxSize) {
+    if (size + 1 > maxSize)
+    {
       throw new ArgumentException("Value is too long. Max size is " + maxSize);
     }
     var bytes = pool.Rent(size + 1);
     Encoding.UTF8.GetBytes(value, bytes);
     bytes[size] = 0;
     Unsafe.CopyBlockUnaligned(
-      ref (handle + GetOffset(hash)).AsRef<byte>(),
+      ref handle.AsRef<byte>(offset),
       ref bytes[0],
       (uint)(size + 1)
     );
     pool.Return(bytes);
   }
 
-  [MethodImpl(MethodImplOptions.AggressiveInlining)]  
-  public static string GetString(nint handle) {
+  [MethodImpl(MethodImplOptions.AggressiveInlining)]
+  public static string GetString( nint handle )
+  {
     return Marshal.PtrToStringUTF8(handle) ?? string.Empty;
   }
 

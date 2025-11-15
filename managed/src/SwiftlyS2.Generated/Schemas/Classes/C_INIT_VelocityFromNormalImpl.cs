@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_VelocityFromNormalImpl : CParticleFunctionInitiali
   public C_INIT_VelocityFromNormalImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SpeedMinOffset = new(() => Schema.GetOffset(0x33D27066B989E1F8), LazyThreadSafetyMode.None);
+
   public ref float SpeedMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x33D27066B989E1F8));
+    get => ref _Handle.AsRef<float>(_SpeedMinOffset.Value);
   }
+  private static readonly Lazy<nint> _SpeedMaxOffset = new(() => Schema.GetOffset(0x33D27066CF9D8C52), LazyThreadSafetyMode.None);
+
   public ref float SpeedMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x33D27066CF9D8C52));
+    get => ref _Handle.AsRef<float>(_SpeedMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _IgnoreDtOffset = new(() => Schema.GetOffset(0x33D27066330C0603), LazyThreadSafetyMode.None);
+
   public ref bool IgnoreDt {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x33D27066330C0603));
+    get => ref _Handle.AsRef<bool>(_IgnoreDtOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Inflow_GraphHookImpl : CPulseCell_Inflow_BaseE
   public CPulseCell_Inflow_GraphHookImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HookNameOffset = new(() => Schema.GetOffset(0xEA4B2E6FA19F4D11), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField HookName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xEA4B2E6FA19F4D11));
+    get => new SchemaUntypedField(_Handle + _HookNameOffset.Value);
   }
 
 

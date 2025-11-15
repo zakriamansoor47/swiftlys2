@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_ClampVectorImpl : CParticleFunctionOperatorImpl, C_O
   public C_OP_ClampVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x5977BF1BE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x5977BF1BE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0x5977BF1B2EFED678), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput OutputMin {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x5977BF1B2EFED678));
+    get => new CPerParticleVecInputImpl(_Handle + _OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0x5977BF1B451280D2), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput OutputMax {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x5977BF1B451280D2));
+    get => new CPerParticleVecInputImpl(_Handle + _OutputMaxOffset.Value);
   }
 
 

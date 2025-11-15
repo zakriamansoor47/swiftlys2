@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_INIT_RemapNamedModelElementToScalarImpl : CParticleFunc
   public C_INIT_RemapNamedModelElementToScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModelOffset = new(() => Schema.GetOffset(0x4717248AE100C814), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCModel> Model {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(Schema.GetOffset(0x4717248AE100C814));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(_ModelOffset.Value);
   }
+  private static readonly Lazy<nint> _NamesOffset = new(() => Schema.GetOffset(0x4717248A0DA776AF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> Names {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0x4717248A0DA776AF));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_NamesOffset.Value);
   }
+  private static readonly Lazy<nint> _ValuesOffset = new(() => Schema.GetOffset(0x4717248AFBEDDADB), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> Values {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x4717248AFBEDDADB));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_ValuesOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldInputOffset = new(() => Schema.GetOffset(0x4717248AAE775669), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldInput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x4717248AAE775669));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldInputOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x4717248AE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x4717248AE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x4717248AFB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x4717248AFB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _ModelFromRendererOffset = new(() => Schema.GetOffset(0x4717248AAEBA1F25), LazyThreadSafetyMode.None);
+
   public ref bool ModelFromRenderer {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4717248AAEBA1F25));
+    get => ref _Handle.AsRef<bool>(_ModelFromRendererOffset.Value);
   }
 
 

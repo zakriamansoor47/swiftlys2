@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CCreditsImpl : CPointEntityImpl, CCredits {
   public CCreditsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnCreditsDoneOffset = new(() => Schema.GetOffset(0xF1224C0488A2DA7A), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnCreditsDone {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xF1224C0488A2DA7A));
+    get => new CEntityIOOutputImpl(_Handle + _OnCreditsDoneOffset.Value);
   }
+  private static readonly Lazy<nint> _RolledOutroCreditsOffset = new(() => Schema.GetOffset(0xF1224C048E1511D4), LazyThreadSafetyMode.None);
+
   public ref bool RolledOutroCredits {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF1224C048E1511D4));
+    get => ref _Handle.AsRef<bool>(_RolledOutroCreditsOffset.Value);
   }
+  private static readonly Lazy<nint> _LogoLengthOffset = new(() => Schema.GetOffset(0xF1224C04D283492C), LazyThreadSafetyMode.None);
+
   public ref float LogoLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF1224C04D283492C));
+    get => ref _Handle.AsRef<float>(_LogoLengthOffset.Value);
   }
 
 

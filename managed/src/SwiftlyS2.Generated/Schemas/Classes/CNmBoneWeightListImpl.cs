@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmBoneWeightListImpl : SchemaClass, CNmBoneWeightList {
   public CNmBoneWeightListImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SkeletonNameOffset = new(() => Schema.GetOffset(0xA16307391879D68D), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SkeletonName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA16307391879D68D));
+    get => new SchemaUntypedField(_Handle + _SkeletonNameOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneIDsOffset = new(() => Schema.GetOffset(0xA16307390909C443), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CGlobalSymbol> BoneIDs {
-    get => ref _Handle.AsRef<CUtlVector<CGlobalSymbol>>(Schema.GetOffset(0xA16307390909C443));
+    get => ref _Handle.AsRef<CUtlVector<CGlobalSymbol>>(_BoneIDsOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightsOffset = new(() => Schema.GetOffset(0xA163073977B2F91E), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> Weights {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0xA163073977B2F91E));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_WeightsOffset.Value);
   }
 
 

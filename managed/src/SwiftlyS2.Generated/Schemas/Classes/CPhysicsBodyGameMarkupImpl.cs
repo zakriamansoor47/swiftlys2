@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CPhysicsBodyGameMarkupImpl : SchemaClass, CPhysicsBodyGam
   public CPhysicsBodyGameMarkupImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetBodyOffset = new(() => Schema.GetOffset(0xA5257571F2C6B554), LazyThreadSafetyMode.None);
+
   public string TargetBody {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA5257571F2C6B554));
+      var ptr = _Handle.Read<nint>(_TargetBodyOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xA5257571F2C6B554, value);
+    set => Schema.SetString(_Handle, _TargetBodyOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TagOffset = new(() => Schema.GetOffset(0xA5257571218D8313), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol Tag {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xA5257571218D8313));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_TagOffset.Value);
   }
 
 

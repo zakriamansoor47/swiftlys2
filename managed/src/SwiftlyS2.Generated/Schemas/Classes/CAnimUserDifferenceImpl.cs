@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CAnimUserDifferenceImpl : SchemaClass, CAnimUserDifferenc
   public CAnimUserDifferenceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x8F174EDB4D8F5786), LazyThreadSafetyMode.None);
+
   public ref CBufferString Name {
-    get => ref _Handle.AsRef<CBufferString>(Schema.GetOffset(0x8F174EDB4D8F5786));
+    get => ref _Handle.AsRef<CBufferString>(_NameOffset.Value);
   }
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x8F174EDB18853D59), LazyThreadSafetyMode.None);
+
   public ref int Type {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8F174EDB18853D59));
+    get => ref _Handle.AsRef<int>(_TypeOffset.Value);
   }
 
 

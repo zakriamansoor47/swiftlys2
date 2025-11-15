@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_PositionOffsetToCPImpl : CParticleFunctionInitiali
   public C_INIT_PositionOffsetToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberStartOffset = new(() => Schema.GetOffset(0x5976F1BC33DBA947), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumberStart {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5976F1BC33DBA947));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberStartOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberEndOffset = new(() => Schema.GetOffset(0x5976F1BC6527E5A2), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumberEnd {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5976F1BC6527E5A2));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberEndOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalCoordsOffset = new(() => Schema.GetOffset(0x5976F1BC30E716DE), LazyThreadSafetyMode.None);
+
   public ref bool LocalCoords {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5976F1BC30E716DE));
+    get => ref _Handle.AsRef<bool>(_LocalCoordsOffset.Value);
   }
 
 

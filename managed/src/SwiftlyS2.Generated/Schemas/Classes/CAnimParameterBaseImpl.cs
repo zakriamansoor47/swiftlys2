@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,52 @@ internal partial class CAnimParameterBaseImpl : SchemaClass, CAnimParameterBase 
   public CAnimParameterBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x9E097C8F4D8F5786), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol Name {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x9E097C8F4D8F5786));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_NameOffset.Value);
   }
+  private static readonly Lazy<nint> _CommentOffset = new(() => Schema.GetOffset(0x9E097C8F88A0B4DF), LazyThreadSafetyMode.None);
+
   public string Comment {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x9E097C8F88A0B4DF));
+      var ptr = _Handle.Read<nint>(_CommentOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x9E097C8F88A0B4DF, value);
+    set => Schema.SetString(_Handle, _CommentOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _GroupOffset = new(() => Schema.GetOffset(0x9E097C8F9FC645AC), LazyThreadSafetyMode.None);
+
   public string Group {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x9E097C8F9FC645AC));
+      var ptr = _Handle.Read<nint>(_GroupOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x9E097C8F9FC645AC, value);
+    set => Schema.SetString(_Handle, _GroupOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _IdOffset = new(() => Schema.GetOffset(0x9E097C8FB4B6E980), LazyThreadSafetyMode.None);
+
   public AnimParamID Id {
-    get => new AnimParamIDImpl(_Handle + Schema.GetOffset(0x9E097C8FB4B6E980));
+    get => new AnimParamIDImpl(_Handle + _IdOffset.Value);
   }
+  private static readonly Lazy<nint> _ComponentNameOffset = new(() => Schema.GetOffset(0x9E097C8F7CAC3EA3), LazyThreadSafetyMode.None);
+
   public string ComponentName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x9E097C8F7CAC3EA3));
+      var ptr = _Handle.Read<nint>(_ComponentNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x9E097C8F7CAC3EA3, value);
+    set => Schema.SetString(_Handle, _ComponentNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _NetworkingRequestedOffset = new(() => Schema.GetOffset(0x9E097C8FE57548D5), LazyThreadSafetyMode.None);
+
   public ref bool NetworkingRequested {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9E097C8FE57548D5));
+    get => ref _Handle.AsRef<bool>(_NetworkingRequestedOffset.Value);
   }
+  private static readonly Lazy<nint> _IsReferencedOffset = new(() => Schema.GetOffset(0x9E097C8FCEABFB2A), LazyThreadSafetyMode.None);
+
   public ref bool IsReferenced {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9E097C8FCEABFB2A));
+    get => ref _Handle.AsRef<bool>(_IsReferencedOffset.Value);
   }
 
 

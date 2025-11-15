@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CVoiceContainerStaticAdditiveSynth__CGainScalePerInstance
   public CVoiceContainerStaticAdditiveSynth__CGainScalePerInstanceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinVolumeOffset = new(() => Schema.GetOffset(0x9089F81B2CA4E2A3), LazyThreadSafetyMode.None);
+
   public ref float MinVolume {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9089F81B2CA4E2A3));
+    get => ref _Handle.AsRef<float>(_MinVolumeOffset.Value);
   }
+  private static readonly Lazy<nint> _InstancesAtMinVolumeOffset = new(() => Schema.GetOffset(0x9089F81BBA3DF3B8), LazyThreadSafetyMode.None);
+
   public ref int InstancesAtMinVolume {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9089F81BBA3DF3B8));
+    get => ref _Handle.AsRef<int>(_InstancesAtMinVolumeOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxVolumeOffset = new(() => Schema.GetOffset(0x9089F81B25691B11), LazyThreadSafetyMode.None);
+
   public ref float MaxVolume {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9089F81B25691B11));
+    get => ref _Handle.AsRef<float>(_MaxVolumeOffset.Value);
   }
+  private static readonly Lazy<nint> _InstancesAtMaxVolumeOffset = new(() => Schema.GetOffset(0x9089F81B18EB3E46), LazyThreadSafetyMode.None);
+
   public ref int InstancesAtMaxVolume {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x9089F81B18EB3E46));
+    get => ref _Handle.AsRef<int>(_InstancesAtMaxVolumeOffset.Value);
   }
 
 

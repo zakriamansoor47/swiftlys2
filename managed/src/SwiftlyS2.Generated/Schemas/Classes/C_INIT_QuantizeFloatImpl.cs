@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_INIT_QuantizeFloatImpl : CParticleFunctionInitializerIm
   public C_INIT_QuantizeFloatImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueOffset = new(() => Schema.GetOffset(0x1A8E56B534445438), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputValue {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x1A8E56B534445438));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputFieldOffset = new(() => Schema.GetOffset(0x1A8E56B5324F6F74), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t OutputField {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x1A8E56B5324F6F74));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _OutputFieldOffset.Value);
   }
 
 

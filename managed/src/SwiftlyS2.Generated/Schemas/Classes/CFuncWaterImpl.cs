@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFuncWaterImpl : CBaseModelEntityImpl, CFuncWater {
   public CFuncWaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BuoyancyHelperOffset = new(() => Schema.GetOffset(0x7DCF4A236BAFFEA7), LazyThreadSafetyMode.None);
+
   public CBuoyancyHelper BuoyancyHelper {
-    get => new CBuoyancyHelperImpl(_Handle + Schema.GetOffset(0x7DCF4A236BAFFEA7));
+    get => new CBuoyancyHelperImpl(_Handle + _BuoyancyHelperOffset.Value);
   }
 
 

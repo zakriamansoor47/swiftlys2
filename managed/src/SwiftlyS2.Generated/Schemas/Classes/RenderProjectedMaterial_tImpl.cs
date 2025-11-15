@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class RenderProjectedMaterial_tImpl : SchemaClass, RenderProjec
   public RenderProjectedMaterial_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaterialOffset = new(() => Schema.GetOffset(0x62AF09D5888CE42E), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeIMaterial2> Material {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(Schema.GetOffset(0x62AF09D5888CE42E));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(_MaterialOffset.Value);
   }
 
 

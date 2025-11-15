@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CDemoSettingsComponentUpdaterImpl : CAnimComponentUpdater
   public CDemoSettingsComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SettingsOffset = new(() => Schema.GetOffset(0xD4FC646CB3DE33A8), LazyThreadSafetyMode.None);
+
   public CAnimDemoCaptureSettings Settings {
-    get => new CAnimDemoCaptureSettingsImpl(_Handle + Schema.GetOffset(0xD4FC646CB3DE33A8));
+    get => new CAnimDemoCaptureSettingsImpl(_Handle + _SettingsOffset.Value);
   }
 
 

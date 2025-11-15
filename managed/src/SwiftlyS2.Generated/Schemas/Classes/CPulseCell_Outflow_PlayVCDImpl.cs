@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Outflow_PlayVCDImpl : CPulseCell_Outflow_PlayS
   public CPulseCell_Outflow_PlayVCDImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChoreoSceneOffset = new(() => Schema.GetOffset(0xB095B414AFC19AC7), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCChoreoSceneResource> ChoreoScene {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCChoreoSceneResource>>(Schema.GetOffset(0xB095B414AFC19AC7));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCChoreoSceneResource>>(_ChoreoSceneOffset.Value);
   }
 
 

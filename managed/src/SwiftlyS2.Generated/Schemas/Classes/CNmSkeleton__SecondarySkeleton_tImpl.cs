@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmSkeleton__SecondarySkeleton_tImpl : SchemaClass, CNmSk
   public CNmSkeleton__SecondarySkeleton_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttachToBoneIDOffset = new(() => Schema.GetOffset(0x50F456DAB2F06B3A), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol AttachToBoneID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x50F456DAB2F06B3A));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_AttachToBoneIDOffset.Value);
   }
+  private static readonly Lazy<nint> _SkeletonOffset = new(() => Schema.GetOffset(0x50F456DAE77F030E), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCNmSkeleton> Skeleton {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCNmSkeleton>>(Schema.GetOffset(0x50F456DAE77F030E));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCNmSkeleton>>(_SkeletonOffset.Value);
   }
 
 

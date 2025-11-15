@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CAnimInputDampingImpl : SchemaClass, CAnimInputDamping {
   public CAnimInputDampingImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SpeedFunctionOffset = new(() => Schema.GetOffset(0xFAECFC318682F508), LazyThreadSafetyMode.None);
+
   public ref DampingSpeedFunction SpeedFunction {
-    get => ref _Handle.AsRef<DampingSpeedFunction>(Schema.GetOffset(0xFAECFC318682F508));
+    get => ref _Handle.AsRef<DampingSpeedFunction>(_SpeedFunctionOffset.Value);
   }
+  private static readonly Lazy<nint> _SpeedScaleOffset = new(() => Schema.GetOffset(0xFAECFC31E70BB6FE), LazyThreadSafetyMode.None);
+
   public ref float SpeedScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFAECFC31E70BB6FE));
+    get => ref _Handle.AsRef<float>(_SpeedScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _FallingSpeedScaleOffset = new(() => Schema.GetOffset(0xFAECFC31128A6857), LazyThreadSafetyMode.None);
+
   public ref float FallingSpeedScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFAECFC31128A6857));
+    get => ref _Handle.AsRef<float>(_FallingSpeedScaleOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CStanceScaleUpdateNodeImpl : CUnaryUpdateNodeImpl, CStanc
   public CStanceScaleUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParamOffset = new(() => Schema.GetOffset(0xA2CC6975679286A4), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle Param {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xA2CC6975679286A4));
+    get => new CAnimParamHandleImpl(_Handle + _ParamOffset.Value);
   }
 
 

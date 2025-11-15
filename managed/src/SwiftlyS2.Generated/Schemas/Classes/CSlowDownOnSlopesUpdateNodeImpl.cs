@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CSlowDownOnSlopesUpdateNodeImpl : CUnaryUpdateNodeImpl, C
   public CSlowDownOnSlopesUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SlowDownStrengthOffset = new(() => Schema.GetOffset(0x196FB4938D85E247), LazyThreadSafetyMode.None);
+
   public ref float SlowDownStrength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x196FB4938D85E247));
+    get => ref _Handle.AsRef<float>(_SlowDownStrengthOffset.Value);
   }
 
 

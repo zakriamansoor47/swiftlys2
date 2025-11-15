@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class WeaponPurchaseTracker_tImpl : SchemaClass, WeaponPurchase
   public WeaponPurchaseTracker_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WeaponPurchasesOffset = new(() => Schema.GetOffset(0xD558F475988247C7), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<WeaponPurchaseCount_t> WeaponPurchases {
-    get => ref _Handle.AsRef<CUtlVector<WeaponPurchaseCount_t>>(Schema.GetOffset(0xD558F475988247C7));
+    get => ref _Handle.AsRef<CUtlVector<WeaponPurchaseCount_t>>(_WeaponPurchasesOffset.Value);
   }
 
   public void WeaponPurchasesUpdated() {

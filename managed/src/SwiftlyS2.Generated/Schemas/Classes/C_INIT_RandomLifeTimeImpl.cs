@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_RandomLifeTimeImpl : CParticleFunctionInitializerI
   public C_INIT_RandomLifeTimeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LifetimeMinOffset = new(() => Schema.GetOffset(0xC413CA5E5D0684A6), LazyThreadSafetyMode.None);
+
   public ref float LifetimeMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC413CA5E5D0684A6));
+    get => ref _Handle.AsRef<float>(_LifetimeMinOffset.Value);
   }
+  private static readonly Lazy<nint> _LifetimeMaxOffset = new(() => Schema.GetOffset(0xC413CA5E6F1BBBB4), LazyThreadSafetyMode.None);
+
   public ref float LifetimeMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC413CA5E6F1BBBB4));
+    get => ref _Handle.AsRef<float>(_LifetimeMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _LifetimeRandExponentOffset = new(() => Schema.GetOffset(0xC413CA5E9B83919A), LazyThreadSafetyMode.None);
+
   public ref float LifetimeRandExponent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC413CA5E9B83919A));
+    get => ref _Handle.AsRef<float>(_LifetimeRandExponentOffset.Value);
   }
 
 

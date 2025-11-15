@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CBuyZoneImpl : CBaseTriggerImpl, CBuyZone {
   public CBuyZoneImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LegacyTeamNumOffset = new(() => Schema.GetOffset(0xB8D4DAC44C92565), LazyThreadSafetyMode.None);
+
   public ref int LegacyTeamNum {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB8D4DAC44C92565));
+    get => ref _Handle.AsRef<int>(_LegacyTeamNumOffset.Value);
   }
 
 

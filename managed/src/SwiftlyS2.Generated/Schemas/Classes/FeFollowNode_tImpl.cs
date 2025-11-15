@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class FeFollowNode_tImpl : SchemaClass, FeFollowNode_t {
   public FeFollowNode_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParentNodeOffset = new(() => Schema.GetOffset(0x8BE908126CBBA7F9), LazyThreadSafetyMode.None);
+
   public ref ushort ParentNode {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x8BE908126CBBA7F9));
+    get => ref _Handle.AsRef<ushort>(_ParentNodeOffset.Value);
   }
+  private static readonly Lazy<nint> _ChildNodeOffset = new(() => Schema.GetOffset(0x8BE9081292A8E0E9), LazyThreadSafetyMode.None);
+
   public ref ushort ChildNode {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x8BE9081292A8E0E9));
+    get => ref _Handle.AsRef<ushort>(_ChildNodeOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightOffset = new(() => Schema.GetOffset(0x8BE90812CFFC66CB), LazyThreadSafetyMode.None);
+
   public ref float Weight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8BE90812CFFC66CB));
+    get => ref _Handle.AsRef<float>(_WeightOffset.Value);
   }
 
 

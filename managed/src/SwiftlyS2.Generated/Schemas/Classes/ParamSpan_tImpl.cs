@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class ParamSpan_tImpl : SchemaClass, ParamSpan_t {
   public ParamSpan_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SamplesOffset = new(() => Schema.GetOffset(0x5EE209D9364CA9DC), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ParamSpanSample_t> Samples {
-    get => ref _Handle.AsRef<CUtlVector<ParamSpanSample_t>>(Schema.GetOffset(0x5EE209D9364CA9DC));
+    get => ref _Handle.AsRef<CUtlVector<ParamSpanSample_t>>(_SamplesOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamOffset = new(() => Schema.GetOffset(0x5EE209D9679286A4), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle Param {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x5EE209D9679286A4));
+    get => new CAnimParamHandleImpl(_Handle + _ParamOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamTypeOffset = new(() => Schema.GetOffset(0x5EE209D9F05DFDD9), LazyThreadSafetyMode.None);
+
   public ref AnimParamType_t ParamType {
-    get => ref _Handle.AsRef<AnimParamType_t>(Schema.GetOffset(0x5EE209D9F05DFDD9));
+    get => ref _Handle.AsRef<AnimParamType_t>(_ParamTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _StartCycleOffset = new(() => Schema.GetOffset(0x5EE209D9ABB46051), LazyThreadSafetyMode.None);
+
   public ref float StartCycle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5EE209D9ABB46051));
+    get => ref _Handle.AsRef<float>(_StartCycleOffset.Value);
   }
+  private static readonly Lazy<nint> _EndCycleOffset = new(() => Schema.GetOffset(0x5EE209D9176E8F62), LazyThreadSafetyMode.None);
+
   public ref float EndCycle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5EE209D9176E8F62));
+    get => ref _Handle.AsRef<float>(_EndCycleOffset.Value);
   }
 
 

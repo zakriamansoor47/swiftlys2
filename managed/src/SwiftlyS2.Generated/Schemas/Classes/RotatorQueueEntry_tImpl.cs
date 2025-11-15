@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class RotatorQueueEntry_tImpl : SchemaClass, RotatorQueueEntry_
   public RotatorQueueEntry_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetOffset = new(() => Schema.GetOffset(0x2A6B84384FFCC265), LazyThreadSafetyMode.None);
+
   public ref Quaternion Target {
-    get => ref _Handle.AsRef<Quaternion>(Schema.GetOffset(0x2A6B84384FFCC265));
+    get => ref _Handle.AsRef<Quaternion>(_TargetOffset.Value);
   }
+  private static readonly Lazy<nint> _SpaceOffset = new(() => Schema.GetOffset(0x2A6B8438EC1BD596), LazyThreadSafetyMode.None);
+
   public ref RotatorTargetSpace_t Space {
-    get => ref _Handle.AsRef<RotatorTargetSpace_t>(Schema.GetOffset(0x2A6B8438EC1BD596));
+    get => ref _Handle.AsRef<RotatorTargetSpace_t>(_SpaceOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_INIT_CreateFromCPsImpl : CParticleFunctionInitializerIm
   public C_INIT_CreateFromCPsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IncrementOffset = new(() => Schema.GetOffset(0x2593FF962359F182), LazyThreadSafetyMode.None);
+
   public ref int Increment {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x2593FF962359F182));
+    get => ref _Handle.AsRef<int>(_IncrementOffset.Value);
   }
+  private static readonly Lazy<nint> _MinCPOffset = new(() => Schema.GetOffset(0x2593FF9663AFBE98), LazyThreadSafetyMode.None);
+
   public ref int MinCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x2593FF9663AFBE98));
+    get => ref _Handle.AsRef<int>(_MinCPOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxCPOffset = new(() => Schema.GetOffset(0x2593FF964C307D96), LazyThreadSafetyMode.None);
+
   public ref int MaxCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x2593FF964C307D96));
+    get => ref _Handle.AsRef<int>(_MaxCPOffset.Value);
   }
+  private static readonly Lazy<nint> _DynamicCPCountOffset = new(() => Schema.GetOffset(0x2593FF96DF30CE38), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput DynamicCPCount {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x2593FF96DF30CE38));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _DynamicCPCountOffset.Value);
   }
 
 

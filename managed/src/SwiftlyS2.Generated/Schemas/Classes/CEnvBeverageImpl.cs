@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CEnvBeverageImpl : CBaseEntityImpl, CEnvBeverage {
   public CEnvBeverageImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CanInDispenserOffset = new(() => Schema.GetOffset(0x205E38FCDFB6F3B5), LazyThreadSafetyMode.None);
+
   public ref bool CanInDispenser {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x205E38FCDFB6F3B5));
+    get => ref _Handle.AsRef<bool>(_CanInDispenserOffset.Value);
   }
+  private static readonly Lazy<nint> _BeverageTypeOffset = new(() => Schema.GetOffset(0x205E38FC694E74C8), LazyThreadSafetyMode.None);
+
   public ref int BeverageType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x205E38FC694E74C8));
+    get => ref _Handle.AsRef<int>(_BeverageTypeOffset.Value);
   }
 
 

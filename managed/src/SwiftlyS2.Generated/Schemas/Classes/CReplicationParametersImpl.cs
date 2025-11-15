@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CReplicationParametersImpl : SchemaClass, CReplicationPar
   public CReplicationParametersImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ReplicationModeOffset = new(() => Schema.GetOffset(0xFA909F20C8967832), LazyThreadSafetyMode.None);
+
   public ref ParticleReplicationMode_t ReplicationMode {
-    get => ref _Handle.AsRef<ParticleReplicationMode_t>(Schema.GetOffset(0xFA909F20C8967832));
+    get => ref _Handle.AsRef<ParticleReplicationMode_t>(_ReplicationModeOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleChildParticleRadiiOffset = new(() => Schema.GetOffset(0xFA909F207842F3CC), LazyThreadSafetyMode.None);
+
   public ref bool ScaleChildParticleRadii {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFA909F207842F3CC));
+    get => ref _Handle.AsRef<bool>(_ScaleChildParticleRadiiOffset.Value);
   }
+  private static readonly Lazy<nint> _MinRandomRadiusScaleOffset = new(() => Schema.GetOffset(0xFA909F208CBF88EE), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput MinRandomRadiusScale {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xFA909F208CBF88EE));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _MinRandomRadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxRandomRadiusScaleOffset = new(() => Schema.GetOffset(0xFA909F2022697B5C), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput MaxRandomRadiusScale {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xFA909F2022697B5C));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _MaxRandomRadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _MinRandomDisplacementOffset = new(() => Schema.GetOffset(0xFA909F20808FB77F), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput MinRandomDisplacement {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xFA909F20808FB77F));
+    get => new CParticleCollectionVecInputImpl(_Handle + _MinRandomDisplacementOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxRandomDisplacementOffset = new(() => Schema.GetOffset(0xFA909F20FF279F49), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput MaxRandomDisplacement {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xFA909F20FF279F49));
+    get => new CParticleCollectionVecInputImpl(_Handle + _MaxRandomDisplacementOffset.Value);
   }
+  private static readonly Lazy<nint> _ModellingScaleOffset = new(() => Schema.GetOffset(0xFA909F20BE93B72A), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput ModellingScale {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xFA909F20BE93B72A));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ModellingScaleOffset.Value);
   }
 
 

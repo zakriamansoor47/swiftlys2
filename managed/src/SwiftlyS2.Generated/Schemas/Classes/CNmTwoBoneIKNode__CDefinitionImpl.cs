@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CNmTwoBoneIKNode__CDefinitionImpl : CNmPassthroughNode__C
   public CNmTwoBoneIKNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EffectorBoneIDOffset = new(() => Schema.GetOffset(0x4D36C61F7F221CB6), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol EffectorBoneID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x4D36C61F7F221CB6));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_EffectorBoneIDOffset.Value);
   }
+  private static readonly Lazy<nint> _EffectorTargetNodeIdxOffset = new(() => Schema.GetOffset(0x4D36C61FD6B9B943), LazyThreadSafetyMode.None);
+
   public ref short EffectorTargetNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x4D36C61FD6B9B943));
+    get => ref _Handle.AsRef<short>(_EffectorTargetNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledNodeIdxOffset = new(() => Schema.GetOffset(0x4D36C61FF7CDF5E9), LazyThreadSafetyMode.None);
+
   public ref short EnabledNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x4D36C61FF7CDF5E9));
+    get => ref _Handle.AsRef<short>(_EnabledNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendTimeSecondsOffset = new(() => Schema.GetOffset(0x4D36C61F6D3A08FC), LazyThreadSafetyMode.None);
+
   public ref float BlendTimeSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4D36C61F6D3A08FC));
+    get => ref _Handle.AsRef<float>(_BlendTimeSecondsOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendModeOffset = new(() => Schema.GetOffset(0x4D36C61F8D5006AB), LazyThreadSafetyMode.None);
+
   public ref NmIKBlendMode_t BlendMode {
-    get => ref _Handle.AsRef<NmIKBlendMode_t>(Schema.GetOffset(0x4D36C61F8D5006AB));
+    get => ref _Handle.AsRef<NmIKBlendMode_t>(_BlendModeOffset.Value);
   }
+  private static readonly Lazy<nint> _IsTargetInWorldSpaceOffset = new(() => Schema.GetOffset(0x4D36C61F5F56E0C5), LazyThreadSafetyMode.None);
+
   public ref bool IsTargetInWorldSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4D36C61F5F56E0C5));
+    get => ref _Handle.AsRef<bool>(_IsTargetInWorldSpaceOffset.Value);
   }
 
 

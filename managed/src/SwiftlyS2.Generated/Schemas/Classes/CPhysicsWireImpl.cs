@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPhysicsWireImpl : CBaseEntityImpl, CPhysicsWire {
   public CPhysicsWireImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DensityOffset = new(() => Schema.GetOffset(0x455AFD76A65E630F), LazyThreadSafetyMode.None);
+
   public ref int Density {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x455AFD76A65E630F));
+    get => ref _Handle.AsRef<int>(_DensityOffset.Value);
   }
 
 

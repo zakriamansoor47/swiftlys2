@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmGraphDefinition__ReferencedGraphSlot_tImpl : SchemaCla
   public CNmGraphDefinition__ReferencedGraphSlot_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodeIdxOffset = new(() => Schema.GetOffset(0x33C2E12E124AB5CC), LazyThreadSafetyMode.None);
+
   public ref short NodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x33C2E12E124AB5CC));
+    get => ref _Handle.AsRef<short>(_NodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _DataSlotIdxOffset = new(() => Schema.GetOffset(0x33C2E12E7115A3B4), LazyThreadSafetyMode.None);
+
   public ref short DataSlotIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x33C2E12E7115A3B4));
+    get => ref _Handle.AsRef<short>(_DataSlotIdxOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CEnvDetailControllerImpl : CBaseEntityImpl, CEnvDetailCon
   public CEnvDetailControllerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FadeStartDistOffset = new(() => Schema.GetOffset(0x585A7964FBFACAF3), LazyThreadSafetyMode.None);
+
   public ref float FadeStartDist {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x585A7964FBFACAF3));
+    get => ref _Handle.AsRef<float>(_FadeStartDistOffset.Value);
   }
+  private static readonly Lazy<nint> _FadeEndDistOffset = new(() => Schema.GetOffset(0x585A79646DD6252A), LazyThreadSafetyMode.None);
+
   public ref float FadeEndDist {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x585A79646DD6252A));
+    get => ref _Handle.AsRef<float>(_FadeEndDistOffset.Value);
   }
 
   public void FadeStartDistUpdated() {

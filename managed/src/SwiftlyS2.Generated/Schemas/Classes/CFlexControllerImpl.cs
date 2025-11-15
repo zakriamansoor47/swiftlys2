@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,25 +17,33 @@ internal partial class CFlexControllerImpl : SchemaClass, CFlexController {
   public CFlexControllerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x5265FDF16750BACB), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x5265FDF16750BACB));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x5265FDF16750BACB, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x5265FDF1B580AB00), LazyThreadSafetyMode.None);
+
   public string Type {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x5265FDF1B580AB00));
+      var ptr = _Handle.Read<nint>(_TypeOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x5265FDF1B580AB00, value);
+    set => Schema.SetString(_Handle, _TypeOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _MinOffset = new(() => Schema.GetOffset(0x5265FDF1C98F4557), LazyThreadSafetyMode.None);
+
   public ref float Min {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5265FDF1C98F4557));
+    get => ref _Handle.AsRef<float>(_MinOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxOffset = new(() => Schema.GetOffset(0x5265FDF1D7A2E319), LazyThreadSafetyMode.None);
+
   public ref float Max {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5265FDF1D7A2E319));
+    get => ref _Handle.AsRef<float>(_MaxOffset.Value);
   }
 
 

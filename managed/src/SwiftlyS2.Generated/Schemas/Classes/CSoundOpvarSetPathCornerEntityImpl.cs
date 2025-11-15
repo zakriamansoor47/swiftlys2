@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CSoundOpvarSetPathCornerEntityImpl : CSoundOpvarSetPointE
   public CSoundOpvarSetPathCornerEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DistMinSqrOffset = new(() => Schema.GetOffset(0x368409543D1989CD), LazyThreadSafetyMode.None);
+
   public ref float DistMinSqr {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x368409543D1989CD));
+    get => ref _Handle.AsRef<float>(_DistMinSqrOffset.Value);
   }
+  private static readonly Lazy<nint> _DistMaxSqrOffset = new(() => Schema.GetOffset(0x36840954993EE3BF), LazyThreadSafetyMode.None);
+
   public ref float DistMaxSqr {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x36840954993EE3BF));
+    get => ref _Handle.AsRef<float>(_DistMaxSqrOffset.Value);
   }
+  private static readonly Lazy<nint> _PathCornerEntityNameOffset = new(() => Schema.GetOffset(0x36840954EF6D6403), LazyThreadSafetyMode.None);
+
   public string PathCornerEntityName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x36840954EF6D6403));
+      var ptr = _Handle.Read<nint>(_PathCornerEntityNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x36840954EF6D6403, value);
+    set => Schema.SetString(_Handle, _PathCornerEntityNameOffset.Value, value);
   } 
 
 

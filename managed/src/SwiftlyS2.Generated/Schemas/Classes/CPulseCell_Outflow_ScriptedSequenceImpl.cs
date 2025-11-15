@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,39 +17,59 @@ internal partial class CPulseCell_Outflow_ScriptedSequenceImpl : CPulseCell_Base
   public CPulseCell_Outflow_ScriptedSequenceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SyncGroupOffset = new(() => Schema.GetOffset(0x462EA7DEF9E8183A), LazyThreadSafetyMode.None);
+
   public string SyncGroup {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x462EA7DEF9E8183A));
+      var ptr = _Handle.Read<nint>(_SyncGroupOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x462EA7DEF9E8183A, value);
+    set => Schema.SetString(_Handle, _SyncGroupOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ExpectedNumSequencesInSyncGroupOffset = new(() => Schema.GetOffset(0x462EA7DE0C6AAD7A), LazyThreadSafetyMode.None);
+
   public ref int ExpectedNumSequencesInSyncGroup {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x462EA7DE0C6AAD7A));
+    get => ref _Handle.AsRef<int>(_ExpectedNumSequencesInSyncGroupOffset.Value);
   }
+  private static readonly Lazy<nint> _EnsureOnNavmeshOnFinishOffset = new(() => Schema.GetOffset(0x462EA7DE802BA0B0), LazyThreadSafetyMode.None);
+
   public ref bool EnsureOnNavmeshOnFinish {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x462EA7DE802BA0B0));
+    get => ref _Handle.AsRef<bool>(_EnsureOnNavmeshOnFinishOffset.Value);
   }
+  private static readonly Lazy<nint> _DontTeleportAtEndOffset = new(() => Schema.GetOffset(0x462EA7DE59E02641), LazyThreadSafetyMode.None);
+
   public ref bool DontTeleportAtEnd {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x462EA7DE59E02641));
+    get => ref _Handle.AsRef<bool>(_DontTeleportAtEndOffset.Value);
   }
+  private static readonly Lazy<nint> _DisallowInterruptsOffset = new(() => Schema.GetOffset(0x462EA7DE939D3840), LazyThreadSafetyMode.None);
+
   public ref bool DisallowInterrupts {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x462EA7DE939D3840));
+    get => ref _Handle.AsRef<bool>(_DisallowInterruptsOffset.Value);
   }
+  private static readonly Lazy<nint> _ScriptedSequenceDataMainOffset = new(() => Schema.GetOffset(0x462EA7DE03F2FF03), LazyThreadSafetyMode.None);
+
   public PulseScriptedSequenceData_t ScriptedSequenceDataMain {
-    get => new PulseScriptedSequenceData_tImpl(_Handle + Schema.GetOffset(0x462EA7DE03F2FF03));
+    get => new PulseScriptedSequenceData_tImpl(_Handle + _ScriptedSequenceDataMainOffset.Value);
   }
+  private static readonly Lazy<nint> _AdditionalActorsOffset = new(() => Schema.GetOffset(0x462EA7DE8E5DB532), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PulseScriptedSequenceData_t> AdditionalActors {
-    get => ref _Handle.AsRef<CUtlVector<PulseScriptedSequenceData_t>>(Schema.GetOffset(0x462EA7DE8E5DB532));
+    get => ref _Handle.AsRef<CUtlVector<PulseScriptedSequenceData_t>>(_AdditionalActorsOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFinishedOffset = new(() => Schema.GetOffset(0x462EA7DE8D903E5E), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnFinished {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0x462EA7DE8D903E5E));
+    get => new CPulse_ResumePointImpl(_Handle + _OnFinishedOffset.Value);
   }
+  private static readonly Lazy<nint> _OnCanceledOffset = new(() => Schema.GetOffset(0x462EA7DEF02162DB), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnCanceled {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0x462EA7DEF02162DB));
+    get => new CPulse_ResumePointImpl(_Handle + _OnCanceledOffset.Value);
   }
+  private static readonly Lazy<nint> _TriggersOffset = new(() => Schema.GetOffset(0x462EA7DE6E7B12D0), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CPulse_OutflowConnection> Triggers {
-    get => ref _Handle.AsRef<CUtlVector<CPulse_OutflowConnection>>(Schema.GetOffset(0x462EA7DE6E7B12D0));
+    get => ref _Handle.AsRef<CUtlVector<CPulse_OutflowConnection>>(_TriggersOffset.Value);
   }
 
 

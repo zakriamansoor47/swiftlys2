@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CStopwatchImpl : CStopwatchBaseImpl, CStopwatch {
   public CStopwatchImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IntervalOffset = new(() => Schema.GetOffset(0x40B847F1320F7B8E), LazyThreadSafetyMode.None);
+
   public ref float Interval {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x40B847F1320F7B8E));
+    get => ref _Handle.AsRef<float>(_IntervalOffset.Value);
   }
 
 

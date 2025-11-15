@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CAnimEventDefinitionImpl : SchemaClass, CAnimEventDefinit
   public CAnimEventDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FrameOffset = new(() => Schema.GetOffset(0x27C8C8BC494AFF02), LazyThreadSafetyMode.None);
+
   public ref int Frame {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x27C8C8BC494AFF02));
+    get => ref _Handle.AsRef<int>(_FrameOffset.Value);
   }
+  private static readonly Lazy<nint> _EndFrameOffset = new(() => Schema.GetOffset(0x27C8C8BCEA91BD07), LazyThreadSafetyMode.None);
+
   public ref int EndFrame {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x27C8C8BCEA91BD07));
+    get => ref _Handle.AsRef<int>(_EndFrameOffset.Value);
   }
+  private static readonly Lazy<nint> _CycleOffset = new(() => Schema.GetOffset(0x27C8C8BC0C77829F), LazyThreadSafetyMode.None);
+
   public ref float Cycle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x27C8C8BC0C77829F));
+    get => ref _Handle.AsRef<float>(_CycleOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0x27C8C8BCBC5E3BAB), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x27C8C8BCBC5E3BAB));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _EventDataOffset = new(() => Schema.GetOffset(0x27C8C8BC03E547A7), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField EventData {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x27C8C8BC03E547A7));
+    get => new SchemaUntypedField(_Handle + _EventDataOffset.Value);
   }
+  private static readonly Lazy<nint> _LegacyOptionsOffset = new(() => Schema.GetOffset(0x27C8C8BCD613D4A1), LazyThreadSafetyMode.None);
+
   public ref CBufferString LegacyOptions {
-    get => ref _Handle.AsRef<CBufferString>(Schema.GetOffset(0x27C8C8BCD613D4A1));
+    get => ref _Handle.AsRef<CBufferString>(_LegacyOptionsOffset.Value);
   }
+  private static readonly Lazy<nint> _EventNameOffset = new(() => Schema.GetOffset(0x27C8C8BC464F847D), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol EventName {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x27C8C8BC464F847D));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_EventNameOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNetworkTransmitComponentImpl : SchemaClass, CNetworkTran
   public CNetworkTransmitComponentImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TransmitStateOwnedCounterOffset = new(() => Schema.GetOffset(0x2D6BD23F6BC30751), LazyThreadSafetyMode.None);
+
   public ref byte TransmitStateOwnedCounter {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x2D6BD23F6BC30751));
+    get => ref _Handle.AsRef<byte>(_TransmitStateOwnedCounterOffset.Value);
   }
 
 

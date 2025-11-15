@@ -6,27 +6,30 @@ using System.Diagnostics;
 
 namespace SwiftlyS2.Core.Services;
 
-internal class ProfileService {
+internal class ProfileService
+{
 
-  private readonly object _lock = new();
+  private readonly Lock _lock = new();
   private bool _enabled = false;
 
   private readonly Dictionary<string, Dictionary<string, Stat>> _statsTable = new();
   private readonly Dictionary<string, Dictionary<string, ulong>> _activeStartsUs = new();
-  
+
   // High-precision timestamping via Stopwatch, mapped to epoch micros
   private readonly long _swBaseTicks;
   private readonly ulong _epochBaseMicros;
   private readonly double _ticksToMicro;
-  
-  private sealed class Stat {
+
+  private sealed class Stat
+  {
     public ulong Count;
     public ulong TotalUs;
     public ulong MinUs = ulong.MaxValue;
     public ulong MaxUs = 0UL;
   }
 
-  public ProfileService() {
+  public ProfileService()
+  {
     _swBaseTicks = Stopwatch.GetTimestamp();
     // Capture epoch micros at approximately the same moment as base ticks
     var epochTicks = DateTimeOffset.UtcNow.Ticks - DateTimeOffset.UnixEpoch.Ticks; // 100ns ticks
@@ -34,60 +37,72 @@ internal class ProfileService {
     _ticksToMicro = 1_000_000.0 / Stopwatch.Frequency;
   }
 
-  private ulong NowMicrosecondsSinceUnixEpoch() {
+  private ulong NowMicrosecondsSinceUnixEpoch()
+  {
     var deltaTicks = Stopwatch.GetTimestamp() - _swBaseTicks;
     var micros = (ulong)(deltaTicks * _ticksToMicro);
     return _epochBaseMicros + micros;
   }
 
-  public void Enable() {
-    lock (_lock) {
+  public void Enable()
+  {
+    lock (_lock)
+    {
       _statsTable.Clear();
       _activeStartsUs.Clear();
       _enabled = true;
     }
   }
 
-  public void Disable() {
-    lock (_lock) {
+  public void Disable()
+  {
+    lock (_lock)
+    {
       _enabled = false;
       _statsTable.Clear();
       _activeStartsUs.Clear();
     }
   }
 
-  public bool IsEnabled() {
-    lock (_lock) {
+  public bool IsEnabled()
+  {
+    lock (_lock)
+    {
       return _enabled;
     }
   }
 
-  public void StartRecordingWithIdentifier(string identifier, string name)
+  public void StartRecordingWithIdentifier( string identifier, string name )
   {
     if (!_enabled) return;
-    lock (_lock) {
-      if (!_activeStartsUs.TryGetValue(identifier, out var startMap)) {
+    lock (_lock)
+    {
+      if (!_activeStartsUs.TryGetValue(identifier, out var startMap))
+      {
         startMap = new Dictionary<string, ulong>(StringComparer.Ordinal);
         _activeStartsUs[identifier] = startMap;
       }
       startMap[name] = NowMicrosecondsSinceUnixEpoch();
     }
   }
-  public void StopRecordingWithIdentifier(string identifier, string name)
+  public void StopRecordingWithIdentifier( string identifier, string name )
   {
     if (!_enabled) return;
-    lock (_lock) {
+    lock (_lock)
+    {
       if (!_activeStartsUs.TryGetValue(identifier, out var startMap)) return;
       if (!startMap.TryGetValue(name, out var startUs)) return;
       var endUs = NowMicrosecondsSinceUnixEpoch();
       var durUs = endUs > startUs ? endUs - startUs : 0UL;
       startMap.Remove(name);
 
-      if (!_statsTable.TryGetValue(identifier, out var nameToStat)) {
+      if (!_statsTable.TryGetValue(identifier, out var nameToStat))
+      {
         nameToStat = new Dictionary<string, Stat>(StringComparer.Ordinal);
         _statsTable[identifier] = nameToStat;
       }
-      if (!nameToStat.TryGetValue(name, out var stat)) {
+      if (!nameToStat.TryGetValue(name, out var stat))
+      {
         stat = new Stat();
         nameToStat[name] = stat;
       }
@@ -98,17 +113,21 @@ internal class ProfileService {
       if (durUs > stat.MaxUs) stat.MaxUs = durUs;
     }
   }
-  public void RecordTimeWithIdentifier(string identifier, string name, double duration) {
-    lock (_lock) {
+  public void RecordTimeWithIdentifier( string identifier, string name, double duration )
+  {
+    lock (_lock)
+    {
       if (!_enabled) return;
 
       var durUs = duration <= 0 ? 0UL : (ulong)duration;
 
-      if (!_statsTable.TryGetValue(identifier, out var nameToStat)) {
+      if (!_statsTable.TryGetValue(identifier, out var nameToStat))
+      {
         nameToStat = new Dictionary<string, Stat>(StringComparer.Ordinal);
         _statsTable[identifier] = nameToStat;
       }
-      if (!nameToStat.TryGetValue(name, out var stat)) {
+      if (!nameToStat.TryGetValue(name, out var stat))
+      {
         stat = new Stat();
         nameToStat[name] = stat;
       }
@@ -120,22 +139,27 @@ internal class ProfileService {
     }
   }
 
-  public void StartRecording(string name) {
+  public void StartRecording( string name )
+  {
     StartRecordingWithIdentifier("SwiftlyS2", name);
   }
 
-  public void StopRecording(string name) {
+  public void StopRecording( string name )
+  {
     StopRecordingWithIdentifier("SwiftlyS2", name);
   }
 
-  public void RecordTime(string name, double duration) {
+  public void RecordTime( string name, double duration )
+  {
     RecordTimeWithIdentifier("SwiftlyS2", name, duration);
   }
 
-  public string GenerateJSONPerformance(string pluginId) {
+  public string GenerateJSONPerformance( string pluginId )
+  {
     // snapshot stats
     Dictionary<string, Dictionary<string, Stat>> stats;
-    lock (_lock) {
+    lock (_lock)
+    {
       stats = _statsTable.ToDictionary(
         kv => kv.Key,
         kv => kv.Value.ToDictionary(inner => inner.Key, inner => new Stat {
@@ -177,9 +201,11 @@ internal class ProfileService {
       { "ts", 0UL },
     });
 
-    string FormatUs(float us) {
+    string FormatUs( float us )
+    {
       // switch to ms when duration reaches 0.01 ms (10 microseconds)
-      if (us >= 10f) {
+      if (us >= 10f)
+      {
         var ms = us / 1000f;
         return $"{ms:F2}ms";
       }
@@ -187,11 +213,14 @@ internal class ProfileService {
       return $"{ius:d}.00μs";
     }
 
-    foreach (var (plugin, nameMap) in stats) {
-      if (!string.IsNullOrEmpty(pluginId) && !string.Equals(pluginId, plugin, StringComparison.Ordinal)) {
+    foreach (var (plugin, nameMap) in stats)
+    {
+      if (!string.IsNullOrEmpty(pluginId) && !string.Equals(pluginId, plugin, StringComparison.Ordinal))
+      {
         continue;
       }
-      foreach (var (name, stat) in nameMap) {
+      foreach (var (name, stat) in nameMap)
+      {
         var count = stat.Count;
         float minUs = count == 0 ? 0f : stat.MinUs;
         float maxUs = stat.MaxUs;

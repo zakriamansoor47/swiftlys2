@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_SetControlPointPositionToRandomActiveCPImpl : CParti
   public C_OP_SetControlPointPositionToRandomActiveCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CP1Offset = new(() => Schema.GetOffset(0x7B108D36D4B1E579), LazyThreadSafetyMode.None);
+
   public ref int CP1 {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7B108D36D4B1E579));
+    get => ref _Handle.AsRef<int>(_CP1Offset.Value);
   }
+  private static readonly Lazy<nint> _HeadLocationMinOffset = new(() => Schema.GetOffset(0x7B108D360E904014), LazyThreadSafetyMode.None);
+
   public ref int HeadLocationMin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7B108D360E904014));
+    get => ref _Handle.AsRef<int>(_HeadLocationMinOffset.Value);
   }
+  private static readonly Lazy<nint> _HeadLocationMaxOffset = new(() => Schema.GetOffset(0x7B108D36FCA53E76), LazyThreadSafetyMode.None);
+
   public ref int HeadLocationMax {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7B108D36FCA53E76));
+    get => ref _Handle.AsRef<int>(_HeadLocationMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _ResetRateOffset = new(() => Schema.GetOffset(0x7B108D369E741FFC), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput ResetRate {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x7B108D369E741FFC));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ResetRateOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmConstVectorNode__CDefinitionImpl : CNmVectorValueNode_
   public CNmConstVectorNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0x78163C736B99AEEA), LazyThreadSafetyMode.None);
+
   public ref Vector Value {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x78163C736B99AEEA));
+    get => ref _Handle.AsRef<Vector>(_ValueOffset.Value);
   }
 
 

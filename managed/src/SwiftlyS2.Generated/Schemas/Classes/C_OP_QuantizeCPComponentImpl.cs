@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_QuantizeCPComponentImpl : CParticleFunctionPreEmissi
   public C_OP_QuantizeCPComponentImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueOffset = new(() => Schema.GetOffset(0xDE980890EEDF8362), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput InputValue {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xDE980890EEDF8362));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _InputValueOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOutputOffset = new(() => Schema.GetOffset(0xDE9808902077C953), LazyThreadSafetyMode.None);
+
   public ref int CPOutput {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xDE9808902077C953));
+    get => ref _Handle.AsRef<int>(_CPOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OutVectorFieldOffset = new(() => Schema.GetOffset(0xDE980890F9041E74), LazyThreadSafetyMode.None);
+
   public ref int OutVectorField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xDE980890F9041E74));
+    get => ref _Handle.AsRef<int>(_OutVectorFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _QuantizeValueOffset = new(() => Schema.GetOffset(0xDE98089065E1A349), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput QuantizeValue {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xDE98089065E1A349));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _QuantizeValueOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Step_PublicOutputImpl : CPulseCell_BaseFlowImp
   public CPulseCell_Step_PublicOutputImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OutputIndexOffset = new(() => Schema.GetOffset(0x40053C931E4D5BA0), LazyThreadSafetyMode.None);
+
   public PulseRuntimeOutputIndex_t OutputIndex {
-    get => new PulseRuntimeOutputIndex_tImpl(_Handle + Schema.GetOffset(0x40053C931E4D5BA0));
+    get => new PulseRuntimeOutputIndex_tImpl(_Handle + _OutputIndexOffset.Value);
   }
 
 

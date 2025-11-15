@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_HSVShiftToCPImpl : CParticleFunctionPreEmissionImpl,
   public C_OP_HSVShiftToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ColorCPOffset = new(() => Schema.GetOffset(0xA6FD1F901D3D233F), LazyThreadSafetyMode.None);
+
   public ref int ColorCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA6FD1F901D3D233F));
+    get => ref _Handle.AsRef<int>(_ColorCPOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorGemEnableCPOffset = new(() => Schema.GetOffset(0xA6FD1F907B5C2B7F), LazyThreadSafetyMode.None);
+
   public ref int ColorGemEnableCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA6FD1F907B5C2B7F));
+    get => ref _Handle.AsRef<int>(_ColorGemEnableCPOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputCPOffset = new(() => Schema.GetOffset(0xA6FD1F9050DF5703), LazyThreadSafetyMode.None);
+
   public ref int OutputCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA6FD1F9050DF5703));
+    get => ref _Handle.AsRef<int>(_OutputCPOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultHSVColorOffset = new(() => Schema.GetOffset(0xA6FD1F90A7EFB0DE), LazyThreadSafetyMode.None);
+
   public ref Color DefaultHSVColor {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0xA6FD1F90A7EFB0DE));
+    get => ref _Handle.AsRef<Color>(_DefaultHSVColorOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CAddUpdateNodeImpl : CBinaryUpdateNodeImpl, CAddUpdateNod
   public CAddUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FootMotionTimingOffset = new(() => Schema.GetOffset(0x607346F4BB17F13D), LazyThreadSafetyMode.None);
+
   public ref BinaryNodeChildOption FootMotionTiming {
-    get => ref _Handle.AsRef<BinaryNodeChildOption>(Schema.GetOffset(0x607346F4BB17F13D));
+    get => ref _Handle.AsRef<BinaryNodeChildOption>(_FootMotionTimingOffset.Value);
   }
+  private static readonly Lazy<nint> _ApplyToFootMotionOffset = new(() => Schema.GetOffset(0x607346F43D831E94), LazyThreadSafetyMode.None);
+
   public ref bool ApplyToFootMotion {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x607346F43D831E94));
+    get => ref _Handle.AsRef<bool>(_ApplyToFootMotionOffset.Value);
   }
+  private static readonly Lazy<nint> _ApplyChannelsSeparatelyOffset = new(() => Schema.GetOffset(0x607346F4FF2DBB45), LazyThreadSafetyMode.None);
+
   public ref bool ApplyChannelsSeparately {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x607346F4FF2DBB45));
+    get => ref _Handle.AsRef<bool>(_ApplyChannelsSeparatelyOffset.Value);
   }
+  private static readonly Lazy<nint> _UseModelSpaceOffset = new(() => Schema.GetOffset(0x607346F448863521), LazyThreadSafetyMode.None);
+
   public ref bool UseModelSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x607346F448863521));
+    get => ref _Handle.AsRef<bool>(_UseModelSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _ApplyScaleOffset = new(() => Schema.GetOffset(0x607346F469D11233), LazyThreadSafetyMode.None);
+
   public ref bool ApplyScale {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x607346F469D11233));
+    get => ref _Handle.AsRef<bool>(_ApplyScaleOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_INIT_CreateWithinBoxImpl : CParticleFunctionInitializer
   public C_INIT_CreateWithinBoxImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinOffset = new(() => Schema.GetOffset(0x331A2B22B0765F37), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Min {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x331A2B22B0765F37));
+    get => new CPerParticleVecInputImpl(_Handle + _MinOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxOffset = new(() => Schema.GetOffset(0x331A2B22BE89FCF9), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Max {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0x331A2B22BE89FCF9));
+    get => new CPerParticleVecInputImpl(_Handle + _MaxOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x331A2B223F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x331A2B223F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalSpaceOffset = new(() => Schema.GetOffset(0x331A2B2262418E6E), LazyThreadSafetyMode.None);
+
   public ref bool LocalSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x331A2B2262418E6E));
+    get => ref _Handle.AsRef<bool>(_LocalSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _RandomnessParametersOffset = new(() => Schema.GetOffset(0x331A2B227EDF50AD), LazyThreadSafetyMode.None);
+
   public CRandomNumberGeneratorParameters RandomnessParameters {
-    get => new CRandomNumberGeneratorParametersImpl(_Handle + Schema.GetOffset(0x331A2B227EDF50AD));
+    get => new CRandomNumberGeneratorParametersImpl(_Handle + _RandomnessParametersOffset.Value);
   }
+  private static readonly Lazy<nint> _UseNewCodeOffset = new(() => Schema.GetOffset(0x331A2B227C6D1CDF), LazyThreadSafetyMode.None);
+
   public ref bool UseNewCode {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x331A2B227C6D1CDF));
+    get => ref _Handle.AsRef<bool>(_UseNewCodeOffset.Value);
   }
 
 

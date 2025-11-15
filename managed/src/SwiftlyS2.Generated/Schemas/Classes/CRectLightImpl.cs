@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CRectLightImpl : CBarnLightImpl, CRectLight {
   public CRectLightImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ShowLightOffset = new(() => Schema.GetOffset(0xF5C5D1F4D67BC720), LazyThreadSafetyMode.None);
+
   public ref bool ShowLight {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF5C5D1F4D67BC720));
+    get => ref _Handle.AsRef<bool>(_ShowLightOffset.Value);
   }
 
   public void ShowLightUpdated() {

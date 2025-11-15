@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class CPulseCell_Outflow_ListenForEntityOutputImpl : CPulseCell
   public CPulseCell_Outflow_ListenForEntityOutputImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnFiredOffset = new(() => Schema.GetOffset(0xCB35163784825730), LazyThreadSafetyMode.None);
+
   public SignatureOutflow_Resume OnFired {
-    get => new SignatureOutflow_ResumeImpl(_Handle + Schema.GetOffset(0xCB35163784825730));
+    get => new SignatureOutflow_ResumeImpl(_Handle + _OnFiredOffset.Value);
   }
+  private static readonly Lazy<nint> _OnCanceledOffset = new(() => Schema.GetOffset(0xCB351637F02162DB), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnCanceled {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xCB351637F02162DB));
+    get => new CPulse_ResumePointImpl(_Handle + _OnCanceledOffset.Value);
   }
+  private static readonly Lazy<nint> _StrEntityOutputOffset = new(() => Schema.GetOffset(0xCB351637C8E70456), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol StrEntityOutput {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xCB351637C8E70456));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_StrEntityOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _StrEntityOutputParamOffset = new(() => Schema.GetOffset(0xCB351637BB356637), LazyThreadSafetyMode.None);
+
   public string StrEntityOutputParam {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xCB351637BB356637));
+      var ptr = _Handle.Read<nint>(_StrEntityOutputParamOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xCB351637BB356637, value);
+    set => Schema.SetString(_Handle, _StrEntityOutputParamOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ListenUntilCanceledOffset = new(() => Schema.GetOffset(0xCB351637C798285D), LazyThreadSafetyMode.None);
+
   public ref bool ListenUntilCanceled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCB351637C798285D));
+    get => ref _Handle.AsRef<bool>(_ListenUntilCanceledOffset.Value);
   }
 
 

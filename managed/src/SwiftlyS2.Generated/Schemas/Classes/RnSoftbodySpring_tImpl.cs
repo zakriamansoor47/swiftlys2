@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,8 +20,10 @@ internal partial class RnSoftbodySpring_tImpl : SchemaClass, RnSoftbodySpring_t 
   public ISchemaFixedArray<ushort> Particle {
     get => new SchemaFixedArray<ushort>(_Handle, 0xAB4E9C9B863A8E83, 2, 2, 2);
   }
+  private static readonly Lazy<nint> _LengthOffset = new(() => Schema.GetOffset(0xAB4E9C9BFF9776DF), LazyThreadSafetyMode.None);
+
   public ref float Length {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xAB4E9C9BFF9776DF));
+    get => ref _Handle.AsRef<float>(_LengthOffset.Value);
   }
 
 

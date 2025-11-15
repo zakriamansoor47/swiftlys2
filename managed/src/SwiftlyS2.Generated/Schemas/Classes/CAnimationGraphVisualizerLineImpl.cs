@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CAnimationGraphVisualizerLineImpl : CAnimationGraphVisual
   public CAnimationGraphVisualizerLineImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WsPositionStartOffset = new(() => Schema.GetOffset(0x688831B2D941E214), LazyThreadSafetyMode.None);
+
   public ref Vector WsPositionStart {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x688831B2D941E214));
+    get => ref _Handle.AsRef<Vector>(_WsPositionStartOffset.Value);
   }
+  private static readonly Lazy<nint> _WsPositionEndOffset = new(() => Schema.GetOffset(0x688831B26EB28B6D), LazyThreadSafetyMode.None);
+
   public ref Vector WsPositionEnd {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x688831B26EB28B6D));
+    get => ref _Handle.AsRef<Vector>(_WsPositionEndOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorOffset = new(() => Schema.GetOffset(0x688831B2D7D017D8), LazyThreadSafetyMode.None);
+
   public ref Color Color {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x688831B2D7D017D8));
+    get => ref _Handle.AsRef<Color>(_ColorOffset.Value);
   }
 
 

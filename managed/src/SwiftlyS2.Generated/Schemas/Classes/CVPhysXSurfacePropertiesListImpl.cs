@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CVPhysXSurfacePropertiesListImpl : SchemaClass, CVPhysXSu
   public CVPhysXSurfacePropertiesListImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SurfacePropertiesListOffset = new(() => Schema.GetOffset(0x46700CAAC149A2D), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointerTo<CPhysSurfaceProperties>> SurfacePropertiesList {
-    get => ref _Handle.AsRef<CUtlVector<PointerTo<CPhysSurfaceProperties>>>(Schema.GetOffset(0x46700CAAC149A2D));
+    get => ref _Handle.AsRef<CUtlVector<PointerTo<CPhysSurfaceProperties>>>(_SurfacePropertiesListOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CDSPPresetMixgroupModifierTableImpl : SchemaClass, CDSPPr
   public CDSPPresetMixgroupModifierTableImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TableOffset = new(() => Schema.GetOffset(0xB4266D22715EA0FF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CDspPresetModifierList> Table {
-    get => ref _Handle.AsRef<CUtlVector<CDspPresetModifierList>>(Schema.GetOffset(0xB4266D22715EA0FF));
+    get => ref _Handle.AsRef<CUtlVector<CDspPresetModifierList>>(_TableOffset.Value);
   }
 
 

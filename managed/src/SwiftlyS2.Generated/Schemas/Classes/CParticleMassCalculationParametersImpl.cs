@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CParticleMassCalculationParametersImpl : SchemaClass, CPa
   public CParticleMassCalculationParametersImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MassModeOffset = new(() => Schema.GetOffset(0xAA3341F9D5B6E412), LazyThreadSafetyMode.None);
+
   public ref ParticleMassMode_t MassMode {
-    get => ref _Handle.AsRef<ParticleMassMode_t>(Schema.GetOffset(0xAA3341F9D5B6E412));
+    get => ref _Handle.AsRef<ParticleMassMode_t>(_MassModeOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0xAA3341F95ACFC08D), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Radius {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xAA3341F95ACFC08D));
+    get => new CPerParticleFloatInputImpl(_Handle + _RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _NominalRadiusOffset = new(() => Schema.GetOffset(0xAA3341F9B6692A73), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput NominalRadius {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xAA3341F9B6692A73));
+    get => new CPerParticleFloatInputImpl(_Handle + _NominalRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0xAA3341F9B731A42F), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Scale {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xAA3341F9B731A42F));
+    get => new CPerParticleFloatInputImpl(_Handle + _ScaleOffset.Value);
   }
 
 

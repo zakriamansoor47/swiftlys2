@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CStepsRemainingMetricEvaluatorImpl : CMotionMetricEvaluat
   public CStepsRemainingMetricEvaluatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FootIndicesOffset = new(() => Schema.GetOffset(0xDDD8E3884C840316), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> FootIndices {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0xDDD8E3884C840316));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_FootIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _MinStepsRemainingOffset = new(() => Schema.GetOffset(0xDDD8E388382CE1FC), LazyThreadSafetyMode.None);
+
   public ref float MinStepsRemaining {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDDD8E388382CE1FC));
+    get => ref _Handle.AsRef<float>(_MinStepsRemainingOffset.Value);
   }
 
 

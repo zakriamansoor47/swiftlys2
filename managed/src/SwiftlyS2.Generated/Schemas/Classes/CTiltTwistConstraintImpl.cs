@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CTiltTwistConstraintImpl : CBaseConstraintImpl, CTiltTwis
   public CTiltTwistConstraintImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetAxisOffset = new(() => Schema.GetOffset(0x4A56E4D341CC84D5), LazyThreadSafetyMode.None);
+
   public ref int TargetAxis {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4A56E4D341CC84D5));
+    get => ref _Handle.AsRef<int>(_TargetAxisOffset.Value);
   }
+  private static readonly Lazy<nint> _SlaveAxisOffset = new(() => Schema.GetOffset(0x4A56E4D3CA99CDBD), LazyThreadSafetyMode.None);
+
   public ref int SlaveAxis {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4A56E4D3CA99CDBD));
+    get => ref _Handle.AsRef<int>(_SlaveAxisOffset.Value);
   }
 
 

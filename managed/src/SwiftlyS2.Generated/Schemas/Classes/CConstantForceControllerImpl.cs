@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CConstantForceControllerImpl : SchemaClass, CConstantForc
   public CConstantForceControllerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LinearOffset = new(() => Schema.GetOffset(0x37030A8D6B6D1260), LazyThreadSafetyMode.None);
+
   public ref Vector Linear {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x37030A8D6B6D1260));
+    get => ref _Handle.AsRef<Vector>(_LinearOffset.Value);
   }
+  private static readonly Lazy<nint> _AngularOffset = new(() => Schema.GetOffset(0x37030A8D74E0EB09), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Angular {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x37030A8D74E0EB09));
+    get => new SchemaUntypedField(_Handle + _AngularOffset.Value);
   }
+  private static readonly Lazy<nint> _LinearSaveOffset = new(() => Schema.GetOffset(0x37030A8D96B9953D), LazyThreadSafetyMode.None);
+
   public ref Vector LinearSave {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x37030A8D96B9953D));
+    get => ref _Handle.AsRef<Vector>(_LinearSaveOffset.Value);
   }
+  private static readonly Lazy<nint> _AngularSaveOffset = new(() => Schema.GetOffset(0x37030A8D8294323C), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField AngularSave {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x37030A8D8294323C));
+    get => new SchemaUntypedField(_Handle + _AngularSaveOffset.Value);
   }
 
 

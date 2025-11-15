@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class PhysicsRagdollPose_tImpl : SchemaClass, PhysicsRagdollPos
   public PhysicsRagdollPose_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TransformsOffset = new(() => Schema.GetOffset(0x54A98BF4852CD38), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CTransform> Transforms {
-    get => ref _Handle.AsRef<CUtlVector<CTransform>>(Schema.GetOffset(0x54A98BF4852CD38));
+    get => ref _Handle.AsRef<CUtlVector<CTransform>>(_TransformsOffset.Value);
   }
+  private static readonly Lazy<nint> _OwnerOffset = new(() => Schema.GetOffset(0x54A98BFF6D89572), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Owner {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x54A98BFF6D89572));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_OwnerOffset.Value);
   }
+  private static readonly Lazy<nint> _SetFromDebugHistoryOffset = new(() => Schema.GetOffset(0x54A98BF136013F6), LazyThreadSafetyMode.None);
+
   public ref bool SetFromDebugHistory {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x54A98BF136013F6));
+    get => ref _Handle.AsRef<bool>(_SetFromDebugHistoryOffset.Value);
   }
 
   public void TransformsUpdated() {

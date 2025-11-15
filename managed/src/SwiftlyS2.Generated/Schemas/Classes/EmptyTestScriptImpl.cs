@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class EmptyTestScriptImpl : CAnimScriptBaseImpl, EmptyTestScrip
   public EmptyTestScriptImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TestOffset = new(() => Schema.GetOffset(0xB7F6B6D5FAAC6DA3), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Test {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xB7F6B6D5FAAC6DA3));
+    get => new SchemaUntypedField(_Handle + _TestOffset.Value);
   }
 
 

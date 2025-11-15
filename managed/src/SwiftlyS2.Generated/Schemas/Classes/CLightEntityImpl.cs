@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,9 +17,11 @@ internal partial class CLightEntityImpl : CBaseModelEntityImpl, CLightEntity {
   public CLightEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CLightComponentOffset = new(() => Schema.GetOffset(0xA3C95F05104F0185), LazyThreadSafetyMode.None);
+
   public CLightComponent? CLightComponent {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA3C95F05104F0185));
+      var ptr = _Handle.Read<nint>(_CLightComponentOffset.Value);
       return ptr.IsValidPtr() ? new CLightComponentImpl(ptr) : null;
     }
   }

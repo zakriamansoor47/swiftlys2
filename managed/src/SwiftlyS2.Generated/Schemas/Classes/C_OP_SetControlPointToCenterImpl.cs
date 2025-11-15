@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_SetControlPointToCenterImpl : CParticleFunctionPreEm
   public C_OP_SetControlPointToCenterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CP1Offset = new(() => Schema.GetOffset(0xB2CEB7C2D4B1E579), LazyThreadSafetyMode.None);
+
   public ref int CP1 {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB2CEB7C2D4B1E579));
+    get => ref _Handle.AsRef<int>(_CP1Offset.Value);
   }
+  private static readonly Lazy<nint> _CP1PosOffset = new(() => Schema.GetOffset(0xB2CEB7C2408288D9), LazyThreadSafetyMode.None);
+
   public ref Vector CP1Pos {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB2CEB7C2408288D9));
+    get => ref _Handle.AsRef<Vector>(_CP1PosOffset.Value);
   }
+  private static readonly Lazy<nint> _UseAvgParticlePosOffset = new(() => Schema.GetOffset(0xB2CEB7C2399CEECC), LazyThreadSafetyMode.None);
+
   public ref bool UseAvgParticlePos {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB2CEB7C2399CEECC));
+    get => ref _Handle.AsRef<bool>(_UseAvgParticlePosOffset.Value);
   }
+  private static readonly Lazy<nint> _SetParentOffset = new(() => Schema.GetOffset(0xB2CEB7C22D8246B7), LazyThreadSafetyMode.None);
+
   public ref ParticleParentSetMode_t SetParent {
-    get => ref _Handle.AsRef<ParticleParentSetMode_t>(Schema.GetOffset(0xB2CEB7C22D8246B7));
+    get => ref _Handle.AsRef<ParticleParentSetMode_t>(_SetParentOffset.Value);
   }
 
 

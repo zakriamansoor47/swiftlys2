@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_RenderClientPhysicsImpulseImpl : CParticleFunctionRe
   public C_OP_RenderClientPhysicsImpulseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0x618F365ACFC08D), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Radius {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x618F365ACFC08D));
+    get => new CPerParticleFloatInputImpl(_Handle + _RadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _MagnitudeOffset = new(() => Schema.GetOffset(0x618F36ED0A1D8B), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Magnitude {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x618F36ED0A1D8B));
+    get => new CPerParticleFloatInputImpl(_Handle + _MagnitudeOffset.Value);
   }
+  private static readonly Lazy<nint> _SimIdFilterOffset = new(() => Schema.GetOffset(0x618F36C5FA023F), LazyThreadSafetyMode.None);
+
   public ref int SimIdFilter {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x618F36C5FA023F));
+    get => ref _Handle.AsRef<int>(_SimIdFilterOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,16 @@ internal partial class CAttributeListImpl : SchemaClass, CAttributeList {
   public CAttributeListImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttributesOffset = new(() => Schema.GetOffset(0x1028A18A7E139C14), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CEconItemAttribute> Attributes {
-    get => ref _Handle.AsRef<CUtlVector<CEconItemAttribute>>(Schema.GetOffset(0x1028A18A7E139C14));
+    get => ref _Handle.AsRef<CUtlVector<CEconItemAttribute>>(_AttributesOffset.Value);
   }
+  private static readonly Lazy<nint> _ManagerOffset = new(() => Schema.GetOffset(0x1028A18AB9A09BE6), LazyThreadSafetyMode.None);
+
   public CAttributeManager? Manager {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x1028A18AB9A09BE6));
+      var ptr = _Handle.Read<nint>(_ManagerOffset.Value);
       return ptr.IsValidPtr() ? new CAttributeManagerImpl(ptr) : null;
     }
   }

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class FeSimdRodConstraint_tImpl : SchemaClass, FeSimdRodConstra
   public FeSimdRodConstraint_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodeOffset = new(() => Schema.GetOffset(0x596F7846CD6694B9), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Node {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x596F7846CD6694B9));
+    get => new SchemaUntypedField(_Handle + _NodeOffset.Value);
   }
+  private static readonly Lazy<nint> _F4MaxDistOffset = new(() => Schema.GetOffset(0x596F7846287D425F), LazyThreadSafetyMode.None);
+
   public ref fltx4 F4MaxDist {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0x596F7846287D425F));
+    get => ref _Handle.AsRef<fltx4>(_F4MaxDistOffset.Value);
   }
+  private static readonly Lazy<nint> _F4MinDistOffset = new(() => Schema.GetOffset(0x596F7846C67A2525), LazyThreadSafetyMode.None);
+
   public ref fltx4 F4MinDist {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0x596F7846C67A2525));
+    get => ref _Handle.AsRef<fltx4>(_F4MinDistOffset.Value);
   }
+  private static readonly Lazy<nint> _F4Weight0Offset = new(() => Schema.GetOffset(0x596F78461FFC3579), LazyThreadSafetyMode.None);
+
   public ref fltx4 F4Weight0 {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0x596F78461FFC3579));
+    get => ref _Handle.AsRef<fltx4>(_F4Weight0Offset.Value);
   }
+  private static readonly Lazy<nint> _F4RelaxationFactorOffset = new(() => Schema.GetOffset(0x596F7846DF311F87), LazyThreadSafetyMode.None);
+
   public ref fltx4 F4RelaxationFactor {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0x596F7846DF311F87));
+    get => ref _Handle.AsRef<fltx4>(_F4RelaxationFactorOffset.Value);
   }
 
 

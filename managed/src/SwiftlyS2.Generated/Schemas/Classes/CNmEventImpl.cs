@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CNmEventImpl : SchemaClass, CNmEvent {
   public CNmEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartTimeSecondsOffset = new(() => Schema.GetOffset(0xF9871009C1FCF499), LazyThreadSafetyMode.None);
+
   public ref float StartTimeSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF9871009C1FCF499));
+    get => ref _Handle.AsRef<float>(_StartTimeSecondsOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationSecondsOffset = new(() => Schema.GetOffset(0xF9871009917797C0), LazyThreadSafetyMode.None);
+
   public ref float DurationSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF9871009917797C0));
+    get => ref _Handle.AsRef<float>(_DurationSecondsOffset.Value);
   }
+  private static readonly Lazy<nint> _SyncIDOffset = new(() => Schema.GetOffset(0xF987100915636837), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol SyncID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xF987100915636837));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_SyncIDOffset.Value);
   }
+  private static readonly Lazy<nint> _ClientOnlyOffset = new(() => Schema.GetOffset(0xF9871009B39BA128), LazyThreadSafetyMode.None);
+
   public ref bool ClientOnly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF9871009B39BA128));
+    get => ref _Handle.AsRef<bool>(_ClientOnlyOffset.Value);
   }
 
 

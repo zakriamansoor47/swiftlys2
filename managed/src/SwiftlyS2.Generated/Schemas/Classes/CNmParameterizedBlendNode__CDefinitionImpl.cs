@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmParameterizedBlendNode__CDefinitionImpl : CNmPoseNode_
   public CNmParameterizedBlendNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceNodeIndicesOffset = new(() => Schema.GetOffset(0x83A56F31E90F1FE1), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SourceNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x83A56F31E90F1FE1));
+    get => new SchemaUntypedField(_Handle + _SourceNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _InputParameterValueNodeIdxOffset = new(() => Schema.GetOffset(0x83A56F31AEA94516), LazyThreadSafetyMode.None);
+
   public ref short InputParameterValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x83A56F31AEA94516));
+    get => ref _Handle.AsRef<short>(_InputParameterValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _AllowLoopingOffset = new(() => Schema.GetOffset(0x83A56F31FEB26D98), LazyThreadSafetyMode.None);
+
   public ref bool AllowLooping {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x83A56F31FEB26D98));
+    get => ref _Handle.AsRef<bool>(_AllowLoopingOffset.Value);
   }
 
 

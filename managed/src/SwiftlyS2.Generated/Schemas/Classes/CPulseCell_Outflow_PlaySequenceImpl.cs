@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CPulseCell_Outflow_PlaySequenceImpl : CPulseCell_Outflow_
   public CPulseCell_Outflow_PlaySequenceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParamSequenceNameOffset = new(() => Schema.GetOffset(0x9E1D42661D9365E0), LazyThreadSafetyMode.None);
+
   public string ParamSequenceName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x9E1D42661D9365E0));
+      var ptr = _Handle.Read<nint>(_ParamSequenceNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x9E1D42661D9365E0, value);
+    set => Schema.SetString(_Handle, _ParamSequenceNameOffset.Value, value);
   } 
 
 

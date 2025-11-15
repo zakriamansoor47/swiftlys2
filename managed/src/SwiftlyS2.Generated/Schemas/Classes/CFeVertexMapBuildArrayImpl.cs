@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFeVertexMapBuildArrayImpl : SchemaClass, CFeVertexMapBui
   public CFeVertexMapBuildArrayImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ArrayOffset = new(() => Schema.GetOffset(0x7F8ABE7424AA62A6), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointerTo<FeVertexMapBuild_t>> Array {
-    get => ref _Handle.AsRef<CUtlVector<PointerTo<FeVertexMapBuild_t>>>(Schema.GetOffset(0x7F8ABE7424AA62A6));
+    get => ref _Handle.AsRef<CUtlVector<PointerTo<FeVertexMapBuild_t>>>(_ArrayOffset.Value);
   }
 
 

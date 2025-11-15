@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPulseCell_InlineNodeSkipSelectorImpl : CPulseCell_BaseFl
   public CPulseCell_InlineNodeSkipSelectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FlowNodeIDOffset = new(() => Schema.GetOffset(0x43AF14578ED47FBC), LazyThreadSafetyMode.None);
+
   public PulseDocNodeID_t FlowNodeID {
-    get => new PulseDocNodeID_tImpl(_Handle + Schema.GetOffset(0x43AF14578ED47FBC));
+    get => new PulseDocNodeID_tImpl(_Handle + _FlowNodeIDOffset.Value);
   }
+  private static readonly Lazy<nint> _AndOffset = new(() => Schema.GetOffset(0x43AF14573A289986), LazyThreadSafetyMode.None);
+
   public ref bool And {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x43AF14573A289986));
+    get => ref _Handle.AsRef<bool>(_AndOffset.Value);
   }
+  private static readonly Lazy<nint> _PassOutflowOffset = new(() => Schema.GetOffset(0x43AF145724AA6434), LazyThreadSafetyMode.None);
+
   public PulseSelectorOutflowList_t PassOutflow {
-    get => new PulseSelectorOutflowList_tImpl(_Handle + Schema.GetOffset(0x43AF145724AA6434));
+    get => new PulseSelectorOutflowList_tImpl(_Handle + _PassOutflowOffset.Value);
   }
+  private static readonly Lazy<nint> _FailOutflowOffset = new(() => Schema.GetOffset(0x43AF1457AC90C0E3), LazyThreadSafetyMode.None);
+
   public CPulse_OutflowConnection FailOutflow {
-    get => new CPulse_OutflowConnectionImpl(_Handle + Schema.GetOffset(0x43AF1457AC90C0E3));
+    get => new CPulse_OutflowConnectionImpl(_Handle + _FailOutflowOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,35 +17,55 @@ internal partial class FootFixedSettingsImpl : SchemaClass, FootFixedSettings {
   public FootFixedSettingsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TraceSettingsOffset = new(() => Schema.GetOffset(0x3401F9D0115F2D3B), LazyThreadSafetyMode.None);
+
   public TraceSettings_t TraceSettings {
-    get => new TraceSettings_tImpl(_Handle + Schema.GetOffset(0x3401F9D0115F2D3B));
+    get => new TraceSettings_tImpl(_Handle + _TraceSettingsOffset.Value);
   }
+  private static readonly Lazy<nint> _FootBaseBindPosePositionMSOffset = new(() => Schema.GetOffset(0x3401F9D0C391A025), LazyThreadSafetyMode.None);
+
   public ref Vector FootBaseBindPosePositionMS {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x3401F9D0C391A025));
+    get => ref _Handle.AsRef<Vector>(_FootBaseBindPosePositionMSOffset.Value);
   }
+  private static readonly Lazy<nint> _FootBaseLengthOffset = new(() => Schema.GetOffset(0x3401F9D08593ED7E), LazyThreadSafetyMode.None);
+
   public ref float FootBaseLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3401F9D08593ED7E));
+    get => ref _Handle.AsRef<float>(_FootBaseLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxRotationLeftOffset = new(() => Schema.GetOffset(0x3401F9D0FA1CDF44), LazyThreadSafetyMode.None);
+
   public ref float MaxRotationLeft {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3401F9D0FA1CDF44));
+    get => ref _Handle.AsRef<float>(_MaxRotationLeftOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxRotationRightOffset = new(() => Schema.GetOffset(0x3401F9D08C95FA31), LazyThreadSafetyMode.None);
+
   public ref float MaxRotationRight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3401F9D08C95FA31));
+    get => ref _Handle.AsRef<float>(_MaxRotationRightOffset.Value);
   }
+  private static readonly Lazy<nint> _FootstepLandedTagIndexOffset = new(() => Schema.GetOffset(0x3401F9D04954321B), LazyThreadSafetyMode.None);
+
   public ref int FootstepLandedTagIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3401F9D04954321B));
+    get => ref _Handle.AsRef<int>(_FootstepLandedTagIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableTracingOffset = new(() => Schema.GetOffset(0x3401F9D03C16FC54), LazyThreadSafetyMode.None);
+
   public ref bool EnableTracing {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3401F9D03C16FC54));
+    get => ref _Handle.AsRef<bool>(_EnableTracingOffset.Value);
   }
+  private static readonly Lazy<nint> _TraceAngleBlendOffset = new(() => Schema.GetOffset(0x3401F9D0029B769E), LazyThreadSafetyMode.None);
+
   public ref float TraceAngleBlend {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3401F9D0029B769E));
+    get => ref _Handle.AsRef<float>(_TraceAngleBlendOffset.Value);
   }
+  private static readonly Lazy<nint> _DisableTagIndexOffset = new(() => Schema.GetOffset(0x3401F9D0C56AE9EB), LazyThreadSafetyMode.None);
+
   public ref int DisableTagIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3401F9D0C56AE9EB));
+    get => ref _Handle.AsRef<int>(_DisableTagIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _FootIndexOffset = new(() => Schema.GetOffset(0x3401F9D067D56BAB), LazyThreadSafetyMode.None);
+
   public ref int FootIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3401F9D067D56BAB));
+    get => ref _Handle.AsRef<int>(_FootIndexOffset.Value);
   }
 
 

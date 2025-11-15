@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class RnNode_tImpl : SchemaClass, RnNode_t {
   public RnNode_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinOffset = new(() => Schema.GetOffset(0x7C7D54E2F4B0AA63), LazyThreadSafetyMode.None);
+
   public ref Vector Min {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x7C7D54E2F4B0AA63));
+    get => ref _Handle.AsRef<Vector>(_MinOffset.Value);
   }
+  private static readonly Lazy<nint> _ChildrenOffset = new(() => Schema.GetOffset(0x7C7D54E2D0F4635E), LazyThreadSafetyMode.None);
+
   public ref uint Children {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x7C7D54E2D0F4635E));
+    get => ref _Handle.AsRef<uint>(_ChildrenOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxOffset = new(() => Schema.GetOffset(0x7C7D54E2EAC4225D), LazyThreadSafetyMode.None);
+
   public ref Vector Max {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x7C7D54E2EAC4225D));
+    get => ref _Handle.AsRef<Vector>(_MaxOffset.Value);
   }
+  private static readonly Lazy<nint> _TriangleOffsetOffset = new(() => Schema.GetOffset(0x7C7D54E2AFE22CE6), LazyThreadSafetyMode.None);
+
   public ref uint TriangleOffset {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x7C7D54E2AFE22CE6));
+    get => ref _Handle.AsRef<uint>(_TriangleOffsetOffset.Value);
   }
 
 

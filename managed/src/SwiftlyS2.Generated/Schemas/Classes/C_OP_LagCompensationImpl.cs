@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_LagCompensationImpl : CParticleFunctionOperatorImpl,
   public C_OP_LagCompensationImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DesiredVelocityCPOffset = new(() => Schema.GetOffset(0x21277E4532AACEC5), LazyThreadSafetyMode.None);
+
   public ref int DesiredVelocityCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x21277E4532AACEC5));
+    get => ref _Handle.AsRef<int>(_DesiredVelocityCPOffset.Value);
   }
+  private static readonly Lazy<nint> _LatencyCPOffset = new(() => Schema.GetOffset(0x21277E45B100FE8E), LazyThreadSafetyMode.None);
+
   public ref int LatencyCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x21277E45B100FE8E));
+    get => ref _Handle.AsRef<int>(_LatencyCPOffset.Value);
   }
+  private static readonly Lazy<nint> _LatencyCPFieldOffset = new(() => Schema.GetOffset(0x21277E458E1CEB3A), LazyThreadSafetyMode.None);
+
   public ref int LatencyCPField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x21277E458E1CEB3A));
+    get => ref _Handle.AsRef<int>(_LatencyCPFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _DesiredVelocityCPFieldOffset = new(() => Schema.GetOffset(0x21277E45B59E9007), LazyThreadSafetyMode.None);
+
   public ref int DesiredVelocityCPField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x21277E45B59E9007));
+    get => ref _Handle.AsRef<int>(_DesiredVelocityCPFieldOffset.Value);
   }
 
 

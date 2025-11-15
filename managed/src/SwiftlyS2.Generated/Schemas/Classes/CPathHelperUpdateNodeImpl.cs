@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPathHelperUpdateNodeImpl : CUnaryUpdateNodeImpl, CPathHe
   public CPathHelperUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StoppingRadiusOffset = new(() => Schema.GetOffset(0xB24262C3172E3D9), LazyThreadSafetyMode.None);
+
   public ref float StoppingRadius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB24262C3172E3D9));
+    get => ref _Handle.AsRef<float>(_StoppingRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _StoppingSpeedScaleOffset = new(() => Schema.GetOffset(0xB24262CA2389D04), LazyThreadSafetyMode.None);
+
   public ref float StoppingSpeedScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB24262CA2389D04));
+    get => ref _Handle.AsRef<float>(_StoppingSpeedScaleOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_DampenToCPImpl : CParticleFunctionOperatorImpl, C_OP
   public C_OP_DampenToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0xB04699CE3F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB04699CE3F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _RangeOffset = new(() => Schema.GetOffset(0xB04699CE3FC92844), LazyThreadSafetyMode.None);
+
   public ref float Range {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB04699CE3FC92844));
+    get => ref _Handle.AsRef<float>(_RangeOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0xB04699CEB731A42F), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB04699CEB731A42F));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
 
 

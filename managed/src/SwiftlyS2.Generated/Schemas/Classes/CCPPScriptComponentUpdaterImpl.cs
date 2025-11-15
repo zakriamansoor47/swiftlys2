@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CCPPScriptComponentUpdaterImpl : CAnimComponentUpdaterImp
   public CCPPScriptComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScriptsToRunOffset = new(() => Schema.GetOffset(0x4785DAC8378F3E0F), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CGlobalSymbol> ScriptsToRun {
-    get => ref _Handle.AsRef<CUtlVector<CGlobalSymbol>>(Schema.GetOffset(0x4785DAC8378F3E0F));
+    get => ref _Handle.AsRef<CUtlVector<CGlobalSymbol>>(_ScriptsToRunOffset.Value);
   }
 
 

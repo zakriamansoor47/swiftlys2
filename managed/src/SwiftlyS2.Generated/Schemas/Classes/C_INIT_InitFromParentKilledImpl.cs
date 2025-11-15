@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_INIT_InitFromParentKilledImpl : CParticleFunctionInitia
   public C_INIT_InitFromParentKilledImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttributeToCopyOffset = new(() => Schema.GetOffset(0x4CE3F9811953739B), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t AttributeToCopy {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x4CE3F9811953739B));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _AttributeToCopyOffset.Value);
   }
+  private static readonly Lazy<nint> _EventTypeOffset = new(() => Schema.GetOffset(0x4CE3F981E1F9AA93), LazyThreadSafetyMode.None);
+
   public ref EventTypeSelection_t EventType {
-    get => ref _Handle.AsRef<EventTypeSelection_t>(Schema.GetOffset(0x4CE3F981E1F9AA93));
+    get => ref _Handle.AsRef<EventTypeSelection_t>(_EventTypeOffset.Value);
   }
 
 

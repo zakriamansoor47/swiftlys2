@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class VPhysXConstraint2_tImpl : SchemaClass, VPhysXConstraint2_
   public VPhysXConstraint2_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0x6FB758FDCE6E9C28), LazyThreadSafetyMode.None);
+
   public ref uint Flags {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x6FB758FDCE6E9C28));
+    get => ref _Handle.AsRef<uint>(_FlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _ParentOffset = new(() => Schema.GetOffset(0x6FB758FD0AABB9D1), LazyThreadSafetyMode.None);
+
   public ref ushort Parent {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x6FB758FD0AABB9D1));
+    get => ref _Handle.AsRef<ushort>(_ParentOffset.Value);
   }
+  private static readonly Lazy<nint> _ChildOffset = new(() => Schema.GetOffset(0x6FB758FDFE653481), LazyThreadSafetyMode.None);
+
   public ref ushort Child {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x6FB758FDFE653481));
+    get => ref _Handle.AsRef<ushort>(_ChildOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamsOffset = new(() => Schema.GetOffset(0x6FB758FD640EA8F3), LazyThreadSafetyMode.None);
+
   public VPhysXConstraintParams_t Params {
-    get => new VPhysXConstraintParams_tImpl(_Handle + Schema.GetOffset(0x6FB758FD640EA8F3));
+    get => new VPhysXConstraintParams_tImpl(_Handle + _ParamsOffset.Value);
   }
 
 

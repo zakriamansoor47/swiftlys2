@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,27 +17,39 @@ internal partial class CLogicBranchListImpl : CLogicalEntityImpl, CLogicBranchLi
   public CLogicBranchListImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LogicBranchNamesOffset = new(() => Schema.GetOffset(0xB21E12B82C1677D7), LazyThreadSafetyMode.None);
+
   public string LogicBranchNames {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB21E12B82C1677D7));
+      var ptr = _Handle.Read<nint>(_LogicBranchNamesOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xB21E12B82C1677D7, value);
+    set => Schema.SetString(_Handle, _LogicBranchNamesOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _LogicBranchListOffset = new(() => Schema.GetOffset(0xB21E12B8E4DEC285), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CBaseEntity>> LogicBranchList {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CBaseEntity>>>(Schema.GetOffset(0xB21E12B8E4DEC285));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CBaseEntity>>>(_LogicBranchListOffset.Value);
   }
+  private static readonly Lazy<nint> _LastStateOffset = new(() => Schema.GetOffset(0xB21E12B89A391AC5), LazyThreadSafetyMode.None);
+
   public ref CLogicBranchList__LogicBranchListenerLastState_t LastState {
-    get => ref _Handle.AsRef<CLogicBranchList__LogicBranchListenerLastState_t>(Schema.GetOffset(0xB21E12B89A391AC5));
+    get => ref _Handle.AsRef<CLogicBranchList__LogicBranchListenerLastState_t>(_LastStateOffset.Value);
   }
+  private static readonly Lazy<nint> _OnAllTrueOffset = new(() => Schema.GetOffset(0xB21E12B8419FFFAF), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnAllTrue {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xB21E12B8419FFFAF));
+    get => new CEntityIOOutputImpl(_Handle + _OnAllTrueOffset.Value);
   }
+  private static readonly Lazy<nint> _OnAllFalseOffset = new(() => Schema.GetOffset(0xB21E12B86EFCD332), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnAllFalse {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xB21E12B86EFCD332));
+    get => new CEntityIOOutputImpl(_Handle + _OnAllFalseOffset.Value);
   }
+  private static readonly Lazy<nint> _OnMixedOffset = new(() => Schema.GetOffset(0xB21E12B8EBC72437), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnMixed {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xB21E12B8EBC72437));
+    get => new CEntityIOOutputImpl(_Handle + _OnMixedOffset.Value);
   }
 
 

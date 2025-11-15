@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class thinkfunc_tImpl : SchemaClass, thinkfunc_t {
   public thinkfunc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FnOffset = new(() => Schema.GetOffset(0x8ED693FAD922E237), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Fn {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x8ED693FAD922E237));
+    get => new SchemaUntypedField(_Handle + _FnOffset.Value);
   }
+  private static readonly Lazy<nint> _ContextOffset = new(() => Schema.GetOffset(0x8ED693FAB16905F8), LazyThreadSafetyMode.None);
+
   public ref CUtlStringToken Context {
-    get => ref _Handle.AsRef<CUtlStringToken>(Schema.GetOffset(0x8ED693FAB16905F8));
+    get => ref _Handle.AsRef<CUtlStringToken>(_ContextOffset.Value);
   }
+  private static readonly Lazy<nint> _NextThinkTickOffset = new(() => Schema.GetOffset(0x8ED693FAB7CEF021), LazyThreadSafetyMode.None);
+
   public GameTick_t NextThinkTick {
-    get => new GameTick_tImpl(_Handle + Schema.GetOffset(0x8ED693FAB7CEF021));
+    get => new GameTick_tImpl(_Handle + _NextThinkTickOffset.Value);
   }
+  private static readonly Lazy<nint> _LastThinkTickOffset = new(() => Schema.GetOffset(0x8ED693FACE8FE7F2), LazyThreadSafetyMode.None);
+
   public GameTick_t LastThinkTick {
-    get => new GameTick_tImpl(_Handle + Schema.GetOffset(0x8ED693FACE8FE7F2));
+    get => new GameTick_tImpl(_Handle + _LastThinkTickOffset.Value);
   }
 
 

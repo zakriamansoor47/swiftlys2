@@ -6,7 +6,7 @@ namespace SwiftlyS2.Shared.Misc;
 class ConsoleRedirector : TextWriter
 {
     private readonly TextWriter originalOut;
-    private readonly object lockObject = new object();
+    private readonly Lock lockObject = new();
     private bool isRedirecting = false;
 
     public ConsoleRedirector()
@@ -16,7 +16,7 @@ class ConsoleRedirector : TextWriter
 
     public override Encoding Encoding => originalOut.Encoding;
 
-    public override void WriteLine(string? value)
+    public override void WriteLine( string? value )
     {
         lock (lockObject)
         {
@@ -38,7 +38,7 @@ class ConsoleRedirector : TextWriter
         }
     }
 
-    public override void Write(string? value)
+    public override void Write( string? value )
     {
         lock (lockObject)
         {

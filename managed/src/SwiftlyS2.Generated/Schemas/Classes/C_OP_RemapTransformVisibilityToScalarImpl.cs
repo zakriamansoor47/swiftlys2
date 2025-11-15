@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class C_OP_RemapTransformVisibilityToScalarImpl : CParticleFunc
   public C_OP_RemapTransformVisibilityToScalarImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x3CE3C8AFFB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x3CE3C8AFFB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformInputOffset = new(() => Schema.GetOffset(0x3CE3C8AFB3FDC289), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformInput {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0x3CE3C8AFB3FDC289));
+    get => new CParticleTransformInputImpl(_Handle + _TransformInputOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x3CE3C8AFE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x3CE3C8AFE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMinOffset = new(() => Schema.GetOffset(0x3CE3C8AFE88A0D0F), LazyThreadSafetyMode.None);
+
   public ref float InputMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3CE3C8AFE88A0D0F));
+    get => ref _Handle.AsRef<float>(_InputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMaxOffset = new(() => Schema.GetOffset(0x3CE3C8AFD6766901), LazyThreadSafetyMode.None);
+
   public ref float InputMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3CE3C8AFD6766901));
+    get => ref _Handle.AsRef<float>(_InputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0x3CE3C8AF5F8D7716), LazyThreadSafetyMode.None);
+
   public ref float OutputMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3CE3C8AF5F8D7716));
+    get => ref _Handle.AsRef<float>(_OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0x3CE3C8AF51A0E8C4), LazyThreadSafetyMode.None);
+
   public ref float OutputMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3CE3C8AF51A0E8C4));
+    get => ref _Handle.AsRef<float>(_OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0x3CE3C8AF5ACFC08D), LazyThreadSafetyMode.None);
+
   public ref float Radius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3CE3C8AF5ACFC08D));
+    get => ref _Handle.AsRef<float>(_RadiusOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CSSDSMsg_ViewTargetListImpl : SchemaClass, CSSDSMsg_ViewT
   public CSSDSMsg_ViewTargetListImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ViewIdOffset = new(() => Schema.GetOffset(0xD53B3083E976CB25), LazyThreadSafetyMode.None);
+
   public SceneViewId_t ViewId {
-    get => new SceneViewId_tImpl(_Handle + Schema.GetOffset(0xD53B3083E976CB25));
+    get => new SceneViewId_tImpl(_Handle + _ViewIdOffset.Value);
   }
+  private static readonly Lazy<nint> _ViewNameOffset = new(() => Schema.GetOffset(0xD53B3083BA5BBDBB), LazyThreadSafetyMode.None);
+
   public string ViewName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xD53B3083BA5BBDBB));
+      var ptr = _Handle.Read<nint>(_ViewNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xD53B3083BA5BBDBB, value);
+    set => Schema.SetString(_Handle, _ViewNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TargetsOffset = new(() => Schema.GetOffset(0xD53B30832FF8E661), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CSSDSMsg_ViewTarget> Targets {
-    get => ref _Handle.AsRef<CUtlVector<CSSDSMsg_ViewTarget>>(Schema.GetOffset(0xD53B30832FF8E661));
+    get => ref _Handle.AsRef<CUtlVector<CSSDSMsg_ViewTarget>>(_TargetsOffset.Value);
   }
 
 

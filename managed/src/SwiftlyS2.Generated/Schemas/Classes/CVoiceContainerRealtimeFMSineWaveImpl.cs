@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CVoiceContainerRealtimeFMSineWaveImpl : CVoiceContainerBa
   public CVoiceContainerRealtimeFMSineWaveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CarrierFrequencyOffset = new(() => Schema.GetOffset(0x3AB0D193041DC311), LazyThreadSafetyMode.None);
+
   public ref float CarrierFrequency {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3AB0D193041DC311));
+    get => ref _Handle.AsRef<float>(_CarrierFrequencyOffset.Value);
   }
+  private static readonly Lazy<nint> _ModulatorFrequencyOffset = new(() => Schema.GetOffset(0x3AB0D193656A8FFE), LazyThreadSafetyMode.None);
+
   public ref float ModulatorFrequency {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3AB0D193656A8FFE));
+    get => ref _Handle.AsRef<float>(_ModulatorFrequencyOffset.Value);
   }
+  private static readonly Lazy<nint> _ModulatorAmountOffset = new(() => Schema.GetOffset(0x3AB0D1939B320E5C), LazyThreadSafetyMode.None);
+
   public ref float ModulatorAmount {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3AB0D1939B320E5C));
+    get => ref _Handle.AsRef<float>(_ModulatorAmountOffset.Value);
   }
 
 

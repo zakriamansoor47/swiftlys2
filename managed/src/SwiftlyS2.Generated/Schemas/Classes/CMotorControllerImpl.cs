@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CMotorControllerImpl : SchemaClass, CMotorController {
   public CMotorControllerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SpeedOffset = new(() => Schema.GetOffset(0x1A8B9067A4BD35A0), LazyThreadSafetyMode.None);
+
   public ref float Speed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1A8B9067A4BD35A0));
+    get => ref _Handle.AsRef<float>(_SpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxTorqueOffset = new(() => Schema.GetOffset(0x1A8B90677880BF37), LazyThreadSafetyMode.None);
+
   public ref float MaxTorque {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1A8B90677880BF37));
+    get => ref _Handle.AsRef<float>(_MaxTorqueOffset.Value);
   }
+  private static readonly Lazy<nint> _AxisOffset = new(() => Schema.GetOffset(0x1A8B90672B06DE94), LazyThreadSafetyMode.None);
+
   public ref Vector Axis {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x1A8B90672B06DE94));
+    get => ref _Handle.AsRef<Vector>(_AxisOffset.Value);
   }
+  private static readonly Lazy<nint> _InertiaFactorOffset = new(() => Schema.GetOffset(0x1A8B9067B824C94A), LazyThreadSafetyMode.None);
+
   public ref float InertiaFactor {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1A8B9067B824C94A));
+    get => ref _Handle.AsRef<float>(_InertiaFactorOffset.Value);
   }
 
 

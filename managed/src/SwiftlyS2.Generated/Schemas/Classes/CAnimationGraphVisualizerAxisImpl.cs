@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CAnimationGraphVisualizerAxisImpl : CAnimationGraphVisual
   public CAnimationGraphVisualizerAxisImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _XWsTransformOffset = new(() => Schema.GetOffset(0xB0A274E9AE1478FF), LazyThreadSafetyMode.None);
+
   public ref CTransform XWsTransform {
-    get => ref _Handle.AsRef<CTransform>(Schema.GetOffset(0xB0A274E9AE1478FF));
+    get => ref _Handle.AsRef<CTransform>(_XWsTransformOffset.Value);
   }
+  private static readonly Lazy<nint> _AxisSizeOffset = new(() => Schema.GetOffset(0xB0A274E9224B2A23), LazyThreadSafetyMode.None);
+
   public ref float AxisSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB0A274E9224B2A23));
+    get => ref _Handle.AsRef<float>(_AxisSizeOffset.Value);
   }
 
 

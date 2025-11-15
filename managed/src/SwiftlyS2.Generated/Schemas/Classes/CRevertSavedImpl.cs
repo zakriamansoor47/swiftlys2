@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CRevertSavedImpl : CModelPointEntityImpl, CRevertSaved {
   public CRevertSavedImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LoadTimeOffset = new(() => Schema.GetOffset(0x8E0EAC0F9925A540), LazyThreadSafetyMode.None);
+
   public ref float LoadTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E0EAC0F9925A540));
+    get => ref _Handle.AsRef<float>(_LoadTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0x8E0EAC0F9879A98D), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E0EAC0F9879A98D));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _HoldTimeOffset = new(() => Schema.GetOffset(0x8E0EAC0F105A1BF1), LazyThreadSafetyMode.None);
+
   public ref float HoldTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8E0EAC0F105A1BF1));
+    get => ref _Handle.AsRef<float>(_HoldTimeOffset.Value);
   }
 
 

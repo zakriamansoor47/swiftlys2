@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CFishPoolImpl : CBaseEntityImpl, CFishPool {
   public CFishPoolImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FishCountOffset = new(() => Schema.GetOffset(0x1B71368A31165D02), LazyThreadSafetyMode.None);
+
   public ref int FishCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x1B71368A31165D02));
+    get => ref _Handle.AsRef<int>(_FishCountOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxRangeOffset = new(() => Schema.GetOffset(0x1B71368A560879E6), LazyThreadSafetyMode.None);
+
   public ref float MaxRange {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1B71368A560879E6));
+    get => ref _Handle.AsRef<float>(_MaxRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _SwimDepthOffset = new(() => Schema.GetOffset(0x1B71368AA94321F2), LazyThreadSafetyMode.None);
+
   public ref float SwimDepth {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1B71368AA94321F2));
+    get => ref _Handle.AsRef<float>(_SwimDepthOffset.Value);
   }
+  private static readonly Lazy<nint> _WaterLevelOffset = new(() => Schema.GetOffset(0x1B71368AE63A21D6), LazyThreadSafetyMode.None);
+
   public ref float WaterLevel {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1B71368AE63A21D6));
+    get => ref _Handle.AsRef<float>(_WaterLevelOffset.Value);
   }
+  private static readonly Lazy<nint> _IsDormantOffset = new(() => Schema.GetOffset(0x1B71368A1D7D906E), LazyThreadSafetyMode.None);
+
   public ref bool IsDormant {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x1B71368A1D7D906E));
+    get => ref _Handle.AsRef<bool>(_IsDormantOffset.Value);
   }
+  private static readonly Lazy<nint> _FishesOffset = new(() => Schema.GetOffset(0x1B71368AFDB58C33), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CFish>> Fishes {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CFish>>>(Schema.GetOffset(0x1B71368AFDB58C33));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CFish>>>(_FishesOffset.Value);
   }
+  private static readonly Lazy<nint> _VisTimerOffset = new(() => Schema.GetOffset(0x1B71368AC8E45FB6), LazyThreadSafetyMode.None);
+
   public CountdownTimer VisTimer {
-    get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x1B71368AC8E45FB6));
+    get => new CountdownTimerImpl(_Handle + _VisTimerOffset.Value);
   }
 
 

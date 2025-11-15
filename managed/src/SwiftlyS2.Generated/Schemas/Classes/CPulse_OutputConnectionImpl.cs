@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPulse_OutputConnectionImpl : SchemaClass, CPulse_OutputC
   public CPulse_OutputConnectionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceOutputOffset = new(() => Schema.GetOffset(0x6DEBCD452D46D7F5), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SourceOutput {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6DEBCD452D46D7F5));
+    get => new SchemaUntypedField(_Handle + _SourceOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetEntityOffset = new(() => Schema.GetOffset(0x6DEBCD45948B1533), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField TargetEntity {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6DEBCD45948B1533));
+    get => new SchemaUntypedField(_Handle + _TargetEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetInputOffset = new(() => Schema.GetOffset(0x6DEBCD45F1A0003C), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField TargetInput {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6DEBCD45F1A0003C));
+    get => new SchemaUntypedField(_Handle + _TargetInputOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamOffset = new(() => Schema.GetOffset(0x6DEBCD45E85FEBB2), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Param {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6DEBCD45E85FEBB2));
+    get => new SchemaUntypedField(_Handle + _ParamOffset.Value);
   }
 
 

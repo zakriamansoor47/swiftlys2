@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CTriggerDetectBulletFireImpl : CBaseTriggerImpl, CTrigger
   public CTriggerDetectBulletFireImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PlayerFireOnlyOffset = new(() => Schema.GetOffset(0x93930A3D56D51CFE), LazyThreadSafetyMode.None);
+
   public ref bool PlayerFireOnly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x93930A3D56D51CFE));
+    get => ref _Handle.AsRef<bool>(_PlayerFireOnlyOffset.Value);
   }
+  private static readonly Lazy<nint> _OnDetectedBulletFireOffset = new(() => Schema.GetOffset(0x93930A3D11D6C936), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnDetectedBulletFire {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x93930A3D11D6C936));
+    get => new CEntityIOOutputImpl(_Handle + _OnDetectedBulletFireOffset.Value);
   }
 
 

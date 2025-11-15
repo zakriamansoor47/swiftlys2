@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,44 +17,70 @@ internal partial class CBlendUpdateNodeImpl : CAnimUpdateNodeBaseImpl, CBlendUpd
   public CBlendUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChildrenOffset = new(() => Schema.GetOffset(0xD72498B47415FA72), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CAnimUpdateNodeRef> Children {
-    get => ref _Handle.AsRef<CUtlVector<CAnimUpdateNodeRef>>(Schema.GetOffset(0xD72498B47415FA72));
+    get => ref _Handle.AsRef<CUtlVector<CAnimUpdateNodeRef>>(_ChildrenOffset.Value);
   }
+  private static readonly Lazy<nint> _SortedOrderOffset = new(() => Schema.GetOffset(0xD72498B47CE82340), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<byte> SortedOrder {
-    get => ref _Handle.AsRef<CUtlVector<byte>>(Schema.GetOffset(0xD72498B47CE82340));
+    get => ref _Handle.AsRef<CUtlVector<byte>>(_SortedOrderOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetValuesOffset = new(() => Schema.GetOffset(0xD72498B4913AEBFE), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> TargetValues {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0xD72498B4913AEBFE));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_TargetValuesOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendValueSourceOffset = new(() => Schema.GetOffset(0xD72498B47AB7C374), LazyThreadSafetyMode.None);
+
   public ref AnimValueSource BlendValueSource {
-    get => ref _Handle.AsRef<AnimValueSource>(Schema.GetOffset(0xD72498B47AB7C374));
+    get => ref _Handle.AsRef<AnimValueSource>(_BlendValueSourceOffset.Value);
   }
+  private static readonly Lazy<nint> _LinearRootMotionBlendModeOffset = new(() => Schema.GetOffset(0xD72498B4580BA151), LazyThreadSafetyMode.None);
+
   public ref LinearRootMotionBlendMode_t LinearRootMotionBlendMode {
-    get => ref _Handle.AsRef<LinearRootMotionBlendMode_t>(Schema.GetOffset(0xD72498B4580BA151));
+    get => ref _Handle.AsRef<LinearRootMotionBlendMode_t>(_LinearRootMotionBlendModeOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamIndexOffset = new(() => Schema.GetOffset(0xD72498B461990A86), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParamIndex {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xD72498B461990A86));
+    get => new CAnimParamHandleImpl(_Handle + _ParamIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _DampingOffset = new(() => Schema.GetOffset(0xD72498B415440FB5), LazyThreadSafetyMode.None);
+
   public CAnimInputDamping Damping {
-    get => new CAnimInputDampingImpl(_Handle + Schema.GetOffset(0xD72498B415440FB5));
+    get => new CAnimInputDampingImpl(_Handle + _DampingOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendKeyTypeOffset = new(() => Schema.GetOffset(0xD72498B4CD00B87F), LazyThreadSafetyMode.None);
+
   public ref BlendKeyType BlendKeyType {
-    get => ref _Handle.AsRef<BlendKeyType>(Schema.GetOffset(0xD72498B4CD00B87F));
+    get => ref _Handle.AsRef<BlendKeyType>(_BlendKeyTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _LockBlendOnResetOffset = new(() => Schema.GetOffset(0xD72498B476334223), LazyThreadSafetyMode.None);
+
   public ref bool LockBlendOnReset {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD72498B476334223));
+    get => ref _Handle.AsRef<bool>(_LockBlendOnResetOffset.Value);
   }
+  private static readonly Lazy<nint> _SyncCyclesOffset = new(() => Schema.GetOffset(0xD72498B4EFFB5395), LazyThreadSafetyMode.None);
+
   public ref bool SyncCycles {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD72498B4EFFB5395));
+    get => ref _Handle.AsRef<bool>(_SyncCyclesOffset.Value);
   }
+  private static readonly Lazy<nint> _LoopOffset = new(() => Schema.GetOffset(0xD72498B4C668A4CB), LazyThreadSafetyMode.None);
+
   public ref bool Loop {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD72498B4C668A4CB));
+    get => ref _Handle.AsRef<bool>(_LoopOffset.Value);
   }
+  private static readonly Lazy<nint> _LockWhenWaningOffset = new(() => Schema.GetOffset(0xD72498B4EED48004), LazyThreadSafetyMode.None);
+
   public ref bool LockWhenWaning {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD72498B4EED48004));
+    get => ref _Handle.AsRef<bool>(_LockWhenWaningOffset.Value);
   }
+  private static readonly Lazy<nint> _IsAngleOffset = new(() => Schema.GetOffset(0xD72498B4DE976A88), LazyThreadSafetyMode.None);
+
   public ref bool IsAngle {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD72498B4DE976A88));
+    get => ref _Handle.AsRef<bool>(_IsAngleOffset.Value);
   }
 
 

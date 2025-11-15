@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class VelocitySamplerImpl : SchemaClass, VelocitySampler {
   public VelocitySamplerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PrevSampleOffset = new(() => Schema.GetOffset(0x5547216E1BCE7EF2), LazyThreadSafetyMode.None);
+
   public ref Vector PrevSample {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x5547216E1BCE7EF2));
+    get => ref _Handle.AsRef<Vector>(_PrevSampleOffset.Value);
   }
+  private static readonly Lazy<nint> _PrevSampleTimeOffset = new(() => Schema.GetOffset(0x5547216E0D491EE7), LazyThreadSafetyMode.None);
+
   public GameTime_t PrevSampleTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x5547216E0D491EE7));
+    get => new GameTime_tImpl(_Handle + _PrevSampleTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _IdealSampleRateOffset = new(() => Schema.GetOffset(0x5547216EF1562586), LazyThreadSafetyMode.None);
+
   public ref float IdealSampleRate {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5547216EF1562586));
+    get => ref _Handle.AsRef<float>(_IdealSampleRateOffset.Value);
   }
 
 

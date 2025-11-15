@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CSolveIKTargetHandle_tImpl : SchemaClass, CSolveIKTargetH
   public CSolveIKTargetHandle_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PositionHandleOffset = new(() => Schema.GetOffset(0xC2940485B066E3D4), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle PositionHandle {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xC2940485B066E3D4));
+    get => new CAnimParamHandleImpl(_Handle + _PositionHandleOffset.Value);
   }
+  private static readonly Lazy<nint> _OrientationHandleOffset = new(() => Schema.GetOffset(0xC294048597E9518F), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle OrientationHandle {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0xC294048597E9518F));
+    get => new CAnimParamHandleImpl(_Handle + _OrientationHandleOffset.Value);
   }
 
 

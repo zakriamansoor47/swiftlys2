@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CExampleSchemaVData_PolymorphicBaseImpl : SchemaClass, CE
   public CExampleSchemaVData_PolymorphicBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BaseOffset = new(() => Schema.GetOffset(0x2CEB124160282B7C), LazyThreadSafetyMode.None);
+
   public ref int Base {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x2CEB124160282B7C));
+    get => ref _Handle.AsRef<int>(_BaseOffset.Value);
   }
 
 

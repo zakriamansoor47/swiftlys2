@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class C_OP_SetControlPointPositionToTimeOfDayValueImpl : CParti
   public C_OP_SetControlPointPositionToTimeOfDayValueImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x976831CB3F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x976831CB3F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _TimeOfDayParameterOffset = new(() => Schema.GetOffset(0x976831CB5B5E9DD3), LazyThreadSafetyMode.None);
+
   public string TimeOfDayParameter {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x976831CB5B5E9DD3);
+      var ptr = _Handle + _TimeOfDayParameterOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x976831CB5B5E9DD3, value, 128);
+    set => Schema.SetFixedString(_Handle, _TimeOfDayParameterOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0x976831CB0A18BFDF), LazyThreadSafetyMode.None);
+
   public ref Vector DefaultValue {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x976831CB0A18BFDF));
+    get => ref _Handle.AsRef<Vector>(_DefaultValueOffset.Value);
   }
 
 

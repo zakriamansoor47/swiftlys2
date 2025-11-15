@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CLogicLineToEntityImpl : CLogicalEntityImpl, CLogicLineTo
   public CLogicLineToEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LineOffset = new(() => Schema.GetOffset(0x61067DC85589FAA7), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Line {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x61067DC85589FAA7));
+    get => new SchemaUntypedField(_Handle + _LineOffset.Value);
   }
+  private static readonly Lazy<nint> _SourceNameOffset = new(() => Schema.GetOffset(0x61067DC82F9BA2DB), LazyThreadSafetyMode.None);
+
   public string SourceName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x61067DC82F9BA2DB));
+      var ptr = _Handle.Read<nint>(_SourceNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x61067DC82F9BA2DB, value);
+    set => Schema.SetString(_Handle, _SourceNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _StartEntityOffset = new(() => Schema.GetOffset(0x61067DC8904F2828), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> StartEntity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x61067DC8904F2828));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_StartEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _EndEntityOffset = new(() => Schema.GetOffset(0x61067DC89114A219), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> EndEntity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x61067DC89114A219));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_EndEntityOffset.Value);
   }
 
 

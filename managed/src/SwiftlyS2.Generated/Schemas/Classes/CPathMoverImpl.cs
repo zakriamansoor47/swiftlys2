@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPathMoverImpl : CPathSimpleImpl, CPathMover {
   public CPathMoverImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PathNodesOffset = new(() => Schema.GetOffset(0x459CE4C6FD746CE3), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CMoverPathNode>> PathNodes {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CMoverPathNode>>>(Schema.GetOffset(0x459CE4C6FD746CE3));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CMoverPathNode>>>(_PathNodesOffset.Value);
   }
+  private static readonly Lazy<nint> _MoversOffset = new(() => Schema.GetOffset(0x459CE4C65C9C4C93), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CFuncMover>> Movers {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CFuncMover>>>(Schema.GetOffset(0x459CE4C65C9C4C93));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CFuncMover>>>(_MoversOffset.Value);
   }
+  private static readonly Lazy<nint> _XInitialPathWorldToLocalOffset = new(() => Schema.GetOffset(0x459CE4C6FE5D385E), LazyThreadSafetyMode.None);
+
   public ref CTransform XInitialPathWorldToLocal {
-    get => ref _Handle.AsRef<CTransform>(Schema.GetOffset(0x459CE4C6FE5D385E));
+    get => ref _Handle.AsRef<CTransform>(_XInitialPathWorldToLocalOffset.Value);
   }
 
 

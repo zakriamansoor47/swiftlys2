@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,33 +17,49 @@ internal partial class CSosGroupActionMemberCountEnvelopeSchemaImpl : CSosGroupA
   public CSosGroupActionMemberCountEnvelopeSchemaImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BaseCountOffset = new(() => Schema.GetOffset(0x5C85206CE09342E3), LazyThreadSafetyMode.None);
+
   public ref int BaseCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5C85206CE09342E3));
+    get => ref _Handle.AsRef<int>(_BaseCountOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetCountOffset = new(() => Schema.GetOffset(0x5C85206CFEA8571B), LazyThreadSafetyMode.None);
+
   public ref int TargetCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5C85206CFEA8571B));
+    get => ref _Handle.AsRef<int>(_TargetCountOffset.Value);
   }
+  private static readonly Lazy<nint> _BaseValueOffset = new(() => Schema.GetOffset(0x5C85206CB5B71A9B), LazyThreadSafetyMode.None);
+
   public ref float BaseValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5C85206CB5B71A9B));
+    get => ref _Handle.AsRef<float>(_BaseValueOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetValueOffset = new(() => Schema.GetOffset(0x5C85206C1584D0BB), LazyThreadSafetyMode.None);
+
   public ref float TargetValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5C85206C1584D0BB));
+    get => ref _Handle.AsRef<float>(_TargetValueOffset.Value);
   }
+  private static readonly Lazy<nint> _AttackOffset = new(() => Schema.GetOffset(0x5C85206C0A6A5BE7), LazyThreadSafetyMode.None);
+
   public ref float Attack {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5C85206C0A6A5BE7));
+    get => ref _Handle.AsRef<float>(_AttackOffset.Value);
   }
+  private static readonly Lazy<nint> _DecayOffset = new(() => Schema.GetOffset(0x5C85206CE24ABC67), LazyThreadSafetyMode.None);
+
   public ref float Decay {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5C85206CE24ABC67));
+    get => ref _Handle.AsRef<float>(_DecayOffset.Value);
   }
+  private static readonly Lazy<nint> _ResultVarNameOffset = new(() => Schema.GetOffset(0x5C85206CF566E926), LazyThreadSafetyMode.None);
+
   public string ResultVarName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x5C85206CF566E926));
+      var ptr = _Handle.Read<nint>(_ResultVarNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x5C85206CF566E926, value);
+    set => Schema.SetString(_Handle, _ResultVarNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SaveToGroupOffset = new(() => Schema.GetOffset(0x5C85206C6ED720F8), LazyThreadSafetyMode.None);
+
   public ref bool SaveToGroup {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5C85206C6ED720F8));
+    get => ref _Handle.AsRef<bool>(_SaveToGroupOffset.Value);
   }
 
 

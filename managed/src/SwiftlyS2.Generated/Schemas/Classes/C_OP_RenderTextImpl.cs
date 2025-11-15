@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class C_OP_RenderTextImpl : CParticleFunctionRendererImpl, C_OP
   public C_OP_RenderTextImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OutlineColorOffset = new(() => Schema.GetOffset(0x376BB2E675B94BB0), LazyThreadSafetyMode.None);
+
   public ref Color OutlineColor {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x376BB2E675B94BB0));
+    get => ref _Handle.AsRef<Color>(_OutlineColorOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultTextOffset = new(() => Schema.GetOffset(0x376BB2E67556AF5D), LazyThreadSafetyMode.None);
+
   public string DefaultText {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x376BB2E67556AF5D));
+      var ptr = _Handle.Read<nint>(_DefaultTextOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x376BB2E67556AF5D, value);
+    set => Schema.SetString(_Handle, _DefaultTextOffset.Value, value);
   } 
 
 

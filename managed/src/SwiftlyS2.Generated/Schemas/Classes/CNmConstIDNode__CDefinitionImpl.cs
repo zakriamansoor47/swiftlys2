@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmConstIDNode__CDefinitionImpl : CNmIDValueNode__CDefini
   public CNmConstIDNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xF68AB5F96B99AEEA), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol Value {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xF68AB5F96B99AEEA));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_ValueOffset.Value);
   }
 
 

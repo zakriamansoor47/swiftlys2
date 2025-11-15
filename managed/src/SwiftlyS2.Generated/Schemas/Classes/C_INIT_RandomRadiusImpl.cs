@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_RandomRadiusImpl : CParticleFunctionInitializerImp
   public C_INIT_RandomRadiusImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RadiusMinOffset = new(() => Schema.GetOffset(0xE9419C037AEB467F), LazyThreadSafetyMode.None);
+
   public ref float RadiusMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE9419C037AEB467F));
+    get => ref _Handle.AsRef<float>(_RadiusMinOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusMaxOffset = new(() => Schema.GetOffset(0xE9419C0388D641D1), LazyThreadSafetyMode.None);
+
   public ref float RadiusMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE9419C0388D641D1));
+    get => ref _Handle.AsRef<float>(_RadiusMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusRandExponentOffset = new(() => Schema.GetOffset(0xE9419C03D4637A31), LazyThreadSafetyMode.None);
+
   public ref float RadiusRandExponent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE9419C03D4637A31));
+    get => ref _Handle.AsRef<float>(_RadiusRandExponentOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CDecalGroupVDataImpl : SchemaClass, CDecalGroupVData {
   public CDecalGroupVDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OptionsOffset = new(() => Schema.GetOffset(0x56FC0D98C5C14E85), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<DecalGroupOption_t> Options {
-    get => ref _Handle.AsRef<CUtlVector<DecalGroupOption_t>>(Schema.GetOffset(0x56FC0D98C5C14E85));
+    get => ref _Handle.AsRef<CUtlVector<DecalGroupOption_t>>(_OptionsOffset.Value);
   }
+  private static readonly Lazy<nint> _TotalProbabilityOffset = new(() => Schema.GetOffset(0x56FC0D98154D3742), LazyThreadSafetyMode.None);
+
   public ref float TotalProbability {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x56FC0D98154D3742));
+    get => ref _Handle.AsRef<float>(_TotalProbabilityOffset.Value);
   }
 
 

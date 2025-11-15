@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CFilterMultipleImpl : CBaseFilterImpl, CFilterMultiple {
   public CFilterMultipleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FilterTypeOffset = new(() => Schema.GetOffset(0x6EA0578071861EDB), LazyThreadSafetyMode.None);
+
   public ref filter_t FilterType {
-    get => ref _Handle.AsRef<filter_t>(Schema.GetOffset(0x6EA0578071861EDB));
+    get => ref _Handle.AsRef<filter_t>(_FilterTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _FilterNameOffset = new(() => Schema.GetOffset(0x6EA0578009C86445), LazyThreadSafetyMode.None);
+
   public string FilterName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6EA0578009C86445));
+      var ptr = _Handle.Read<nint>(_FilterNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6EA0578009C86445, value);
+    set => Schema.SetString(_Handle, _FilterNameOffset.Value, value);
   } 
   public ISchemaFixedArray<CHandle<CBaseEntity>> Filter {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x6EA0578045D9E0B1, 10, 4, 4);

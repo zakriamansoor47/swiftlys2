@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class RnMeshDesc_tImpl : RnShapeDesc_tImpl, RnMeshDesc_t {
   public RnMeshDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MeshOffset = new(() => Schema.GetOffset(0xB236F002DEAFA33C), LazyThreadSafetyMode.None);
+
   public RnMesh_t Mesh {
-    get => new RnMesh_tImpl(_Handle + Schema.GetOffset(0xB236F002DEAFA33C));
+    get => new RnMesh_tImpl(_Handle + _MeshOffset.Value);
   }
 
 

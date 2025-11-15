@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,16 @@ internal partial class CVoiceContainerBaseImpl : SchemaClass, CVoiceContainerBas
   public CVoiceContainerBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SoundOffset = new(() => Schema.GetOffset(0x9D65DC3663C1A950), LazyThreadSafetyMode.None);
+
   public CVSound Sound {
-    get => new CVSoundImpl(_Handle + Schema.GetOffset(0x9D65DC3663C1A950));
+    get => new CVSoundImpl(_Handle + _SoundOffset.Value);
   }
+  private static readonly Lazy<nint> _EnvelopeAnalyzerOffset = new(() => Schema.GetOffset(0x9D65DC362102947D), LazyThreadSafetyMode.None);
+
   public CVoiceContainerAnalysisBase? EnvelopeAnalyzer {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x9D65DC362102947D));
+      var ptr = _Handle.Read<nint>(_EnvelopeAnalyzerOffset.Value);
       return ptr.IsValidPtr() ? new CVoiceContainerAnalysisBaseImpl(ptr) : null;
     }
   }

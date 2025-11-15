@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,19 +17,23 @@ internal partial class CPulseCell_Step_FollowEntityImpl : CPulseCell_BaseFlowImp
   public CPulseCell_Step_FollowEntityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParamBoneOrAttachNameOffset = new(() => Schema.GetOffset(0x75FAF4A9B89867BB), LazyThreadSafetyMode.None);
+
   public string ParamBoneOrAttachName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x75FAF4A9B89867BB));
+      var ptr = _Handle.Read<nint>(_ParamBoneOrAttachNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x75FAF4A9B89867BB, value);
+    set => Schema.SetString(_Handle, _ParamBoneOrAttachNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ParamBoneOrAttachNameChildOffset = new(() => Schema.GetOffset(0x75FAF4A902011093), LazyThreadSafetyMode.None);
+
   public string ParamBoneOrAttachNameChild {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x75FAF4A902011093));
+      var ptr = _Handle.Read<nint>(_ParamBoneOrAttachNameChildOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x75FAF4A902011093, value);
+    set => Schema.SetString(_Handle, _ParamBoneOrAttachNameChildOffset.Value, value);
   } 
 
 

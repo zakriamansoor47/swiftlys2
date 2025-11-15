@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,9 +17,11 @@ internal partial class CCSGameRulesProxyImpl : CGameRulesProxyImpl, CCSGameRules
   public CCSGameRulesProxyImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GameRulesOffset = new(() => Schema.GetOffset(0x242D3ADB925C1F40), LazyThreadSafetyMode.None);
+
   public CCSGameRules? GameRules {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x242D3ADB925C1F40));
+      var ptr = _Handle.Read<nint>(_GameRulesOffset.Value);
       return ptr.IsValidPtr() ? new CCSGameRulesImpl(ptr) : null;
     }
   }

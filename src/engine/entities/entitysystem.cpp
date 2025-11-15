@@ -140,22 +140,25 @@ void StartupServerHook(void* _this, const GameSessionConfiguration_t& config, IS
 void CEntSystem::Spawn(void* pEntity, void* pKeyValues)
 {
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
+    static auto sig = gamedata->GetSignatures()->Fetch("CBaseEntity::DispatchSpawn");
 
-    reinterpret_cast<CBaseEntity_DispatchSpawn>(gamedata->GetSignatures()->Fetch("CBaseEntity::DispatchSpawn"))(pEntity, pKeyValues);
+    reinterpret_cast<CBaseEntity_DispatchSpawn>(sig)(pEntity, pKeyValues);
 }
 
 void CEntSystem::Despawn(void* pEntity)
 {
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
+    static auto sig = gamedata->GetSignatures()->Fetch("UTIL::Remove");
 
-    reinterpret_cast<UTIL_Remove>(gamedata->GetSignatures()->Fetch("UTIL::Remove"))(pEntity);
+    reinterpret_cast<UTIL_Remove>(sig)(pEntity);
 }
 
 void* CEntSystem::CreateEntityByName(const char* name)
 {
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
+    static auto sig = gamedata->GetSignatures()->Fetch("UTIL::CreateEntityByName");
 
-    return reinterpret_cast<UTIL_CreateEntityByName>(gamedata->GetSignatures()->Fetch("UTIL::CreateEntityByName"))(name, -1);
+    return reinterpret_cast<UTIL_CreateEntityByName>(sig)(name, -1);
 }
 
 void CEntSystem::AcceptInput(void* pEntity, const char* input, void* activator, void* caller, InputType value, int outputID)
@@ -182,7 +185,8 @@ void CEntSystem::AcceptInput(void* pEntity, const char* input, void* activator, 
     else
         var = 0;
 
-    reinterpret_cast<CEntityInstance_AcceptInput>(gamedata->GetSignatures()->Fetch("CEntityInstance::AcceptInput"))(pEntity, input, activator, caller, &var, outputID);
+    static auto sig = gamedata->GetSignatures()->Fetch("CEntityInstance::AcceptInput");
+    reinterpret_cast<CEntityInstance_AcceptInput>(sig)(pEntity, input, activator, caller, &var, outputID);
 }
 
 void CEntSystem::AddEntityIOEvent(void* pEntity, const char* input, void* activator, void* caller, InputType value, float delay)
@@ -209,7 +213,8 @@ void CEntSystem::AddEntityIOEvent(void* pEntity, const char* input, void* activa
     else
         var = 0;
 
-    reinterpret_cast<CEntitySystem_AddEntityIOEvent>(gamedata->GetSignatures()->Fetch("CEntitySystem::AddEntityIOEvent"))(g_pGameEntitySystem, pEntity, input, activator, caller, &var, delay, 0, nullptr, nullptr);
+    static auto sig = gamedata->GetSignatures()->Fetch("CEntitySystem::AddEntityIOEvent");
+    reinterpret_cast<CEntitySystem_AddEntityIOEvent>(sig)(g_pGameEntitySystem, pEntity, input, activator, caller, &var, delay, 0, nullptr, nullptr);
 }
 
 bool CEntSystem::IsValidEntity(void* pEntity)

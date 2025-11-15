@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_Inflow_BaseEntrypointImpl : CPulseCell_BaseFlo
   public CPulseCell_Inflow_BaseEntrypointImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EntryChunkOffset = new(() => Schema.GetOffset(0x1747DEDF279F0A60), LazyThreadSafetyMode.None);
+
   public PulseRuntimeChunkIndex_t EntryChunk {
-    get => new PulseRuntimeChunkIndex_tImpl(_Handle + Schema.GetOffset(0x1747DEDF279F0A60));
+    get => new PulseRuntimeChunkIndex_tImpl(_Handle + _EntryChunkOffset.Value);
   }
+  private static readonly Lazy<nint> _RegisterMapOffset = new(() => Schema.GetOffset(0x1747DEDF7BD4CE96), LazyThreadSafetyMode.None);
+
   public PulseRegisterMap_t RegisterMap {
-    get => new PulseRegisterMap_tImpl(_Handle + Schema.GetOffset(0x1747DEDF7BD4CE96));
+    get => new PulseRegisterMap_tImpl(_Handle + _RegisterMapOffset.Value);
   }
 
 

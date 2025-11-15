@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CDestructiblePartsSystemDataImpl : SchemaClass, CDestruct
   public CDestructiblePartsSystemDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PartsDataByHitGroupOffset = new(() => Schema.GetOffset(0xABDCB98361E96220), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField PartsDataByHitGroup {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xABDCB98361E96220));
+    get => new SchemaUntypedField(_Handle + _PartsDataByHitGroupOffset.Value);
   }
+  private static readonly Lazy<nint> _MinMaxNumberHitGroupsToDestroyWhenGibbingOffset = new(() => Schema.GetOffset(0xABDCB9834CA810D8), LazyThreadSafetyMode.None);
+
   public CRangeInt MinMaxNumberHitGroupsToDestroyWhenGibbing {
-    get => new CRangeIntImpl(_Handle + Schema.GetOffset(0xABDCB9834CA810D8));
+    get => new CRangeIntImpl(_Handle + _MinMaxNumberHitGroupsToDestroyWhenGibbingOffset.Value);
   }
 
 

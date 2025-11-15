@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CInfoPlayerStartImpl : CPointEntityImpl, CInfoPlayerStart
   public CInfoPlayerStartImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0xE0799D713A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE0799D713A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _IsMasterOffset = new(() => Schema.GetOffset(0xE0799D71DE5719A3), LazyThreadSafetyMode.None);
+
   public ref bool IsMaster {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE0799D71DE5719A3));
+    get => ref _Handle.AsRef<bool>(_IsMasterOffset.Value);
   }
+  private static readonly Lazy<nint> _PawnSubclassOffset = new(() => Schema.GetOffset(0xE0799D7190AFB5EF), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol PawnSubclass {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xE0799D7190AFB5EF));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_PawnSubclassOffset.Value);
   }
 
 

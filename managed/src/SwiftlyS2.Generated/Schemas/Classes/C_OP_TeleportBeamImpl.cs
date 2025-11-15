@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,60 @@ internal partial class C_OP_TeleportBeamImpl : CParticleFunctionOperatorImpl, C_
   public C_OP_TeleportBeamImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPPositionOffset = new(() => Schema.GetOffset(0xD80BE8C1AECEEF2D), LazyThreadSafetyMode.None);
+
   public ref int CPPosition {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD80BE8C1AECEEF2D));
+    get => ref _Handle.AsRef<int>(_CPPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _CPVelocityOffset = new(() => Schema.GetOffset(0xD80BE8C165FA13B9), LazyThreadSafetyMode.None);
+
   public ref int CPVelocity {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD80BE8C165FA13B9));
+    get => ref _Handle.AsRef<int>(_CPVelocityOffset.Value);
   }
+  private static readonly Lazy<nint> _CPMiscOffset = new(() => Schema.GetOffset(0xD80BE8C1466D5C8A), LazyThreadSafetyMode.None);
+
   public ref int CPMisc {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD80BE8C1466D5C8A));
+    get => ref _Handle.AsRef<int>(_CPMiscOffset.Value);
   }
+  private static readonly Lazy<nint> _CPColorOffset = new(() => Schema.GetOffset(0xD80BE8C14B880225), LazyThreadSafetyMode.None);
+
   public ref int CPColor {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD80BE8C14B880225));
+    get => ref _Handle.AsRef<int>(_CPColorOffset.Value);
   }
+  private static readonly Lazy<nint> _CPInvalidColorOffset = new(() => Schema.GetOffset(0xD80BE8C1370493BC), LazyThreadSafetyMode.None);
+
   public ref int CPInvalidColor {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD80BE8C1370493BC));
+    get => ref _Handle.AsRef<int>(_CPInvalidColorOffset.Value);
   }
+  private static readonly Lazy<nint> _CPExtraArcDataOffset = new(() => Schema.GetOffset(0xD80BE8C1FE881B08), LazyThreadSafetyMode.None);
+
   public ref int CPExtraArcData {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD80BE8C1FE881B08));
+    get => ref _Handle.AsRef<int>(_CPExtraArcDataOffset.Value);
   }
+  private static readonly Lazy<nint> _GravityOffset = new(() => Schema.GetOffset(0xD80BE8C1A5AE4779), LazyThreadSafetyMode.None);
+
   public ref Vector Gravity {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xD80BE8C1A5AE4779));
+    get => ref _Handle.AsRef<Vector>(_GravityOffset.Value);
   }
+  private static readonly Lazy<nint> _ArcMaxDurationOffset = new(() => Schema.GetOffset(0xD80BE8C150FE58BD), LazyThreadSafetyMode.None);
+
   public ref float ArcMaxDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD80BE8C150FE58BD));
+    get => ref _Handle.AsRef<float>(_ArcMaxDurationOffset.Value);
   }
+  private static readonly Lazy<nint> _SegmentBreakOffset = new(() => Schema.GetOffset(0xD80BE8C18DEE8E2F), LazyThreadSafetyMode.None);
+
   public ref float SegmentBreak {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD80BE8C18DEE8E2F));
+    get => ref _Handle.AsRef<float>(_SegmentBreakOffset.Value);
   }
+  private static readonly Lazy<nint> _ArcSpeedOffset = new(() => Schema.GetOffset(0xD80BE8C14E9BC58C), LazyThreadSafetyMode.None);
+
   public ref float ArcSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD80BE8C14E9BC58C));
+    get => ref _Handle.AsRef<float>(_ArcSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _AlphaOffset = new(() => Schema.GetOffset(0xD80BE8C1A0DB7DD1), LazyThreadSafetyMode.None);
+
   public ref float Alpha {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xD80BE8C1A0DB7DD1));
+    get => ref _Handle.AsRef<float>(_AlphaOffset.Value);
   }
 
 

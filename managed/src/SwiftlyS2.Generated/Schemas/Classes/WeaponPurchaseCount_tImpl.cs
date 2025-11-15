@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class WeaponPurchaseCount_tImpl : SchemaClass, WeaponPurchaseCo
   public WeaponPurchaseCount_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ItemDefIndexOffset = new(() => Schema.GetOffset(0xF7F0C6E61BF10FB7), LazyThreadSafetyMode.None);
+
   public ref ushort ItemDefIndex {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xF7F0C6E61BF10FB7));
+    get => ref _Handle.AsRef<ushort>(_ItemDefIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _CountOffset = new(() => Schema.GetOffset(0xF7F0C6E67D31AC08), LazyThreadSafetyMode.None);
+
   public ref ushort Count {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xF7F0C6E67D31AC08));
+    get => ref _Handle.AsRef<ushort>(_CountOffset.Value);
   }
 
   public void ItemDefIndexUpdated() {

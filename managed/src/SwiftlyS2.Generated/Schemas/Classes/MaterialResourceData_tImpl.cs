@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,55 +17,83 @@ internal partial class MaterialResourceData_tImpl : SchemaClass, MaterialResourc
   public MaterialResourceData_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaterialNameOffset = new(() => Schema.GetOffset(0xA8F70097AF8795A3), LazyThreadSafetyMode.None);
+
   public string MaterialName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA8F70097AF8795A3));
+      var ptr = _Handle.Read<nint>(_MaterialNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xA8F70097AF8795A3, value);
+    set => Schema.SetString(_Handle, _MaterialNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ShaderNameOffset = new(() => Schema.GetOffset(0xA8F70097F8B3D7CB), LazyThreadSafetyMode.None);
+
   public string ShaderName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA8F70097F8B3D7CB));
+      var ptr = _Handle.Read<nint>(_ShaderNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xA8F70097F8B3D7CB, value);
+    set => Schema.SetString(_Handle, _ShaderNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _IntParamsOffset = new(() => Schema.GetOffset(0xA8F7009783517144), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamInt_t> IntParams {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamInt_t>>(Schema.GetOffset(0xA8F7009783517144));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamInt_t>>(_IntParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _FloatParamsOffset = new(() => Schema.GetOffset(0xA8F70097E6B01113), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamFloat_t> FloatParams {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamFloat_t>>(Schema.GetOffset(0xA8F70097E6B01113));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamFloat_t>>(_FloatParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _VectorParamsOffset = new(() => Schema.GetOffset(0xA8F70097FA0211E0), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamVector_t> VectorParams {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamVector_t>>(Schema.GetOffset(0xA8F70097FA0211E0));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamVector_t>>(_VectorParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureParamsOffset = new(() => Schema.GetOffset(0xA8F70097E53114F2), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamTexture_t> TextureParams {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamTexture_t>>(Schema.GetOffset(0xA8F70097E53114F2));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamTexture_t>>(_TextureParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _DynamicParamsOffset = new(() => Schema.GetOffset(0xA8F70097CC06B734), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamBuffer_t> DynamicParams {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamBuffer_t>>(Schema.GetOffset(0xA8F70097CC06B734));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamBuffer_t>>(_DynamicParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _DynamicTextureParamsOffset = new(() => Schema.GetOffset(0xA8F70097A1DB64A7), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamBuffer_t> DynamicTextureParams {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamBuffer_t>>(Schema.GetOffset(0xA8F70097A1DB64A7));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamBuffer_t>>(_DynamicTextureParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _IntAttributesOffset = new(() => Schema.GetOffset(0xA8F700974510A3FB), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamInt_t> IntAttributes {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamInt_t>>(Schema.GetOffset(0xA8F700974510A3FB));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamInt_t>>(_IntAttributesOffset.Value);
   }
+  private static readonly Lazy<nint> _FloatAttributesOffset = new(() => Schema.GetOffset(0xA8F70097D7D0F554), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamFloat_t> FloatAttributes {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamFloat_t>>(Schema.GetOffset(0xA8F70097D7D0F554));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamFloat_t>>(_FloatAttributesOffset.Value);
   }
+  private static readonly Lazy<nint> _VectorAttributesOffset = new(() => Schema.GetOffset(0xA8F70097FDB43687), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamVector_t> VectorAttributes {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamVector_t>>(Schema.GetOffset(0xA8F70097FDB43687));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamVector_t>>(_VectorAttributesOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureAttributesOffset = new(() => Schema.GetOffset(0xA8F70097417A5705), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamTexture_t> TextureAttributes {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamTexture_t>>(Schema.GetOffset(0xA8F70097417A5705));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamTexture_t>>(_TextureAttributesOffset.Value);
   }
+  private static readonly Lazy<nint> _StringAttributesOffset = new(() => Schema.GetOffset(0xA8F700973452D511), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<MaterialParamString_t> StringAttributes {
-    get => ref _Handle.AsRef<CUtlVector<MaterialParamString_t>>(Schema.GetOffset(0xA8F700973452D511));
+    get => ref _Handle.AsRef<CUtlVector<MaterialParamString_t>>(_StringAttributesOffset.Value);
   }
+  private static readonly Lazy<nint> _RenderAttributesUsedOffset = new(() => Schema.GetOffset(0xA8F700979CB01DD9), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> RenderAttributesUsed {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0xA8F700979CB01DD9));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_RenderAttributesUsedOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CRagdollUpdateNodeImpl : CUnaryUpdateNodeImpl, CRagdollUp
   public CRagdollUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WeightListIndexOffset = new(() => Schema.GetOffset(0xB7502AF030288377), LazyThreadSafetyMode.None);
+
   public ref int WeightListIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB7502AF030288377));
+    get => ref _Handle.AsRef<int>(_WeightListIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _PoseControlMethodOffset = new(() => Schema.GetOffset(0xB7502AF088DA12AC), LazyThreadSafetyMode.None);
+
   public ref RagdollPoseControl PoseControlMethod {
-    get => ref _Handle.AsRef<RagdollPoseControl>(Schema.GetOffset(0xB7502AF088DA12AC));
+    get => ref _Handle.AsRef<RagdollPoseControl>(_PoseControlMethodOffset.Value);
   }
 
 

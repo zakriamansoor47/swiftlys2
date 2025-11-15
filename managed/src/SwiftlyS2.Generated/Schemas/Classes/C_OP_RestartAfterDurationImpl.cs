@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_RestartAfterDurationImpl : CParticleFunctionOperator
   public C_OP_RestartAfterDurationImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DurationMinOffset = new(() => Schema.GetOffset(0x3F8C903A5D25DBDD), LazyThreadSafetyMode.None);
+
   public ref float DurationMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3F8C903A5D25DBDD));
+    get => ref _Handle.AsRef<float>(_DurationMinOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationMaxOffset = new(() => Schema.GetOffset(0x3F8C903A671263E3), LazyThreadSafetyMode.None);
+
   public ref float DurationMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3F8C903A671263E3));
+    get => ref _Handle.AsRef<float>(_DurationMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x3F8C903AEB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3F8C903AEB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _CPFieldOffset = new(() => Schema.GetOffset(0x3F8C903A50B79876), LazyThreadSafetyMode.None);
+
   public ref int CPField {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3F8C903A50B79876));
+    get => ref _Handle.AsRef<int>(_CPFieldOffset.Value);
   }
+  private static readonly Lazy<nint> _ChildGroupIDOffset = new(() => Schema.GetOffset(0x3F8C903AE3F3C965), LazyThreadSafetyMode.None);
+
   public ref int ChildGroupID {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3F8C903AE3F3C965));
+    get => ref _Handle.AsRef<int>(_ChildGroupIDOffset.Value);
   }
+  private static readonly Lazy<nint> _OnlyChildrenOffset = new(() => Schema.GetOffset(0x3F8C903AD53575B0), LazyThreadSafetyMode.None);
+
   public ref bool OnlyChildren {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3F8C903AD53575B0));
+    get => ref _Handle.AsRef<bool>(_OnlyChildrenOffset.Value);
   }
 
 

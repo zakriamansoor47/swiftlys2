@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CLogicAchievementImpl : CLogicalEntityImpl, CLogicAchieve
   public CLogicAchievementImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0xE8C4579F3A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE8C4579F3A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _AchievementEventIDOffset = new(() => Schema.GetOffset(0xE8C4579F12AB7E15), LazyThreadSafetyMode.None);
+
   public string AchievementEventID {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xE8C4579F12AB7E15));
+      var ptr = _Handle.Read<nint>(_AchievementEventIDOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xE8C4579F12AB7E15, value);
+    set => Schema.SetString(_Handle, _AchievementEventIDOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _OnFiredOffset = new(() => Schema.GetOffset(0xE8C4579F84825730), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnFired {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xE8C4579F84825730));
+    get => new CEntityIOOutputImpl(_Handle + _OnFiredOffset.Value);
   }
 
 

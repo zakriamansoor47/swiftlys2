@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,14 +20,20 @@ internal partial class FeHingeLimitBuild_tImpl : SchemaClass, FeHingeLimitBuild_
   public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x50E120ADCD6694B9, 6, 2, 2);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0x50E120ADB8D52E48), LazyThreadSafetyMode.None);
+
   public ref uint Flags {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x50E120ADB8D52E48));
+    get => ref _Handle.AsRef<uint>(_FlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _LimitCWOffset = new(() => Schema.GetOffset(0x50E120ADC3D20C44), LazyThreadSafetyMode.None);
+
   public ref float LimitCW {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x50E120ADC3D20C44));
+    get => ref _Handle.AsRef<float>(_LimitCWOffset.Value);
   }
+  private static readonly Lazy<nint> _LimitCCWOffset = new(() => Schema.GetOffset(0x50E120ADA6C794ED), LazyThreadSafetyMode.None);
+
   public ref float LimitCCW {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x50E120ADA6C794ED));
+    get => ref _Handle.AsRef<float>(_LimitCCWOffset.Value);
   }
 
 

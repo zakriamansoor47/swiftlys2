@@ -74,6 +74,8 @@ uint64_t g_uCreatedConCommandId = 0;
 
 IVFunctionHook* g_pProcessRespondCvarValueHook = nullptr;
 
+extern INetworkMessages* networkMessages;
+
 class CConvarListener : public IConVarListener
 {
     virtual void OnConVarCreated(ConVarRefAbstract* pNewCvar) override
@@ -146,8 +148,7 @@ void CConvarManager::Shutdown()
 
 void CConvarManager::QueryClientConvar(int playerid, std::string cvar_name)
 {
-    auto networkMessages = g_ifaceService.FetchInterface<INetworkMessages>(NETWORKMESSAGES_INTERFACE_VERSION);
-    auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
+    static auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
 
     auto netmsg = networkMessages->FindNetworkMessagePartial("GetCvarValue");
     auto msg = netmsg->AllocateMessage()->ToPB<CSVCMsg_GetCvarValue>();
@@ -496,17 +497,16 @@ void CConvarManager::SetConvarValue(std::string cvar_name, ConvarValue value)
     cvar.SetString(CUtlString(v_str.c_str()), server);
 }
 
-void CConvarManager::SetClientConvar(int playerid, std::string cvar_name, ConvarValue value)
+void CConvarManager::SetClientConvar(int playerid, const std::string& cvar_name, const std::string& value)
 {
-    auto networkMessages = g_ifaceService.FetchInterface<INetworkMessages>(NETWORKMESSAGES_INTERFACE_VERSION);
-    auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
+    static auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
 
-    auto netmsg = networkMessages->FindNetworkMessagePartial("SetConVar");
+    const auto netmsg = networkMessages->FindNetworkMessagePartial("SetConVar");
     auto msg = netmsg->AllocateMessage()->ToPB<CNETMsg_SetConVar>();
 
     CMsg_CVars_CVar* cvar = msg->mutable_convars()->add_cvars();
     cvar->set_name(cvar_name);
-    cvar->set_value(ConvertConvarValueToString(value));
+    cvar->set_value(value);
 
     CSingleRecipientFilter filter(playerid);
     gameEventSystem->PostEventAbstract(-1, false, &filter, netmsg, msg, 0);

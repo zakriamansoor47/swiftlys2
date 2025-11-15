@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,35 +17,55 @@ internal partial class VMixDynamicsBand_tImpl : SchemaClass, VMixDynamicsBand_t 
   public VMixDynamicsBand_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FldbGainInputOffset = new(() => Schema.GetOffset(0xC3A63113E9F143B6), LazyThreadSafetyMode.None);
+
   public ref float FldbGainInput {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A63113E9F143B6));
+    get => ref _Handle.AsRef<float>(_FldbGainInputOffset.Value);
   }
+  private static readonly Lazy<nint> _FldbGainOutputOffset = new(() => Schema.GetOffset(0xC3A63113FC3C16D3), LazyThreadSafetyMode.None);
+
   public ref float FldbGainOutput {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A63113FC3C16D3));
+    get => ref _Handle.AsRef<float>(_FldbGainOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _FldbThresholdBelowOffset = new(() => Schema.GetOffset(0xC3A6311311693729), LazyThreadSafetyMode.None);
+
   public ref float FldbThresholdBelow {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A6311311693729));
+    get => ref _Handle.AsRef<float>(_FldbThresholdBelowOffset.Value);
   }
+  private static readonly Lazy<nint> _FldbThresholdAboveOffset = new(() => Schema.GetOffset(0xC3A631134516A525), LazyThreadSafetyMode.None);
+
   public ref float FldbThresholdAbove {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A631134516A525));
+    get => ref _Handle.AsRef<float>(_FldbThresholdAboveOffset.Value);
   }
+  private static readonly Lazy<nint> _RatioBelowOffset = new(() => Schema.GetOffset(0xC3A63113560F0E57), LazyThreadSafetyMode.None);
+
   public ref float RatioBelow {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A63113560F0E57));
+    get => ref _Handle.AsRef<float>(_RatioBelowOffset.Value);
   }
+  private static readonly Lazy<nint> _RatioAboveOffset = new(() => Schema.GetOffset(0xC3A631139E701FCB), LazyThreadSafetyMode.None);
+
   public ref float RatioAbove {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A631139E701FCB));
+    get => ref _Handle.AsRef<float>(_RatioAboveOffset.Value);
   }
+  private static readonly Lazy<nint> _AttackTimeMSOffset = new(() => Schema.GetOffset(0xC3A63113D4A28216), LazyThreadSafetyMode.None);
+
   public ref float AttackTimeMS {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A63113D4A28216));
+    get => ref _Handle.AsRef<float>(_AttackTimeMSOffset.Value);
   }
+  private static readonly Lazy<nint> _ReleaseTimeMSOffset = new(() => Schema.GetOffset(0xC3A63113EBB62791), LazyThreadSafetyMode.None);
+
   public ref float ReleaseTimeMS {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xC3A63113EBB62791));
+    get => ref _Handle.AsRef<float>(_ReleaseTimeMSOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableOffset = new(() => Schema.GetOffset(0xC3A6311313C00D2E), LazyThreadSafetyMode.None);
+
   public ref bool Enable {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC3A6311313C00D2E));
+    get => ref _Handle.AsRef<bool>(_EnableOffset.Value);
   }
+  private static readonly Lazy<nint> _SoloOffset = new(() => Schema.GetOffset(0xC3A63113CF623EAA), LazyThreadSafetyMode.None);
+
   public ref bool Solo {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC3A63113CF623EAA));
+    get => ref _Handle.AsRef<bool>(_SoloOffset.Value);
   }
 
 

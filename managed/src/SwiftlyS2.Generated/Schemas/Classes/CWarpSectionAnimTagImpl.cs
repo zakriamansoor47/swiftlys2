@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CWarpSectionAnimTagImpl : CWarpSectionAnimTagBaseImpl, CW
   public CWarpSectionAnimTagImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WarpPositionOffset = new(() => Schema.GetOffset(0x4C7992E6A30D730C), LazyThreadSafetyMode.None);
+
   public ref bool WarpPosition {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4C7992E6A30D730C));
+    get => ref _Handle.AsRef<bool>(_WarpPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _WarpOrientationOffset = new(() => Schema.GetOffset(0x4C7992E6613873F3), LazyThreadSafetyMode.None);
+
   public ref bool WarpOrientation {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4C7992E6613873F3));
+    get => ref _Handle.AsRef<bool>(_WarpOrientationOffset.Value);
   }
 
 

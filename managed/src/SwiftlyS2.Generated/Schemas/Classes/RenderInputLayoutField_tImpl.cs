@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,31 +17,43 @@ internal partial class RenderInputLayoutField_tImpl : SchemaClass, RenderInputLa
   public RenderInputLayoutField_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SemanticNameOffset = new(() => Schema.GetOffset(0x752C88F08F25E44C), LazyThreadSafetyMode.None);
+
   public string SemanticName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x752C88F08F25E44C);
+      var ptr = _Handle + _SemanticNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x752C88F08F25E44C, value, 32);
+    set => Schema.SetFixedString(_Handle, _SemanticNameOffset.Value, value, 32);
   } 
+  private static readonly Lazy<nint> _SemanticIndexOffset = new(() => Schema.GetOffset(0x752C88F0AAC99783), LazyThreadSafetyMode.None);
+
   public ref byte SemanticIndex {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x752C88F0AAC99783));
+    get => ref _Handle.AsRef<byte>(_SemanticIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0x752C88F027734C8E), LazyThreadSafetyMode.None);
+
   public ref short Offset {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x752C88F027734C8E));
+    get => ref _Handle.AsRef<short>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _SlotOffset = new(() => Schema.GetOffset(0x752C88F08A37D215), LazyThreadSafetyMode.None);
+
   public ref byte Slot {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x752C88F08A37D215));
+    get => ref _Handle.AsRef<byte>(_SlotOffset.Value);
   }
+  private static readonly Lazy<nint> _SlotTypeOffset = new(() => Schema.GetOffset(0x752C88F05072B95D), LazyThreadSafetyMode.None);
+
   public ref RenderSlotType_t SlotType {
-    get => ref _Handle.AsRef<RenderSlotType_t>(Schema.GetOffset(0x752C88F05072B95D));
+    get => ref _Handle.AsRef<RenderSlotType_t>(_SlotTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _ShaderSemanticOffset = new(() => Schema.GetOffset(0x752C88F0897CAA95), LazyThreadSafetyMode.None);
+
   public string ShaderSemantic {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x752C88F0897CAA95);
+      var ptr = _Handle + _ShaderSemanticOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x752C88F0897CAA95, value, 32);
+    set => Schema.SetFixedString(_Handle, _ShaderSemanticOffset.Value, value, 32);
   } 
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CTriggerImpactImpl : CTriggerMultipleImpl, CTriggerImpact
   public CTriggerImpactImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MagnitudeOffset = new(() => Schema.GetOffset(0x2A6A2B48ED0A1D8B), LazyThreadSafetyMode.None);
+
   public ref float Magnitude {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2A6A2B48ED0A1D8B));
+    get => ref _Handle.AsRef<float>(_MagnitudeOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseOffset = new(() => Schema.GetOffset(0x2A6A2B48C0E47FDB), LazyThreadSafetyMode.None);
+
   public ref float Noise {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2A6A2B48C0E47FDB));
+    get => ref _Handle.AsRef<float>(_NoiseOffset.Value);
   }
+  private static readonly Lazy<nint> _ViewkickOffset = new(() => Schema.GetOffset(0x2A6A2B48C8BC3FC4), LazyThreadSafetyMode.None);
+
   public ref float Viewkick {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x2A6A2B48C8BC3FC4));
+    get => ref _Handle.AsRef<float>(_ViewkickOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputForceOffset = new(() => Schema.GetOffset(0x2A6A2B488653AFA9), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField OutputForce {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x2A6A2B488653AFA9));
+    get => new SchemaUntypedField(_Handle + _OutputForceOffset.Value);
   }
 
 

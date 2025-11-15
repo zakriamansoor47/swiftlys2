@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_SetControlPointOrientationToCPVelocityImpl : CPartic
   public C_OP_SetControlPointOrientationToCPVelocityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPInputOffset = new(() => Schema.GetOffset(0x8FFC9885FB805736), LazyThreadSafetyMode.None);
+
   public ref int CPInput {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8FFC9885FB805736));
+    get => ref _Handle.AsRef<int>(_CPInputOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOutputOffset = new(() => Schema.GetOffset(0x8FFC98852077C953), LazyThreadSafetyMode.None);
+
   public ref int CPOutput {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8FFC98852077C953));
+    get => ref _Handle.AsRef<int>(_CPOutputOffset.Value);
   }
 
 

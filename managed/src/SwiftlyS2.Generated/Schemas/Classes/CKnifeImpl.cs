@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CKnifeImpl : CCSWeaponBaseImpl, CKnife {
   public CKnifeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FirstAttackOffset = new(() => Schema.GetOffset(0x2551A83B441D83D9), LazyThreadSafetyMode.None);
+
   public ref bool FirstAttack {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x2551A83B441D83D9));
+    get => ref _Handle.AsRef<bool>(_FirstAttackOffset.Value);
   }
 
   public void FirstAttackUpdated() {

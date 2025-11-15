@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,27 +17,39 @@ internal partial class CGameRulesImpl : SchemaClass, CGameRules {
   public CGameRulesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> ___m_pChainEntityOffset = new(() => Schema.GetOffset(0x4807DA77F63F0E7D), LazyThreadSafetyMode.None);
+
   public ref CNetworkVarChainer __m_pChainEntity {
-    get => ref _Handle.AsRef<CNetworkVarChainer>(Schema.GetOffset(0x4807DA77F63F0E7D));
+    get => ref _Handle.AsRef<CNetworkVarChainer>(___m_pChainEntityOffset.Value);
   }
+  private static readonly Lazy<nint> _QuestNameOffset = new(() => Schema.GetOffset(0x4807DA7748F621A1), LazyThreadSafetyMode.None);
+
   public string QuestName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x4807DA7748F621A1);
+      var ptr = _Handle + _QuestNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x4807DA7748F621A1, value, 128);
+    set => Schema.SetFixedString(_Handle, _QuestNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _QuestPhaseOffset = new(() => Schema.GetOffset(0x4807DA77335693EC), LazyThreadSafetyMode.None);
+
   public ref int QuestPhase {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4807DA77335693EC));
+    get => ref _Handle.AsRef<int>(_QuestPhaseOffset.Value);
   }
+  private static readonly Lazy<nint> _TotalPausedTicksOffset = new(() => Schema.GetOffset(0x4807DA7723281397), LazyThreadSafetyMode.None);
+
   public ref int TotalPausedTicks {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4807DA7723281397));
+    get => ref _Handle.AsRef<int>(_TotalPausedTicksOffset.Value);
   }
+  private static readonly Lazy<nint> _PauseStartTickOffset = new(() => Schema.GetOffset(0x4807DA77E64EC54A), LazyThreadSafetyMode.None);
+
   public ref int PauseStartTick {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4807DA77E64EC54A));
+    get => ref _Handle.AsRef<int>(_PauseStartTickOffset.Value);
   }
+  private static readonly Lazy<nint> _GamePausedOffset = new(() => Schema.GetOffset(0x4807DA77582909A9), LazyThreadSafetyMode.None);
+
   public ref bool GamePaused {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4807DA77582909A9));
+    get => ref _Handle.AsRef<bool>(_GamePausedOffset.Value);
   }
 
   public void TotalPausedTicksUpdated() {

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CPulseRuntimeMethodArgImpl : SchemaClass, CPulseRuntimeMe
   public CPulseRuntimeMethodArgImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0xA8B175BCCAE8A266), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Name {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA8B175BCCAE8A266));
+    get => new SchemaUntypedField(_Handle + _NameOffset.Value);
   }
+  private static readonly Lazy<nint> _DescriptionOffset = new(() => Schema.GetOffset(0xA8B175BC678744E9), LazyThreadSafetyMode.None);
+
   public string Description {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA8B175BC678744E9));
+      var ptr = _Handle.Read<nint>(_DescriptionOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xA8B175BC678744E9, value);
+    set => Schema.SetString(_Handle, _DescriptionOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0xA8B175BC8ED6D5CD), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Type {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xA8B175BC8ED6D5CD));
+    get => new SchemaUntypedField(_Handle + _TypeOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,19 +17,23 @@ internal partial class CFootstepControlImpl : CBaseTriggerImpl, CFootstepControl
   public CFootstepControlImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceOffset = new(() => Schema.GetOffset(0x85B34315D0835C78), LazyThreadSafetyMode.None);
+
   public string Source {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x85B34315D0835C78));
+      var ptr = _Handle.Read<nint>(_SourceOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x85B34315D0835C78, value);
+    set => Schema.SetString(_Handle, _SourceOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _DestinationOffset = new(() => Schema.GetOffset(0x85B343156E5C12DF), LazyThreadSafetyMode.None);
+
   public string Destination {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x85B343156E5C12DF));
+      var ptr = _Handle.Read<nint>(_DestinationOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x85B343156E5C12DF, value);
+    set => Schema.SetString(_Handle, _DestinationOffset.Value, value);
   } 
 
   public void SourceUpdated() {

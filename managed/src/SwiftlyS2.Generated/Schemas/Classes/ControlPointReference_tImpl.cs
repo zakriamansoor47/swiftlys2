@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class ControlPointReference_tImpl : SchemaClass, ControlPointRe
   public ControlPointReference_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNameStringOffset = new(() => Schema.GetOffset(0x83CD020625F4E2B6), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNameString {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x83CD020625F4E2B6));
+    get => ref _Handle.AsRef<int>(_ControlPointNameStringOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetFromControlPointOffset = new(() => Schema.GetOffset(0x83CD0206C9E39FFF), LazyThreadSafetyMode.None);
+
   public ref Vector OffsetFromControlPoint {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x83CD0206C9E39FFF));
+    get => ref _Handle.AsRef<Vector>(_OffsetFromControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetInLocalSpaceOffset = new(() => Schema.GetOffset(0x83CD02064ADEF5FE), LazyThreadSafetyMode.None);
+
   public ref bool OffsetInLocalSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x83CD02064ADEF5FE));
+    get => ref _Handle.AsRef<bool>(_OffsetInLocalSpaceOffset.Value);
   }
 
 

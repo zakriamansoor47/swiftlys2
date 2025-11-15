@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class SkeletonDemoDb_tImpl : SchemaClass, SkeletonDemoDb_t {
   public SkeletonDemoDb_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AnimCapturesOffset = new(() => Schema.GetOffset(0xF4F5DA643E069D13), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointerTo<SkeletonAnimCapture_t>> AnimCaptures {
-    get => ref _Handle.AsRef<CUtlVector<PointerTo<SkeletonAnimCapture_t>>>(Schema.GetOffset(0xF4F5DA643E069D13));
+    get => ref _Handle.AsRef<CUtlVector<PointerTo<SkeletonAnimCapture_t>>>(_AnimCapturesOffset.Value);
   }
+  private static readonly Lazy<nint> _CameraTrackOffset = new(() => Schema.GetOffset(0xF4F5DA64EFF0F8DD), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<SkeletonAnimCapture_t__Camera_t> CameraTrack {
-    get => ref _Handle.AsRef<CUtlVector<SkeletonAnimCapture_t__Camera_t>>(Schema.GetOffset(0xF4F5DA64EFF0F8DD));
+    get => ref _Handle.AsRef<CUtlVector<SkeletonAnimCapture_t__Camera_t>>(_CameraTrackOffset.Value);
   }
+  private static readonly Lazy<nint> _RecordingTimeOffset = new(() => Schema.GetOffset(0xF4F5DA64D29049CB), LazyThreadSafetyMode.None);
+
   public ref float RecordingTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF4F5DA64D29049CB));
+    get => ref _Handle.AsRef<float>(_RecordingTimeOffset.Value);
   }
 
 

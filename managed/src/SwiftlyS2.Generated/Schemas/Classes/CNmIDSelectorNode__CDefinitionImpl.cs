@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmIDSelectorNode__CDefinitionImpl : CNmIDValueNode__CDef
   public CNmIDSelectorNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConditionNodeIndicesOffset = new(() => Schema.GetOffset(0x23876114A144D0F), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ConditionNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x23876114A144D0F));
+    get => new SchemaUntypedField(_Handle + _ConditionNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _ValuesOffset = new(() => Schema.GetOffset(0x2387611FBEDDADB), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Values {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x2387611FBEDDADB));
+    get => new SchemaUntypedField(_Handle + _ValuesOffset.Value);
   }
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0x2387611BBE0341F), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol DefaultValue {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x2387611BBE0341F));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_DefaultValueOffset.Value);
   }
 
 

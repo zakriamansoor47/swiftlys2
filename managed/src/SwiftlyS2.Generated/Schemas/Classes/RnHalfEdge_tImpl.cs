@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class RnHalfEdge_tImpl : SchemaClass, RnHalfEdge_t {
   public RnHalfEdge_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NextOffset = new(() => Schema.GetOffset(0xB67DE42E8D575D9C), LazyThreadSafetyMode.None);
+
   public ref byte Next {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xB67DE42E8D575D9C));
+    get => ref _Handle.AsRef<byte>(_NextOffset.Value);
   }
+  private static readonly Lazy<nint> _TwinOffset = new(() => Schema.GetOffset(0xB67DE42EF8C9A257), LazyThreadSafetyMode.None);
+
   public ref byte Twin {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xB67DE42EF8C9A257));
+    get => ref _Handle.AsRef<byte>(_TwinOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginOffset = new(() => Schema.GetOffset(0xB67DE42E57B6C543), LazyThreadSafetyMode.None);
+
   public ref byte Origin {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xB67DE42E57B6C543));
+    get => ref _Handle.AsRef<byte>(_OriginOffset.Value);
   }
+  private static readonly Lazy<nint> _FaceOffset = new(() => Schema.GetOffset(0xB67DE42EABBCFB38), LazyThreadSafetyMode.None);
+
   public ref byte Face {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xB67DE42EABBCFB38));
+    get => ref _Handle.AsRef<byte>(_FaceOffset.Value);
   }
 
 

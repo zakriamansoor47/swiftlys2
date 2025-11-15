@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CBaseFlexImpl : CBaseAnimGraphImpl, CBaseFlex {
   public CBaseFlexImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FlexWeightOffset = new(() => Schema.GetOffset(0xEE4FEF48AB868EDA), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> FlexWeight {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0xEE4FEF48AB868EDA));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_FlexWeightOffset.Value);
   }
+  private static readonly Lazy<nint> _LookTargetPositionOffset = new(() => Schema.GetOffset(0xEE4FEF480DCD7B00), LazyThreadSafetyMode.None);
+
   public ref Vector LookTargetPosition {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xEE4FEF480DCD7B00));
+    get => ref _Handle.AsRef<Vector>(_LookTargetPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _BlinktoggleOffset = new(() => Schema.GetOffset(0xEE4FEF48CA230309), LazyThreadSafetyMode.None);
+
   public ref bool Blinktoggle {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEE4FEF48CA230309));
+    get => ref _Handle.AsRef<bool>(_BlinktoggleOffset.Value);
   }
+  private static readonly Lazy<nint> _AllowResponsesEndTimeOffset = new(() => Schema.GetOffset(0xEE4FEF4858EB0248), LazyThreadSafetyMode.None);
+
   public GameTime_t AllowResponsesEndTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xEE4FEF4858EB0248));
+    get => new GameTime_tImpl(_Handle + _AllowResponsesEndTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _LastFlexAnimationTimeOffset = new(() => Schema.GetOffset(0xEE4FEF48D5ADEDFF), LazyThreadSafetyMode.None);
+
   public GameTime_t LastFlexAnimationTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xEE4FEF48D5ADEDFF));
+    get => new GameTime_tImpl(_Handle + _LastFlexAnimationTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _NextSceneEventIdOffset = new(() => Schema.GetOffset(0xEE4FEF483756F461), LazyThreadSafetyMode.None);
+
   public SceneEventId_t NextSceneEventId {
-    get => new SceneEventId_tImpl(_Handle + Schema.GetOffset(0xEE4FEF483756F461));
+    get => new SceneEventId_tImpl(_Handle + _NextSceneEventIdOffset.Value);
   }
+  private static readonly Lazy<nint> _UpdateLayerPrioritiesOffset = new(() => Schema.GetOffset(0xEE4FEF48446AC3B9), LazyThreadSafetyMode.None);
+
   public ref bool UpdateLayerPriorities {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEE4FEF48446AC3B9));
+    get => ref _Handle.AsRef<bool>(_UpdateLayerPrioritiesOffset.Value);
   }
 
   public void FlexWeightUpdated() {

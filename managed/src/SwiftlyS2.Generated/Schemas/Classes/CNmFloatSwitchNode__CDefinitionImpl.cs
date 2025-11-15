@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmFloatSwitchNode__CDefinitionImpl : CNmFloatValueNode__
   public CNmFloatSwitchNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SwitchValueNodeIdxOffset = new(() => Schema.GetOffset(0x6D97CCCD7FBD7561), LazyThreadSafetyMode.None);
+
   public ref short SwitchValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x6D97CCCD7FBD7561));
+    get => ref _Handle.AsRef<short>(_SwitchValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _TrueValueNodeIdxOffset = new(() => Schema.GetOffset(0x6D97CCCDFDE74365), LazyThreadSafetyMode.None);
+
   public ref short TrueValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x6D97CCCDFDE74365));
+    get => ref _Handle.AsRef<short>(_TrueValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _FalseValueNodeIdxOffset = new(() => Schema.GetOffset(0x6D97CCCD8DBA2C78), LazyThreadSafetyMode.None);
+
   public ref short FalseValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x6D97CCCD8DBA2C78));
+    get => ref _Handle.AsRef<short>(_FalseValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _FalseValueOffset = new(() => Schema.GetOffset(0x6D97CCCD5C87DE2F), LazyThreadSafetyMode.None);
+
   public ref float FalseValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6D97CCCD5C87DE2F));
+    get => ref _Handle.AsRef<float>(_FalseValueOffset.Value);
   }
+  private static readonly Lazy<nint> _TrueValueOffset = new(() => Schema.GetOffset(0x6D97CCCD28CBA8A0), LazyThreadSafetyMode.None);
+
   public ref float TrueValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6D97CCCD28CBA8A0));
+    get => ref _Handle.AsRef<float>(_TrueValueOffset.Value);
   }
 
 

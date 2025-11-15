@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,60 @@ internal partial class C_OP_CylindricalDistanceToTransformImpl : CParticleFuncti
   public C_OP_CylindricalDistanceToTransformImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x3B99017E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x3B99017E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMinOffset = new(() => Schema.GetOffset(0x3B99017E88A0D0F), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputMin {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x3B99017E88A0D0F));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _InputMaxOffset = new(() => Schema.GetOffset(0x3B99017D6766901), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput InputMax {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x3B99017D6766901));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0x3B990175F8D7716), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput OutputMin {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x3B990175F8D7716));
+    get => new CPerParticleFloatInputImpl(_Handle + _OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0x3B9901751A0E8C4), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput OutputMax {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x3B9901751A0E8C4));
+    get => new CPerParticleFloatInputImpl(_Handle + _OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformStartOffset = new(() => Schema.GetOffset(0x3B99017D94FA7F9), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformStart {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0x3B99017D94FA7F9));
+    get => new CParticleTransformInputImpl(_Handle + _TransformStartOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformEndOffset = new(() => Schema.GetOffset(0x3B990170C3277C8), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformEnd {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0x3B990170C3277C8));
+    get => new CParticleTransformInputImpl(_Handle + _TransformEndOffset.Value);
   }
+  private static readonly Lazy<nint> _SetMethodOffset = new(() => Schema.GetOffset(0x3B99017FB53C31E), LazyThreadSafetyMode.None);
+
   public ref ParticleSetMethod_t SetMethod {
-    get => ref _Handle.AsRef<ParticleSetMethod_t>(Schema.GetOffset(0x3B99017FB53C31E));
+    get => ref _Handle.AsRef<ParticleSetMethod_t>(_SetMethodOffset.Value);
   }
+  private static readonly Lazy<nint> _ActiveRangeOffset = new(() => Schema.GetOffset(0x3B990173FA53B84), LazyThreadSafetyMode.None);
+
   public ref bool ActiveRange {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3B990173FA53B84));
+    get => ref _Handle.AsRef<bool>(_ActiveRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _AdditiveOffset = new(() => Schema.GetOffset(0x3B990170FA86105), LazyThreadSafetyMode.None);
+
   public ref bool Additive {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3B990170FA86105));
+    get => ref _Handle.AsRef<bool>(_AdditiveOffset.Value);
   }
+  private static readonly Lazy<nint> _CapsuleOffset = new(() => Schema.GetOffset(0x3B99017F8D8D1AC), LazyThreadSafetyMode.None);
+
   public ref bool Capsule {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3B99017F8D8D1AC));
+    get => ref _Handle.AsRef<bool>(_CapsuleOffset.Value);
   }
 
 

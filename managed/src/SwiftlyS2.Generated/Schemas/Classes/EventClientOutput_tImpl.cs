@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class EventClientOutput_tImpl : SchemaClass, EventClientOutput_
   public EventClientOutput_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LoopStateOffset = new(() => Schema.GetOffset(0xDC610E16F928A2EC), LazyThreadSafetyMode.None);
+
   public EngineLoopState_t LoopState {
-    get => new EngineLoopState_tImpl(_Handle + Schema.GetOffset(0xDC610E16F928A2EC));
+    get => new EngineLoopState_tImpl(_Handle + _LoopStateOffset.Value);
   }
+  private static readonly Lazy<nint> _RenderTimeOffset = new(() => Schema.GetOffset(0xDC610E163C2AE65A), LazyThreadSafetyMode.None);
+
   public ref float RenderTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDC610E163C2AE65A));
+    get => ref _Handle.AsRef<float>(_RenderTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _RealTimeOffset = new(() => Schema.GetOffset(0xDC610E161168EC02), LazyThreadSafetyMode.None);
+
   public ref float RealTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDC610E161168EC02));
+    get => ref _Handle.AsRef<float>(_RealTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _RenderFrameTimeUnboundedOffset = new(() => Schema.GetOffset(0xDC610E16735692FF), LazyThreadSafetyMode.None);
+
   public ref float RenderFrameTimeUnbounded {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xDC610E16735692FF));
+    get => ref _Handle.AsRef<float>(_RenderFrameTimeUnboundedOffset.Value);
   }
+  private static readonly Lazy<nint> _RenderOnlyOffset = new(() => Schema.GetOffset(0xDC610E16E274559F), LazyThreadSafetyMode.None);
+
   public ref bool RenderOnly {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xDC610E16E274559F));
+    get => ref _Handle.AsRef<bool>(_RenderOnlyOffset.Value);
   }
 
 

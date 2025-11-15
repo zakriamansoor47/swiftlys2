@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimGraphControllerBaseImpl : SchemaClass, CAnimGraphCon
   public CAnimGraphControllerBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParamsToResetInPostGraphUpdateOffset = new(() => Schema.GetOffset(0x1AA25B60A3E3A289), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ParamsToResetInPostGraphUpdate {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x1AA25B60A3E3A289));
+    get => new SchemaUntypedField(_Handle + _ParamsToResetInPostGraphUpdateOffset.Value);
   }
 
 

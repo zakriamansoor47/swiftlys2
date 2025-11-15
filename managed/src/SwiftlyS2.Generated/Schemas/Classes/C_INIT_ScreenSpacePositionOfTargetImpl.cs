@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_INIT_ScreenSpacePositionOfTargetImpl : CParticleFunctio
   public C_INIT_ScreenSpacePositionOfTargetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetPositionOffset = new(() => Schema.GetOffset(0xBA53E3F7554C563B), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput TargetPosition {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xBA53E3F7554C563B));
+    get => new CPerParticleVecInputImpl(_Handle + _TargetPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _OututBehindnessOffset = new(() => Schema.GetOffset(0xBA53E3F7DB123D49), LazyThreadSafetyMode.None);
+
   public ref bool OututBehindness {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBA53E3F7DB123D49));
+    get => ref _Handle.AsRef<bool>(_OututBehindnessOffset.Value);
   }
+  private static readonly Lazy<nint> _BehindFieldOutputOffset = new(() => Schema.GetOffset(0xBA53E3F769F4F392), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t BehindFieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xBA53E3F769F4F392));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _BehindFieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _BehindOutputRemapOffset = new(() => Schema.GetOffset(0xBA53E3F74B35FBF3), LazyThreadSafetyMode.None);
+
   public CParticleRemapFloatInput BehindOutputRemap {
-    get => new CParticleRemapFloatInputImpl(_Handle + Schema.GetOffset(0xBA53E3F74B35FBF3));
+    get => new CParticleRemapFloatInputImpl(_Handle + _BehindOutputRemapOffset.Value);
   }
 
 

@@ -8,7 +8,8 @@ using SwiftlyS2.Shared.Permissions;
 
 namespace SwiftlyS2.Core.Permissions;
 
-internal class PermissionManager : IPermissionManager {
+internal class PermissionManager : IPermissionManager
+{
 
   private Dictionary<ulong, List<string>> _playerPermissions = new();
   private Dictionary<ulong, List<string>> _temporaryPlayerPermissions = new();
@@ -18,23 +19,30 @@ internal class PermissionManager : IPermissionManager {
   private ImmutableDictionary<PermissionCacheKey, bool> _queryCache = ImmutableDictionary.Create<PermissionCacheKey, bool>();
   private object _lock = new();
 
-  public PermissionManager(IOptionsMonitor<PermissionConfig> options, ILogger<PermissionManager> logger) {
+  public PermissionManager( IOptionsMonitor<PermissionConfig> options, ILogger<PermissionManager> logger )
+  {
     LoadPermissions(options.CurrentValue);
 
-    options.OnChange((config) => {
-      try {
+    options.OnChange(( config ) =>
+    {
+      try
+      {
         logger.LogInformation("Permission config changed, reloading...");
         LoadPermissions(config);
         logger.LogInformation("Permission config reloaded.");
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
+        if (!GlobalExceptionHandler.Handle(e)) return;
         logger.LogError(e, "Error reloading permission config.");
       }
     });
-  } 
+  }
 
-  private void LoadPermissions(PermissionConfig config)
+  private void LoadPermissions( PermissionConfig config )
   {
-    lock(_lock) {
+    lock (_lock)
+    {
       _queryCache = _queryCache.Clear();
       _defaultPermissions = config.PermissionGroups.ContainsKey("__default") ? config.PermissionGroups["__default"] : [];
       _playerPermissions = config.Players.ToDictionary(x => ulong.Parse(x.Key), x => x.Value);
@@ -42,14 +50,17 @@ internal class PermissionManager : IPermissionManager {
     }
   }
 
-  private List<string> GetPlayerPermissions(ulong playerId) {
+  private List<string> GetPlayerPermissions( ulong playerId )
+  {
     List<string> permissions = new();
 
-    if(_playerPermissions.TryGetValue(playerId, out var playerPermission)) {
+    if (_playerPermissions.TryGetValue(playerId, out var playerPermission))
+    {
       permissions.AddRange(playerPermission);
     }
 
-    if(_temporaryPlayerPermissions.TryGetValue(playerId, out var temporaryPermissions)) {
+    if (_temporaryPlayerPermissions.TryGetValue(playerId, out var temporaryPermissions))
+    {
       permissions.AddRange(temporaryPermissions);
     }
 
@@ -58,7 +69,8 @@ internal class PermissionManager : IPermissionManager {
     return permissions;
   }
 
-  private Dictionary<string, List<string>> GetSubPermissions() {
+  private Dictionary<string, List<string>> GetSubPermissions()
+  {
     var result = new Dictionary<string, List<string>>();
 
     foreach (var kvp in _subPermissions)
@@ -86,11 +98,14 @@ internal class PermissionManager : IPermissionManager {
     return result;
   }
 
-  private bool IsEqual(string from, string target) {
-    if (from == "*") {
+  private bool IsEqual( string from, string target )
+  {
+    if (from == "*")
+    {
       return true;
     }
-    if (!from.Contains("*")) {
+    if (!from.Contains("*"))
+    {
       return string.Equals(from, target, StringComparison.OrdinalIgnoreCase);
     }
 
@@ -98,21 +113,27 @@ internal class PermissionManager : IPermissionManager {
     return target.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
   }
 
-  private bool HasNestedPermission(string rootPermission, string targetPermission, HashSet<string> visitedPermissions) {
-    if(visitedPermissions.Contains(rootPermission)) {
+  private bool HasNestedPermission( string rootPermission, string targetPermission, HashSet<string> visitedPermissions )
+  {
+    if (visitedPermissions.Contains(rootPermission))
+    {
       AnsiConsole.WriteLine("Loop detected for permission: " + rootPermission);
       return false;
     }
 
     visitedPermissions.Add(rootPermission);
 
-    if(IsEqual(rootPermission, targetPermission)) {
+    if (IsEqual(rootPermission, targetPermission))
+    {
       return true;
     }
 
-    if (GetSubPermissions().TryGetValue(rootPermission, out var subPermissions)) {
-      foreach(var subPermission in subPermissions) {
-        if(HasNestedPermission(subPermission, targetPermission, visitedPermissions)) {
+    if (GetSubPermissions().TryGetValue(rootPermission, out var subPermissions))
+    {
+      foreach (var subPermission in subPermissions)
+      {
+        if (HasNestedPermission(subPermission, targetPermission, visitedPermissions))
+        {
           return true;
         }
       }
@@ -121,13 +142,15 @@ internal class PermissionManager : IPermissionManager {
     return false;
   }
 
-  public bool PlayerHasPermission(ulong playerId, string permission) {
+  public bool PlayerHasPermission( ulong playerId, string permission )
+  {
     var key = new PermissionCacheKey { PlayerId = playerId, Permission = permission };
-    if(_queryCache.TryGetValue(key, out var result)) {
+    if (_queryCache.TryGetValue(key, out var result))
+    {
       return result;
     }
 
-    lock(_lock)
+    lock (_lock)
     {
       var permissions = GetPlayerPermissions(playerId);
 
@@ -158,14 +181,19 @@ internal class PermissionManager : IPermissionManager {
 
   }
 
-  public void AddPermission(ulong playerId, string permission) {
-    lock(_lock) {
-      if (_temporaryPlayerPermissions.TryGetValue(playerId, out var permissions)) {
-        if(!permissions.Contains(permission)) {
+  public void AddPermission( ulong playerId, string permission )
+  {
+    lock (_lock)
+    {
+      if (_temporaryPlayerPermissions.TryGetValue(playerId, out var permissions))
+      {
+        if (!permissions.Contains(permission))
+        {
           permissions.Add(permission);
         }
       }
-      else {
+      else
+      {
         _temporaryPlayerPermissions[playerId] = [permission];
       }
 
@@ -173,10 +201,14 @@ internal class PermissionManager : IPermissionManager {
     }
   }
 
-  public void RemovePermission(ulong playerId, string permission) {
-    lock(_lock) {
-      if (_temporaryPlayerPermissions.TryGetValue(playerId, out var permissions)) {
-        if(permissions.Contains(permission)) {
+  public void RemovePermission( ulong playerId, string permission )
+  {
+    lock (_lock)
+    {
+      if (_temporaryPlayerPermissions.TryGetValue(playerId, out var permissions))
+      {
+        if (permissions.Contains(permission))
+        {
           permissions.Remove(permission);
         }
       }
@@ -185,24 +217,33 @@ internal class PermissionManager : IPermissionManager {
     _queryCache = _queryCache.Clear();
   }
 
-  public void AddSubPermission(string permission, string subPermission) {
-    lock(_lock) {
-      if(_temporarySubPermissions.TryGetValue(permission, out var subPermissions)) {
-        if(!subPermissions.Contains(subPermission)) {
+  public void AddSubPermission( string permission, string subPermission )
+  {
+    lock (_lock)
+    {
+      if (_temporarySubPermissions.TryGetValue(permission, out var subPermissions))
+      {
+        if (!subPermissions.Contains(subPermission))
+        {
           subPermissions.Add(subPermission);
         }
       }
-      else {
+      else
+      {
         _temporarySubPermissions[permission] = [subPermission];
       }
     }
     _queryCache = _queryCache.Clear();
   }
 
-  public void RemoveSubPermission(string permission, string subPermission) {
-    lock(_lock) {
-      if(_temporarySubPermissions.TryGetValue(permission, out var subPermissions)) {
-        if(subPermissions.Contains(subPermission)) {
+  public void RemoveSubPermission( string permission, string subPermission )
+  {
+    lock (_lock)
+    {
+      if (_temporarySubPermissions.TryGetValue(permission, out var subPermissions))
+      {
+        if (subPermissions.Contains(subPermission))
+        {
           subPermissions.Remove(subPermission);
         }
       }

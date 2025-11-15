@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_SetSingleControlPointPositionImpl : CParticleFunctio
   public C_OP_SetSingleControlPointPositionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SetOnceOffset = new(() => Schema.GetOffset(0xFE0B7A4D6B261086), LazyThreadSafetyMode.None);
+
   public ref bool SetOnce {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFE0B7A4D6B261086));
+    get => ref _Handle.AsRef<bool>(_SetOnceOffset.Value);
   }
+  private static readonly Lazy<nint> _CP1Offset = new(() => Schema.GetOffset(0xFE0B7A4DD4B1E579), LazyThreadSafetyMode.None);
+
   public ref int CP1 {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xFE0B7A4DD4B1E579));
+    get => ref _Handle.AsRef<int>(_CP1Offset.Value);
   }
+  private static readonly Lazy<nint> _CP1PosOffset = new(() => Schema.GetOffset(0xFE0B7A4D408288D9), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput CP1Pos {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xFE0B7A4D408288D9));
+    get => new CParticleCollectionVecInputImpl(_Handle + _CP1PosOffset.Value);
   }
+  private static readonly Lazy<nint> _TransformInputOffset = new(() => Schema.GetOffset(0xFE0B7A4D3A9ED669), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformInput {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0xFE0B7A4D3A9ED669));
+    get => new CParticleTransformInputImpl(_Handle + _TransformInputOffset.Value);
   }
 
 

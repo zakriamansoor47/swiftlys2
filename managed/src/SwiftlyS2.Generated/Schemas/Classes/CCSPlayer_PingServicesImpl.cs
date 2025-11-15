@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CCSPlayer_PingServicesImpl : CPlayerPawnComponentImpl, CC
   public CCSPlayer_PingServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PlayerPingTokensOffset = new(() => Schema.GetOffset(0xC78D79CA55696280), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField PlayerPingTokens {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC78D79CA55696280));
+    get => new SchemaUntypedField(_Handle + _PlayerPingTokensOffset.Value);
   }
+  private static readonly Lazy<nint> _PlayerPingOffset = new(() => Schema.GetOffset(0xC78D79CA464EEA6E), LazyThreadSafetyMode.None);
+
   public ref CHandle<CPlayerPing> PlayerPing {
-    get => ref _Handle.AsRef<CHandle<CPlayerPing>>(Schema.GetOffset(0xC78D79CA464EEA6E));
+    get => ref _Handle.AsRef<CHandle<CPlayerPing>>(_PlayerPingOffset.Value);
   }
 
   public void PlayerPingUpdated() {

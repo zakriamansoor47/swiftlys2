@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class FeBandBendLimit_tImpl : SchemaClass, FeBandBendLimit_t {
   public FeBandBendLimit_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DistMinOffset = new(() => Schema.GetOffset(0xB667406005D5EE89), LazyThreadSafetyMode.None);
+
   public ref float DistMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB667406005D5EE89));
+    get => ref _Handle.AsRef<float>(_DistMinOffset.Value);
   }
+  private static readonly Lazy<nint> _DistMaxOffset = new(() => Schema.GetOffset(0xB6674060F7C250C7), LazyThreadSafetyMode.None);
+
   public ref float DistMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB6674060F7C250C7));
+    get => ref _Handle.AsRef<float>(_DistMaxOffset.Value);
   }
   public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0xB6674060CD6694B9, 6, 2, 2);

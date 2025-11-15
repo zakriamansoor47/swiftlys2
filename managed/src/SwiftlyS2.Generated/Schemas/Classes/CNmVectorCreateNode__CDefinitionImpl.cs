@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CNmVectorCreateNode__CDefinitionImpl : CNmVectorValueNode
   public CNmVectorCreateNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputVectorValueNodeIdxOffset = new(() => Schema.GetOffset(0xA7AE86C01EF0C864), LazyThreadSafetyMode.None);
+
   public ref short InputVectorValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xA7AE86C01EF0C864));
+    get => ref _Handle.AsRef<short>(_InputVectorValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _InputValueXNodeIdxOffset = new(() => Schema.GetOffset(0xA7AE86C0F25367BB), LazyThreadSafetyMode.None);
+
   public ref short InputValueXNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xA7AE86C0F25367BB));
+    get => ref _Handle.AsRef<short>(_InputValueXNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _InputValueYNodeIdxOffset = new(() => Schema.GetOffset(0xA7AE86C0D056A5E2), LazyThreadSafetyMode.None);
+
   public ref short InputValueYNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xA7AE86C0D056A5E2));
+    get => ref _Handle.AsRef<short>(_InputValueYNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _InputValueZNodeIdxOffset = new(() => Schema.GetOffset(0xA7AE86C05ED1BD45), LazyThreadSafetyMode.None);
+
   public ref short InputValueZNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xA7AE86C05ED1BD45));
+    get => ref _Handle.AsRef<short>(_InputValueZNodeIdxOffset.Value);
   }
 
 

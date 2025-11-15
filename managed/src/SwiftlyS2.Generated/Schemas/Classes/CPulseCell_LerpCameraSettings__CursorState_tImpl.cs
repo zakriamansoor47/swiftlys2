@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPulseCell_LerpCameraSettings__CursorState_tImpl : CPulse
   public CPulseCell_LerpCameraSettings__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CameraOffset = new(() => Schema.GetOffset(0x84AB53FD538EFB98), LazyThreadSafetyMode.None);
+
   public ref CHandle<CPointCamera> Camera {
-    get => ref _Handle.AsRef<CHandle<CPointCamera>>(Schema.GetOffset(0x84AB53FD538EFB98));
+    get => ref _Handle.AsRef<CHandle<CPointCamera>>(_CameraOffset.Value);
   }
+  private static readonly Lazy<nint> _OverlaidStartOffset = new(() => Schema.GetOffset(0x84AB53FD54E9A76F), LazyThreadSafetyMode.None);
+
   public PointCameraSettings_t OverlaidStart {
-    get => new PointCameraSettings_tImpl(_Handle + Schema.GetOffset(0x84AB53FD54E9A76F));
+    get => new PointCameraSettings_tImpl(_Handle + _OverlaidStartOffset.Value);
   }
+  private static readonly Lazy<nint> _OverlaidEndOffset = new(() => Schema.GetOffset(0x84AB53FD3CDFDEFA), LazyThreadSafetyMode.None);
+
   public PointCameraSettings_t OverlaidEnd {
-    get => new PointCameraSettings_tImpl(_Handle + Schema.GetOffset(0x84AB53FD3CDFDEFA));
+    get => new PointCameraSettings_tImpl(_Handle + _OverlaidEndOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmFloatEaseNode__CDefinitionImpl : CNmFloatValueNode__CD
   public CNmFloatEaseNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EaseTimeOffset = new(() => Schema.GetOffset(0x9D7103D0A54FCC), LazyThreadSafetyMode.None);
+
   public ref float EaseTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9D7103D0A54FCC));
+    get => ref _Handle.AsRef<float>(_EaseTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _StartValueOffset = new(() => Schema.GetOffset(0x9D710351C82C2A), LazyThreadSafetyMode.None);
+
   public ref float StartValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9D710351C82C2A));
+    get => ref _Handle.AsRef<float>(_StartValueOffset.Value);
   }
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0x9D710395E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x9D710395E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EasingOpOffset = new(() => Schema.GetOffset(0x9D7103CF457EAF), LazyThreadSafetyMode.None);
+
   public ref NmEasingOperation_t EasingOp {
-    get => ref _Handle.AsRef<NmEasingOperation_t>(Schema.GetOffset(0x9D7103CF457EAF));
+    get => ref _Handle.AsRef<NmEasingOperation_t>(_EasingOpOffset.Value);
   }
+  private static readonly Lazy<nint> _UseStartValueOffset = new(() => Schema.GetOffset(0x9D710306DE6089), LazyThreadSafetyMode.None);
+
   public ref bool UseStartValue {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9D710306DE6089));
+    get => ref _Handle.AsRef<bool>(_UseStartValueOffset.Value);
   }
 
 

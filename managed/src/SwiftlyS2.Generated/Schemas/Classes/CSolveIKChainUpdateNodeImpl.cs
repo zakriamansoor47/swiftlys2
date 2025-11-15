@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CSolveIKChainUpdateNodeImpl : CUnaryUpdateNodeImpl, CSolv
   public CSolveIKChainUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TargetHandlesOffset = new(() => Schema.GetOffset(0xE78F1D1F98E248F7), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CSolveIKTargetHandle_t> TargetHandles {
-    get => ref _Handle.AsRef<CUtlVector<CSolveIKTargetHandle_t>>(Schema.GetOffset(0xE78F1D1F98E248F7));
+    get => ref _Handle.AsRef<CUtlVector<CSolveIKTargetHandle_t>>(_TargetHandlesOffset.Value);
   }
+  private static readonly Lazy<nint> _OpFixedDataOffset = new(() => Schema.GetOffset(0xE78F1D1F6960AF8C), LazyThreadSafetyMode.None);
+
   public SolveIKChainPoseOpFixedSettings_t OpFixedData {
-    get => new SolveIKChainPoseOpFixedSettings_tImpl(_Handle + Schema.GetOffset(0xE78F1D1F6960AF8C));
+    get => new SolveIKChainPoseOpFixedSettings_tImpl(_Handle + _OpFixedDataOffset.Value);
   }
 
 

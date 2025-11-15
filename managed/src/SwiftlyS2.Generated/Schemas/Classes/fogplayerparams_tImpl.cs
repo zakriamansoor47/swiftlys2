@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,47 +17,75 @@ internal partial class fogplayerparams_tImpl : SchemaClass, fogplayerparams_t {
   public fogplayerparams_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CtrlOffset = new(() => Schema.GetOffset(0x1BA99C4F34496C96), LazyThreadSafetyMode.None);
+
   public ref CHandle<CFogController> Ctrl {
-    get => ref _Handle.AsRef<CHandle<CFogController>>(Schema.GetOffset(0x1BA99C4F34496C96));
+    get => ref _Handle.AsRef<CHandle<CFogController>>(_CtrlOffset.Value);
   }
+  private static readonly Lazy<nint> _TransitionTimeOffset = new(() => Schema.GetOffset(0x1BA99C4F8D4BFC39), LazyThreadSafetyMode.None);
+
   public ref float TransitionTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4F8D4BFC39));
+    get => ref _Handle.AsRef<float>(_TransitionTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _OldColorOffset = new(() => Schema.GetOffset(0x1BA99C4F1F716E59), LazyThreadSafetyMode.None);
+
   public ref Color OldColor {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x1BA99C4F1F716E59));
+    get => ref _Handle.AsRef<Color>(_OldColorOffset.Value);
   }
+  private static readonly Lazy<nint> _OldStartOffset = new(() => Schema.GetOffset(0x1BA99C4F0740B77C), LazyThreadSafetyMode.None);
+
   public ref float OldStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4F0740B77C));
+    get => ref _Handle.AsRef<float>(_OldStartOffset.Value);
   }
+  private static readonly Lazy<nint> _OldEndOffset = new(() => Schema.GetOffset(0x1BA99C4FEE04BB65), LazyThreadSafetyMode.None);
+
   public ref float OldEnd {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4FEE04BB65));
+    get => ref _Handle.AsRef<float>(_OldEndOffset.Value);
   }
+  private static readonly Lazy<nint> _OldMaxDensityOffset = new(() => Schema.GetOffset(0x1BA99C4FA685F86A), LazyThreadSafetyMode.None);
+
   public ref float OldMaxDensity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4FA685F86A));
+    get => ref _Handle.AsRef<float>(_OldMaxDensityOffset.Value);
   }
+  private static readonly Lazy<nint> _OldHDRColorScaleOffset = new(() => Schema.GetOffset(0x1BA99C4F8E3D5ED1), LazyThreadSafetyMode.None);
+
   public ref float OldHDRColorScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4F8E3D5ED1));
+    get => ref _Handle.AsRef<float>(_OldHDRColorScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _OldFarZOffset = new(() => Schema.GetOffset(0x1BA99C4FB28AACA1), LazyThreadSafetyMode.None);
+
   public ref float OldFarZ {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4FB28AACA1));
+    get => ref _Handle.AsRef<float>(_OldFarZOffset.Value);
   }
+  private static readonly Lazy<nint> _NewColorOffset = new(() => Schema.GetOffset(0x1BA99C4F855F3ED4), LazyThreadSafetyMode.None);
+
   public ref Color NewColor {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x1BA99C4F855F3ED4));
+    get => ref _Handle.AsRef<Color>(_NewColorOffset.Value);
   }
+  private static readonly Lazy<nint> _NewStartOffset = new(() => Schema.GetOffset(0x1BA99C4FFC7C3DE5), LazyThreadSafetyMode.None);
+
   public ref float NewStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4FFC7C3DE5));
+    get => ref _Handle.AsRef<float>(_NewStartOffset.Value);
   }
+  private static readonly Lazy<nint> _NewEndOffset = new(() => Schema.GetOffset(0x1BA99C4F25D277DC), LazyThreadSafetyMode.None);
+
   public ref float NewEnd {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4F25D277DC));
+    get => ref _Handle.AsRef<float>(_NewEndOffset.Value);
   }
+  private static readonly Lazy<nint> _NewMaxDensityOffset = new(() => Schema.GetOffset(0x1BA99C4F0EE45F19), LazyThreadSafetyMode.None);
+
   public ref float NewMaxDensity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4F0EE45F19));
+    get => ref _Handle.AsRef<float>(_NewMaxDensityOffset.Value);
   }
+  private static readonly Lazy<nint> _NewHDRColorScaleOffset = new(() => Schema.GetOffset(0x1BA99C4F70AAB448), LazyThreadSafetyMode.None);
+
   public ref float NewHDRColorScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4F70AAB448));
+    get => ref _Handle.AsRef<float>(_NewHDRColorScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _NewFarZOffset = new(() => Schema.GetOffset(0x1BA99C4FDDA6CA3A), LazyThreadSafetyMode.None);
+
   public ref float NewFarZ {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1BA99C4FDDA6CA3A));
+    get => ref _Handle.AsRef<float>(_NewFarZOffset.Value);
   }
 
   public void CtrlUpdated() {

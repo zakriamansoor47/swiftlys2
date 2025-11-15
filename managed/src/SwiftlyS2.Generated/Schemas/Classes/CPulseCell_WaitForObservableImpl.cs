@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_WaitForObservableImpl : CPulseCell_BaseYieldin
   public CPulseCell_WaitForObservableImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConditionOffset = new(() => Schema.GetOffset(0xE6EB02CD5F2A883E), LazyThreadSafetyMode.None);
+
   public PulseObservableBoolExpression_t Condition {
-    get => new PulseObservableBoolExpression_tImpl(_Handle + Schema.GetOffset(0xE6EB02CD5F2A883E));
+    get => new PulseObservableBoolExpression_tImpl(_Handle + _ConditionOffset.Value);
   }
+  private static readonly Lazy<nint> _OnTrueOffset = new(() => Schema.GetOffset(0xE6EB02CD6EAE5D88), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnTrue {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xE6EB02CD6EAE5D88));
+    get => new CPulse_ResumePointImpl(_Handle + _OnTrueOffset.Value);
   }
 
 

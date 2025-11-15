@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CVoiceContainerDecayingSineWaveImpl : CVoiceContainerBase
   public CVoiceContainerDecayingSineWaveImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FrequencyOffset = new(() => Schema.GetOffset(0x3383CD01D2C16DD7), LazyThreadSafetyMode.None);
+
   public ref float Frequency {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3383CD01D2C16DD7));
+    get => ref _Handle.AsRef<float>(_FrequencyOffset.Value);
   }
+  private static readonly Lazy<nint> _DecayTimeOffset = new(() => Schema.GetOffset(0x3383CD01E94A0656), LazyThreadSafetyMode.None);
+
   public ref float DecayTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3383CD01E94A0656));
+    get => ref _Handle.AsRef<float>(_DecayTimeOffset.Value);
   }
 
 

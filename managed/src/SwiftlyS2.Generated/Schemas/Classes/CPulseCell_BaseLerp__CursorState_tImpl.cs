@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_BaseLerp__CursorState_tImpl : SchemaClass, CPu
   public CPulseCell_BaseLerp__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0x1FAAE76897B5FA8E), LazyThreadSafetyMode.None);
+
   public GameTime_t StartTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x1FAAE76897B5FA8E));
+    get => new GameTime_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndTimeOffset = new(() => Schema.GetOffset(0x1FAAE7687AA8F56B), LazyThreadSafetyMode.None);
+
   public GameTime_t EndTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x1FAAE7687AA8F56B));
+    get => new GameTime_tImpl(_Handle + _EndTimeOffset.Value);
   }
 
 

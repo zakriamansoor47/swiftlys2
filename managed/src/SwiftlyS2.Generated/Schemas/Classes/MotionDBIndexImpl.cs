@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class MotionDBIndexImpl : SchemaClass, MotionDBIndex {
   public MotionDBIndexImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IndexOffset = new(() => Schema.GetOffset(0x35C035B7B73DBE67), LazyThreadSafetyMode.None);
+
   public ref uint Index {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x35C035B7B73DBE67));
+    get => ref _Handle.AsRef<uint>(_IndexOffset.Value);
   }
 
 

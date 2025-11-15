@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CMarkupVolumeTagged_NavGameImpl : CMarkupVolumeWithRefImp
   public CMarkupVolumeTagged_NavGameImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScopesOffset = new(() => Schema.GetOffset(0xFB4AC8A49E6C8A44), LazyThreadSafetyMode.None);
+
   public ref NavScopeFlags_t Scopes {
-    get => ref _Handle.AsRef<NavScopeFlags_t>(Schema.GetOffset(0xFB4AC8A49E6C8A44));
+    get => ref _Handle.AsRef<NavScopeFlags_t>(_ScopesOffset.Value);
   }
+  private static readonly Lazy<nint> _FloodFillAttributeOffset = new(() => Schema.GetOffset(0xFB4AC8A4ECF24446), LazyThreadSafetyMode.None);
+
   public ref bool FloodFillAttribute {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFB4AC8A4ECF24446));
+    get => ref _Handle.AsRef<bool>(_FloodFillAttributeOffset.Value);
   }
+  private static readonly Lazy<nint> _SplitNavSpaceOffset = new(() => Schema.GetOffset(0xFB4AC8A438B16FC2), LazyThreadSafetyMode.None);
+
   public ref bool SplitNavSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xFB4AC8A438B16FC2));
+    get => ref _Handle.AsRef<bool>(_SplitNavSpaceOffset.Value);
   }
 
 

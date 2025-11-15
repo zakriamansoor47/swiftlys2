@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class PermModelExtPart_tImpl : SchemaClass, PermModelExtPart_t 
   public PermModelExtPart_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TransformOffset = new(() => Schema.GetOffset(0xCA30851D6EC5209B), LazyThreadSafetyMode.None);
+
   public ref CTransform Transform {
-    get => ref _Handle.AsRef<CTransform>(Schema.GetOffset(0xCA30851D6EC5209B));
+    get => ref _Handle.AsRef<CTransform>(_TransformOffset.Value);
   }
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0xCA30851DCAE8A266), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xCA30851DCAE8A266));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xCA30851DCAE8A266, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ParentOffset = new(() => Schema.GetOffset(0xCA30851D0AABB9D1), LazyThreadSafetyMode.None);
+
   public ref int Parent {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xCA30851D0AABB9D1));
+    get => ref _Handle.AsRef<int>(_ParentOffset.Value);
   }
+  private static readonly Lazy<nint> _RefModelOffset = new(() => Schema.GetOffset(0xCA30851D63E6E3DF), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCModel> RefModel {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(Schema.GetOffset(0xCA30851D63E6E3DF));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCModel>>(_RefModelOffset.Value);
   }
 
 

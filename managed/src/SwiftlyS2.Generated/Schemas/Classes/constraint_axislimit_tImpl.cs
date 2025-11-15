@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class constraint_axislimit_tImpl : SchemaClass, constraint_axis
   public constraint_axislimit_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinRotationOffset = new(() => Schema.GetOffset(0x610A06522A8C970B), LazyThreadSafetyMode.None);
+
   public ref float MinRotation {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x610A06522A8C970B));
+    get => ref _Handle.AsRef<float>(_MinRotationOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxRotationOffset = new(() => Schema.GetOffset(0x610A0652FEB73D49), LazyThreadSafetyMode.None);
+
   public ref float MaxRotation {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x610A0652FEB73D49));
+    get => ref _Handle.AsRef<float>(_MaxRotationOffset.Value);
   }
+  private static readonly Lazy<nint> _MotorTargetAngSpeedOffset = new(() => Schema.GetOffset(0x610A0652C783A98E), LazyThreadSafetyMode.None);
+
   public ref float MotorTargetAngSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x610A0652C783A98E));
+    get => ref _Handle.AsRef<float>(_MotorTargetAngSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _MotorMaxTorqueOffset = new(() => Schema.GetOffset(0x610A0652808C4A00), LazyThreadSafetyMode.None);
+
   public ref float MotorMaxTorque {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x610A0652808C4A00));
+    get => ref _Handle.AsRef<float>(_MotorMaxTorqueOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CModelConfigElement_SetBodygroupOnAttachedModelsImpl : CM
   public CModelConfigElement_SetBodygroupOnAttachedModelsImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GroupNameOffset = new(() => Schema.GetOffset(0xCC9BDB84E0A55E67), LazyThreadSafetyMode.None);
+
   public string GroupName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xCC9BDB84E0A55E67));
+      var ptr = _Handle.Read<nint>(_GroupNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xCC9BDB84E0A55E67, value);
+    set => Schema.SetString(_Handle, _GroupNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ChoiceOffset = new(() => Schema.GetOffset(0xCC9BDB847CC11192), LazyThreadSafetyMode.None);
+
   public ref int Choice {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xCC9BDB847CC11192));
+    get => ref _Handle.AsRef<int>(_ChoiceOffset.Value);
   }
 
 

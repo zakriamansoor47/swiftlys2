@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPhysSurfacePropertiesVehicleImpl : SchemaClass, CPhysSur
   public CPhysSurfacePropertiesVehicleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WheelDragOffset = new(() => Schema.GetOffset(0x5B1104DCC04986AE), LazyThreadSafetyMode.None);
+
   public ref float WheelDrag {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5B1104DCC04986AE));
+    get => ref _Handle.AsRef<float>(_WheelDragOffset.Value);
   }
+  private static readonly Lazy<nint> _WheelFrictionScaleOffset = new(() => Schema.GetOffset(0x5B1104DC7A6D9A4C), LazyThreadSafetyMode.None);
+
   public ref float WheelFrictionScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5B1104DC7A6D9A4C));
+    get => ref _Handle.AsRef<float>(_WheelFrictionScaleOffset.Value);
   }
 
 

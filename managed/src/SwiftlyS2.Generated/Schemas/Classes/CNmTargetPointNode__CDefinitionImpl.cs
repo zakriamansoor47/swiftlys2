@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmTargetPointNode__CDefinitionImpl : CNmVectorValueNode_
   public CNmTargetPointNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0xCF5C70C495E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xCF5C70C495E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _IsWorldSpaceTargetOffset = new(() => Schema.GetOffset(0xCF5C70C4B81D53F2), LazyThreadSafetyMode.None);
+
   public ref bool IsWorldSpaceTarget {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCF5C70C4B81D53F2));
+    get => ref _Handle.AsRef<bool>(_IsWorldSpaceTargetOffset.Value);
   }
 
 

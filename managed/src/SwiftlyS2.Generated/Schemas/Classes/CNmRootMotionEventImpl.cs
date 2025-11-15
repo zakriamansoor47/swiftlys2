@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmRootMotionEventImpl : CNmEventImpl, CNmRootMotionEvent
   public CNmRootMotionEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BlendTimeSecondsOffset = new(() => Schema.GetOffset(0x8BA908676D3A08FC), LazyThreadSafetyMode.None);
+
   public ref float BlendTimeSeconds {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8BA908676D3A08FC));
+    get => ref _Handle.AsRef<float>(_BlendTimeSecondsOffset.Value);
   }
 
 

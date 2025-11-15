@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CAnimGraphModelBindingImpl : SchemaClass, CAnimGraphModel
   public CAnimGraphModelBindingImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModelNameOffset = new(() => Schema.GetOffset(0xC0F296335D35B6E1), LazyThreadSafetyMode.None);
+
   public string ModelName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xC0F296335D35B6E1));
+      var ptr = _Handle.Read<nint>(_ModelNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xC0F296335D35B6E1, value);
+    set => Schema.SetString(_Handle, _ModelNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SharedDataOffset = new(() => Schema.GetOffset(0xC0F29633D0085FE6), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SharedData {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC0F29633D0085FE6));
+    get => new SchemaUntypedField(_Handle + _SharedDataOffset.Value);
   }
 
 

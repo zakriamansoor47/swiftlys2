@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class C_OP_ModelCullImpl : CParticleFunctionOperatorImpl, C_OP_
   public C_OP_ModelCullImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0xED02878A3F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xED02878A3F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _BoundBoxOffset = new(() => Schema.GetOffset(0xED02878AAB65CDDC), LazyThreadSafetyMode.None);
+
   public ref bool BoundBox {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xED02878AAB65CDDC));
+    get => ref _Handle.AsRef<bool>(_BoundBoxOffset.Value);
   }
+  private static readonly Lazy<nint> _CullOutsideOffset = new(() => Schema.GetOffset(0xED02878AA6EF9E04), LazyThreadSafetyMode.None);
+
   public ref bool CullOutside {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xED02878AA6EF9E04));
+    get => ref _Handle.AsRef<bool>(_CullOutsideOffset.Value);
   }
+  private static readonly Lazy<nint> _UseBonesOffset = new(() => Schema.GetOffset(0xED02878A10D1938B), LazyThreadSafetyMode.None);
+
   public ref bool UseBones {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xED02878A10D1938B));
+    get => ref _Handle.AsRef<bool>(_UseBonesOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxSetNameOffset = new(() => Schema.GetOffset(0xED02878A6A21BB0E), LazyThreadSafetyMode.None);
+
   public string HitboxSetName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0xED02878A6A21BB0E);
+      var ptr = _Handle + _HitboxSetNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0xED02878A6A21BB0E, value, 128);
+    set => Schema.SetFixedString(_Handle, _HitboxSetNameOffset.Value, value, 128);
   } 
 
 

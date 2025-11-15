@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class EventClientPollNetworking_tImpl : SchemaClass, EventClien
   public EventClientPollNetworking_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TickCountOffset = new(() => Schema.GetOffset(0xE9C02F00E25E6B27), LazyThreadSafetyMode.None);
+
   public ref int TickCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE9C02F00E25E6B27));
+    get => ref _Handle.AsRef<int>(_TickCountOffset.Value);
   }
 
 

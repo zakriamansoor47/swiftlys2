@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CEnvEntityIgniterImpl : CBaseEntityImpl, CEnvEntityIgnite
   public CEnvEntityIgniterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LifetimeOffset = new(() => Schema.GetOffset(0xF8FFE95A39B35564), LazyThreadSafetyMode.None);
+
   public ref float Lifetime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF8FFE95A39B35564));
+    get => ref _Handle.AsRef<float>(_LifetimeOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_OscillateVectorSimpleImpl : CParticleFunctionOperato
   public C_OP_OscillateVectorSimpleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RateOffset = new(() => Schema.GetOffset(0xB4CA468EC3280E7), LazyThreadSafetyMode.None);
+
   public ref Vector Rate {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB4CA468EC3280E7));
+    get => ref _Handle.AsRef<Vector>(_RateOffset.Value);
   }
+  private static readonly Lazy<nint> _FrequencyOffset = new(() => Schema.GetOffset(0xB4CA468BCCAA981), LazyThreadSafetyMode.None);
+
   public ref Vector Frequency {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB4CA468BCCAA981));
+    get => ref _Handle.AsRef<Vector>(_FrequencyOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOffset = new(() => Schema.GetOffset(0xB4CA468C257B93B), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t Field {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xB4CA468C257B93B));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOffset.Value);
   }
+  private static readonly Lazy<nint> _OscMultOffset = new(() => Schema.GetOffset(0xB4CA46816278E94), LazyThreadSafetyMode.None);
+
   public ref float OscMult {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB4CA46816278E94));
+    get => ref _Handle.AsRef<float>(_OscMultOffset.Value);
   }
+  private static readonly Lazy<nint> _OscAddOffset = new(() => Schema.GetOffset(0xB4CA4687B38A63D), LazyThreadSafetyMode.None);
+
   public ref float OscAdd {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB4CA4687B38A63D));
+    get => ref _Handle.AsRef<float>(_OscAddOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xB4CA46817412B2A), LazyThreadSafetyMode.None);
+
   public ref bool Offset {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB4CA46817412B2A));
+    get => ref _Handle.AsRef<bool>(_OffsetOffset.Value);
   }
 
 

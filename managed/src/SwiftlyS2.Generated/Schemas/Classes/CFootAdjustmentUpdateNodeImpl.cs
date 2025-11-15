@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,32 +17,50 @@ internal partial class CFootAdjustmentUpdateNodeImpl : CUnaryUpdateNodeImpl, CFo
   public CFootAdjustmentUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ClipsOffset = new(() => Schema.GetOffset(0x667ADE248CB21A38), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<HSequence> Clips {
-    get => ref _Handle.AsRef<CUtlVector<HSequence>>(Schema.GetOffset(0x667ADE248CB21A38));
+    get => ref _Handle.AsRef<CUtlVector<HSequence>>(_ClipsOffset.Value);
   }
+  private static readonly Lazy<nint> _BasePoseCacheHandleOffset = new(() => Schema.GetOffset(0x667ADE240690C505), LazyThreadSafetyMode.None);
+
   public CPoseHandle BasePoseCacheHandle {
-    get => new CPoseHandleImpl(_Handle + Schema.GetOffset(0x667ADE240690C505));
+    get => new CPoseHandleImpl(_Handle + _BasePoseCacheHandleOffset.Value);
   }
+  private static readonly Lazy<nint> _FacingTargetOffset = new(() => Schema.GetOffset(0x667ADE24ED73C452), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle FacingTarget {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x667ADE24ED73C452));
+    get => new CAnimParamHandleImpl(_Handle + _FacingTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _TurnTimeMinOffset = new(() => Schema.GetOffset(0x667ADE247BF2813F), LazyThreadSafetyMode.None);
+
   public ref float TurnTimeMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x667ADE247BF2813F));
+    get => ref _Handle.AsRef<float>(_TurnTimeMinOffset.Value);
   }
+  private static readonly Lazy<nint> _TurnTimeMaxOffset = new(() => Schema.GetOffset(0x667ADE2489DF0F91), LazyThreadSafetyMode.None);
+
   public ref float TurnTimeMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x667ADE2489DF0F91));
+    get => ref _Handle.AsRef<float>(_TurnTimeMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _StepHeightMaxOffset = new(() => Schema.GetOffset(0x667ADE24C48F8DDC), LazyThreadSafetyMode.None);
+
   public ref float StepHeightMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x667ADE24C48F8DDC));
+    get => ref _Handle.AsRef<float>(_StepHeightMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _StepHeightMaxAngleOffset = new(() => Schema.GetOffset(0x667ADE24E36AE247), LazyThreadSafetyMode.None);
+
   public ref float StepHeightMaxAngle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x667ADE24E36AE247));
+    get => ref _Handle.AsRef<float>(_StepHeightMaxAngleOffset.Value);
   }
+  private static readonly Lazy<nint> _ResetChildOffset = new(() => Schema.GetOffset(0x667ADE2465CC88B6), LazyThreadSafetyMode.None);
+
   public ref bool ResetChild {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x667ADE2465CC88B6));
+    get => ref _Handle.AsRef<bool>(_ResetChildOffset.Value);
   }
+  private static readonly Lazy<nint> _AnimationDrivenOffset = new(() => Schema.GetOffset(0x667ADE24B5FFC0F3), LazyThreadSafetyMode.None);
+
   public ref bool AnimationDriven {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x667ADE24B5FFC0F3));
+    get => ref _Handle.AsRef<bool>(_AnimationDrivenOffset.Value);
   }
 
 

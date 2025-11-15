@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CFilterMassGreaterImpl : CBaseFilterImpl, CFilterMassGrea
   public CFilterMassGreaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FilterMassOffset = new(() => Schema.GetOffset(0xBF74FA22FF3F08E7), LazyThreadSafetyMode.None);
+
   public ref float FilterMass {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBF74FA22FF3F08E7));
+    get => ref _Handle.AsRef<float>(_FilterMassOffset.Value);
   }
 
 

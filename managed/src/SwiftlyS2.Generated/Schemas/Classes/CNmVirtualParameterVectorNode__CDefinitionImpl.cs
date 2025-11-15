@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmVirtualParameterVectorNode__CDefinitionImpl : CNmVecto
   public CNmVirtualParameterVectorNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChildNodeIdxOffset = new(() => Schema.GetOffset(0xDD34E2D25C29A73C), LazyThreadSafetyMode.None);
+
   public ref short ChildNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xDD34E2D25C29A73C));
+    get => ref _Handle.AsRef<short>(_ChildNodeIdxOffset.Value);
   }
 
 

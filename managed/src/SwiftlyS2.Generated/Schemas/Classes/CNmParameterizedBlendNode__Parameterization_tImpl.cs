@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmParameterizedBlendNode__Parameterization_tImpl : Schem
   public CNmParameterizedBlendNode__Parameterization_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BlendRangesOffset = new(() => Schema.GetOffset(0xD342D3196DA1C61A), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField BlendRanges {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xD342D3196DA1C61A));
+    get => new SchemaUntypedField(_Handle + _BlendRangesOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterRangeOffset = new(() => Schema.GetOffset(0xD342D319E7E71E25), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ParameterRange {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xD342D319E7E71E25));
+    get => new SchemaUntypedField(_Handle + _ParameterRangeOffset.Value);
   }
 
 

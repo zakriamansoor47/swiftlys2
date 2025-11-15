@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class VMixEffectChainDesc_tImpl : SchemaClass, VMixEffectChainD
   public VMixEffectChainDesc_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CrossfadeTimeOffset = new(() => Schema.GetOffset(0x993FEE3C5C1DD52), LazyThreadSafetyMode.None);
+
   public ref float CrossfadeTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x993FEE3C5C1DD52));
+    get => ref _Handle.AsRef<float>(_CrossfadeTimeOffset.Value);
   }
 
 

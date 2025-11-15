@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CGameSceneNodeHandleImpl : SchemaClass, CGameSceneNodeHan
   public CGameSceneNodeHandleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OwnerOffset = new(() => Schema.GetOffset(0x9A961FAF6D89572), LazyThreadSafetyMode.None);
+
   public ref CHandle<CEntityInstance> Owner {
-    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(Schema.GetOffset(0x9A961FAF6D89572));
+    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(_OwnerOffset.Value);
   }
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x9A961FA4D8F5786), LazyThreadSafetyMode.None);
+
   public ref CUtlStringToken Name {
-    get => ref _Handle.AsRef<CUtlStringToken>(Schema.GetOffset(0x9A961FA4D8F5786));
+    get => ref _Handle.AsRef<CUtlStringToken>(_NameOffset.Value);
   }
 
   public void OwnerUpdated() {

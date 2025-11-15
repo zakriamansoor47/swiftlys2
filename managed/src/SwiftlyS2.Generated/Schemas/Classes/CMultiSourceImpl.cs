@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -21,18 +23,24 @@ internal partial class CMultiSourceImpl : CLogicalEntityImpl, CMultiSource {
   public ISchemaFixedArray<int> RgTriggered {
     get => new SchemaFixedArray<int>(_Handle, 0x87DC5C664616C37F, 32, 4, 4);
   }
+  private static readonly Lazy<nint> _OnTriggerOffset = new(() => Schema.GetOffset(0x87DC5C6681E0BFEC), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnTrigger {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x87DC5C6681E0BFEC));
+    get => new CEntityIOOutputImpl(_Handle + _OnTriggerOffset.Value);
   }
+  private static readonly Lazy<nint> _TotalOffset = new(() => Schema.GetOffset(0x87DC5C667223ED06), LazyThreadSafetyMode.None);
+
   public ref int Total {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x87DC5C667223ED06));
+    get => ref _Handle.AsRef<int>(_TotalOffset.Value);
   }
+  private static readonly Lazy<nint> _GlobalstateOffset = new(() => Schema.GetOffset(0x87DC5C6677A86653), LazyThreadSafetyMode.None);
+
   public string Globalstate {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x87DC5C6677A86653));
+      var ptr = _Handle.Read<nint>(_GlobalstateOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x87DC5C6677A86653, value);
+    set => Schema.SetString(_Handle, _GlobalstateOffset.Value, value);
   } 
 
 

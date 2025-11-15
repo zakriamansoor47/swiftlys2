@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class SceneViewId_tImpl : SchemaClass, SceneViewId_t {
   public SceneViewId_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ViewIdOffset = new(() => Schema.GetOffset(0x66190338AE3CB1A1), LazyThreadSafetyMode.None);
+
   public ref ulong ViewId {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x66190338AE3CB1A1));
+    get => ref _Handle.AsRef<ulong>(_ViewIdOffset.Value);
   }
+  private static readonly Lazy<nint> _FrameCountOffset = new(() => Schema.GetOffset(0x661903381DBCD049), LazyThreadSafetyMode.None);
+
   public ref ulong FrameCount {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x661903381DBCD049));
+    get => ref _Handle.AsRef<ulong>(_FrameCountOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,11 +20,15 @@ internal partial class FeTaperedCapsuleStretch_tImpl : SchemaClass, FeTaperedCap
   public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x627474D0CD6694B9, 2, 2, 2);
   }
+  private static readonly Lazy<nint> _CollisionMaskOffset = new(() => Schema.GetOffset(0x627474D00ED3454F), LazyThreadSafetyMode.None);
+
   public ref ushort CollisionMask {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x627474D00ED3454F));
+    get => ref _Handle.AsRef<ushort>(_CollisionMaskOffset.Value);
   }
+  private static readonly Lazy<nint> _DummyOffset = new(() => Schema.GetOffset(0x627474D0CD8BAE5F), LazyThreadSafetyMode.None);
+
   public ref ushort Dummy {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x627474D0CD8BAE5F));
+    get => ref _Handle.AsRef<ushort>(_DummyOffset.Value);
   }
   public ISchemaFixedArray<float> Radius {
     get => new SchemaFixedArray<float>(_Handle, 0x627474D095FBF7AD, 2, 4, 4);

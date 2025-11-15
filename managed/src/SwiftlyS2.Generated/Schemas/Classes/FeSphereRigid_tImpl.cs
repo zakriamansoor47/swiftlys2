@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class FeSphereRigid_tImpl : SchemaClass, FeSphereRigid_t {
   public FeSphereRigid_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SphereOffset = new(() => Schema.GetOffset(0xA76DA0A39E2AC48C), LazyThreadSafetyMode.None);
+
   public ref fltx4 Sphere {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0xA76DA0A39E2AC48C));
+    get => ref _Handle.AsRef<fltx4>(_SphereOffset.Value);
   }
+  private static readonly Lazy<nint> _NodeOffset = new(() => Schema.GetOffset(0xA76DA0A3CD6694B9), LazyThreadSafetyMode.None);
+
   public ref ushort Node {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xA76DA0A3CD6694B9));
+    get => ref _Handle.AsRef<ushort>(_NodeOffset.Value);
   }
+  private static readonly Lazy<nint> _CollisionMaskOffset = new(() => Schema.GetOffset(0xA76DA0A30ED3454F), LazyThreadSafetyMode.None);
+
   public ref ushort CollisionMask {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xA76DA0A30ED3454F));
+    get => ref _Handle.AsRef<ushort>(_CollisionMaskOffset.Value);
   }
+  private static readonly Lazy<nint> _VertexMapIndexOffset = new(() => Schema.GetOffset(0xA76DA0A37B332E39), LazyThreadSafetyMode.None);
+
   public ref ushort VertexMapIndex {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xA76DA0A37B332E39));
+    get => ref _Handle.AsRef<ushort>(_VertexMapIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0xA76DA0A3B8D52E48), LazyThreadSafetyMode.None);
+
   public ref ushort Flags {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xA76DA0A3B8D52E48));
+    get => ref _Handle.AsRef<ushort>(_FlagsOffset.Value);
   }
 
 

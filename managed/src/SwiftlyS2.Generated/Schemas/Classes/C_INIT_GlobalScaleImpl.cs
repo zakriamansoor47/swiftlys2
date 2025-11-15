@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_INIT_GlobalScaleImpl : CParticleFunctionInitializerImpl
   public C_INIT_GlobalScaleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0xE0588671B731A42F), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE0588671B731A42F));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleControlPointNumberOffset = new(() => Schema.GetOffset(0xE05886719A649261), LazyThreadSafetyMode.None);
+
   public ref int ScaleControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE05886719A649261));
+    get => ref _Handle.AsRef<int>(_ScaleControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0xE05886713F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE05886713F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleRadiusOffset = new(() => Schema.GetOffset(0xE0588671714DF6EF), LazyThreadSafetyMode.None);
+
   public ref bool ScaleRadius {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE0588671714DF6EF));
+    get => ref _Handle.AsRef<bool>(_ScaleRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _ScalePositionOffset = new(() => Schema.GetOffset(0xE05886713AD08CD6), LazyThreadSafetyMode.None);
+
   public ref bool ScalePosition {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE05886713AD08CD6));
+    get => ref _Handle.AsRef<bool>(_ScalePositionOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleVelocityOffset = new(() => Schema.GetOffset(0xE058867117A59666), LazyThreadSafetyMode.None);
+
   public ref bool ScaleVelocity {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE058867117A59666));
+    get => ref _Handle.AsRef<bool>(_ScaleVelocityOffset.Value);
   }
 
 

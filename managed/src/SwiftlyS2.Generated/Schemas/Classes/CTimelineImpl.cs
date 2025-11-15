@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -21,20 +23,30 @@ internal partial class CTimelineImpl : IntervalTimerImpl, CTimeline {
   public ISchemaFixedArray<int> ValueCounts {
     get => new SchemaFixedArray<int>(_Handle, 0x36D1E65961EF23CA, 64, 4, 4);
   }
+  private static readonly Lazy<nint> _BucketCountOffset = new(() => Schema.GetOffset(0x36D1E6596ACA5C8A), LazyThreadSafetyMode.None);
+
   public ref int BucketCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x36D1E6596ACA5C8A));
+    get => ref _Handle.AsRef<int>(_BucketCountOffset.Value);
   }
+  private static readonly Lazy<nint> _IntervalOffset = new(() => Schema.GetOffset(0x36D1E659320F7B8E), LazyThreadSafetyMode.None);
+
   public ref float Interval {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x36D1E659320F7B8E));
+    get => ref _Handle.AsRef<float>(_IntervalOffset.Value);
   }
+  private static readonly Lazy<nint> _FinalValueOffset = new(() => Schema.GetOffset(0x36D1E659534A71BA), LazyThreadSafetyMode.None);
+
   public ref float FinalValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x36D1E659534A71BA));
+    get => ref _Handle.AsRef<float>(_FinalValueOffset.Value);
   }
+  private static readonly Lazy<nint> _CompressionTypeOffset = new(() => Schema.GetOffset(0x36D1E6593FD9B909), LazyThreadSafetyMode.None);
+
   public ref TimelineCompression_t CompressionType {
-    get => ref _Handle.AsRef<TimelineCompression_t>(Schema.GetOffset(0x36D1E6593FD9B909));
+    get => ref _Handle.AsRef<TimelineCompression_t>(_CompressionTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _StoppedOffset = new(() => Schema.GetOffset(0x36D1E6591C198C2E), LazyThreadSafetyMode.None);
+
   public ref bool Stopped {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x36D1E6591C198C2E));
+    get => ref _Handle.AsRef<bool>(_StoppedOffset.Value);
   }
 
   public void ValuesUpdated() {

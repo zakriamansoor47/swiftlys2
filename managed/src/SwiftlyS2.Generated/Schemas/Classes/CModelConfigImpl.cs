@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CModelConfigImpl : SchemaClass, CModelConfig {
   public CModelConfigImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConfigNameOffset = new(() => Schema.GetOffset(0xF6401D5DA7B74064), LazyThreadSafetyMode.None);
+
   public string ConfigName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF6401D5DA7B74064));
+      var ptr = _Handle.Read<nint>(_ConfigNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF6401D5DA7B74064, value);
+    set => Schema.SetString(_Handle, _ConfigNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ElementsOffset = new(() => Schema.GetOffset(0xF6401D5DC36D5D4C), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointerTo<CModelConfigElement>> Elements {
-    get => ref _Handle.AsRef<CUtlVector<PointerTo<CModelConfigElement>>>(Schema.GetOffset(0xF6401D5DC36D5D4C));
+    get => ref _Handle.AsRef<CUtlVector<PointerTo<CModelConfigElement>>>(_ElementsOffset.Value);
   }
+  private static readonly Lazy<nint> _TopLevelOffset = new(() => Schema.GetOffset(0xF6401D5D0EC64BE2), LazyThreadSafetyMode.None);
+
   public ref bool TopLevel {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF6401D5D0EC64BE2));
+    get => ref _Handle.AsRef<bool>(_TopLevelOffset.Value);
   }
+  private static readonly Lazy<nint> _ActiveInEditorByDefaultOffset = new(() => Schema.GetOffset(0xF6401D5D6E287741), LazyThreadSafetyMode.None);
+
   public ref bool ActiveInEditorByDefault {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF6401D5D6E287741));
+    get => ref _Handle.AsRef<bool>(_ActiveInEditorByDefaultOffset.Value);
   }
 
 

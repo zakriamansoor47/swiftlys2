@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_PickBestOutflowSelectorImpl : CPulseCell_BaseF
   public CPulseCell_PickBestOutflowSelectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CheckTypeOffset = new(() => Schema.GetOffset(0x7239DF04A94C6E6B), LazyThreadSafetyMode.None);
+
   public ref PulseBestOutflowRules_t CheckType {
-    get => ref _Handle.AsRef<PulseBestOutflowRules_t>(Schema.GetOffset(0x7239DF04A94C6E6B));
+    get => ref _Handle.AsRef<PulseBestOutflowRules_t>(_CheckTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _OutflowListOffset = new(() => Schema.GetOffset(0x7239DF041461E743), LazyThreadSafetyMode.None);
+
   public PulseSelectorOutflowList_t OutflowList {
-    get => new PulseSelectorOutflowList_tImpl(_Handle + Schema.GetOffset(0x7239DF041461E743));
+    get => new PulseSelectorOutflowList_tImpl(_Handle + _OutflowListOffset.Value);
   }
 
 

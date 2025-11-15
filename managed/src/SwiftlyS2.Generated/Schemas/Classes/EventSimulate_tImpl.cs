@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class EventSimulate_tImpl : SchemaClass, EventSimulate_t {
   public EventSimulate_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LoopStateOffset = new(() => Schema.GetOffset(0x39B7BD6EF928A2EC), LazyThreadSafetyMode.None);
+
   public EngineLoopState_t LoopState {
-    get => new EngineLoopState_tImpl(_Handle + Schema.GetOffset(0x39B7BD6EF928A2EC));
+    get => new EngineLoopState_tImpl(_Handle + _LoopStateOffset.Value);
   }
+  private static readonly Lazy<nint> _FirstTickOffset = new(() => Schema.GetOffset(0x39B7BD6EC8198F38), LazyThreadSafetyMode.None);
+
   public ref bool FirstTick {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x39B7BD6EC8198F38));
+    get => ref _Handle.AsRef<bool>(_FirstTickOffset.Value);
   }
+  private static readonly Lazy<nint> _LastTickOffset = new(() => Schema.GetOffset(0x39B7BD6E1704CC30), LazyThreadSafetyMode.None);
+
   public ref bool LastTick {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x39B7BD6E1704CC30));
+    get => ref _Handle.AsRef<bool>(_LastTickOffset.Value);
   }
 
 

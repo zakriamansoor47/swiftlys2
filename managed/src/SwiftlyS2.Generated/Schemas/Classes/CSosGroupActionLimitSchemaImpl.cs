@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CSosGroupActionLimitSchemaImpl : CSosGroupActionSchemaImp
   public CSosGroupActionLimitSchemaImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaxCountOffset = new(() => Schema.GetOffset(0xE06D795E64BED864), LazyThreadSafetyMode.None);
+
   public ref int MaxCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE06D795E64BED864));
+    get => ref _Handle.AsRef<int>(_MaxCountOffset.Value);
   }
+  private static readonly Lazy<nint> _StopTypeOffset = new(() => Schema.GetOffset(0xE06D795E13397259), LazyThreadSafetyMode.None);
+
   public ref SosActionStopType_t StopType {
-    get => ref _Handle.AsRef<SosActionStopType_t>(Schema.GetOffset(0xE06D795E13397259));
+    get => ref _Handle.AsRef<SosActionStopType_t>(_StopTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _SortTypeOffset = new(() => Schema.GetOffset(0xE06D795E2E0E44B5), LazyThreadSafetyMode.None);
+
   public ref SosActionLimitSortType_t SortType {
-    get => ref _Handle.AsRef<SosActionLimitSortType_t>(Schema.GetOffset(0xE06D795E2E0E44B5));
+    get => ref _Handle.AsRef<SosActionLimitSortType_t>(_SortTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _StopImmediateOffset = new(() => Schema.GetOffset(0xE06D795E358D6B9A), LazyThreadSafetyMode.None);
+
   public ref bool StopImmediate {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE06D795E358D6B9A));
+    get => ref _Handle.AsRef<bool>(_StopImmediateOffset.Value);
   }
+  private static readonly Lazy<nint> _CountStoppedOffset = new(() => Schema.GetOffset(0xE06D795EF40B23D5), LazyThreadSafetyMode.None);
+
   public ref bool CountStopped {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE06D795EF40B23D5));
+    get => ref _Handle.AsRef<bool>(_CountStoppedOffset.Value);
   }
 
 

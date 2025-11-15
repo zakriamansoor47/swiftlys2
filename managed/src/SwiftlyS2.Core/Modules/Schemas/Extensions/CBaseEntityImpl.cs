@@ -6,10 +6,8 @@ namespace SwiftlyS2.Core.SchemaDefinitions;
 
 internal partial class CBaseEntityImpl : CBaseEntity
 {
-    public CEntitySubclassVDataBase VData
-    {
-        get
-        {
+    public CEntitySubclassVDataBase VData {
+        get {
             return new CEntitySubclassVDataBaseImpl(NativeSchema.GetVData(_Handle));
         }
     }
@@ -17,7 +15,7 @@ internal partial class CBaseEntityImpl : CBaseEntity
     public Vector? AbsOrigin => CBodyComponent?.SceneNode?.AbsOrigin;
     public QAngle? AbsRotation => CBodyComponent?.SceneNode?.AbsRotation;
 
-    public void Teleport(Vector? position, QAngle? angle, Vector? velocity)
+    public void Teleport( Vector? position, QAngle? angle, Vector? velocity )
     {
         unsafe
         {

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class ModelBoneFlexDriverControl_tImpl : SchemaClass, ModelBone
   public ModelBoneFlexDriverControl_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoneComponentOffset = new(() => Schema.GetOffset(0x7DDCB3413C2E9E9E), LazyThreadSafetyMode.None);
+
   public ref ModelBoneFlexComponent_t BoneComponent {
-    get => ref _Handle.AsRef<ModelBoneFlexComponent_t>(Schema.GetOffset(0x7DDCB3413C2E9E9E));
+    get => ref _Handle.AsRef<ModelBoneFlexComponent_t>(_BoneComponentOffset.Value);
   }
+  private static readonly Lazy<nint> _FlexControllerOffset = new(() => Schema.GetOffset(0x7DDCB341EDF88AAA), LazyThreadSafetyMode.None);
+
   public string FlexController {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x7DDCB341EDF88AAA));
+      var ptr = _Handle.Read<nint>(_FlexControllerOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x7DDCB341EDF88AAA, value);
+    set => Schema.SetString(_Handle, _FlexControllerOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _FlexControllerTokenOffset = new(() => Schema.GetOffset(0x7DDCB341996814FF), LazyThreadSafetyMode.None);
+
   public ref uint FlexControllerToken {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x7DDCB341996814FF));
+    get => ref _Handle.AsRef<uint>(_FlexControllerTokenOffset.Value);
   }
+  private static readonly Lazy<nint> _MinOffset = new(() => Schema.GetOffset(0x7DDCB3413B1A5649), LazyThreadSafetyMode.None);
+
   public ref float Min {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7DDCB3413B1A5649));
+    get => ref _Handle.AsRef<float>(_MinOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxOffset = new(() => Schema.GetOffset(0x7DDCB3412D06B887), LazyThreadSafetyMode.None);
+
   public ref float Max {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7DDCB3412D06B887));
+    get => ref _Handle.AsRef<float>(_MaxOffset.Value);
   }
 
 

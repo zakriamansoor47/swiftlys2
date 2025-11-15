@@ -19,13 +19,13 @@ internal class DatabaseService : IDatabaseService
 
   private ConcurrentDictionary<string, Func<IDbConnection>> _connectionStrings = new ConcurrentDictionary<string, Func<IDbConnection>>();
 
-  public DatabaseService(ILogger<DatabaseService> logger, CoreContext context)
+  public DatabaseService( ILogger<DatabaseService> logger, CoreContext context )
   {
     _Logger = logger;
     _Context = context;
   }
 
-  public string GetConnectionString(string connectionName)
+  public string GetConnectionString( string connectionName )
   {
     if (NativeDatabase.ConnectionExists(connectionName))
     {
@@ -34,7 +34,7 @@ internal class DatabaseService : IDatabaseService
     return NativeDatabase.GetDefaultConnectionCredentials();
   }
 
-  private Func<IDbConnection> ResolveConnectionString(string connectionString)
+  private Func<IDbConnection> ResolveConnectionString( string connectionString )
   {
     try
     {
@@ -79,12 +79,13 @@ internal class DatabaseService : IDatabaseService
     }
     catch (Exception e)
     {
+      if (!GlobalExceptionHandler.Handle(e)) throw;
       _Logger.LogError(e, "Failed to resolve database credentials for {connectionString}! Please check your connection string format.", connectionString);
       throw;
     }
   }
 
-  public IDbConnection GetConnection(string connectionName)
+  public IDbConnection GetConnection( string connectionName )
   {
     var connectionString = GetConnectionString(connectionName);
     return ResolveConnectionString(connectionString)();

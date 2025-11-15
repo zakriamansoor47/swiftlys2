@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,49 +17,73 @@ internal partial class CBtActionAimImpl : CBtNodeImpl, CBtActionAim {
   public CBtActionAimImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SensorInputKeyOffset = new(() => Schema.GetOffset(0x43587513D2B0D4C1), LazyThreadSafetyMode.None);
+
   public string SensorInputKey {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x43587513D2B0D4C1));
+      var ptr = _Handle.Read<nint>(_SensorInputKeyOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x43587513D2B0D4C1, value);
+    set => Schema.SetString(_Handle, _SensorInputKeyOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _AimReadyKeyOffset = new(() => Schema.GetOffset(0x435875136718A4C7), LazyThreadSafetyMode.None);
+
   public string AimReadyKey {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x435875136718A4C7));
+      var ptr = _Handle.Read<nint>(_AimReadyKeyOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x435875136718A4C7, value);
+    set => Schema.SetString(_Handle, _AimReadyKeyOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ZoomCooldownTimestampOffset = new(() => Schema.GetOffset(0x43587513F2898D9F), LazyThreadSafetyMode.None);
+
   public ref float ZoomCooldownTimestamp {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43587513F2898D9F));
+    get => ref _Handle.AsRef<float>(_ZoomCooldownTimestampOffset.Value);
   }
+  private static readonly Lazy<nint> _DoneAimingOffset = new(() => Schema.GetOffset(0x43587513F2C3ADDE), LazyThreadSafetyMode.None);
+
   public ref bool DoneAiming {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x43587513F2C3ADDE));
+    get => ref _Handle.AsRef<bool>(_DoneAimingOffset.Value);
   }
+  private static readonly Lazy<nint> _LerpStartTimeOffset = new(() => Schema.GetOffset(0x43587513B67B575F), LazyThreadSafetyMode.None);
+
   public ref float LerpStartTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43587513B67B575F));
+    get => ref _Handle.AsRef<float>(_LerpStartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _NextLookTargetLerpTimeOffset = new(() => Schema.GetOffset(0x43587513768D7F08), LazyThreadSafetyMode.None);
+
   public ref float NextLookTargetLerpTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43587513768D7F08));
+    get => ref _Handle.AsRef<float>(_NextLookTargetLerpTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _PenaltyReductionRatioOffset = new(() => Schema.GetOffset(0x43587513BB3B4A10), LazyThreadSafetyMode.None);
+
   public ref float PenaltyReductionRatio {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x43587513BB3B4A10));
+    get => ref _Handle.AsRef<float>(_PenaltyReductionRatioOffset.Value);
   }
+  private static readonly Lazy<nint> _NextLookTargetOffset = new(() => Schema.GetOffset(0x43587513C1D3F3CE), LazyThreadSafetyMode.None);
+
   public ref QAngle NextLookTarget {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0x43587513C1D3F3CE));
+    get => ref _Handle.AsRef<QAngle>(_NextLookTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _AimTimerOffset = new(() => Schema.GetOffset(0x4358751330E31F47), LazyThreadSafetyMode.None);
+
   public CountdownTimer AimTimer {
-    get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x4358751330E31F47));
+    get => new CountdownTimerImpl(_Handle + _AimTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _SniperHoldTimerOffset = new(() => Schema.GetOffset(0x43587513B206F2AC), LazyThreadSafetyMode.None);
+
   public CountdownTimer SniperHoldTimer {
-    get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x43587513B206F2AC));
+    get => new CountdownTimerImpl(_Handle + _SniperHoldTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _FocusIntervalTimerOffset = new(() => Schema.GetOffset(0x43587513267063CB), LazyThreadSafetyMode.None);
+
   public CountdownTimer FocusIntervalTimer {
-    get => new CountdownTimerImpl(_Handle + Schema.GetOffset(0x43587513267063CB));
+    get => new CountdownTimerImpl(_Handle + _FocusIntervalTimerOffset.Value);
   }
+  private static readonly Lazy<nint> _AcquiredOffset = new(() => Schema.GetOffset(0x435875131D2FE5B5), LazyThreadSafetyMode.None);
+
   public ref bool Acquired {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x435875131D2FE5B5));
+    get => ref _Handle.AsRef<bool>(_AcquiredOffset.Value);
   }
 
 

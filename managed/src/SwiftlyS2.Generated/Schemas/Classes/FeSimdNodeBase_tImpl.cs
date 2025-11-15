@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -33,8 +35,10 @@ internal partial class FeSimdNodeBase_tImpl : SchemaClass, FeSimdNodeBase_t {
   public ISchemaFixedArray<ushort> Dummy {
     get => new SchemaFixedArray<ushort>(_Handle, 0x8B863723CD8BAE5F, 4, 2, 2);
   }
+  private static readonly Lazy<nint> _AdjustOffset = new(() => Schema.GetOffset(0x8B8637230F6C0983), LazyThreadSafetyMode.None);
+
   public FourQuaternions Adjust {
-    get => new FourQuaternionsImpl(_Handle + Schema.GetOffset(0x8B8637230F6C0983));
+    get => new FourQuaternionsImpl(_Handle + _AdjustOffset.Value);
   }
 
 

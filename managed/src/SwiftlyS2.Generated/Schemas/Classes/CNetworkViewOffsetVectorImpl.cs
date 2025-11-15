@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNetworkViewOffsetVectorImpl : SchemaClass, CNetworkViewO
   public CNetworkViewOffsetVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _XOffset = new(() => Schema.GetOffset(0x178DD1B58FEB7867), LazyThreadSafetyMode.None);
+
   public ref CNetworkedQuantizedFloat X {
-    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(Schema.GetOffset(0x178DD1B58FEB7867));
+    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(_XOffset.Value);
   }
+  private static readonly Lazy<nint> _YOffset = new(() => Schema.GetOffset(0x178DD1B58EEB76D4), LazyThreadSafetyMode.None);
+
   public ref CNetworkedQuantizedFloat Y {
-    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(Schema.GetOffset(0x178DD1B58EEB76D4));
+    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(_YOffset.Value);
   }
+  private static readonly Lazy<nint> _ZOffset = new(() => Schema.GetOffset(0x178DD1B591EB7B8D), LazyThreadSafetyMode.None);
+
   public ref CNetworkedQuantizedFloat Z {
-    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(Schema.GetOffset(0x178DD1B591EB7B8D));
+    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(_ZOffset.Value);
   }
 
   public void XUpdated() {

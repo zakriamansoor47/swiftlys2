@@ -11,11 +11,11 @@ using SwiftlyS2.Shared;
 
 namespace SwiftlyS2.Core.Commands;
 
-internal delegate void CommandCallbackDelegate(int playerId, nint args, nint commandName, nint prefix, byte slient);
+internal delegate void CommandCallbackDelegate( int playerId, nint args, nint commandName, nint prefix, byte slient );
 
-internal delegate HookResult ClientCommandListenerCallbackDelegate(int playerId, nint commandLine);
+internal delegate HookResult ClientCommandListenerCallbackDelegate( int playerId, nint commandLine );
 
-internal delegate HookResult ClientChatListenerCallbackDelegate(int playerId, nint text, byte teamonly);
+internal delegate HookResult ClientChatListenerCallbackDelegate( int playerId, nint text, byte teamonly );
 
 internal abstract class CommandCallbackBase : IDisposable
 {
@@ -26,7 +26,7 @@ internal abstract class CommandCallbackBase : IDisposable
 
   public ILoggerFactory LoggerFactory { get; }
 
-  protected CommandCallbackBase(ILoggerFactory loggerFactory, IContextedProfilerService profiler)
+  protected CommandCallbackBase( ILoggerFactory loggerFactory, IContextedProfilerService profiler )
   {
     LoggerFactory = loggerFactory;
     Profiler = profiler;
@@ -52,7 +52,7 @@ internal class CommandCallback : CommandCallbackBase
   private readonly IPlayerManagerService _playerManagerService;
   private readonly IPermissionManager _permissionManager;
 
-  public CommandCallback(string commandName, bool registerRaw, ICommandService.CommandListener handler, string permission, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, ILoggerFactory loggerFactory, IContextedProfilerService profiler)
+  public CommandCallback( string commandName, bool registerRaw, ICommandService.CommandListener handler, string permission, IPlayerManagerService playerManagerService, IPermissionManager permissionManager, ILoggerFactory loggerFactory, IContextedProfilerService profiler )
     : base(loggerFactory, profiler)
   {
     _logger = LoggerFactory.CreateLogger<CommandCallback>();
@@ -64,7 +64,7 @@ internal class CommandCallback : CommandCallbackBase
     _permissions = permission;
     _handler = handler;
 
-    _unmanagedCallback = (playerId, argsPtr, commandNamePtr, prefixPtr, slient) =>
+    _unmanagedCallback = ( playerId, argsPtr, commandNamePtr, prefixPtr, slient ) =>
     {
       try
       {
@@ -88,6 +88,7 @@ internal class CommandCallback : CommandCallbackBase
       }
       catch (Exception e)
       {
+        if (!GlobalExceptionHandler.Handle(e)) return;
         _logger.LogError(e, "Failed to handle command {0}.", commandName);
       }
     };
@@ -112,7 +113,7 @@ internal class ClientCommandListenerCallback : CommandCallbackBase
   private ulong _nativeListenerId;
   private ILogger<ClientCommandListenerCallback> _logger;
 
-  public ClientCommandListenerCallback(ICommandService.ClientCommandHandler handler, ILoggerFactory loggerFactory, IContextedProfilerService profiler)
+  public ClientCommandListenerCallback( ICommandService.ClientCommandHandler handler, ILoggerFactory loggerFactory, IContextedProfilerService profiler )
     : base(loggerFactory, profiler)
   {
     _logger = LoggerFactory.CreateLogger<ClientCommandListenerCallback>();
@@ -120,7 +121,7 @@ internal class ClientCommandListenerCallback : CommandCallbackBase
 
     _handler = handler;
 
-    _unmanagedCallback = (playerId, commandLinePtr) =>
+    _unmanagedCallback = ( playerId, commandLinePtr ) =>
     {
       try
       {
@@ -133,6 +134,7 @@ internal class ClientCommandListenerCallback : CommandCallbackBase
       }
       catch (Exception e)
       {
+        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
         _logger.LogError(e, "Failed to handle client command listener.");
         return HookResult.Continue;
       }
@@ -159,7 +161,7 @@ internal class ClientChatListenerCallback : CommandCallbackBase
   private ulong _nativeListenerId;
   private ILogger<ClientChatListenerCallback> _logger;
 
-  public ClientChatListenerCallback(ICommandService.ClientChatHandler handler, ILoggerFactory loggerFactory, IContextedProfilerService profiler)
+  public ClientChatListenerCallback( ICommandService.ClientChatHandler handler, ILoggerFactory loggerFactory, IContextedProfilerService profiler )
     : base(loggerFactory, profiler)
   {
     _logger = LoggerFactory.CreateLogger<ClientChatListenerCallback>();
@@ -167,7 +169,7 @@ internal class ClientChatListenerCallback : CommandCallbackBase
 
     _handler = handler;
 
-    _unmanagedCallback = (playerId, textPtr, teamonly) =>
+    _unmanagedCallback = ( playerId, textPtr, teamonly ) =>
     {
       try
       {
@@ -180,6 +182,7 @@ internal class ClientChatListenerCallback : CommandCallbackBase
       }
       catch (Exception e)
       {
+        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
         _logger.LogError(e, "Failed to handle client chat listener.");
         return HookResult.Continue;
       }

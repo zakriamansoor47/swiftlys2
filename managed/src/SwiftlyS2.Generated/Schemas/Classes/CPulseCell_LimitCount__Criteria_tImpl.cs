@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_LimitCount__Criteria_tImpl : SchemaClass, CPul
   public CPulseCell_LimitCount__Criteria_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LimitCountPassesOffset = new(() => Schema.GetOffset(0x3B47B1B460A35826), LazyThreadSafetyMode.None);
+
   public ref bool LimitCountPasses {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3B47B1B460A35826));
+    get => ref _Handle.AsRef<bool>(_LimitCountPassesOffset.Value);
   }
 
 

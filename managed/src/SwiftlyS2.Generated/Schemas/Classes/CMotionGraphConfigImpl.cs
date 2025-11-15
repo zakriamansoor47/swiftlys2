@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,17 +20,25 @@ internal partial class CMotionGraphConfigImpl : SchemaClass, CMotionGraphConfig 
   public ISchemaFixedArray<float> ParamValues {
     get => new SchemaFixedArray<float>(_Handle, 0x851F6EEA365BD3F8, 4, 4, 4);
   }
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0x851F6EEABC5E3BAB), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x851F6EEABC5E3BAB));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _MotionIndexOffset = new(() => Schema.GetOffset(0x851F6EEABF50B8E1), LazyThreadSafetyMode.None);
+
   public MotionIndex MotionIndex {
-    get => new MotionIndexImpl(_Handle + Schema.GetOffset(0x851F6EEABF50B8E1));
+    get => new MotionIndexImpl(_Handle + _MotionIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _SampleStartOffset = new(() => Schema.GetOffset(0x851F6EEA43384B19), LazyThreadSafetyMode.None);
+
   public ref int SampleStart {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x851F6EEA43384B19));
+    get => ref _Handle.AsRef<int>(_SampleStartOffset.Value);
   }
+  private static readonly Lazy<nint> _SampleCountOffset = new(() => Schema.GetOffset(0x851F6EEA2DEF676A), LazyThreadSafetyMode.None);
+
   public ref int SampleCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x851F6EEA2DEF676A));
+    get => ref _Handle.AsRef<int>(_SampleCountOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class SkeletonAnimCapture_t__Camera_tImpl : SchemaClass, Skelet
   public SkeletonAnimCapture_t__Camera_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TmCameraOffset = new(() => Schema.GetOffset(0xEBD053249D7ED559), LazyThreadSafetyMode.None);
+
   public ref CTransform TmCamera {
-    get => ref _Handle.AsRef<CTransform>(Schema.GetOffset(0xEBD053249D7ED559));
+    get => ref _Handle.AsRef<CTransform>(_TmCameraOffset.Value);
   }
+  private static readonly Lazy<nint> _TimeOffset = new(() => Schema.GetOffset(0xEBD05324C957229E), LazyThreadSafetyMode.None);
+
   public ref float Time {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEBD05324C957229E));
+    get => ref _Handle.AsRef<float>(_TimeOffset.Value);
   }
 
 

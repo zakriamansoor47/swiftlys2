@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmSyncTrack__EventMarker_tImpl : SchemaClass, CNmSyncTra
   public CNmSyncTrack__EventMarker_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0x1BCC69006330E7EE), LazyThreadSafetyMode.None);
+
   public NmPercent_t StartTime {
-    get => new NmPercent_tImpl(_Handle + Schema.GetOffset(0x1BCC69006330E7EE));
+    get => new NmPercent_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _IDOffset = new(() => Schema.GetOffset(0x1BCC690095066900), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol ID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x1BCC690095066900));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_IDOffset.Value);
   }
 
 

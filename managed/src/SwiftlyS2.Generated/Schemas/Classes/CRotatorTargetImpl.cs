@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CRotatorTargetImpl : CPointEntityImpl, CRotatorTarget {
   public CRotatorTargetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnArrivedAtOffset = new(() => Schema.GetOffset(0x448D6B2611C20554), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnArrivedAt {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x448D6B2611C20554));
+    get => new CEntityIOOutputImpl(_Handle + _OnArrivedAtOffset.Value);
   }
+  private static readonly Lazy<nint> _SpaceOffset = new(() => Schema.GetOffset(0x448D6B26A8FD0676), LazyThreadSafetyMode.None);
+
   public ref RotatorTargetSpace_t Space {
-    get => ref _Handle.AsRef<RotatorTargetSpace_t>(Schema.GetOffset(0x448D6B26A8FD0676));
+    get => ref _Handle.AsRef<RotatorTargetSpace_t>(_SpaceOffset.Value);
   }
 
 

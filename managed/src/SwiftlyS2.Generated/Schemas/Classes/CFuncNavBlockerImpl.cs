@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CFuncNavBlockerImpl : CBaseModelEntityImpl, CFuncNavBlock
   public CFuncNavBlockerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0x3F066D113A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3F066D113A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _BlockedTeamNumberOffset = new(() => Schema.GetOffset(0x3F066D11B33D3543), LazyThreadSafetyMode.None);
+
   public ref int BlockedTeamNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3F066D11B33D3543));
+    get => ref _Handle.AsRef<int>(_BlockedTeamNumberOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CFlexDescImpl : SchemaClass, CFlexDesc {
   public CFlexDescImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FacsOffset = new(() => Schema.GetOffset(0xF8B9C4900514A8FF), LazyThreadSafetyMode.None);
+
   public string Facs {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF8B9C4900514A8FF));
+      var ptr = _Handle.Read<nint>(_FacsOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF8B9C4900514A8FF, value);
+    set => Schema.SetString(_Handle, _FacsOffset.Value, value);
   } 
 
 

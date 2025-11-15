@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_ParentVorticesImpl : CParticleFunctionForceImpl, C_O
   public C_OP_ParentVorticesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceScaleOffset = new(() => Schema.GetOffset(0xBB2B6F884817F390), LazyThreadSafetyMode.None);
+
   public ref float ForceScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBB2B6F884817F390));
+    get => ref _Handle.AsRef<float>(_ForceScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _TwistAxisOffset = new(() => Schema.GetOffset(0xBB2B6F8808970741), LazyThreadSafetyMode.None);
+
   public ref Vector TwistAxis {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xBB2B6F8808970741));
+    get => ref _Handle.AsRef<Vector>(_TwistAxisOffset.Value);
   }
+  private static readonly Lazy<nint> _FlipBasedOnYawOffset = new(() => Schema.GetOffset(0xBB2B6F88BCFD5843), LazyThreadSafetyMode.None);
+
   public ref bool FlipBasedOnYaw {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBB2B6F88BCFD5843));
+    get => ref _Handle.AsRef<bool>(_FlipBasedOnYawOffset.Value);
   }
 
 

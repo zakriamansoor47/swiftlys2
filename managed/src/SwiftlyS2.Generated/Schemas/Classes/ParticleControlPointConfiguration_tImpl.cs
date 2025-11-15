@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class ParticleControlPointConfiguration_tImpl : SchemaClass, Pa
   public ParticleControlPointConfiguration_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0xC54E49C74D8F5786), LazyThreadSafetyMode.None);
+
   public string Name {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xC54E49C74D8F5786));
+      var ptr = _Handle.Read<nint>(_NameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xC54E49C74D8F5786, value);
+    set => Schema.SetString(_Handle, _NameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _DriversOffset = new(() => Schema.GetOffset(0xC54E49C7C63563E4), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<ParticleControlPointDriver_t> Drivers {
-    get => ref _Handle.AsRef<CUtlVector<ParticleControlPointDriver_t>>(Schema.GetOffset(0xC54E49C7C63563E4));
+    get => ref _Handle.AsRef<CUtlVector<ParticleControlPointDriver_t>>(_DriversOffset.Value);
   }
+  private static readonly Lazy<nint> _PreviewStateOffset = new(() => Schema.GetOffset(0xC54E49C79E440558), LazyThreadSafetyMode.None);
+
   public ParticlePreviewState_t PreviewState {
-    get => new ParticlePreviewState_tImpl(_Handle + Schema.GetOffset(0xC54E49C79E440558));
+    get => new ParticlePreviewState_tImpl(_Handle + _PreviewStateOffset.Value);
   }
 
 

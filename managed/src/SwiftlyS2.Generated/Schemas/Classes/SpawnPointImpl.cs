@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class SpawnPointImpl : CServerOnlyPointEntityImpl, SpawnPoint {
   public SpawnPointImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PriorityOffset = new(() => Schema.GetOffset(0x72527C0E6224A30C), LazyThreadSafetyMode.None);
+
   public ref int Priority {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x72527C0E6224A30C));
+    get => ref _Handle.AsRef<int>(_PriorityOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledOffset = new(() => Schema.GetOffset(0x72527C0E6154EB7E), LazyThreadSafetyMode.None);
+
   public ref bool Enabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x72527C0E6154EB7E));
+    get => ref _Handle.AsRef<bool>(_EnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _TypeOffset = new(() => Schema.GetOffset(0x72527C0E18853D59), LazyThreadSafetyMode.None);
+
   public ref int Type {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x72527C0E18853D59));
+    get => ref _Handle.AsRef<int>(_TypeOffset.Value);
   }
 
 

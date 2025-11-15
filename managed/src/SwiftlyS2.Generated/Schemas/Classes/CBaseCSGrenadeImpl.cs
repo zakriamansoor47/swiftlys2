@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,44 +17,70 @@ internal partial class CBaseCSGrenadeImpl : CCSWeaponBaseImpl, CBaseCSGrenade {
   public CBaseCSGrenadeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RedrawOffset = new(() => Schema.GetOffset(0x8680ADED612F4EB2), LazyThreadSafetyMode.None);
+
   public ref bool Redraw {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8680ADED612F4EB2));
+    get => ref _Handle.AsRef<bool>(_RedrawOffset.Value);
   }
+  private static readonly Lazy<nint> _IsHeldByPlayerOffset = new(() => Schema.GetOffset(0x8680ADED5FB07B26), LazyThreadSafetyMode.None);
+
   public ref bool IsHeldByPlayer {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8680ADED5FB07B26));
+    get => ref _Handle.AsRef<bool>(_IsHeldByPlayerOffset.Value);
   }
+  private static readonly Lazy<nint> _PinPulledOffset = new(() => Schema.GetOffset(0x8680ADEDB3D8AABA), LazyThreadSafetyMode.None);
+
   public ref bool PinPulled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8680ADEDB3D8AABA));
+    get => ref _Handle.AsRef<bool>(_PinPulledOffset.Value);
   }
+  private static readonly Lazy<nint> _JumpThrowOffset = new(() => Schema.GetOffset(0x8680ADED3202A7A7), LazyThreadSafetyMode.None);
+
   public ref bool JumpThrow {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8680ADED3202A7A7));
+    get => ref _Handle.AsRef<bool>(_JumpThrowOffset.Value);
   }
+  private static readonly Lazy<nint> _ThrowAnimatingOffset = new(() => Schema.GetOffset(0x8680ADEDB2614685), LazyThreadSafetyMode.None);
+
   public ref bool ThrowAnimating {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8680ADEDB2614685));
+    get => ref _Handle.AsRef<bool>(_ThrowAnimatingOffset.Value);
   }
+  private static readonly Lazy<nint> _ThrowTimeOffset = new(() => Schema.GetOffset(0x8680ADED57C1B8DA), LazyThreadSafetyMode.None);
+
   public GameTime_t ThrowTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8680ADED57C1B8DA));
+    get => new GameTime_tImpl(_Handle + _ThrowTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _ThrowStrengthOffset = new(() => Schema.GetOffset(0x8680ADEDF4D38CF4), LazyThreadSafetyMode.None);
+
   public ref float ThrowStrength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8680ADEDF4D38CF4));
+    get => ref _Handle.AsRef<float>(_ThrowStrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _DropTimeOffset = new(() => Schema.GetOffset(0x8680ADED2DE88B09), LazyThreadSafetyMode.None);
+
   public GameTime_t DropTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8680ADED2DE88B09));
+    get => new GameTime_tImpl(_Handle + _DropTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _PinPullTimeOffset = new(() => Schema.GetOffset(0x8680ADEDFCD7B2E6), LazyThreadSafetyMode.None);
+
   public GameTime_t PinPullTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8680ADEDFCD7B2E6));
+    get => new GameTime_tImpl(_Handle + _PinPullTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _JustPulledPinOffset = new(() => Schema.GetOffset(0x8680ADEDDA12F260), LazyThreadSafetyMode.None);
+
   public ref bool JustPulledPin {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8680ADEDDA12F260));
+    get => ref _Handle.AsRef<bool>(_JustPulledPinOffset.Value);
   }
+  private static readonly Lazy<nint> _NextHoldTickOffset = new(() => Schema.GetOffset(0x8680ADEDDB254738), LazyThreadSafetyMode.None);
+
   public GameTick_t NextHoldTick {
-    get => new GameTick_tImpl(_Handle + Schema.GetOffset(0x8680ADEDDB254738));
+    get => new GameTick_tImpl(_Handle + _NextHoldTickOffset.Value);
   }
+  private static readonly Lazy<nint> _NextHoldFracOffset = new(() => Schema.GetOffset(0x8680ADED09F02BB7), LazyThreadSafetyMode.None);
+
   public ref float NextHoldFrac {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8680ADED09F02BB7));
+    get => ref _Handle.AsRef<float>(_NextHoldFracOffset.Value);
   }
+  private static readonly Lazy<nint> _SwitchToWeaponAfterThrowOffset = new(() => Schema.GetOffset(0x8680ADED72CB2A60), LazyThreadSafetyMode.None);
+
   public ref CHandle<CCSWeaponBase> SwitchToWeaponAfterThrow {
-    get => ref _Handle.AsRef<CHandle<CCSWeaponBase>>(Schema.GetOffset(0x8680ADED72CB2A60));
+    get => ref _Handle.AsRef<CHandle<CCSWeaponBase>>(_SwitchToWeaponAfterThrowOffset.Value);
   }
 
   public void RedrawUpdated() {

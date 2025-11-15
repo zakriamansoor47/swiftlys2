@@ -5,7 +5,7 @@ namespace SwiftlyS2.Core.Schemas;
 
 internal abstract class SchemaField : NativeHandle, ISchemaField {
 
-  public int FieldOffset { get; set; }
+  public nint FieldOffset { get; set; }
 
   private ulong _hash { get; set; } = 0;
 

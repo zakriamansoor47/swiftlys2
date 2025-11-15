@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmParameterizedSelectorNode__CDefinitionImpl : CNmPoseNo
   public CNmParameterizedSelectorNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OptionNodeIndicesOffset = new(() => Schema.GetOffset(0xE1B260B3DA97B15D), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField OptionNodeIndices {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xE1B260B3DA97B15D));
+    get => new SchemaUntypedField(_Handle + _OptionNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _OptionWeightsOffset = new(() => Schema.GetOffset(0xE1B260B331D94DB5), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField OptionWeights {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xE1B260B331D94DB5));
+    get => new SchemaUntypedField(_Handle + _OptionWeightsOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterNodeIdxOffset = new(() => Schema.GetOffset(0xE1B260B366C6F2AB), LazyThreadSafetyMode.None);
+
   public ref short ParameterNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xE1B260B366C6F2AB));
+    get => ref _Handle.AsRef<short>(_ParameterNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _IgnoreInvalidOptionsOffset = new(() => Schema.GetOffset(0xE1B260B3507C679C), LazyThreadSafetyMode.None);
+
   public ref bool IgnoreInvalidOptions {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE1B260B3507C679C));
+    get => ref _Handle.AsRef<bool>(_IgnoreInvalidOptionsOffset.Value);
   }
+  private static readonly Lazy<nint> _HasWeightsSetOffset = new(() => Schema.GetOffset(0xE1B260B3EA6127CC), LazyThreadSafetyMode.None);
+
   public ref bool HasWeightsSet {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE1B260B3EA6127CC));
+    get => ref _Handle.AsRef<bool>(_HasWeightsSetOffset.Value);
   }
 
 

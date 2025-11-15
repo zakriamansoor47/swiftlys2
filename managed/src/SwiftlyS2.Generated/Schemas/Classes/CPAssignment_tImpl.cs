@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPAssignment_tImpl : SchemaClass, CPAssignment_t {
   public CPAssignment_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPNumberOffset = new(() => Schema.GetOffset(0xEB6A63F032CCA91F), LazyThreadSafetyMode.None);
+
   public ref int CPNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xEB6A63F032CCA91F));
+    get => ref _Handle.AsRef<int>(_CPNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _PosOffset = new(() => Schema.GetOffset(0xEB6A63F0DFC9BE09), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput Pos {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xEB6A63F0DFC9BE09));
+    get => new CPerParticleVecInputImpl(_Handle + _PosOffset.Value);
   }
+  private static readonly Lazy<nint> _OrientationModeOffset = new(() => Schema.GetOffset(0xEB6A63F0272947BA), LazyThreadSafetyMode.None);
+
   public ref ParticleOrientationSetMode_t OrientationMode {
-    get => ref _Handle.AsRef<ParticleOrientationSetMode_t>(Schema.GetOffset(0xEB6A63F0272947BA));
+    get => ref _Handle.AsRef<ParticleOrientationSetMode_t>(_OrientationModeOffset.Value);
   }
 
 

@@ -3,15 +3,18 @@ using Spectre.Console;
 
 namespace SwiftlyS2.Core.Misc;
 
-internal static class FileLogger {
+internal static class FileLogger
+{
 
   private static StreamWriter? _fileStream;
-  private static object _lock = new();
+  private static Lock _lock = new();
 
-  public static void Initialize(string basePath) {
+  public static void Initialize( string basePath )
+  {
     var directory = Path.Combine(basePath, "logs");
 
-    if (!Directory.Exists(directory)) {
+    if (!Directory.Exists(directory))
+    {
       Directory.CreateDirectory(directory);
     }
 
@@ -19,16 +22,20 @@ internal static class FileLogger {
 
     var filePath = Path.Combine(directory, $"swiftlys2_managed_{time}.log");
 
-    if (File.Exists(filePath)) {
+    if (File.Exists(filePath))
+    {
       File.Delete(filePath);
     }
 
     _fileStream = new StreamWriter(filePath, true);
   }
 
-  public static void Log(string message) {
-    lock (_lock) {
-      if (_fileStream == null) {
+  public static void Log( string message )
+  {
+    lock (_lock)
+    {
+      if (_fileStream == null)
+      {
         return;
       }
 
@@ -37,9 +44,12 @@ internal static class FileLogger {
     }
   }
 
-  public static void LogException(Exception exception, string message) {
-    lock (_lock) {
-      if (_fileStream == null) {
+  public static void LogException( Exception exception, string message )
+  {
+    lock (_lock)
+    {
+      if (_fileStream == null)
+      {
         return;
       }
       _fileStream.WriteLine(message);
@@ -48,7 +58,8 @@ internal static class FileLogger {
       _fileStream.Flush();
     }
   }
-  public static void Dispose() {
+  public static void Dispose()
+  {
     _fileStream?.Dispose();
     _fileStream = null;
   }

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CWayPointHelperUpdateNodeImpl : CUnaryUpdateNodeImpl, CWa
   public CWayPointHelperUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartCycleOffset = new(() => Schema.GetOffset(0x109BD628ABB46051), LazyThreadSafetyMode.None);
+
   public ref float StartCycle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x109BD628ABB46051));
+    get => ref _Handle.AsRef<float>(_StartCycleOffset.Value);
   }
+  private static readonly Lazy<nint> _EndCycleOffset = new(() => Schema.GetOffset(0x109BD628176E8F62), LazyThreadSafetyMode.None);
+
   public ref float EndCycle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x109BD628176E8F62));
+    get => ref _Handle.AsRef<float>(_EndCycleOffset.Value);
   }
+  private static readonly Lazy<nint> _OnlyGoalsOffset = new(() => Schema.GetOffset(0x109BD6283526BA11), LazyThreadSafetyMode.None);
+
   public ref bool OnlyGoals {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x109BD6283526BA11));
+    get => ref _Handle.AsRef<bool>(_OnlyGoalsOffset.Value);
   }
+  private static readonly Lazy<nint> _PreventOvershootOffset = new(() => Schema.GetOffset(0x109BD628B161EADA), LazyThreadSafetyMode.None);
+
   public ref bool PreventOvershoot {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x109BD628B161EADA));
+    get => ref _Handle.AsRef<bool>(_PreventOvershootOffset.Value);
   }
+  private static readonly Lazy<nint> _PreventUndershootOffset = new(() => Schema.GetOffset(0x109BD628C22276F8), LazyThreadSafetyMode.None);
+
   public ref bool PreventUndershoot {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x109BD628C22276F8));
+    get => ref _Handle.AsRef<bool>(_PreventUndershootOffset.Value);
   }
 
 

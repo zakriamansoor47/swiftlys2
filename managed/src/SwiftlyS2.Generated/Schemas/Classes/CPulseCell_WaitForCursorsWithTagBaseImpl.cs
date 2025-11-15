@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_WaitForCursorsWithTagBaseImpl : CPulseCell_Bas
   public CPulseCell_WaitForCursorsWithTagBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CursorsAllowedToWaitOffset = new(() => Schema.GetOffset(0xA8108DB0236617EC), LazyThreadSafetyMode.None);
+
   public ref int CursorsAllowedToWait {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA8108DB0236617EC));
+    get => ref _Handle.AsRef<int>(_CursorsAllowedToWaitOffset.Value);
   }
+  private static readonly Lazy<nint> _WaitCompleteOffset = new(() => Schema.GetOffset(0xA8108DB02C41AD97), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint WaitComplete {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0xA8108DB02C41AD97));
+    get => new CPulse_ResumePointImpl(_Handle + _WaitCompleteOffset.Value);
   }
 
 

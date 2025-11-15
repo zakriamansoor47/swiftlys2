@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CTriggerDetectExplosionImpl : CBaseTriggerImpl, CTriggerD
   public CTriggerDetectExplosionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnDetectedExplosionOffset = new(() => Schema.GetOffset(0xEDC17DD03CDD7F71), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnDetectedExplosion {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xEDC17DD03CDD7F71));
+    get => new CEntityIOOutputImpl(_Handle + _OnDetectedExplosionOffset.Value);
   }
 
 

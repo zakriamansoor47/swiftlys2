@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class EventProfileStorageAvailable_tImpl : SchemaClass, EventPr
   public EventProfileStorageAvailable_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SplitScreenSlotOffset = new(() => Schema.GetOffset(0x871602F7DB96ED47), LazyThreadSafetyMode.None);
+
   public ref uint SplitScreenSlot {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x871602F7DB96ED47));
+    get => ref _Handle.AsRef<uint>(_SplitScreenSlotOffset.Value);
   }
 
 

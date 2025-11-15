@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CFootPinningUpdateNodeImpl : CUnaryUpdateNodeImpl, CFootP
   public CFootPinningUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PoseOpFixedDataOffset = new(() => Schema.GetOffset(0x9D0C68166EC45627), LazyThreadSafetyMode.None);
+
   public FootPinningPoseOpFixedData_t PoseOpFixedData {
-    get => new FootPinningPoseOpFixedData_tImpl(_Handle + Schema.GetOffset(0x9D0C68166EC45627));
+    get => new FootPinningPoseOpFixedData_tImpl(_Handle + _PoseOpFixedDataOffset.Value);
   }
+  private static readonly Lazy<nint> _TimingSourceOffset = new(() => Schema.GetOffset(0x9D0C68164D5A2DD7), LazyThreadSafetyMode.None);
+
   public ref FootPinningTimingSource TimingSource {
-    get => ref _Handle.AsRef<FootPinningTimingSource>(Schema.GetOffset(0x9D0C68164D5A2DD7));
+    get => ref _Handle.AsRef<FootPinningTimingSource>(_TimingSourceOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamsOffset = new(() => Schema.GetOffset(0x9D0C6816640EA8F3), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CAnimParamHandle> Params {
-    get => ref _Handle.AsRef<CUtlVector<CAnimParamHandle>>(Schema.GetOffset(0x9D0C6816640EA8F3));
+    get => ref _Handle.AsRef<CUtlVector<CAnimParamHandle>>(_ParamsOffset.Value);
   }
+  private static readonly Lazy<nint> _ResetChildOffset = new(() => Schema.GetOffset(0x9D0C681665CC88B6), LazyThreadSafetyMode.None);
+
   public ref bool ResetChild {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9D0C681665CC88B6));
+    get => ref _Handle.AsRef<bool>(_ResetChildOffset.Value);
   }
 
 

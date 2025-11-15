@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CInfoFanImpl : CPointEntityImpl, CInfoFan {
   public CInfoFanImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FanForceMaxRadiusOffset = new(() => Schema.GetOffset(0x1372EEA33EA45A67), LazyThreadSafetyMode.None);
+
   public ref float FanForceMaxRadius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1372EEA33EA45A67));
+    get => ref _Handle.AsRef<float>(_FanForceMaxRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _FanForceMinRadiusOffset = new(() => Schema.GetOffset(0x1372EEA352CA71C5), LazyThreadSafetyMode.None);
+
   public ref float FanForceMinRadius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1372EEA352CA71C5));
+    get => ref _Handle.AsRef<float>(_FanForceMinRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _CurveDistRangeOffset = new(() => Schema.GetOffset(0x1372EEA3EE91456F), LazyThreadSafetyMode.None);
+
   public ref float CurveDistRange {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x1372EEA3EE91456F));
+    get => ref _Handle.AsRef<float>(_CurveDistRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _FanForceCurveStringOffset = new(() => Schema.GetOffset(0x1372EEA3CC493A61), LazyThreadSafetyMode.None);
+
   public string FanForceCurveString {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x1372EEA3CC493A61));
+      var ptr = _Handle.Read<nint>(_FanForceCurveStringOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x1372EEA3CC493A61, value);
+    set => Schema.SetString(_Handle, _FanForceCurveStringOffset.Value, value);
   } 
 
   public void FanForceMaxRadiusUpdated() {

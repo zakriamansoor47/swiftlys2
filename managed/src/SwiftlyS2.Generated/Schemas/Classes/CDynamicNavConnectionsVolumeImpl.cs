@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,30 +17,44 @@ internal partial class CDynamicNavConnectionsVolumeImpl : CTriggerMultipleImpl, 
   public CDynamicNavConnectionsVolumeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConnectionTargetOffset = new(() => Schema.GetOffset(0xA03D49DB1120FFE4), LazyThreadSafetyMode.None);
+
   public string ConnectionTarget {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xA03D49DB1120FFE4));
+      var ptr = _Handle.Read<nint>(_ConnectionTargetOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xA03D49DB1120FFE4, value);
+    set => Schema.SetString(_Handle, _ConnectionTargetOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ConnectionsOffset = new(() => Schema.GetOffset(0xA03D49DB11986B7E), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<DynamicVolumeDef_t> Connections {
-    get => ref _Handle.AsRef<CUtlVector<DynamicVolumeDef_t>>(Schema.GetOffset(0xA03D49DB11986B7E));
+    get => ref _Handle.AsRef<CUtlVector<DynamicVolumeDef_t>>(_ConnectionsOffset.Value);
   }
+  private static readonly Lazy<nint> _TransitionTypeOffset = new(() => Schema.GetOffset(0xA03D49DB68D65FB9), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol TransitionType {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xA03D49DB68D65FB9));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_TransitionTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _ConnectionsEnabledOffset = new(() => Schema.GetOffset(0xA03D49DB4C10BC9B), LazyThreadSafetyMode.None);
+
   public ref bool ConnectionsEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA03D49DB4C10BC9B));
+    get => ref _Handle.AsRef<bool>(_ConnectionsEnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetAreaSearchRadiusOffset = new(() => Schema.GetOffset(0xA03D49DBACD0EEE5), LazyThreadSafetyMode.None);
+
   public ref float TargetAreaSearchRadius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA03D49DBACD0EEE5));
+    get => ref _Handle.AsRef<float>(_TargetAreaSearchRadiusOffset.Value);
   }
+  private static readonly Lazy<nint> _UpdateDistanceOffset = new(() => Schema.GetOffset(0xA03D49DB46AB2045), LazyThreadSafetyMode.None);
+
   public ref float UpdateDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA03D49DB46AB2045));
+    get => ref _Handle.AsRef<float>(_UpdateDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxConnectionDistanceOffset = new(() => Schema.GetOffset(0xA03D49DB7590E3B8), LazyThreadSafetyMode.None);
+
   public ref float MaxConnectionDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA03D49DB7590E3B8));
+    get => ref _Handle.AsRef<float>(_MaxConnectionDistanceOffset.Value);
   }
 
 

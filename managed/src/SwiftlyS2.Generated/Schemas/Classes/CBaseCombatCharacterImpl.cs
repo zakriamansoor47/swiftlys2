@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,39 +17,59 @@ internal partial class CBaseCombatCharacterImpl : CBaseFlexImpl, CBaseCombatChar
   public CBaseCombatCharacterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceServerRagdollOffset = new(() => Schema.GetOffset(0xB47DE3DEC0D0B742), LazyThreadSafetyMode.None);
+
   public ref bool ForceServerRagdoll {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB47DE3DEC0D0B742));
+    get => ref _Handle.AsRef<bool>(_ForceServerRagdollOffset.Value);
   }
+  private static readonly Lazy<nint> _MyWearablesOffset = new(() => Schema.GetOffset(0xB47DE3DE000B8B43), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CEconWearable>> MyWearables {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CEconWearable>>>(Schema.GetOffset(0xB47DE3DE000B8B43));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CEconWearable>>>(_MyWearablesOffset.Value);
   }
+  private static readonly Lazy<nint> _ImpactEnergyScaleOffset = new(() => Schema.GetOffset(0xB47DE3DEC66BAC1B), LazyThreadSafetyMode.None);
+
   public ref float ImpactEnergyScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB47DE3DEC66BAC1B));
+    get => ref _Handle.AsRef<float>(_ImpactEnergyScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ApplyStressDamageOffset = new(() => Schema.GetOffset(0xB47DE3DEC16FF452), LazyThreadSafetyMode.None);
+
   public ref bool ApplyStressDamage {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB47DE3DEC16FF452));
+    get => ref _Handle.AsRef<bool>(_ApplyStressDamageOffset.Value);
   }
+  private static readonly Lazy<nint> _DeathEventsDispatchedOffset = new(() => Schema.GetOffset(0xB47DE3DE8F5C8C9F), LazyThreadSafetyMode.None);
+
   public ref bool DeathEventsDispatched {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xB47DE3DE8F5C8C9F));
+    get => ref _Handle.AsRef<bool>(_DeathEventsDispatchedOffset.Value);
   }
+  private static readonly Lazy<nint> _VecRelationshipsOffset = new(() => Schema.GetOffset(0xB47DE3DE2B978F5E), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<RelationshipOverride_t> VecRelationships {
-    get => ref _Handle.Deref<CUtlVector<RelationshipOverride_t>>(Schema.GetOffset(0xB47DE3DE2B978F5E));
+    get => ref _Handle.Deref<CUtlVector<RelationshipOverride_t>>(_VecRelationshipsOffset.Value);
   }
+  private static readonly Lazy<nint> _StrRelationshipsOffset = new(() => Schema.GetOffset(0xB47DE3DEF96E2AD7), LazyThreadSafetyMode.None);
+
   public string StrRelationships {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB47DE3DEF96E2AD7));
+      var ptr = _Handle.Read<nint>(_StrRelationshipsOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xB47DE3DEF96E2AD7, value);
+    set => Schema.SetString(_Handle, _StrRelationshipsOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _HullOffset = new(() => Schema.GetOffset(0xB47DE3DE20B7E577), LazyThreadSafetyMode.None);
+
   public ref Hull_t Hull {
-    get => ref _Handle.AsRef<Hull_t>(Schema.GetOffset(0xB47DE3DE20B7E577));
+    get => ref _Handle.AsRef<Hull_t>(_HullOffset.Value);
   }
+  private static readonly Lazy<nint> _NavHullIdxOffset = new(() => Schema.GetOffset(0xB47DE3DE90C08DF0), LazyThreadSafetyMode.None);
+
   public ref uint NavHullIdx {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xB47DE3DE90C08DF0));
+    get => ref _Handle.AsRef<uint>(_NavHullIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _MovementStatsOffset = new(() => Schema.GetOffset(0xB47DE3DE4CF2CCDB), LazyThreadSafetyMode.None);
+
   public CMovementStatsProperty MovementStats {
-    get => new CMovementStatsPropertyImpl(_Handle + Schema.GetOffset(0xB47DE3DE4CF2CCDB));
+    get => new CMovementStatsPropertyImpl(_Handle + _MovementStatsOffset.Value);
   }
 
   public void MyWearablesUpdated() {

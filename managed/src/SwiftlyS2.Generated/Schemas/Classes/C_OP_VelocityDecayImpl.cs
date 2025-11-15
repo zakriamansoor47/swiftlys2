@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_OP_VelocityDecayImpl : CParticleFunctionOperatorImpl, C
   public C_OP_VelocityDecayImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinVelocityOffset = new(() => Schema.GetOffset(0xF59EE920AE8F0ADE), LazyThreadSafetyMode.None);
+
   public ref float MinVelocity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF59EE920AE8F0ADE));
+    get => ref _Handle.AsRef<float>(_MinVelocityOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class SoundOpvarTraceResult_tImpl : SchemaClass, SoundOpvarTrac
   public SoundOpvarTraceResult_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PosOffset = new(() => Schema.GetOffset(0xF93EB0CBE5D6FAFD), LazyThreadSafetyMode.None);
+
   public ref Vector Pos {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xF93EB0CBE5D6FAFD));
+    get => ref _Handle.AsRef<Vector>(_PosOffset.Value);
   }
+  private static readonly Lazy<nint> _DidHitOffset = new(() => Schema.GetOffset(0xF93EB0CBA8217B9F), LazyThreadSafetyMode.None);
+
   public ref bool DidHit {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xF93EB0CBA8217B9F));
+    get => ref _Handle.AsRef<bool>(_DidHitOffset.Value);
   }
+  private static readonly Lazy<nint> _DistSqrToCenterOffset = new(() => Schema.GetOffset(0xF93EB0CB96618227), LazyThreadSafetyMode.None);
+
   public ref float DistSqrToCenter {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF93EB0CB96618227));
+    get => ref _Handle.AsRef<float>(_DistSqrToCenterOffset.Value);
   }
 
 

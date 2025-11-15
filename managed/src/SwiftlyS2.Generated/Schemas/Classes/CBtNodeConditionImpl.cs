@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CBtNodeConditionImpl : CBtNodeDecoratorImpl, CBtNodeCondi
   public CBtNodeConditionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NegatedOffset = new(() => Schema.GetOffset(0xD9C2E7ED3803BF0D), LazyThreadSafetyMode.None);
+
   public ref bool Negated {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD9C2E7ED3803BF0D));
+    get => ref _Handle.AsRef<bool>(_NegatedOffset.Value);
   }
 
 

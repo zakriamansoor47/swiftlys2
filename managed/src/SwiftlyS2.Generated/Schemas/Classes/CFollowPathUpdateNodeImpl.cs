@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,44 +17,70 @@ internal partial class CFollowPathUpdateNodeImpl : CUnaryUpdateNodeImpl, CFollow
   public CFollowPathUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BlendOutTimeOffset = new(() => Schema.GetOffset(0x20514621EAA5AD2B), LazyThreadSafetyMode.None);
+
   public ref float BlendOutTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x20514621EAA5AD2B));
+    get => ref _Handle.AsRef<float>(_BlendOutTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _BlockNonPathMovementOffset = new(() => Schema.GetOffset(0x20514621C6CE607F), LazyThreadSafetyMode.None);
+
   public ref bool BlockNonPathMovement {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x20514621C6CE607F));
+    get => ref _Handle.AsRef<bool>(_BlockNonPathMovementOffset.Value);
   }
+  private static readonly Lazy<nint> _StopFeetAtGoalOffset = new(() => Schema.GetOffset(0x20514621D5900E4B), LazyThreadSafetyMode.None);
+
   public ref bool StopFeetAtGoal {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x20514621D5900E4B));
+    get => ref _Handle.AsRef<bool>(_StopFeetAtGoalOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleSpeedOffset = new(() => Schema.GetOffset(0x205146212776330C), LazyThreadSafetyMode.None);
+
   public ref bool ScaleSpeed {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x205146212776330C));
+    get => ref _Handle.AsRef<bool>(_ScaleSpeedOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x20514621B731A42F), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x20514621B731A42F));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _MinAngleOffset = new(() => Schema.GetOffset(0x205146210D726024), LazyThreadSafetyMode.None);
+
   public ref float MinAngle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x205146210D726024));
+    get => ref _Handle.AsRef<float>(_MinAngleOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxAngleOffset = new(() => Schema.GetOffset(0x20514621A4B3D8AE), LazyThreadSafetyMode.None);
+
   public ref float MaxAngle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x20514621A4B3D8AE));
+    get => ref _Handle.AsRef<float>(_MaxAngleOffset.Value);
   }
+  private static readonly Lazy<nint> _SpeedScaleBlendingOffset = new(() => Schema.GetOffset(0x205146216C96A1BD), LazyThreadSafetyMode.None);
+
   public ref float SpeedScaleBlending {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x205146216C96A1BD));
+    get => ref _Handle.AsRef<float>(_SpeedScaleBlendingOffset.Value);
   }
+  private static readonly Lazy<nint> _TurnDampingOffset = new(() => Schema.GetOffset(0x20514621822D585C), LazyThreadSafetyMode.None);
+
   public CAnimInputDamping TurnDamping {
-    get => new CAnimInputDampingImpl(_Handle + Schema.GetOffset(0x20514621822D585C));
+    get => new CAnimInputDampingImpl(_Handle + _TurnDampingOffset.Value);
   }
+  private static readonly Lazy<nint> _FacingTargetOffset = new(() => Schema.GetOffset(0x20514621ED73C452), LazyThreadSafetyMode.None);
+
   public ref AnimValueSource FacingTarget {
-    get => ref _Handle.AsRef<AnimValueSource>(Schema.GetOffset(0x20514621ED73C452));
+    get => ref _Handle.AsRef<AnimValueSource>(_FacingTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamOffset = new(() => Schema.GetOffset(0x20514621679286A4), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle Param {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x20514621679286A4));
+    get => new CAnimParamHandleImpl(_Handle + _ParamOffset.Value);
   }
+  private static readonly Lazy<nint> _TurnToFaceOffsetOffset = new(() => Schema.GetOffset(0x20514621359F1A87), LazyThreadSafetyMode.None);
+
   public ref float TurnToFaceOffset {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x20514621359F1A87));
+    get => ref _Handle.AsRef<float>(_TurnToFaceOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _TurnToFaceOffset = new(() => Schema.GetOffset(0x20514621BB363416), LazyThreadSafetyMode.None);
+
   public ref bool TurnToFace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x20514621BB363416));
+    get => ref _Handle.AsRef<bool>(_TurnToFaceOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,21 +17,29 @@ internal partial class CLogicEventListenerImpl : CLogicalEntityImpl, CLogicEvent
   public CLogicEventListenerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StrEventNameOffset = new(() => Schema.GetOffset(0xD797C990BC41C13B), LazyThreadSafetyMode.None);
+
   public string StrEventName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xD797C990BC41C13B));
+      var ptr = _Handle.Read<nint>(_StrEventNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xD797C990BC41C13B, value);
+    set => Schema.SetString(_Handle, _StrEventNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _IsEnabledOffset = new(() => Schema.GetOffset(0xD797C9905360D70E), LazyThreadSafetyMode.None);
+
   public ref bool IsEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xD797C9905360D70E));
+    get => ref _Handle.AsRef<bool>(_IsEnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _TeamOffset = new(() => Schema.GetOffset(0xD797C990BEB42230), LazyThreadSafetyMode.None);
+
   public ref int Team {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD797C990BEB42230));
+    get => ref _Handle.AsRef<int>(_TeamOffset.Value);
   }
+  private static readonly Lazy<nint> _OnEventFiredOffset = new(() => Schema.GetOffset(0xD797C990E84EA158), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnEventFired {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0xD797C990E84EA158));
+    get => new CEntityIOOutputImpl(_Handle + _OnEventFiredOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class AimCameraOpFixedSettings_tImpl : SchemaClass, AimCameraOp
   public AimCameraOpFixedSettings_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChainIndexOffset = new(() => Schema.GetOffset(0xA3971F52A34589B6), LazyThreadSafetyMode.None);
+
   public ref int ChainIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA3971F52A34589B6));
+    get => ref _Handle.AsRef<int>(_ChainIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _CameraJointIndexOffset = new(() => Schema.GetOffset(0xA3971F52346981DA), LazyThreadSafetyMode.None);
+
   public ref int CameraJointIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA3971F52346981DA));
+    get => ref _Handle.AsRef<int>(_CameraJointIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _PelvisJointIndexOffset = new(() => Schema.GetOffset(0xA3971F52800F5FB4), LazyThreadSafetyMode.None);
+
   public ref int PelvisJointIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA3971F52800F5FB4));
+    get => ref _Handle.AsRef<int>(_PelvisJointIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _ClavicleLeftJointIndexOffset = new(() => Schema.GetOffset(0xA3971F5207F7ABDB), LazyThreadSafetyMode.None);
+
   public ref int ClavicleLeftJointIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA3971F5207F7ABDB));
+    get => ref _Handle.AsRef<int>(_ClavicleLeftJointIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _ClavicleRightJointIndexOffset = new(() => Schema.GetOffset(0xA3971F522F2C40A4), LazyThreadSafetyMode.None);
+
   public ref int ClavicleRightJointIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA3971F522F2C40A4));
+    get => ref _Handle.AsRef<int>(_ClavicleRightJointIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _DepenetrationJointIndexOffset = new(() => Schema.GetOffset(0xA3971F526307286F), LazyThreadSafetyMode.None);
+
   public ref int DepenetrationJointIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA3971F526307286F));
+    get => ref _Handle.AsRef<int>(_DepenetrationJointIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _PropJointsOffset = new(() => Schema.GetOffset(0xA3971F5224880565), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> PropJoints {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0xA3971F5224880565));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_PropJointsOffset.Value);
   }
 
 

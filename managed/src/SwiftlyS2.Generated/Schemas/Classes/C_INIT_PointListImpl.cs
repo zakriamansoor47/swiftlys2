@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_INIT_PointListImpl : CParticleFunctionInitializerImpl, 
   public C_INIT_PointListImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0x5E193E54E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x5E193E54E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _PointListOffset = new(() => Schema.GetOffset(0x5E193E54976AB4FD), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PointDefinition_t> PointList {
-    get => ref _Handle.AsRef<CUtlVector<PointDefinition_t>>(Schema.GetOffset(0x5E193E54976AB4FD));
+    get => ref _Handle.AsRef<CUtlVector<PointDefinition_t>>(_PointListOffset.Value);
   }
+  private static readonly Lazy<nint> _PlaceAlongPathOffset = new(() => Schema.GetOffset(0x5E193E5481CF2E1A), LazyThreadSafetyMode.None);
+
   public ref bool PlaceAlongPath {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5E193E5481CF2E1A));
+    get => ref _Handle.AsRef<bool>(_PlaceAlongPathOffset.Value);
   }
+  private static readonly Lazy<nint> _ClosedLoopOffset = new(() => Schema.GetOffset(0x5E193E547C20D1AB), LazyThreadSafetyMode.None);
+
   public ref bool ClosedLoop {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5E193E547C20D1AB));
+    get => ref _Handle.AsRef<bool>(_ClosedLoopOffset.Value);
   }
+  private static readonly Lazy<nint> _NumPointsAlongPathOffset = new(() => Schema.GetOffset(0x5E193E54ACB5FC8A), LazyThreadSafetyMode.None);
+
   public ref int NumPointsAlongPath {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x5E193E54ACB5FC8A));
+    get => ref _Handle.AsRef<int>(_NumPointsAlongPathOffset.Value);
   }
 
 

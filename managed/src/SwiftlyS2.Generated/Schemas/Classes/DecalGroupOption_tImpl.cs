@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class DecalGroupOption_tImpl : SchemaClass, DecalGroupOption_t 
   public DecalGroupOption_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaterialOffset = new(() => Schema.GetOffset(0x9F3DB78B888CE42E), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeIMaterial2> Material {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(Schema.GetOffset(0x9F3DB78B888CE42E));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(_MaterialOffset.Value);
   }
+  private static readonly Lazy<nint> _SequenceNameOffset = new(() => Schema.GetOffset(0x9F3DB78B7462AF30), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol SequenceName {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x9F3DB78B7462AF30));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_SequenceNameOffset.Value);
   }
+  private static readonly Lazy<nint> _ProbabilityOffset = new(() => Schema.GetOffset(0x9F3DB78B9ABB533A), LazyThreadSafetyMode.None);
+
   public ref float Probability {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9F3DB78B9ABB533A));
+    get => ref _Handle.AsRef<float>(_ProbabilityOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableAngleBetweenNormalAndGravityRangeOffset = new(() => Schema.GetOffset(0x9F3DB78B5C382DAE), LazyThreadSafetyMode.None);
+
   public ref bool EnableAngleBetweenNormalAndGravityRange {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x9F3DB78B5C382DAE));
+    get => ref _Handle.AsRef<bool>(_EnableAngleBetweenNormalAndGravityRangeOffset.Value);
   }
+  private static readonly Lazy<nint> _MinAngleBetweenNormalAndGravityOffset = new(() => Schema.GetOffset(0x9F3DB78B8EB6C526), LazyThreadSafetyMode.None);
+
   public ref float MinAngleBetweenNormalAndGravity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9F3DB78B8EB6C526));
+    get => ref _Handle.AsRef<float>(_MinAngleBetweenNormalAndGravityOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxAngleBetweenNormalAndGravityOffset = new(() => Schema.GetOffset(0x9F3DB78B44368314), LazyThreadSafetyMode.None);
+
   public ref float MaxAngleBetweenNormalAndGravity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x9F3DB78B44368314));
+    get => ref _Handle.AsRef<float>(_MaxAngleBetweenNormalAndGravityOffset.Value);
   }
 
 

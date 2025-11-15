@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CAudioPhonemeTagImpl : SchemaClass, CAudioPhonemeTag {
   public CAudioPhonemeTagImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0xBE68CF3E67FE9DC4), LazyThreadSafetyMode.None);
+
   public ref float StartTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBE68CF3E67FE9DC4));
+    get => ref _Handle.AsRef<float>(_StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndTimeOffset = new(() => Schema.GetOffset(0xBE68CF3E2041DF9D), LazyThreadSafetyMode.None);
+
   public ref float EndTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBE68CF3E2041DF9D));
+    get => ref _Handle.AsRef<float>(_EndTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _PhonemeCodeOffset = new(() => Schema.GetOffset(0xBE68CF3EBFB1B4C4), LazyThreadSafetyMode.None);
+
   public ref int PhonemeCode {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBE68CF3EBFB1B4C4));
+    get => ref _Handle.AsRef<int>(_PhonemeCodeOffset.Value);
   }
 
 

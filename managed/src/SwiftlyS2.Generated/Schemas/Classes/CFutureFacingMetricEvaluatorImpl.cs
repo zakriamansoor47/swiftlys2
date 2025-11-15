@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CFutureFacingMetricEvaluatorImpl : CMotionMetricEvaluator
   public CFutureFacingMetricEvaluatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0x6A3CD0D400DC4A68), LazyThreadSafetyMode.None);
+
   public ref float Distance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A3CD0D400DC4A68));
+    get => ref _Handle.AsRef<float>(_DistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _TimeOffset = new(() => Schema.GetOffset(0x6A3CD0D4C957229E), LazyThreadSafetyMode.None);
+
   public ref float Time {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A3CD0D4C957229E));
+    get => ref _Handle.AsRef<float>(_TimeOffset.Value);
   }
 
 

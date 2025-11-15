@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CSymbolAnimParameterImpl : CConcreteAnimParameterImpl, CS
   public CSymbolAnimParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0xA3486AA2BBE0341F), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol DefaultValue {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xA3486AA2BBE0341F));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_DefaultValueOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmScaleNode__CDefinitionImpl : CNmPassthroughNode__CDefi
   public CNmScaleNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MaskNodeIdxOffset = new(() => Schema.GetOffset(0x5902F6B1216FA578), LazyThreadSafetyMode.None);
+
   public ref short MaskNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x5902F6B1216FA578));
+    get => ref _Handle.AsRef<short>(_MaskNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableNodeIdxOffset = new(() => Schema.GetOffset(0x5902F6B10C9DD729), LazyThreadSafetyMode.None);
+
   public ref short EnableNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x5902F6B10C9DD729));
+    get => ref _Handle.AsRef<short>(_EnableNodeIdxOffset.Value);
   }
 
 

@@ -17,14 +17,14 @@ internal class MemoryService : IMemoryService, IDisposable
   private readonly Dictionary<nint, UnmanagedFunction> _UnmanagedFunctions = new();
   private readonly Dictionary<nint, UnmanagedMemory> _UnmanagedMemories = new();
 
-  public MemoryService(ILogger<MemoryService> logger, HookManager hookManager, ILoggerFactory loggerFactory)
+  public MemoryService( ILogger<MemoryService> logger, HookManager hookManager, ILoggerFactory loggerFactory )
   {
     _Logger = logger;
     _HookManager = hookManager;
     _LoggerFactory = loggerFactory;
   }
 
-  public IUnmanagedFunction<TDelegate> GetUnmanagedFunctionByAddress<TDelegate>(nint address) where TDelegate : Delegate
+  public IUnmanagedFunction<TDelegate> GetUnmanagedFunctionByAddress<TDelegate>( nint address ) where TDelegate : Delegate
   {
     try
     {
@@ -45,12 +45,12 @@ internal class MemoryService : IMemoryService, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Failed to get unmanaged function by address {0}.", address);
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Failed to get unmanaged function by address {0}.", address);
       throw new Exception($"Failed to get unmanaged function by address {address}.");
     }
   }
 
-  public IUnmanagedFunction<TDelegate> GetUnmanagedFunctionByVTable<TDelegate>(nint pVTable, int index) where TDelegate : Delegate
+  public IUnmanagedFunction<TDelegate> GetUnmanagedFunctionByVTable<TDelegate>( nint pVTable, int index ) where TDelegate : Delegate
   {
     try
     {
@@ -59,12 +59,12 @@ internal class MemoryService : IMemoryService, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Failed to get unmanaged function by vtable {0} and index {1}.", pVTable, index);
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Failed to get unmanaged function by vtable {0} and index {1}.", pVTable, index);
       throw new Exception($"Failed to get unmanaged function by vtable {pVTable} and index {index}.");
     }
   }
 
-  public IUnmanagedMemory GetUnmanagedMemoryByAddress(nint address)
+  public IUnmanagedMemory GetUnmanagedMemoryByAddress( nint address )
   {
     try
     {
@@ -78,12 +78,12 @@ internal class MemoryService : IMemoryService, IDisposable
     }
     catch (Exception e)
     {
-      _Logger.LogError(e, "Failed to get unmanaged memory by address {0}.", address);
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Failed to get unmanaged memory by address {0}.", address);
       throw new Exception($"Failed to get unmanaged memory by address {address}.");
     }
   }
 
-  public nint? GetInterfaceByName(string name)
+  public nint? GetInterfaceByName( string name )
   {
     var ptr = NativeMemoryHelpers.FetchInterfaceByName(name);
     if (ptr == 0)
@@ -93,7 +93,7 @@ internal class MemoryService : IMemoryService, IDisposable
     return ptr;
   }
 
-  public nint? GetAddressBySignature(string library, string signature)
+  public nint? GetAddressBySignature( string library, string signature )
   {
     var ptr = NativeMemoryHelpers.GetAddressBySignature(library, signature, 0, false);
     if (ptr == 0)
@@ -103,7 +103,7 @@ internal class MemoryService : IMemoryService, IDisposable
     return ptr;
   }
 
-  public nint? GetVTableAddress(string library, string vtableName)
+  public nint? GetVTableAddress( string library, string vtableName )
   {
     var ptr = NativeMemoryHelpers.GetVirtualTableAddress(library, vtableName);
     if (ptr == 0)
@@ -113,13 +113,29 @@ internal class MemoryService : IMemoryService, IDisposable
     return ptr;
   }
 
-  public nint ResolveXrefAddress(nint xrefAddress)
+  public nint ResolveXrefAddress( nint xrefAddress )
   {
     var offset = (xrefAddress + 3).Read<uint>();
     return xrefAddress + 7 + (nint)offset;
   }
 
-  public T ToSchemaClass<T>(nint address) where T : class, ISchemaClass<T>
+  public string? GetObjectPtrVtableName( nint address )
+  {
+    var result = NativeMemoryHelpers.GetObjectPtrVtableName(address);
+    return result == string.Empty ? null : result;
+  }
+
+  public bool ObjectPtrHasVtable( nint address )
+  {
+    return NativeMemoryHelpers.ObjectPtrHasVtable(address);
+  }
+
+  public bool ObjectPtrHasBaseClass( nint address, string baseClassName )
+  {
+    return NativeMemoryHelpers.ObjectPtrHasBaseClass(address, baseClassName);
+  }
+
+  public T ToSchemaClass<T>( nint address ) where T : class, ISchemaClass<T>
   {
     return T.From(address);
   }

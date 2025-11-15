@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmFootstepEventIDNode__CDefinitionImpl : CNmIDValueNode_
   public CNmFootstepEventIDNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceStateNodeIdxOffset = new(() => Schema.GetOffset(0x2CDDA43263F0228C), LazyThreadSafetyMode.None);
+
   public ref short SourceStateNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x2CDDA43263F0228C));
+    get => ref _Handle.AsRef<short>(_SourceStateNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _EventConditionRulesOffset = new(() => Schema.GetOffset(0x2CDDA432A904315F), LazyThreadSafetyMode.None);
+
   public CNmBitFlags EventConditionRules {
-    get => new CNmBitFlagsImpl(_Handle + Schema.GetOffset(0x2CDDA432A904315F));
+    get => new CNmBitFlagsImpl(_Handle + _EventConditionRulesOffset.Value);
   }
 
 

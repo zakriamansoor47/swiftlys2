@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,27 +17,39 @@ internal partial class CFuncTrainImpl : CBasePlatTrainImpl, CFuncTrain {
   public CFuncTrainImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CurrentTargetOffset = new(() => Schema.GetOffset(0xAAD8EE8EBD175911), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> CurrentTarget {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xAAD8EE8EBD175911));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_CurrentTargetOffset.Value);
   }
+  private static readonly Lazy<nint> _ActivatedOffset = new(() => Schema.GetOffset(0xAAD8EE8E4337A09C), LazyThreadSafetyMode.None);
+
   public ref bool Activated {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAAD8EE8E4337A09C));
+    get => ref _Handle.AsRef<bool>(_ActivatedOffset.Value);
   }
+  private static readonly Lazy<nint> _EnemyOffset = new(() => Schema.GetOffset(0xAAD8EE8E430EC2D5), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Enemy {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xAAD8EE8E430EC2D5));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_EnemyOffset.Value);
   }
+  private static readonly Lazy<nint> _BlockDamageOffset = new(() => Schema.GetOffset(0xAAD8EE8EA5348091), LazyThreadSafetyMode.None);
+
   public ref float BlockDamage {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xAAD8EE8EA5348091));
+    get => ref _Handle.AsRef<float>(_BlockDamageOffset.Value);
   }
+  private static readonly Lazy<nint> _NextBlockTimeOffset = new(() => Schema.GetOffset(0xAAD8EE8E82BC1902), LazyThreadSafetyMode.None);
+
   public GameTime_t NextBlockTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xAAD8EE8E82BC1902));
+    get => new GameTime_tImpl(_Handle + _NextBlockTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _LastTargetOffset = new(() => Schema.GetOffset(0xAAD8EE8ECF22FD34), LazyThreadSafetyMode.None);
+
   public string LastTarget {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xAAD8EE8ECF22FD34));
+      var ptr = _Handle.Read<nint>(_LastTargetOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xAAD8EE8ECF22FD34, value);
+    set => Schema.SetString(_Handle, _LastTargetOffset.Value, value);
   } 
 
 

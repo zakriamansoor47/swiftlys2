@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CRenderSkeletonImpl : SchemaClass, CRenderSkeleton {
   public CRenderSkeletonImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BonesOffset = new(() => Schema.GetOffset(0xBF0A83950FDA60D4), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<RenderSkeletonBone_t> Bones {
-    get => ref _Handle.AsRef<CUtlVector<RenderSkeletonBone_t>>(Schema.GetOffset(0xBF0A83950FDA60D4));
+    get => ref _Handle.AsRef<CUtlVector<RenderSkeletonBone_t>>(_BonesOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneParentsOffset = new(() => Schema.GetOffset(0xBF0A839571828F04), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> BoneParents {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0xBF0A839571828F04));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_BoneParentsOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneWeightCountOffset = new(() => Schema.GetOffset(0xBF0A839508029166), LazyThreadSafetyMode.None);
+
   public ref int BoneWeightCount {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBF0A839508029166));
+    get => ref _Handle.AsRef<int>(_BoneWeightCountOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class CVoiceContainerGranulatorImpl : CVoiceContainerBaseImpl, 
   public CVoiceContainerGranulatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GrainLengthOffset = new(() => Schema.GetOffset(0x30F273589D2BE672), LazyThreadSafetyMode.None);
+
   public ref float GrainLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x30F273589D2BE672));
+    get => ref _Handle.AsRef<float>(_GrainLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _GrainCrossfadeAmountOffset = new(() => Schema.GetOffset(0x30F27358AE31A7DC), LazyThreadSafetyMode.None);
+
   public ref float GrainCrossfadeAmount {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x30F27358AE31A7DC));
+    get => ref _Handle.AsRef<float>(_GrainCrossfadeAmountOffset.Value);
   }
+  private static readonly Lazy<nint> _StartJitterOffset = new(() => Schema.GetOffset(0x30F27358FBAD6833), LazyThreadSafetyMode.None);
+
   public ref float StartJitter {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x30F27358FBAD6833));
+    get => ref _Handle.AsRef<float>(_StartJitterOffset.Value);
   }
+  private static readonly Lazy<nint> _PlaybackJitterOffset = new(() => Schema.GetOffset(0x30F273583904EEB8), LazyThreadSafetyMode.None);
+
   public ref float PlaybackJitter {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x30F273583904EEB8));
+    get => ref _Handle.AsRef<float>(_PlaybackJitterOffset.Value);
   }
+  private static readonly Lazy<nint> _ShouldWraparoundOffset = new(() => Schema.GetOffset(0x30F273585F9E45A3), LazyThreadSafetyMode.None);
+
   public ref bool ShouldWraparound {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x30F273585F9E45A3));
+    get => ref _Handle.AsRef<bool>(_ShouldWraparoundOffset.Value);
   }
+  private static readonly Lazy<nint> _SourceAudioOffset = new(() => Schema.GetOffset(0x30F27358E5E00DE2), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCVoiceContainerBase> SourceAudio {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>(Schema.GetOffset(0x30F27358E5E00DE2));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>(_SourceAudioOffset.Value);
   }
 
 

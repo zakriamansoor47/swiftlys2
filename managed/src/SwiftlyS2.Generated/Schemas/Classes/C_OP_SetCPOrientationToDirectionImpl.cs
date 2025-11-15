@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_SetCPOrientationToDirectionImpl : CParticleFunctionO
   public C_OP_SetCPOrientationToDirectionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputControlPointOffset = new(() => Schema.GetOffset(0x761C6D886A869E3E), LazyThreadSafetyMode.None);
+
   public ref int InputControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x761C6D886A869E3E));
+    get => ref _Handle.AsRef<int>(_InputControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputControlPointOffset = new(() => Schema.GetOffset(0x761C6D88266B0FD9), LazyThreadSafetyMode.None);
+
   public ref int OutputControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x761C6D88266B0FD9));
+    get => ref _Handle.AsRef<int>(_OutputControlPointOffset.Value);
   }
 
 

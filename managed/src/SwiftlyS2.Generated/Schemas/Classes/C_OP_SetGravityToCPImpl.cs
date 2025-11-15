@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_SetGravityToCPImpl : CParticleFunctionPreEmissionImp
   public C_OP_SetGravityToCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPInputOffset = new(() => Schema.GetOffset(0xBA369CBDFB805736), LazyThreadSafetyMode.None);
+
   public ref int CPInput {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBA369CBDFB805736));
+    get => ref _Handle.AsRef<int>(_CPInputOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOutputOffset = new(() => Schema.GetOffset(0xBA369CBD2077C953), LazyThreadSafetyMode.None);
+
   public ref int CPOutput {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBA369CBD2077C953));
+    get => ref _Handle.AsRef<int>(_CPOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0xBA369CBDB731A42F), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Scale {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xBA369CBDB731A42F));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SetOrientationOffset = new(() => Schema.GetOffset(0xBA369CBDE1390E37), LazyThreadSafetyMode.None);
+
   public ref bool SetOrientation {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBA369CBDE1390E37));
+    get => ref _Handle.AsRef<bool>(_SetOrientationOffset.Value);
   }
+  private static readonly Lazy<nint> _SetZDownOffset = new(() => Schema.GetOffset(0xBA369CBDE2673E97), LazyThreadSafetyMode.None);
+
   public ref bool SetZDown {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBA369CBDE2673E97));
+    get => ref _Handle.AsRef<bool>(_SetZDownOffset.Value);
   }
 
 

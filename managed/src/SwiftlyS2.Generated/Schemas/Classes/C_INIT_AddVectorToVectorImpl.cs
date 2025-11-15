@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_INIT_AddVectorToVectorImpl : CParticleFunctionInitializ
   public C_INIT_AddVectorToVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0xFBD8AC005F596B51), LazyThreadSafetyMode.None);
+
   public ref Vector Scale {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xFBD8AC005F596B51));
+    get => ref _Handle.AsRef<Vector>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xFBD8AC00E5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xFBD8AC00E5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _FieldInputOffset = new(() => Schema.GetOffset(0xFBD8AC00AE775669), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldInput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xFBD8AC00AE775669));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldInputOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetMinOffset = new(() => Schema.GetOffset(0xFBD8AC00ABED1082), LazyThreadSafetyMode.None);
+
   public ref Vector OffsetMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xFBD8AC00ABED1082));
+    get => ref _Handle.AsRef<Vector>(_OffsetMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetMaxOffset = new(() => Schema.GetOffset(0xFBD8AC0095D96628), LazyThreadSafetyMode.None);
+
   public ref Vector OffsetMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xFBD8AC0095D96628));
+    get => ref _Handle.AsRef<Vector>(_OffsetMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _RandomnessParametersOffset = new(() => Schema.GetOffset(0xFBD8AC007EDF50AD), LazyThreadSafetyMode.None);
+
   public CRandomNumberGeneratorParameters RandomnessParameters {
-    get => new CRandomNumberGeneratorParametersImpl(_Handle + Schema.GetOffset(0xFBD8AC007EDF50AD));
+    get => new CRandomNumberGeneratorParametersImpl(_Handle + _RandomnessParametersOffset.Value);
   }
 
 

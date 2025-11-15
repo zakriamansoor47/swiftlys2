@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,63 +17,99 @@ internal partial class CEnvCubemapFogImpl : CBaseEntityImpl, CEnvCubemapFog {
   public CEnvCubemapFogImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EndDistanceOffset = new(() => Schema.GetOffset(0x38A7692EB825C247), LazyThreadSafetyMode.None);
+
   public ref float EndDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692EB825C247));
+    get => ref _Handle.AsRef<float>(_EndDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _StartDistanceOffset = new(() => Schema.GetOffset(0x38A7692E796C8142), LazyThreadSafetyMode.None);
+
   public ref float StartDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692E796C8142));
+    get => ref _Handle.AsRef<float>(_StartDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _FogFalloffExponentOffset = new(() => Schema.GetOffset(0x38A7692E2068A39A), LazyThreadSafetyMode.None);
+
   public ref float FogFalloffExponent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692E2068A39A));
+    get => ref _Handle.AsRef<float>(_FogFalloffExponentOffset.Value);
   }
+  private static readonly Lazy<nint> _HeightFogEnabledOffset = new(() => Schema.GetOffset(0x38A7692EFB7ED9F7), LazyThreadSafetyMode.None);
+
   public ref bool HeightFogEnabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x38A7692EFB7ED9F7));
+    get => ref _Handle.AsRef<bool>(_HeightFogEnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _FogHeightWidthOffset = new(() => Schema.GetOffset(0x38A7692E07936DE2), LazyThreadSafetyMode.None);
+
   public ref float FogHeightWidth {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692E07936DE2));
+    get => ref _Handle.AsRef<float>(_FogHeightWidthOffset.Value);
   }
+  private static readonly Lazy<nint> _FogHeightEndOffset = new(() => Schema.GetOffset(0x38A7692E16176853), LazyThreadSafetyMode.None);
+
   public ref float FogHeightEnd {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692E16176853));
+    get => ref _Handle.AsRef<float>(_FogHeightEndOffset.Value);
   }
+  private static readonly Lazy<nint> _FogHeightStartOffset = new(() => Schema.GetOffset(0x38A7692ED4580CB6), LazyThreadSafetyMode.None);
+
   public ref float FogHeightStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692ED4580CB6));
+    get => ref _Handle.AsRef<float>(_FogHeightStartOffset.Value);
   }
+  private static readonly Lazy<nint> _FogHeightExponentOffset = new(() => Schema.GetOffset(0x38A7692E0864DD39), LazyThreadSafetyMode.None);
+
   public ref float FogHeightExponent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692E0864DD39));
+    get => ref _Handle.AsRef<float>(_FogHeightExponentOffset.Value);
   }
+  private static readonly Lazy<nint> _LODBiasOffset = new(() => Schema.GetOffset(0x38A7692E6917C8A7), LazyThreadSafetyMode.None);
+
   public ref float LODBias {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692E6917C8A7));
+    get => ref _Handle.AsRef<float>(_LODBiasOffset.Value);
   }
+  private static readonly Lazy<nint> _ActiveOffset = new(() => Schema.GetOffset(0x38A7692E8334208F), LazyThreadSafetyMode.None);
+
   public ref bool Active {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x38A7692E8334208F));
+    get => ref _Handle.AsRef<bool>(_ActiveOffset.Value);
   }
+  private static readonly Lazy<nint> _StartDisabledOffset = new(() => Schema.GetOffset(0x38A7692E61ED0C4F), LazyThreadSafetyMode.None);
+
   public ref bool StartDisabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x38A7692E61ED0C4F));
+    get => ref _Handle.AsRef<bool>(_StartDisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _FogMaxOpacityOffset = new(() => Schema.GetOffset(0x38A7692E7BF7FD56), LazyThreadSafetyMode.None);
+
   public ref float FogMaxOpacity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38A7692E7BF7FD56));
+    get => ref _Handle.AsRef<float>(_FogMaxOpacityOffset.Value);
   }
+  private static readonly Lazy<nint> _CubemapSourceTypeOffset = new(() => Schema.GetOffset(0x38A7692E30B17317), LazyThreadSafetyMode.None);
+
   public ref int CubemapSourceType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x38A7692E30B17317));
+    get => ref _Handle.AsRef<int>(_CubemapSourceTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _SkyMaterialOffset = new(() => Schema.GetOffset(0x38A7692EC887319D), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeIMaterial2> SkyMaterial {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(Schema.GetOffset(0x38A7692EC887319D));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIMaterial2>>(_SkyMaterialOffset.Value);
   }
+  private static readonly Lazy<nint> _SkyEntityOffset = new(() => Schema.GetOffset(0x38A7692E2BD44B1D), LazyThreadSafetyMode.None);
+
   public string SkyEntity {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x38A7692E2BD44B1D));
+      var ptr = _Handle.Read<nint>(_SkyEntityOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x38A7692E2BD44B1D, value);
+    set => Schema.SetString(_Handle, _SkyEntityOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _FogCubemapTextureOffset = new(() => Schema.GetOffset(0x38A7692E3470DA4D), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> FogCubemapTexture {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x38A7692E3470DA4D));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_FogCubemapTextureOffset.Value);
   }
+  private static readonly Lazy<nint> _HasHeightFogEndOffset = new(() => Schema.GetOffset(0x38A7692E3484C961), LazyThreadSafetyMode.None);
+
   public ref bool HasHeightFogEnd {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x38A7692E3484C961));
+    get => ref _Handle.AsRef<bool>(_HasHeightFogEndOffset.Value);
   }
+  private static readonly Lazy<nint> _FirstTimeOffset = new(() => Schema.GetOffset(0x38A7692ED23C3138), LazyThreadSafetyMode.None);
+
   public ref bool FirstTime {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x38A7692ED23C3138));
+    get => ref _Handle.AsRef<bool>(_FirstTimeOffset.Value);
   }
 
   public void EndDistanceUpdated() {

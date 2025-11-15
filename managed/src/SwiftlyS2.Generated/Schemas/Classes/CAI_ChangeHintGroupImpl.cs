@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,25 +17,33 @@ internal partial class CAI_ChangeHintGroupImpl : CBaseEntityImpl, CAI_ChangeHint
   public CAI_ChangeHintGroupImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SearchTypeOffset = new(() => Schema.GetOffset(0xE2F9617B09088830), LazyThreadSafetyMode.None);
+
   public ref int SearchType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE2F9617B09088830));
+    get => ref _Handle.AsRef<int>(_SearchTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _StrSearchNameOffset = new(() => Schema.GetOffset(0xE2F9617B8A77B967), LazyThreadSafetyMode.None);
+
   public string StrSearchName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xE2F9617B8A77B967));
+      var ptr = _Handle.Read<nint>(_StrSearchNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xE2F9617B8A77B967, value);
+    set => Schema.SetString(_Handle, _StrSearchNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _StrNewHintGroupOffset = new(() => Schema.GetOffset(0xE2F9617BD4585F62), LazyThreadSafetyMode.None);
+
   public string StrNewHintGroup {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xE2F9617BD4585F62));
+      var ptr = _Handle.Read<nint>(_StrNewHintGroupOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xE2F9617BD4585F62, value);
+    set => Schema.SetString(_Handle, _StrNewHintGroupOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0xE2F9617B5ACFC08D), LazyThreadSafetyMode.None);
+
   public ref float Radius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE2F9617B5ACFC08D));
+    get => ref _Handle.AsRef<float>(_RadiusOffset.Value);
   }
 
 

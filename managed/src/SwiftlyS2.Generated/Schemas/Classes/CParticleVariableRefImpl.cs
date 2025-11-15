@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CParticleVariableRefImpl : SchemaClass, CParticleVariable
   public CParticleVariableRefImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VariableNameOffset = new(() => Schema.GetOffset(0x4FB747D9D3D609A6), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField VariableName {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x4FB747D9D3D609A6));
+    get => new SchemaUntypedField(_Handle + _VariableNameOffset.Value);
   }
+  private static readonly Lazy<nint> _VariableTypeOffset = new(() => Schema.GetOffset(0x4FB747D9954B670D), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField VariableType {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x4FB747D9954B670D));
+    get => new SchemaUntypedField(_Handle + _VariableTypeOffset.Value);
   }
 
 

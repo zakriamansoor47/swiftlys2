@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class AutoRoomDoorwayPairs_tImpl : SchemaClass, AutoRoomDoorway
   public AutoRoomDoorwayPairs_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _P1Offset = new(() => Schema.GetOffset(0x735A94BECD01805E), LazyThreadSafetyMode.None);
+
   public ref Vector P1 {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x735A94BECD01805E));
+    get => ref _Handle.AsRef<Vector>(_P1Offset.Value);
   }
+  private static readonly Lazy<nint> _P2Offset = new(() => Schema.GetOffset(0x735A94BECC017ECB), LazyThreadSafetyMode.None);
+
   public ref Vector P2 {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x735A94BECC017ECB));
+    get => ref _Handle.AsRef<Vector>(_P2Offset.Value);
   }
 
 

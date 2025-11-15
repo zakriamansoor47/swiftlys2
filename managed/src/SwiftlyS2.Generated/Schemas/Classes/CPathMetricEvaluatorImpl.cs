@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPathMetricEvaluatorImpl : CMotionMetricEvaluatorImpl, CP
   public CPathMetricEvaluatorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PathTimeSamplesOffset = new(() => Schema.GetOffset(0x6BF20F3A94DC552A), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> PathTimeSamples {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x6BF20F3A94DC552A));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_PathTimeSamplesOffset.Value);
   }
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0x6BF20F3A00DC4A68), LazyThreadSafetyMode.None);
+
   public ref float Distance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6BF20F3A00DC4A68));
+    get => ref _Handle.AsRef<float>(_DistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _ExtrapolateMovementOffset = new(() => Schema.GetOffset(0x6BF20F3ACBEE3025), LazyThreadSafetyMode.None);
+
   public ref bool ExtrapolateMovement {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6BF20F3ACBEE3025));
+    get => ref _Handle.AsRef<bool>(_ExtrapolateMovementOffset.Value);
   }
+  private static readonly Lazy<nint> _MinExtrapolationSpeedOffset = new(() => Schema.GetOffset(0x6BF20F3A9F6FB95C), LazyThreadSafetyMode.None);
+
   public ref float MinExtrapolationSpeed {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6BF20F3A9F6FB95C));
+    get => ref _Handle.AsRef<float>(_MinExtrapolationSpeedOffset.Value);
   }
 
 

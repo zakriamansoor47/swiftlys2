@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmSyncTrackImpl : SchemaClass, CNmSyncTrack {
   public CNmSyncTrackImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SyncEventsOffset = new(() => Schema.GetOffset(0x29C7FA0336BAB4FF), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField SyncEvents {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x29C7FA0336BAB4FF));
+    get => new SchemaUntypedField(_Handle + _SyncEventsOffset.Value);
   }
+  private static readonly Lazy<nint> _StartEventOffsetOffset = new(() => Schema.GetOffset(0x29C7FA03DDBC640E), LazyThreadSafetyMode.None);
+
   public ref int StartEventOffset {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x29C7FA03DDBC640E));
+    get => ref _Handle.AsRef<int>(_StartEventOffsetOffset.Value);
   }
 
 

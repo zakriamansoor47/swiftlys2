@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPulseCell_Outflow_PlaySceneBaseImpl : CPulseCell_BaseYie
   public CPulseCell_Outflow_PlaySceneBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnFinishedOffset = new(() => Schema.GetOffset(0x647C41D08D903E5E), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnFinished {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0x647C41D08D903E5E));
+    get => new CPulse_ResumePointImpl(_Handle + _OnFinishedOffset.Value);
   }
+  private static readonly Lazy<nint> _OnCanceledOffset = new(() => Schema.GetOffset(0x647C41D0F02162DB), LazyThreadSafetyMode.None);
+
   public CPulse_ResumePoint OnCanceled {
-    get => new CPulse_ResumePointImpl(_Handle + Schema.GetOffset(0x647C41D0F02162DB));
+    get => new CPulse_ResumePointImpl(_Handle + _OnCanceledOffset.Value);
   }
+  private static readonly Lazy<nint> _TriggersOffset = new(() => Schema.GetOffset(0x647C41D06E7B12D0), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CPulse_OutflowConnection> Triggers {
-    get => ref _Handle.AsRef<CUtlVector<CPulse_OutflowConnection>>(Schema.GetOffset(0x647C41D06E7B12D0));
+    get => ref _Handle.AsRef<CUtlVector<CPulse_OutflowConnection>>(_TriggersOffset.Value);
   }
 
 

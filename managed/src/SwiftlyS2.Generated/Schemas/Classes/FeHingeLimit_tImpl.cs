@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -18,20 +20,30 @@ internal partial class FeHingeLimit_tImpl : SchemaClass, FeHingeLimit_t {
   public ISchemaFixedArray<ushort> Node {
     get => new SchemaFixedArray<ushort>(_Handle, 0x3E7F1FF5CD6694B9, 6, 2, 2);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0x3E7F1FF5B8D52E48), LazyThreadSafetyMode.None);
+
   public ref uint Flags {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x3E7F1FF5B8D52E48));
+    get => ref _Handle.AsRef<uint>(_FlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _Weight4Offset = new(() => Schema.GetOffset(0x3E7F1FF56956236D), LazyThreadSafetyMode.None);
+
   public ref float Weight4 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3E7F1FF56956236D));
+    get => ref _Handle.AsRef<float>(_Weight4Offset.Value);
   }
+  private static readonly Lazy<nint> _Weight5Offset = new(() => Schema.GetOffset(0x3E7F1FF5685621DA), LazyThreadSafetyMode.None);
+
   public ref float Weight5 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3E7F1FF5685621DA));
+    get => ref _Handle.AsRef<float>(_Weight5Offset.Value);
   }
+  private static readonly Lazy<nint> _AngleCenterOffset = new(() => Schema.GetOffset(0x3E7F1FF57BF2D76B), LazyThreadSafetyMode.None);
+
   public ref float AngleCenter {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3E7F1FF57BF2D76B));
+    get => ref _Handle.AsRef<float>(_AngleCenterOffset.Value);
   }
+  private static readonly Lazy<nint> _AngleExtentsOffset = new(() => Schema.GetOffset(0x3E7F1FF59D58EF0B), LazyThreadSafetyMode.None);
+
   public ref float AngleExtents {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x3E7F1FF59D58EF0B));
+    get => ref _Handle.AsRef<float>(_AngleExtentsOffset.Value);
   }
 
 

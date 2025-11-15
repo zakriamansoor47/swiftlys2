@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,29 +17,45 @@ internal partial class VPhysicsCollisionAttribute_tImpl : SchemaClass, VPhysicsC
   public VPhysicsCollisionAttribute_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InteractsAsOffset = new(() => Schema.GetOffset(0x7E9FC931062B2708), LazyThreadSafetyMode.None);
+
   public ref ulong InteractsAs {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x7E9FC931062B2708));
+    get => ref _Handle.AsRef<ulong>(_InteractsAsOffset.Value);
   }
+  private static readonly Lazy<nint> _InteractsWithOffset = new(() => Schema.GetOffset(0x7E9FC93139179720), LazyThreadSafetyMode.None);
+
   public ref ulong InteractsWith {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x7E9FC93139179720));
+    get => ref _Handle.AsRef<ulong>(_InteractsWithOffset.Value);
   }
+  private static readonly Lazy<nint> _InteractsExcludeOffset = new(() => Schema.GetOffset(0x7E9FC9314D765732), LazyThreadSafetyMode.None);
+
   public ref ulong InteractsExclude {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0x7E9FC9314D765732));
+    get => ref _Handle.AsRef<ulong>(_InteractsExcludeOffset.Value);
   }
+  private static readonly Lazy<nint> _EntityIdOffset = new(() => Schema.GetOffset(0x7E9FC9312E71588B), LazyThreadSafetyMode.None);
+
   public ref uint EntityId {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x7E9FC9312E71588B));
+    get => ref _Handle.AsRef<uint>(_EntityIdOffset.Value);
   }
+  private static readonly Lazy<nint> _OwnerIdOffset = new(() => Schema.GetOffset(0x7E9FC931DD9F9E45), LazyThreadSafetyMode.None);
+
   public ref uint OwnerId {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x7E9FC931DD9F9E45));
+    get => ref _Handle.AsRef<uint>(_OwnerIdOffset.Value);
   }
+  private static readonly Lazy<nint> _HierarchyIdOffset = new(() => Schema.GetOffset(0x7E9FC931E2479899), LazyThreadSafetyMode.None);
+
   public ref ushort HierarchyId {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x7E9FC931E2479899));
+    get => ref _Handle.AsRef<ushort>(_HierarchyIdOffset.Value);
   }
+  private static readonly Lazy<nint> _CollisionGroupOffset = new(() => Schema.GetOffset(0x7E9FC9310AC0C752), LazyThreadSafetyMode.None);
+
   public ref byte CollisionGroup {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x7E9FC9310AC0C752));
+    get => ref _Handle.AsRef<byte>(_CollisionGroupOffset.Value);
   }
+  private static readonly Lazy<nint> _CollisionFunctionMaskOffset = new(() => Schema.GetOffset(0x7E9FC931FC7E6DAF), LazyThreadSafetyMode.None);
+
   public ref byte CollisionFunctionMask {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0x7E9FC931FC7E6DAF));
+    get => ref _Handle.AsRef<byte>(_CollisionFunctionMaskOffset.Value);
   }
 
   public void InteractsAsUpdated() {

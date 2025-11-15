@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_WaitForCursorsWithTagImpl : CPulseCell_WaitFor
   public CPulseCell_WaitForCursorsWithTagImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TagSelfWhenCompleteOffset = new(() => Schema.GetOffset(0x550BA6FDA17E8F0E), LazyThreadSafetyMode.None);
+
   public ref bool TagSelfWhenComplete {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x550BA6FDA17E8F0E));
+    get => ref _Handle.AsRef<bool>(_TagSelfWhenCompleteOffset.Value);
   }
+  private static readonly Lazy<nint> _DesiredKillPriorityOffset = new(() => Schema.GetOffset(0x550BA6FD341BA991), LazyThreadSafetyMode.None);
+
   public ref PulseCursorCancelPriority_t DesiredKillPriority {
-    get => ref _Handle.AsRef<PulseCursorCancelPriority_t>(Schema.GetOffset(0x550BA6FD341BA991));
+    get => ref _Handle.AsRef<PulseCursorCancelPriority_t>(_DesiredKillPriorityOffset.Value);
   }
 
 

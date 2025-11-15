@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_ConstrainLineLengthImpl : CParticleFunctionConstrain
   public C_OP_ConstrainLineLengthImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinDistanceOffset = new(() => Schema.GetOffset(0x50EFFC4492BCAD06), LazyThreadSafetyMode.None);
+
   public ref float MinDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x50EFFC4492BCAD06));
+    get => ref _Handle.AsRef<float>(_MinDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxDistanceOffset = new(() => Schema.GetOffset(0x50EFFC4498893360), LazyThreadSafetyMode.None);
+
   public ref float MaxDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x50EFFC4498893360));
+    get => ref _Handle.AsRef<float>(_MaxDistanceOffset.Value);
   }
 
 

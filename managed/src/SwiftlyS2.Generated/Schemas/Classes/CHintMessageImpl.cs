@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CHintMessageImpl : SchemaClass, CHintMessage {
   public CHintMessageImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HintStringOffset = new(() => Schema.GetOffset(0x7663729E433E2101), LazyThreadSafetyMode.None);
+
   public string HintString {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x7663729E433E2101));
+      var ptr = _Handle.Read<nint>(_HintStringOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x7663729E433E2101, value);
+    set => Schema.SetString(_Handle, _HintStringOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ArgsOffset = new(() => Schema.GetOffset(0x7663729E5D6040DC), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CString> Args {
-    get => ref _Handle.AsRef<CUtlVector<CString>>(Schema.GetOffset(0x7663729E5D6040DC));
+    get => ref _Handle.AsRef<CUtlVector<CString>>(_ArgsOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0x7663729E3D9FF5AD), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x7663729E3D9FF5AD));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
 
 

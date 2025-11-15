@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,80 +17,130 @@ internal partial class fogparams_tImpl : SchemaClass, fogparams_t {
   public fogparams_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DirPrimaryOffset = new(() => Schema.GetOffset(0xCE352DA69D025A12), LazyThreadSafetyMode.None);
+
   public ref Vector DirPrimary {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xCE352DA69D025A12));
+    get => ref _Handle.AsRef<Vector>(_DirPrimaryOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorPrimaryOffset = new(() => Schema.GetOffset(0xCE352DA6B7CCC646), LazyThreadSafetyMode.None);
+
   public ref Color ColorPrimary {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0xCE352DA6B7CCC646));
+    get => ref _Handle.AsRef<Color>(_ColorPrimaryOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorSecondaryOffset = new(() => Schema.GetOffset(0xCE352DA69E5EDE5A), LazyThreadSafetyMode.None);
+
   public ref Color ColorSecondary {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0xCE352DA69E5EDE5A));
+    get => ref _Handle.AsRef<Color>(_ColorSecondaryOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorPrimaryLerpToOffset = new(() => Schema.GetOffset(0xCE352DA6702FBD96), LazyThreadSafetyMode.None);
+
   public ref Color ColorPrimaryLerpTo {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0xCE352DA6702FBD96));
+    get => ref _Handle.AsRef<Color>(_ColorPrimaryLerpToOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorSecondaryLerpToOffset = new(() => Schema.GetOffset(0xCE352DA627E54D7A), LazyThreadSafetyMode.None);
+
   public ref Color ColorSecondaryLerpTo {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0xCE352DA627E54D7A));
+    get => ref _Handle.AsRef<Color>(_ColorSecondaryLerpToOffset.Value);
   }
+  private static readonly Lazy<nint> _StartOffset = new(() => Schema.GetOffset(0xCE352DA6652B04DF), LazyThreadSafetyMode.None);
+
   public ref float Start {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6652B04DF));
+    get => ref _Handle.AsRef<float>(_StartOffset.Value);
   }
+  private static readonly Lazy<nint> _EndOffset = new(() => Schema.GetOffset(0xCE352DA66A8E75AA), LazyThreadSafetyMode.None);
+
   public ref float End {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA66A8E75AA));
+    get => ref _Handle.AsRef<float>(_EndOffset.Value);
   }
+  private static readonly Lazy<nint> _FarzOffset = new(() => Schema.GetOffset(0xCE352DA60E9043FC), LazyThreadSafetyMode.None);
+
   public ref float Farz {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA60E9043FC));
+    get => ref _Handle.AsRef<float>(_FarzOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxdensityOffset = new(() => Schema.GetOffset(0xCE352DA6C8F29F97), LazyThreadSafetyMode.None);
+
   public ref float Maxdensity {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6C8F29F97));
+    get => ref _Handle.AsRef<float>(_MaxdensityOffset.Value);
   }
+  private static readonly Lazy<nint> _ExponentOffset = new(() => Schema.GetOffset(0xCE352DA632F1D446), LazyThreadSafetyMode.None);
+
   public ref float Exponent {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA632F1D446));
+    get => ref _Handle.AsRef<float>(_ExponentOffset.Value);
   }
+  private static readonly Lazy<nint> _HDRColorScaleOffset = new(() => Schema.GetOffset(0xCE352DA6E4EAF0DE), LazyThreadSafetyMode.None);
+
   public ref float HDRColorScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6E4EAF0DE));
+    get => ref _Handle.AsRef<float>(_HDRColorScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SkyboxFogFactorOffset = new(() => Schema.GetOffset(0xCE352DA6A7ADD816), LazyThreadSafetyMode.None);
+
   public ref float SkyboxFogFactor {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6A7ADD816));
+    get => ref _Handle.AsRef<float>(_SkyboxFogFactorOffset.Value);
   }
+  private static readonly Lazy<nint> _SkyboxFogFactorLerpToOffset = new(() => Schema.GetOffset(0xCE352DA6F366AC46), LazyThreadSafetyMode.None);
+
   public ref float SkyboxFogFactorLerpTo {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6F366AC46));
+    get => ref _Handle.AsRef<float>(_SkyboxFogFactorLerpToOffset.Value);
   }
+  private static readonly Lazy<nint> _StartLerpToOffset = new(() => Schema.GetOffset(0xCE352DA6FF7E14AB), LazyThreadSafetyMode.None);
+
   public ref float StartLerpTo {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6FF7E14AB));
+    get => ref _Handle.AsRef<float>(_StartLerpToOffset.Value);
   }
+  private static readonly Lazy<nint> _EndLerpToOffset = new(() => Schema.GetOffset(0xCE352DA6AB5FC36A), LazyThreadSafetyMode.None);
+
   public ref float EndLerpTo {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6AB5FC36A));
+    get => ref _Handle.AsRef<float>(_EndLerpToOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxdensityLerpToOffset = new(() => Schema.GetOffset(0xCE352DA6B2204BA3), LazyThreadSafetyMode.None);
+
   public ref float MaxdensityLerpTo {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6B2204BA3));
+    get => ref _Handle.AsRef<float>(_MaxdensityLerpToOffset.Value);
   }
+  private static readonly Lazy<nint> _LerptimeOffset = new(() => Schema.GetOffset(0xCE352DA6F1157821), LazyThreadSafetyMode.None);
+
   public GameTime_t Lerptime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xCE352DA6F1157821));
+    get => new GameTime_tImpl(_Handle + _LerptimeOffset.Value);
   }
+  private static readonly Lazy<nint> _DurationOffset = new(() => Schema.GetOffset(0xCE352DA62FA0FD0D), LazyThreadSafetyMode.None);
+
   public ref float Duration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA62FA0FD0D));
+    get => ref _Handle.AsRef<float>(_DurationOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendtobackgroundOffset = new(() => Schema.GetOffset(0xCE352DA617A07511), LazyThreadSafetyMode.None);
+
   public ref float Blendtobackground {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA617A07511));
+    get => ref _Handle.AsRef<float>(_BlendtobackgroundOffset.Value);
   }
+  private static readonly Lazy<nint> _ScatteringOffset = new(() => Schema.GetOffset(0xCE352DA6A6DF1F9F), LazyThreadSafetyMode.None);
+
   public ref float Scattering {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6A6DF1F9F));
+    get => ref _Handle.AsRef<float>(_ScatteringOffset.Value);
   }
+  private static readonly Lazy<nint> _LocallightscaleOffset = new(() => Schema.GetOffset(0xCE352DA6D520D236), LazyThreadSafetyMode.None);
+
   public ref float Locallightscale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xCE352DA6D520D236));
+    get => ref _Handle.AsRef<float>(_LocallightscaleOffset.Value);
   }
+  private static readonly Lazy<nint> _EnableOffset = new(() => Schema.GetOffset(0xCE352DA6AF8BB8CE), LazyThreadSafetyMode.None);
+
   public ref bool Enable {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCE352DA6AF8BB8CE));
+    get => ref _Handle.AsRef<bool>(_EnableOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendOffset = new(() => Schema.GetOffset(0xCE352DA60BBC40D8), LazyThreadSafetyMode.None);
+
   public ref bool Blend {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCE352DA60BBC40D8));
+    get => ref _Handle.AsRef<bool>(_BlendOffset.Value);
   }
+  private static readonly Lazy<nint> _Padding2Offset = new(() => Schema.GetOffset(0xCE352DA6BC87772C), LazyThreadSafetyMode.None);
+
   public ref bool Padding2 {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCE352DA6BC87772C));
+    get => ref _Handle.AsRef<bool>(_Padding2Offset.Value);
   }
+  private static readonly Lazy<nint> _PaddingOffset = new(() => Schema.GetOffset(0xCE352DA6DC7CD796), LazyThreadSafetyMode.None);
+
   public ref bool Padding {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xCE352DA6DC7CD796));
+    get => ref _Handle.AsRef<bool>(_PaddingOffset.Value);
   }
 
   public void DirPrimaryUpdated() {

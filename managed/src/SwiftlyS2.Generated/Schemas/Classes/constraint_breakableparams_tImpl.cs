@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,28 @@ internal partial class constraint_breakableparams_tImpl : SchemaClass, constrain
   public constraint_breakableparams_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StrengthOffset = new(() => Schema.GetOffset(0xEDA0F377E07A18B0), LazyThreadSafetyMode.None);
+
   public ref float Strength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEDA0F377E07A18B0));
+    get => ref _Handle.AsRef<float>(_StrengthOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceLimitOffset = new(() => Schema.GetOffset(0xEDA0F3777F2D0897), LazyThreadSafetyMode.None);
+
   public ref float ForceLimit {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEDA0F3777F2D0897));
+    get => ref _Handle.AsRef<float>(_ForceLimitOffset.Value);
   }
+  private static readonly Lazy<nint> _TorqueLimitOffset = new(() => Schema.GetOffset(0xEDA0F37777EB0DDE), LazyThreadSafetyMode.None);
+
   public ref float TorqueLimit {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEDA0F37777EB0DDE));
+    get => ref _Handle.AsRef<float>(_TorqueLimitOffset.Value);
   }
   public ISchemaFixedArray<float> BodyMassScale {
     get => new SchemaFixedArray<float>(_Handle, 0xEDA0F3775BED8FB5, 2, 4, 4);
   }
+  private static readonly Lazy<nint> _IsActiveOffset = new(() => Schema.GetOffset(0xEDA0F3773D94F45F), LazyThreadSafetyMode.None);
+
   public ref bool IsActive {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEDA0F3773D94F45F));
+    get => ref _Handle.AsRef<bool>(_IsActiveOffset.Value);
   }
 
 

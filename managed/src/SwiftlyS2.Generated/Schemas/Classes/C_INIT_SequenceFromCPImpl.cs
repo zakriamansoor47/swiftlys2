@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_INIT_SequenceFromCPImpl : CParticleFunctionInitializerI
   public C_INIT_SequenceFromCPImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _KillUnusedOffset = new(() => Schema.GetOffset(0xC62FB07C81506527), LazyThreadSafetyMode.None);
+
   public ref bool KillUnused {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC62FB07C81506527));
+    get => ref _Handle.AsRef<bool>(_KillUnusedOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0xC62FB07CBBCB728B), LazyThreadSafetyMode.None);
+
   public ref bool RadiusScale {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC62FB07CBBCB728B));
+    get => ref _Handle.AsRef<bool>(_RadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0xC62FB07CEB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC62FB07CEB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xC62FB07CBD25CC2A), LazyThreadSafetyMode.None);
+
   public ref Vector Offset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC62FB07CBD25CC2A));
+    get => ref _Handle.AsRef<Vector>(_OffsetOffset.Value);
   }
 
 

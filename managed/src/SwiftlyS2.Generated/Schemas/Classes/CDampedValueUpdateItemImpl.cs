@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CDampedValueUpdateItemImpl : SchemaClass, CDampedValueUpd
   public CDampedValueUpdateItemImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DampingOffset = new(() => Schema.GetOffset(0x4B11725415440FB5), LazyThreadSafetyMode.None);
+
   public CAnimInputDamping Damping {
-    get => new CAnimInputDampingImpl(_Handle + Schema.GetOffset(0x4B11725415440FB5));
+    get => new CAnimInputDampingImpl(_Handle + _DampingOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamInOffset = new(() => Schema.GetOffset(0x4B117254ED40E37B), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParamIn {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x4B117254ED40E37B));
+    get => new CAnimParamHandleImpl(_Handle + _ParamInOffset.Value);
   }
+  private static readonly Lazy<nint> _ParamOutOffset = new(() => Schema.GetOffset(0x4B117254AA5799A8), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle ParamOut {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x4B117254AA5799A8));
+    get => new CAnimParamHandleImpl(_Handle + _ParamOutOffset.Value);
   }
 
 

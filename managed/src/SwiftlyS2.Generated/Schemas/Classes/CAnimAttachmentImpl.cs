@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -27,8 +29,10 @@ internal partial class CAnimAttachmentImpl : SchemaClass, CAnimAttachment {
   public ISchemaFixedArray<float> InfluenceWeights {
     get => new SchemaFixedArray<float>(_Handle, 0xCF91818649916951, 3, 4, 4);
   }
+  private static readonly Lazy<nint> _NumInfluencesOffset = new(() => Schema.GetOffset(0xCF9181861B36F553), LazyThreadSafetyMode.None);
+
   public ref byte NumInfluences {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xCF9181861B36F553));
+    get => ref _Handle.AsRef<byte>(_NumInfluencesOffset.Value);
   }
 
 

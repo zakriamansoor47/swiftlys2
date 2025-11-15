@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_SetControlPointRotationImpl : CParticleFunctionPreEm
   public C_OP_SetControlPointRotationImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RotAxisOffset = new(() => Schema.GetOffset(0x8F20B2F891872163), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput RotAxis {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x8F20B2F891872163));
+    get => new CParticleCollectionVecInputImpl(_Handle + _RotAxisOffset.Value);
   }
+  private static readonly Lazy<nint> _RotRateOffset = new(() => Schema.GetOffset(0x8F20B2F86747B556), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput RotRate {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x8F20B2F86747B556));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _RotRateOffset.Value);
   }
+  private static readonly Lazy<nint> _CPOffset = new(() => Schema.GetOffset(0x8F20B2F8EB661472), LazyThreadSafetyMode.None);
+
   public ref int CP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8F20B2F8EB661472));
+    get => ref _Handle.AsRef<int>(_CPOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalCPOffset = new(() => Schema.GetOffset(0x8F20B2F8ACAAFF8F), LazyThreadSafetyMode.None);
+
   public ref int LocalCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8F20B2F8ACAAFF8F));
+    get => ref _Handle.AsRef<int>(_LocalCPOffset.Value);
   }
 
 

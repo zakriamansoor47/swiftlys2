@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class MotionBlendItemImpl : SchemaClass, MotionBlendItem {
   public MotionBlendItemImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChildOffset = new(() => Schema.GetOffset(0x6AF18B8D4A0B773F), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Child {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x6AF18B8D4A0B773F));
+    get => new SchemaUntypedField(_Handle + _ChildOffset.Value);
   }
+  private static readonly Lazy<nint> _KeyValueOffset = new(() => Schema.GetOffset(0x6AF18B8D039CE1D7), LazyThreadSafetyMode.None);
+
   public ref float KeyValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6AF18B8D039CE1D7));
+    get => ref _Handle.AsRef<float>(_KeyValueOffset.Value);
   }
 
 

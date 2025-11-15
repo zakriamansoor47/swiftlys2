@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_SetUserEventImpl : CParticleFunctionOperatorImpl, C_
   public C_OP_SetUserEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputOffset = new(() => Schema.GetOffset(0x9A6F6FB81D4B7FFD), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Input {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9A6F6FB81D4B7FFD));
+    get => new CPerParticleFloatInputImpl(_Handle + _InputOffset.Value);
   }
+  private static readonly Lazy<nint> _RisingEdgeOffset = new(() => Schema.GetOffset(0x9A6F6FB8DCFBDCF4), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput RisingEdge {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9A6F6FB8DCFBDCF4));
+    get => new CPerParticleFloatInputImpl(_Handle + _RisingEdgeOffset.Value);
   }
+  private static readonly Lazy<nint> _RisingEventTypeOffset = new(() => Schema.GetOffset(0x9A6F6FB83790928D), LazyThreadSafetyMode.None);
+
   public ref EventTypeSelection_t RisingEventType {
-    get => ref _Handle.AsRef<EventTypeSelection_t>(Schema.GetOffset(0x9A6F6FB83790928D));
+    get => ref _Handle.AsRef<EventTypeSelection_t>(_RisingEventTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _FallingEdgeOffset = new(() => Schema.GetOffset(0x9A6F6FB8CBE5115B), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput FallingEdge {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9A6F6FB8CBE5115B));
+    get => new CPerParticleFloatInputImpl(_Handle + _FallingEdgeOffset.Value);
   }
+  private static readonly Lazy<nint> _FallingEventTypeOffset = new(() => Schema.GetOffset(0x9A6F6FB8C79ED114), LazyThreadSafetyMode.None);
+
   public ref EventTypeSelection_t FallingEventType {
-    get => ref _Handle.AsRef<EventTypeSelection_t>(Schema.GetOffset(0x9A6F6FB8C79ED114));
+    get => ref _Handle.AsRef<EventTypeSelection_t>(_FallingEventTypeOffset.Value);
   }
 
 

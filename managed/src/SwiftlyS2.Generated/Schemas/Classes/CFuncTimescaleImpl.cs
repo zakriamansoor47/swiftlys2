@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CFuncTimescaleImpl : CBaseEntityImpl, CFuncTimescale {
   public CFuncTimescaleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DesiredTimescaleOffset = new(() => Schema.GetOffset(0x93388D41E4EE9A68), LazyThreadSafetyMode.None);
+
   public ref float DesiredTimescale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x93388D41E4EE9A68));
+    get => ref _Handle.AsRef<float>(_DesiredTimescaleOffset.Value);
   }
+  private static readonly Lazy<nint> _AccelerationOffset = new(() => Schema.GetOffset(0x93388D41071E739B), LazyThreadSafetyMode.None);
+
   public ref float Acceleration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x93388D41071E739B));
+    get => ref _Handle.AsRef<float>(_AccelerationOffset.Value);
   }
+  private static readonly Lazy<nint> _MinBlendRateOffset = new(() => Schema.GetOffset(0x93388D41E90D5E26), LazyThreadSafetyMode.None);
+
   public ref float MinBlendRate {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x93388D41E90D5E26));
+    get => ref _Handle.AsRef<float>(_MinBlendRateOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendDeltaMultiplierOffset = new(() => Schema.GetOffset(0x93388D413D2158F7), LazyThreadSafetyMode.None);
+
   public ref float BlendDeltaMultiplier {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x93388D413D2158F7));
+    get => ref _Handle.AsRef<float>(_BlendDeltaMultiplierOffset.Value);
   }
+  private static readonly Lazy<nint> _IsStartedOffset = new(() => Schema.GetOffset(0x93388D41C4A4378E), LazyThreadSafetyMode.None);
+
   public ref bool IsStarted {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x93388D41C4A4378E));
+    get => ref _Handle.AsRef<bool>(_IsStartedOffset.Value);
   }
 
 

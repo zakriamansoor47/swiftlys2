@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CTestBlendContainerImpl : CVoiceContainerBaseImpl, CTestB
   public CTestBlendContainerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FirstSoundOffset = new(() => Schema.GetOffset(0x3E7BF53C666B0138), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCVoiceContainerBase> FirstSound {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>(Schema.GetOffset(0x3E7BF53C666B0138));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>(_FirstSoundOffset.Value);
   }
+  private static readonly Lazy<nint> _SecondSoundOffset = new(() => Schema.GetOffset(0x3E7BF53CA2BC3E5C), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCVoiceContainerBase> SecondSound {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>(Schema.GetOffset(0x3E7BF53CA2BC3E5C));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCVoiceContainerBase>>(_SecondSoundOffset.Value);
   }
 
 

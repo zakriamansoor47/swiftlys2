@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CMaterialDrawDescriptor__RigidMeshPart_tImpl : SchemaClas
   public CMaterialDrawDescriptor__RigidMeshPart_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RigidBLASIndexOffset = new(() => Schema.GetOffset(0xD375EED8EE87873E), LazyThreadSafetyMode.None);
+
   public ref ushort RigidBLASIndex {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xD375EED8EE87873E));
+    get => ref _Handle.AsRef<ushort>(_RigidBLASIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneIndexOffset = new(() => Schema.GetOffset(0xD375EED89F407B79), LazyThreadSafetyMode.None);
+
   public ref short BoneIndex {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xD375EED89F407B79));
+    get => ref _Handle.AsRef<short>(_BoneIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _StartIndexOffsetOffset = new(() => Schema.GetOffset(0xD375EED891EF1626), LazyThreadSafetyMode.None);
+
   public ref uint StartIndexOffset {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xD375EED891EF1626));
+    get => ref _Handle.AsRef<uint>(_StartIndexOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _PrimitiveCountOffset = new(() => Schema.GetOffset(0xD375EED8B627A621), LazyThreadSafetyMode.None);
+
   public ref uint PrimitiveCount {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xD375EED8B627A621));
+    get => ref _Handle.AsRef<uint>(_PrimitiveCountOffset.Value);
   }
 
 

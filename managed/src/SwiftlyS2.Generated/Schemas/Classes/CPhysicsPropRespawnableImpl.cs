@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CPhysicsPropRespawnableImpl : CPhysicsPropImpl, CPhysicsP
   public CPhysicsPropRespawnableImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OriginalSpawnOriginOffset = new(() => Schema.GetOffset(0x6C5980BAB6F410AF), LazyThreadSafetyMode.None);
+
   public ref Vector OriginalSpawnOrigin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6C5980BAB6F410AF));
+    get => ref _Handle.AsRef<Vector>(_OriginalSpawnOriginOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginalSpawnAnglesOffset = new(() => Schema.GetOffset(0x6C5980BAF7A16BD1), LazyThreadSafetyMode.None);
+
   public ref QAngle OriginalSpawnAngles {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0x6C5980BAF7A16BD1));
+    get => ref _Handle.AsRef<QAngle>(_OriginalSpawnAnglesOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginalMinsOffset = new(() => Schema.GetOffset(0x6C5980BAFBA3B1D3), LazyThreadSafetyMode.None);
+
   public ref Vector OriginalMins {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6C5980BAFBA3B1D3));
+    get => ref _Handle.AsRef<Vector>(_OriginalMinsOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginalMaxsOffset = new(() => Schema.GetOffset(0x6C5980BAA4FDD991), LazyThreadSafetyMode.None);
+
   public ref Vector OriginalMaxs {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6C5980BAA4FDD991));
+    get => ref _Handle.AsRef<Vector>(_OriginalMaxsOffset.Value);
   }
+  private static readonly Lazy<nint> _RespawnDurationOffset = new(() => Schema.GetOffset(0x6C5980BA476C78ED), LazyThreadSafetyMode.None);
+
   public ref float RespawnDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6C5980BA476C78ED));
+    get => ref _Handle.AsRef<float>(_RespawnDurationOffset.Value);
   }
 
 

@@ -21,13 +21,13 @@
 
 #include <api/memory/virtual/call.h>
 
-void Bridge_Player_SendMessage(int playerid, int kind, const char* message)
+void Bridge_Player_SendMessage(int playerid, int kind, const char* message, int duration)
 {
     static auto playerManager = g_ifaceService.FetchInterface<IPlayerManager>(PLAYERMANAGER_INTERFACE_VERSION);
     auto player = playerManager->GetPlayer(playerid);
     if (!player) return;
 
-    player->SendMsg((MessageType)kind, message);
+    player->SendMsg((MessageType)kind, message, duration);
 }
 
 bool Bridge_Player_IsFakeClient(int playerid)

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class PARTICLE_EHANDLE__Impl : SchemaClass, PARTICLE_EHANDLE__ 
   public PARTICLE_EHANDLE__Impl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _UnusedOffset = new(() => Schema.GetOffset(0x7E4CC5CF85CF281B), LazyThreadSafetyMode.None);
+
   public ref int Unused {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7E4CC5CF85CF281B));
+    get => ref _Handle.AsRef<int>(_UnusedOffset.Value);
   }
 
 

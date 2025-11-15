@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CEnvParticleGlowImpl : CParticleSystemImpl, CEnvParticleG
   public CEnvParticleGlowImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AlphaScaleOffset = new(() => Schema.GetOffset(0x38100F3AEC6D3C25), LazyThreadSafetyMode.None);
+
   public ref float AlphaScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38100F3AEC6D3C25));
+    get => ref _Handle.AsRef<float>(_AlphaScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusScaleOffset = new(() => Schema.GetOffset(0x38100F3AA7A20159), LazyThreadSafetyMode.None);
+
   public ref float RadiusScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38100F3AA7A20159));
+    get => ref _Handle.AsRef<float>(_RadiusScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SelfIllumScaleOffset = new(() => Schema.GetOffset(0x38100F3A0478CE14), LazyThreadSafetyMode.None);
+
   public ref float SelfIllumScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x38100F3A0478CE14));
+    get => ref _Handle.AsRef<float>(_SelfIllumScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorTintOffset = new(() => Schema.GetOffset(0x38100F3AD55CDDFD), LazyThreadSafetyMode.None);
+
   public ref Color ColorTint {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x38100F3AD55CDDFD));
+    get => ref _Handle.AsRef<Color>(_ColorTintOffset.Value);
   }
+  private static readonly Lazy<nint> _TextureOverrideOffset = new(() => Schema.GetOffset(0x38100F3AEC1F5A56), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeCTextureBase> TextureOverride {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(Schema.GetOffset(0x38100F3AEC1F5A56));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeCTextureBase>>(_TextureOverrideOffset.Value);
   }
 
   public void AlphaScaleUpdated() {

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class COrnamentPropImpl : CDynamicPropImpl, COrnamentProp {
   public COrnamentPropImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InitialOwnerOffset = new(() => Schema.GetOffset(0x1B8675B7BAA055D6), LazyThreadSafetyMode.None);
+
   public string InitialOwner {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x1B8675B7BAA055D6));
+      var ptr = _Handle.Read<nint>(_InitialOwnerOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x1B8675B7BAA055D6, value);
+    set => Schema.SetString(_Handle, _InitialOwnerOffset.Value, value);
   } 
 
 

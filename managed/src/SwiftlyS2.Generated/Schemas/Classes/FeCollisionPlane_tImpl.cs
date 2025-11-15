@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class FeCollisionPlane_tImpl : SchemaClass, FeCollisionPlane_t 
   public FeCollisionPlane_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CtrlParentOffset = new(() => Schema.GetOffset(0xF8EBA99555049230), LazyThreadSafetyMode.None);
+
   public ref ushort CtrlParent {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xF8EBA99555049230));
+    get => ref _Handle.AsRef<ushort>(_CtrlParentOffset.Value);
   }
+  private static readonly Lazy<nint> _ChildNodeOffset = new(() => Schema.GetOffset(0xF8EBA99592A8E0E9), LazyThreadSafetyMode.None);
+
   public ref ushort ChildNode {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xF8EBA99592A8E0E9));
+    get => ref _Handle.AsRef<ushort>(_ChildNodeOffset.Value);
   }
+  private static readonly Lazy<nint> _PlaneOffset = new(() => Schema.GetOffset(0xF8EBA995671CB5D5), LazyThreadSafetyMode.None);
+
   public RnPlane_t Plane {
-    get => new RnPlane_tImpl(_Handle + Schema.GetOffset(0xF8EBA995671CB5D5));
+    get => new RnPlane_tImpl(_Handle + _PlaneOffset.Value);
   }
+  private static readonly Lazy<nint> _StrengthOffset = new(() => Schema.GetOffset(0xF8EBA995AFA3323A), LazyThreadSafetyMode.None);
+
   public ref float Strength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF8EBA995AFA3323A));
+    get => ref _Handle.AsRef<float>(_StrengthOffset.Value);
   }
 
 

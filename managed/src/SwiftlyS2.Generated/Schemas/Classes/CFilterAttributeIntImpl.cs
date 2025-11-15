@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CFilterAttributeIntImpl : CBaseFilterImpl, CFilterAttribu
   public CFilterAttributeIntImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttributeNameOffset = new(() => Schema.GetOffset(0x7CC26955E63BC84D), LazyThreadSafetyMode.None);
+
   public string AttributeName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x7CC26955E63BC84D));
+      var ptr = _Handle.Read<nint>(_AttributeNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x7CC26955E63BC84D, value);
+    set => Schema.SetString(_Handle, _AttributeNameOffset.Value, value);
   } 
 
 

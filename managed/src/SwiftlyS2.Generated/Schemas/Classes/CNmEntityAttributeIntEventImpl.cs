@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CNmEntityAttributeIntEventImpl : CNmEntityAttributeEventB
   public CNmEntityAttributeIntEventImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _IntValueOffset = new(() => Schema.GetOffset(0x22C4DC17BF67A7DB), LazyThreadSafetyMode.None);
+
   public ref int IntValue {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x22C4DC17BF67A7DB));
+    get => ref _Handle.AsRef<int>(_IntValueOffset.Value);
   }
 
 

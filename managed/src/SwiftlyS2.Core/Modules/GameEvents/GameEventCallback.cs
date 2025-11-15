@@ -10,9 +10,10 @@ using SwiftlyS2.Shared.Profiler;
 namespace SwiftlyS2.Core.GameEvents;
 
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-internal delegate HookResult UnmanagedEventCallback(uint hash, nint pEvent, nint pDontBroadcast);
+internal delegate HookResult UnmanagedEventCallback( uint hash, nint pEvent, nint pDontBroadcast );
 
-internal abstract class GameEventCallback : IEquatable<GameEventCallback>, IDisposable {
+internal abstract class GameEventCallback : IEquatable<GameEventCallback>, IDisposable
+{
 
   public Guid Guid { get; init; }
 
@@ -32,33 +33,39 @@ internal abstract class GameEventCallback : IEquatable<GameEventCallback>, IDisp
 
   public CoreContext Context { get; }
 
-  protected GameEventCallback(ILoggerFactory loggerFactory, IContextedProfilerService profiler, CoreContext context)
+  protected GameEventCallback( ILoggerFactory loggerFactory, IContextedProfilerService profiler, CoreContext context )
   {
     LoggerFactory = loggerFactory;
     Profiler = profiler;
     Context = context;
   }
 
-  public void Dispose() {
-    if (IsPreHook) {
+  public void Dispose()
+  {
+    if (IsPreHook)
+    {
       NativeGameEvents.RemoveListenerPreCallback(ListenerId);
-    } else {
+    }
+    else
+    {
       NativeGameEvents.RemoveListenerPostCallback(ListenerId);
     }
   }
 
-  public bool Equals(GameEventCallback? other) {
+  public bool Equals( GameEventCallback? other )
+  {
     if (other is null) return false;
     return Guid == other.Guid;
   }
 
-  public override bool Equals(object? obj)
+  public override bool Equals( object? obj )
   {
     if (ReferenceEquals(this, obj)) return true;
     return obj is GameEventCallback other && Equals(other);
   }
 
-  public override int GetHashCode() {
+  public override int GetHashCode()
+  {
     return Guid.GetHashCode();
   }
 }
@@ -69,7 +76,8 @@ internal class GameEventCallback<T> : GameEventCallback, IDisposable where T : I
   private ILogger<GameEventCallback<T>> _Logger { get; init; }
   private UnmanagedEventCallback _unmanagedCallback;
 
-  public GameEventCallback(IGameEventService.GameEventHandler<T> callback, bool pre, ILoggerFactory loggerFactory, IContextedProfilerService profiler, CoreContext context) : base(loggerFactory, profiler, context) {
+  public GameEventCallback( IGameEventService.GameEventHandler<T> callback, bool pre, ILoggerFactory loggerFactory, IContextedProfilerService profiler, CoreContext context ) : base(loggerFactory, profiler, context)
+  {
     Guid = Guid.NewGuid();
     EventType = typeof(T);
     IsPreHook = pre;
@@ -77,8 +85,10 @@ internal class GameEventCallback<T> : GameEventCallback, IDisposable where T : I
     _callback = callback;
     _Logger = LoggerFactory.CreateLogger<GameEventCallback<T>>();
 
-    _unmanagedCallback = (hash, pEvent, pDontBroadcast) => {
-      try {
+    _unmanagedCallback = ( hash, pEvent, pDontBroadcast ) =>
+    {
+      try
+      {
         var category = "GameEventCallback::" + EventName;
         if (hash != T.GetHash()) return HookResult.Continue;
         Profiler.StartRecording(category);
@@ -88,10 +98,13 @@ internal class GameEventCallback<T> : GameEventCallback, IDisposable where T : I
         eventObj.Dispose();
         Profiler.StopRecording(category);
         return result;
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
+        if (!GlobalExceptionHandler.Handle(e)) return HookResult.Continue;
         _Logger.LogError(e, "Error in event {EventName} callback from context {ContextName}", EventName, Context.Name);
         return HookResult.Continue;
-      } 
+      }
     };
     UnmanagedWrapperPtr = Marshal.GetFunctionPointerForDelegate(_unmanagedCallback);
     NativeGameEvents.RegisterListener(EventName);

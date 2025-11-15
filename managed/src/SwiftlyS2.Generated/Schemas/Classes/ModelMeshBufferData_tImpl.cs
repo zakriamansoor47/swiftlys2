@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,38 +17,60 @@ internal partial class ModelMeshBufferData_tImpl : SchemaClass, ModelMeshBufferD
   public ModelMeshBufferData_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BlockIndexOffset = new(() => Schema.GetOffset(0xA75611C261BAFD8A), LazyThreadSafetyMode.None);
+
   public ref int BlockIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xA75611C261BAFD8A));
+    get => ref _Handle.AsRef<int>(_BlockIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _ElementCountOffset = new(() => Schema.GetOffset(0xA75611C251A2EF12), LazyThreadSafetyMode.None);
+
   public ref uint ElementCount {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xA75611C251A2EF12));
+    get => ref _Handle.AsRef<uint>(_ElementCountOffset.Value);
   }
+  private static readonly Lazy<nint> _ElementSizeInBytesOffset = new(() => Schema.GetOffset(0xA75611C2F602975C), LazyThreadSafetyMode.None);
+
   public ref uint ElementSizeInBytes {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xA75611C2F602975C));
+    get => ref _Handle.AsRef<uint>(_ElementSizeInBytesOffset.Value);
   }
+  private static readonly Lazy<nint> _MeshoptCompressedOffset = new(() => Schema.GetOffset(0xA75611C2BED25A2C), LazyThreadSafetyMode.None);
+
   public ref bool MeshoptCompressed {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA75611C2BED25A2C));
+    get => ref _Handle.AsRef<bool>(_MeshoptCompressedOffset.Value);
   }
+  private static readonly Lazy<nint> _MeshoptIndexSequenceOffset = new(() => Schema.GetOffset(0xA75611C21727BBF2), LazyThreadSafetyMode.None);
+
   public ref bool MeshoptIndexSequence {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA75611C21727BBF2));
+    get => ref _Handle.AsRef<bool>(_MeshoptIndexSequenceOffset.Value);
   }
+  private static readonly Lazy<nint> _CompressedZSTDOffset = new(() => Schema.GetOffset(0xA75611C2AB2B4F3B), LazyThreadSafetyMode.None);
+
   public ref bool CompressedZSTD {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA75611C2AB2B4F3B));
+    get => ref _Handle.AsRef<bool>(_CompressedZSTDOffset.Value);
   }
+  private static readonly Lazy<nint> _CreateBufferSRVOffset = new(() => Schema.GetOffset(0xA75611C2DCF67560), LazyThreadSafetyMode.None);
+
   public ref bool CreateBufferSRV {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA75611C2DCF67560));
+    get => ref _Handle.AsRef<bool>(_CreateBufferSRVOffset.Value);
   }
+  private static readonly Lazy<nint> _CreateBufferUAVOffset = new(() => Schema.GetOffset(0xA75611C27C3596ED), LazyThreadSafetyMode.None);
+
   public ref bool CreateBufferUAV {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA75611C27C3596ED));
+    get => ref _Handle.AsRef<bool>(_CreateBufferUAVOffset.Value);
   }
+  private static readonly Lazy<nint> _CreateRawBufferOffset = new(() => Schema.GetOffset(0xA75611C232F79BCF), LazyThreadSafetyMode.None);
+
   public ref bool CreateRawBuffer {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA75611C232F79BCF));
+    get => ref _Handle.AsRef<bool>(_CreateRawBufferOffset.Value);
   }
+  private static readonly Lazy<nint> _CreatePooledBufferOffset = new(() => Schema.GetOffset(0xA75611C2EFB854B4), LazyThreadSafetyMode.None);
+
   public ref bool CreatePooledBuffer {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xA75611C2EFB854B4));
+    get => ref _Handle.AsRef<bool>(_CreatePooledBufferOffset.Value);
   }
+  private static readonly Lazy<nint> _InputLayoutFieldsOffset = new(() => Schema.GetOffset(0xA75611C2FDECA2D8), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<RenderInputLayoutField_t> InputLayoutFields {
-    get => ref _Handle.AsRef<CUtlVector<RenderInputLayoutField_t>>(Schema.GetOffset(0xA75611C2FDECA2D8));
+    get => ref _Handle.AsRef<CUtlVector<RenderInputLayoutField_t>>(_InputLayoutFieldsOffset.Value);
   }
 
 

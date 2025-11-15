@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class C_OP_RenderScreenVelocityRotateImpl : CParticleFunctionRe
   public C_OP_RenderScreenVelocityRotateImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RotateRateDegreesOffset = new(() => Schema.GetOffset(0x6288600D11A21BC7), LazyThreadSafetyMode.None);
+
   public ref float RotateRateDegrees {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6288600D11A21BC7));
+    get => ref _Handle.AsRef<float>(_RotateRateDegreesOffset.Value);
   }
+  private static readonly Lazy<nint> _ForwardDegreesOffset = new(() => Schema.GetOffset(0x6288600D44D44C45), LazyThreadSafetyMode.None);
+
   public ref float ForwardDegrees {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6288600D44D44C45));
+    get => ref _Handle.AsRef<float>(_ForwardDegreesOffset.Value);
   }
 
 

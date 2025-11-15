@@ -363,11 +363,11 @@ int CPlayerManager::GetPlayerCap()
     return g_SwiftlyCore.GetMaxGameClients();
 }
 
-void CPlayerManager::SendMsg(MessageType type, const std::string& message)
+void CPlayerManager::SendMsg(MessageType type, const std::string& message, int duration)
 {
     for (int i = 0; i < g_SwiftlyCore.GetMaxGameClients(); i++) {
         IPlayer* player = GetPlayer(i);
-        if (player) player->SendMsg(type, message);
+        if (player) player->SendMsg(type, message, duration);
     }
 }
 

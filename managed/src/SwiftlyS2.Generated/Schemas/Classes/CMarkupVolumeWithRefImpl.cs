@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CMarkupVolumeWithRefImpl : CMarkupVolumeTaggedImpl, CMark
   public CMarkupVolumeWithRefImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _UseRefOffset = new(() => Schema.GetOffset(0x12AA97857F572B29), LazyThreadSafetyMode.None);
+
   public ref bool UseRef {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x12AA97857F572B29));
+    get => ref _Handle.AsRef<bool>(_UseRefOffset.Value);
   }
+  private static readonly Lazy<nint> _RefPosEntitySpaceOffset = new(() => Schema.GetOffset(0x12AA978532BBDFAB), LazyThreadSafetyMode.None);
+
   public ref Vector RefPosEntitySpace {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x12AA978532BBDFAB));
+    get => ref _Handle.AsRef<Vector>(_RefPosEntitySpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _RefPosWorldSpaceOffset = new(() => Schema.GetOffset(0x12AA97856139C236), LazyThreadSafetyMode.None);
+
   public ref Vector RefPosWorldSpace {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x12AA97856139C236));
+    get => ref _Handle.AsRef<Vector>(_RefPosWorldSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _RefDotOffset = new(() => Schema.GetOffset(0x12AA9785584DB957), LazyThreadSafetyMode.None);
+
   public ref float RefDot {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x12AA9785584DB957));
+    get => ref _Handle.AsRef<float>(_RefDotOffset.Value);
   }
 
 

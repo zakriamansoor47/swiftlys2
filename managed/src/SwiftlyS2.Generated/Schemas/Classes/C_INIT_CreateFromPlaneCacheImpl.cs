@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_INIT_CreateFromPlaneCacheImpl : CParticleFunctionInitia
   public C_INIT_CreateFromPlaneCacheImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OffsetMinOffset = new(() => Schema.GetOffset(0x349002765EE9C8FE), LazyThreadSafetyMode.None);
+
   public ref Vector OffsetMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x349002765EE9C8FE));
+    get => ref _Handle.AsRef<Vector>(_OffsetMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetMaxOffset = new(() => Schema.GetOffset(0x3490027670D65D9C), LazyThreadSafetyMode.None);
+
   public ref Vector OffsetMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x3490027670D65D9C));
+    get => ref _Handle.AsRef<Vector>(_OffsetMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _UseNormalOffset = new(() => Schema.GetOffset(0x349002769FA2D197), LazyThreadSafetyMode.None);
+
   public ref bool UseNormal {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x349002769FA2D197));
+    get => ref _Handle.AsRef<bool>(_UseNormalOffset.Value);
   }
 
 

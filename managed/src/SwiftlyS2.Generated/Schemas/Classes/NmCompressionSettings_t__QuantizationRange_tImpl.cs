@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class NmCompressionSettings_t__QuantizationRange_tImpl : Schema
   public NmCompressionSettings_t__QuantizationRange_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RangeStartOffset = new(() => Schema.GetOffset(0xA662A641F7D21E68), LazyThreadSafetyMode.None);
+
   public ref float RangeStart {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA662A641F7D21E68));
+    get => ref _Handle.AsRef<float>(_RangeStartOffset.Value);
   }
+  private static readonly Lazy<nint> _RangeLengthOffset = new(() => Schema.GetOffset(0xA662A6418C3501A8), LazyThreadSafetyMode.None);
+
   public ref float RangeLength {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA662A6418C3501A8));
+    get => ref _Handle.AsRef<float>(_RangeLengthOffset.Value);
   }
 
 

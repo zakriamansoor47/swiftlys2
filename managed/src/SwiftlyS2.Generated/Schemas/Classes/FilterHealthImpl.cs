@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class FilterHealthImpl : CBaseFilterImpl, FilterHealth {
   public FilterHealthImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AdrenalineActiveOffset = new(() => Schema.GetOffset(0x4DD06C81671CFB30), LazyThreadSafetyMode.None);
+
   public ref bool AdrenalineActive {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x4DD06C81671CFB30));
+    get => ref _Handle.AsRef<bool>(_AdrenalineActiveOffset.Value);
   }
+  private static readonly Lazy<nint> _HealthMinOffset = new(() => Schema.GetOffset(0x4DD06C8117D5C166), LazyThreadSafetyMode.None);
+
   public ref int HealthMin {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4DD06C8117D5C166));
+    get => ref _Handle.AsRef<int>(_HealthMinOffset.Value);
   }
+  private static readonly Lazy<nint> _HealthMaxOffset = new(() => Schema.GetOffset(0x4DD06C8129E96574), LazyThreadSafetyMode.None);
+
   public ref int HealthMax {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x4DD06C8129E96574));
+    get => ref _Handle.AsRef<int>(_HealthMaxOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class C_OP_VectorNoiseImpl : CParticleFunctionOperatorImpl, C_O
   public C_OP_VectorNoiseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FieldOutputOffset = new(() => Schema.GetOffset(0xEAAF071CE5729606), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t FieldOutput {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0xEAAF071CE5729606));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _FieldOutputOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMinOffset = new(() => Schema.GetOffset(0xEAAF071C2EFED678), LazyThreadSafetyMode.None);
+
   public ref Vector OutputMin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xEAAF071C2EFED678));
+    get => ref _Handle.AsRef<Vector>(_OutputMinOffset.Value);
   }
+  private static readonly Lazy<nint> _OutputMaxOffset = new(() => Schema.GetOffset(0xEAAF071C451280D2), LazyThreadSafetyMode.None);
+
   public ref Vector OutputMax {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xEAAF071C451280D2));
+    get => ref _Handle.AsRef<Vector>(_OutputMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _Fl4NoiseScaleOffset = new(() => Schema.GetOffset(0xEAAF071CF340DAD9), LazyThreadSafetyMode.None);
+
   public ref float Fl4NoiseScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEAAF071CF340DAD9));
+    get => ref _Handle.AsRef<float>(_Fl4NoiseScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _AdditiveOffset = new(() => Schema.GetOffset(0xEAAF071C0FA86105), LazyThreadSafetyMode.None);
+
   public ref bool Additive {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEAAF071C0FA86105));
+    get => ref _Handle.AsRef<bool>(_AdditiveOffset.Value);
   }
+  private static readonly Lazy<nint> _OffsetOffset = new(() => Schema.GetOffset(0xEAAF071C17412B2A), LazyThreadSafetyMode.None);
+
   public ref bool Offset {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xEAAF071C17412B2A));
+    get => ref _Handle.AsRef<bool>(_OffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _NoiseAnimationTimeScaleOffset = new(() => Schema.GetOffset(0xEAAF071C504CBE30), LazyThreadSafetyMode.None);
+
   public ref float NoiseAnimationTimeScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xEAAF071C504CBE30));
+    get => ref _Handle.AsRef<float>(_NoiseAnimationTimeScaleOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_SpringToVectorConstraintImpl : CParticleFunctionCons
   public C_OP_SpringToVectorConstraintImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _RestLengthOffset = new(() => Schema.GetOffset(0xF442244193AC4079), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput RestLength {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xF442244193AC4079));
+    get => new CPerParticleFloatInputImpl(_Handle + _RestLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _MinDistanceOffset = new(() => Schema.GetOffset(0xF442244192BCAD06), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput MinDistance {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xF442244192BCAD06));
+    get => new CPerParticleFloatInputImpl(_Handle + _MinDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxDistanceOffset = new(() => Schema.GetOffset(0xF442244198893360), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput MaxDistance {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xF442244198893360));
+    get => new CPerParticleFloatInputImpl(_Handle + _MaxDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _RestingLengthOffset = new(() => Schema.GetOffset(0xF4422441BB988EAF), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput RestingLength {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0xF4422441BB988EAF));
+    get => new CPerParticleFloatInputImpl(_Handle + _RestingLengthOffset.Value);
   }
+  private static readonly Lazy<nint> _AnchorVectorOffset = new(() => Schema.GetOffset(0xF442244180D613F3), LazyThreadSafetyMode.None);
+
   public CPerParticleVecInput AnchorVector {
-    get => new CPerParticleVecInputImpl(_Handle + Schema.GetOffset(0xF442244180D613F3));
+    get => new CPerParticleVecInputImpl(_Handle + _AnchorVectorOffset.Value);
   }
 
 

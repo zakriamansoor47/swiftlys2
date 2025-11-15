@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CSkillDamageImpl : SchemaClass, CSkillDamage {
   public CSkillDamageImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DamageOffset = new(() => Schema.GetOffset(0x6A323D82DC60E53E), LazyThreadSafetyMode.None);
+
   public CSkillFloat Damage {
-    get => new CSkillFloatImpl(_Handle + Schema.GetOffset(0x6A323D82DC60E53E));
+    get => new CSkillFloatImpl(_Handle + _DamageOffset.Value);
   }
+  private static readonly Lazy<nint> _NPCDamageScalarVsNPCOffset = new(() => Schema.GetOffset(0x6A323D82FD135437), LazyThreadSafetyMode.None);
+
   public ref float NPCDamageScalarVsNPC {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A323D82FD135437));
+    get => ref _Handle.AsRef<float>(_NPCDamageScalarVsNPCOffset.Value);
   }
+  private static readonly Lazy<nint> _PhysicsForceDamageOffset = new(() => Schema.GetOffset(0x6A323D8219E7630E), LazyThreadSafetyMode.None);
+
   public ref float PhysicsForceDamage {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x6A323D8219E7630E));
+    get => ref _Handle.AsRef<float>(_PhysicsForceDamageOffset.Value);
   }
 
 

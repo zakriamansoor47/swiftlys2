@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,34 +17,48 @@ internal partial class C_OP_SetControlPointsToModelParticlesImpl : CParticleFunc
   public C_OP_SetControlPointsToModelParticlesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HitboxSetNameOffset = new(() => Schema.GetOffset(0x8850EF6A6A21BB0E), LazyThreadSafetyMode.None);
+
   public string HitboxSetName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x8850EF6A6A21BB0E);
+      var ptr = _Handle + _HitboxSetNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x8850EF6A6A21BB0E, value, 128);
+    set => Schema.SetFixedString(_Handle, _HitboxSetNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _AttachmentNameOffset = new(() => Schema.GetOffset(0x8850EF6A9CFCA76B), LazyThreadSafetyMode.None);
+
   public string AttachmentName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x8850EF6A9CFCA76B);
+      var ptr = _Handle + _AttachmentNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x8850EF6A9CFCA76B, value, 128);
+    set => Schema.SetFixedString(_Handle, _AttachmentNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _FirstControlPointOffset = new(() => Schema.GetOffset(0x8850EF6A72117650), LazyThreadSafetyMode.None);
+
   public ref int FirstControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8850EF6A72117650));
+    get => ref _Handle.AsRef<int>(_FirstControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _NumControlPointsOffset = new(() => Schema.GetOffset(0x8850EF6A551EBC4F), LazyThreadSafetyMode.None);
+
   public ref int NumControlPoints {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8850EF6A551EBC4F));
+    get => ref _Handle.AsRef<int>(_NumControlPointsOffset.Value);
   }
+  private static readonly Lazy<nint> _FirstSourcePointOffset = new(() => Schema.GetOffset(0x8850EF6A9D7DC18E), LazyThreadSafetyMode.None);
+
   public ref int FirstSourcePoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8850EF6A9D7DC18E));
+    get => ref _Handle.AsRef<int>(_FirstSourcePointOffset.Value);
   }
+  private static readonly Lazy<nint> _SkinOffset = new(() => Schema.GetOffset(0x8850EF6A1BE32F18), LazyThreadSafetyMode.None);
+
   public ref bool Skin {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8850EF6A1BE32F18));
+    get => ref _Handle.AsRef<bool>(_SkinOffset.Value);
   }
+  private static readonly Lazy<nint> _AttachmentOffset = new(() => Schema.GetOffset(0x8850EF6A4D2F6EC8), LazyThreadSafetyMode.None);
+
   public ref bool Attachment {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8850EF6A4D2F6EC8));
+    get => ref _Handle.AsRef<bool>(_AttachmentOffset.Value);
   }
 
 

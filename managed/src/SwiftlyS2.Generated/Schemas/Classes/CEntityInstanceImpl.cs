@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,22 +17,28 @@ internal partial class CEntityInstanceImpl : SchemaClass, CEntityInstance {
   public CEntityInstanceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PrivateVScriptsOffset = new(() => Schema.GetOffset(0xB6DD442EB087F3B2), LazyThreadSafetyMode.None);
+
   public string PrivateVScripts {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB6DD442EB087F3B2));
+      var ptr = _Handle.Read<nint>(_PrivateVScriptsOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xB6DD442EB087F3B2, value);
+    set => Schema.SetString(_Handle, _PrivateVScriptsOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _EntityOffset = new(() => Schema.GetOffset(0xB6DD442EA8A45978), LazyThreadSafetyMode.None);
+
   public CEntityIdentity? Entity {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB6DD442EA8A45978));
+      var ptr = _Handle.Read<nint>(_EntityOffset.Value);
       return ptr.IsValidPtr() ? new CEntityIdentityImpl(ptr) : null;
     }
   }
+  private static readonly Lazy<nint> _CScriptComponentOffset = new(() => Schema.GetOffset(0xB6DD442E3F4202B4), LazyThreadSafetyMode.None);
+
   public CScriptComponent? CScriptComponent {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB6DD442E3F4202B4));
+      var ptr = _Handle.Read<nint>(_CScriptComponentOffset.Value);
       return ptr.IsValidPtr() ? new CScriptComponentImpl(ptr) : null;
     }
   }

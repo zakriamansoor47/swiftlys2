@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CSeqScaleSetImpl : SchemaClass, CSeqScaleSet {
   public CSeqScaleSetImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x34C951AB63D22D49), LazyThreadSafetyMode.None);
+
   public ref CBufferString Name {
-    get => ref _Handle.AsRef<CBufferString>(Schema.GetOffset(0x34C951AB63D22D49));
+    get => ref _Handle.AsRef<CBufferString>(_NameOffset.Value);
   }
+  private static readonly Lazy<nint> _RootOffsetOffset = new(() => Schema.GetOffset(0x34C951ABEE69828A), LazyThreadSafetyMode.None);
+
   public ref bool RootOffset {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x34C951ABEE69828A));
+    get => ref _Handle.AsRef<bool>(_RootOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _RootOffset1Offset = new(() => Schema.GetOffset(0x34C951ABA62E010E), LazyThreadSafetyMode.None);
+
   public ref Vector RootOffset1 {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x34C951ABA62E010E));
+    get => ref _Handle.AsRef<Vector>(_RootOffset1Offset.Value);
   }
+  private static readonly Lazy<nint> _LocalBoneArrayOffset = new(() => Schema.GetOffset(0x34C951AB0B8EFD6B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<short> LocalBoneArray {
-    get => ref _Handle.AsRef<CUtlVector<short>>(Schema.GetOffset(0x34C951AB0B8EFD6B));
+    get => ref _Handle.AsRef<CUtlVector<short>>(_LocalBoneArrayOffset.Value);
   }
+  private static readonly Lazy<nint> _BoneScaleArrayOffset = new(() => Schema.GetOffset(0x34C951ABC4BD868A), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> BoneScaleArray {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x34C951ABC4BD868A));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_BoneScaleArrayOffset.Value);
   }
 
 

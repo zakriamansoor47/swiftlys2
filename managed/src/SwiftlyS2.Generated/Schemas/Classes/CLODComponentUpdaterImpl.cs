@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CLODComponentUpdaterImpl : CAnimComponentUpdaterImpl, CLO
   public CLODComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ServerLODOffset = new(() => Schema.GetOffset(0xDE1020D244E2C75), LazyThreadSafetyMode.None);
+
   public ref int ServerLOD {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xDE1020D244E2C75));
+    get => ref _Handle.AsRef<int>(_ServerLODOffset.Value);
   }
 
 

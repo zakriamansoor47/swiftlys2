@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,65 +17,97 @@ internal partial class CPointWorldTextImpl : CModelPointEntityImpl, CPointWorldT
   public CPointWorldTextImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MessageTextOffset = new(() => Schema.GetOffset(0x5BF88697BA6E5D73), LazyThreadSafetyMode.None);
+
   public string MessageText {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x5BF88697BA6E5D73);
+      var ptr = _Handle + _MessageTextOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x5BF88697BA6E5D73, value, 512);
+    set => Schema.SetFixedString(_Handle, _MessageTextOffset.Value, value, 512);
   } 
+  private static readonly Lazy<nint> _FontNameOffset = new(() => Schema.GetOffset(0x5BF88697C241C2B3), LazyThreadSafetyMode.None);
+
   public string FontName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x5BF88697C241C2B3);
+      var ptr = _Handle + _FontNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x5BF88697C241C2B3, value, 64);
+    set => Schema.SetFixedString(_Handle, _FontNameOffset.Value, value, 64);
   } 
+  private static readonly Lazy<nint> _BackgroundMaterialNameOffset = new(() => Schema.GetOffset(0x5BF88697ECF8A7AB), LazyThreadSafetyMode.None);
+
   public string BackgroundMaterialName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x5BF88697ECF8A7AB);
+      var ptr = _Handle + _BackgroundMaterialNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x5BF88697ECF8A7AB, value, 64);
+    set => Schema.SetFixedString(_Handle, _BackgroundMaterialNameOffset.Value, value, 64);
   } 
+  private static readonly Lazy<nint> _EnabledOffset = new(() => Schema.GetOffset(0x5BF886976154EB7E), LazyThreadSafetyMode.None);
+
   public ref bool Enabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5BF886976154EB7E));
+    get => ref _Handle.AsRef<bool>(_EnabledOffset.Value);
   }
+  private static readonly Lazy<nint> _FullbrightOffset = new(() => Schema.GetOffset(0x5BF8869765A288E8), LazyThreadSafetyMode.None);
+
   public ref bool Fullbright {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5BF8869765A288E8));
+    get => ref _Handle.AsRef<bool>(_FullbrightOffset.Value);
   }
+  private static readonly Lazy<nint> _WorldUnitsPerPxOffset = new(() => Schema.GetOffset(0x5BF886971DA8EAAB), LazyThreadSafetyMode.None);
+
   public ref float WorldUnitsPerPx {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5BF886971DA8EAAB));
+    get => ref _Handle.AsRef<float>(_WorldUnitsPerPxOffset.Value);
   }
+  private static readonly Lazy<nint> _FontSizeOffset = new(() => Schema.GetOffset(0x5BF88697D5E19F97), LazyThreadSafetyMode.None);
+
   public ref float FontSize {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5BF88697D5E19F97));
+    get => ref _Handle.AsRef<float>(_FontSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _DepthOffsetOffset = new(() => Schema.GetOffset(0x5BF8869767D1DB9B), LazyThreadSafetyMode.None);
+
   public ref float DepthOffset {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5BF8869767D1DB9B));
+    get => ref _Handle.AsRef<float>(_DepthOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _DrawBackgroundOffset = new(() => Schema.GetOffset(0x5BF886978259FA8F), LazyThreadSafetyMode.None);
+
   public ref bool DrawBackground {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x5BF886978259FA8F));
+    get => ref _Handle.AsRef<bool>(_DrawBackgroundOffset.Value);
   }
+  private static readonly Lazy<nint> _BackgroundBorderWidthOffset = new(() => Schema.GetOffset(0x5BF886972A7C9A4F), LazyThreadSafetyMode.None);
+
   public ref float BackgroundBorderWidth {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5BF886972A7C9A4F));
+    get => ref _Handle.AsRef<float>(_BackgroundBorderWidthOffset.Value);
   }
+  private static readonly Lazy<nint> _BackgroundBorderHeightOffset = new(() => Schema.GetOffset(0x5BF8869794198B72), LazyThreadSafetyMode.None);
+
   public ref float BackgroundBorderHeight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5BF8869794198B72));
+    get => ref _Handle.AsRef<float>(_BackgroundBorderHeightOffset.Value);
   }
+  private static readonly Lazy<nint> _BackgroundWorldToUVOffset = new(() => Schema.GetOffset(0x5BF88697ECA00D93), LazyThreadSafetyMode.None);
+
   public ref float BackgroundWorldToUV {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x5BF88697ECA00D93));
+    get => ref _Handle.AsRef<float>(_BackgroundWorldToUVOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorOffset = new(() => Schema.GetOffset(0x5BF88697D7D017D8), LazyThreadSafetyMode.None);
+
   public ref Color Color {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x5BF88697D7D017D8));
+    get => ref _Handle.AsRef<Color>(_ColorOffset.Value);
   }
+  private static readonly Lazy<nint> _JustifyHorizontalOffset = new(() => Schema.GetOffset(0x5BF8869730435253), LazyThreadSafetyMode.None);
+
   public ref PointWorldTextJustifyHorizontal_t JustifyHorizontal {
-    get => ref _Handle.AsRef<PointWorldTextJustifyHorizontal_t>(Schema.GetOffset(0x5BF8869730435253));
+    get => ref _Handle.AsRef<PointWorldTextJustifyHorizontal_t>(_JustifyHorizontalOffset.Value);
   }
+  private static readonly Lazy<nint> _JustifyVerticalOffset = new(() => Schema.GetOffset(0x5BF88697CA04D41D), LazyThreadSafetyMode.None);
+
   public ref PointWorldTextJustifyVertical_t JustifyVertical {
-    get => ref _Handle.AsRef<PointWorldTextJustifyVertical_t>(Schema.GetOffset(0x5BF88697CA04D41D));
+    get => ref _Handle.AsRef<PointWorldTextJustifyVertical_t>(_JustifyVerticalOffset.Value);
   }
+  private static readonly Lazy<nint> _ReorientModeOffset = new(() => Schema.GetOffset(0x5BF88697222D2502), LazyThreadSafetyMode.None);
+
   public ref PointWorldTextReorientMode_t ReorientMode {
-    get => ref _Handle.AsRef<PointWorldTextReorientMode_t>(Schema.GetOffset(0x5BF88697222D2502));
+    get => ref _Handle.AsRef<PointWorldTextReorientMode_t>(_ReorientModeOffset.Value);
   }
 
   public void MessageTextUpdated() {

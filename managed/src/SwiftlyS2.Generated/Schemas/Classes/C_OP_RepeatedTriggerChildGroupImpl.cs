@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_RepeatedTriggerChildGroupImpl : CParticleFunctionPre
   public C_OP_RepeatedTriggerChildGroupImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChildGroupIDOffset = new(() => Schema.GetOffset(0x3D9A0D4E3F3C965), LazyThreadSafetyMode.None);
+
   public ref int ChildGroupID {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x3D9A0D4E3F3C965));
+    get => ref _Handle.AsRef<int>(_ChildGroupIDOffset.Value);
   }
+  private static readonly Lazy<nint> _ClusterRefireTimeOffset = new(() => Schema.GetOffset(0x3D9A0D47E6BEEAB), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput ClusterRefireTime {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x3D9A0D47E6BEEAB));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ClusterRefireTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _ClusterSizeOffset = new(() => Schema.GetOffset(0x3D9A0D4A7549FF6), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput ClusterSize {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x3D9A0D4A7549FF6));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ClusterSizeOffset.Value);
   }
+  private static readonly Lazy<nint> _ClusterCooldownOffset = new(() => Schema.GetOffset(0x3D9A0D4753687EA), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput ClusterCooldown {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x3D9A0D4753687EA));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _ClusterCooldownOffset.Value);
   }
+  private static readonly Lazy<nint> _LimitChildCountOffset = new(() => Schema.GetOffset(0x3D9A0D4EA978249), LazyThreadSafetyMode.None);
+
   public ref bool LimitChildCount {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x3D9A0D4EA978249));
+    get => ref _Handle.AsRef<bool>(_LimitChildCountOffset.Value);
   }
 
 

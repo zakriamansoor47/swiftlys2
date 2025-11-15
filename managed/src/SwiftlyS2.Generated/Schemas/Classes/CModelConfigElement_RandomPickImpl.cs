@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CModelConfigElement_RandomPickImpl : CModelConfigElementI
   public CModelConfigElement_RandomPickImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChoicesOffset = new(() => Schema.GetOffset(0x31F9AEEA9E9959BF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> Choices {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0x31F9AEEA9E9959BF));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_ChoicesOffset.Value);
   }
+  private static readonly Lazy<nint> _ChoiceWeightsOffset = new(() => Schema.GetOffset(0x31F9AEEA379579F7), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> ChoiceWeights {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x31F9AEEA379579F7));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_ChoiceWeightsOffset.Value);
   }
 
 

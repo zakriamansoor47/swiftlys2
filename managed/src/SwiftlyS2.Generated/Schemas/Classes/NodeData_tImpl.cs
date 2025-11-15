@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,30 +17,44 @@ internal partial class NodeData_tImpl : SchemaClass, NodeData_t {
   public NodeData_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParentOffset = new(() => Schema.GetOffset(0xB09FAAA60AABB9D1), LazyThreadSafetyMode.None);
+
   public ref int Parent {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xB09FAAA60AABB9D1));
+    get => ref _Handle.AsRef<int>(_ParentOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginOffset = new(() => Schema.GetOffset(0xB09FAAA6F26E589B), LazyThreadSafetyMode.None);
+
   public ref Vector Origin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB09FAAA6F26E589B));
+    get => ref _Handle.AsRef<Vector>(_OriginOffset.Value);
   }
+  private static readonly Lazy<nint> _MinBoundsOffset = new(() => Schema.GetOffset(0xB09FAAA6114799FE), LazyThreadSafetyMode.None);
+
   public ref Vector MinBounds {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB09FAAA6114799FE));
+    get => ref _Handle.AsRef<Vector>(_MinBoundsOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxBoundsOffset = new(() => Schema.GetOffset(0xB09FAAA6C0B4CE60), LazyThreadSafetyMode.None);
+
   public ref Vector MaxBounds {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xB09FAAA6C0B4CE60));
+    get => ref _Handle.AsRef<Vector>(_MaxBoundsOffset.Value);
   }
+  private static readonly Lazy<nint> _MinimumDistanceOffset = new(() => Schema.GetOffset(0xB09FAAA6D8B1200E), LazyThreadSafetyMode.None);
+
   public ref float MinimumDistance {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB09FAAA6D8B1200E));
+    get => ref _Handle.AsRef<float>(_MinimumDistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _ChildNodeIndicesOffset = new(() => Schema.GetOffset(0xB09FAAA63648C692), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<int> ChildNodeIndices {
-    get => ref _Handle.AsRef<CUtlVector<int>>(Schema.GetOffset(0xB09FAAA63648C692));
+    get => ref _Handle.AsRef<CUtlVector<int>>(_ChildNodeIndicesOffset.Value);
   }
+  private static readonly Lazy<nint> _WorldNodePrefixOffset = new(() => Schema.GetOffset(0xB09FAAA662126457), LazyThreadSafetyMode.None);
+
   public string WorldNodePrefix {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xB09FAAA662126457));
+      var ptr = _Handle.Read<nint>(_WorldNodePrefixOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xB09FAAA662126457, value);
+    set => Schema.SetString(_Handle, _WorldNodePrefixOffset.Value, value);
   } 
 
 

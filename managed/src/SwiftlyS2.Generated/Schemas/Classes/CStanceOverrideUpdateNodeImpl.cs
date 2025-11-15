@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CStanceOverrideUpdateNodeImpl : CUnaryUpdateNodeImpl, CSt
   public CStanceOverrideUpdateNodeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FootStanceInfoOffset = new(() => Schema.GetOffset(0x322EE1B7D5687289), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<StanceInfo_t> FootStanceInfo {
-    get => ref _Handle.AsRef<CUtlVector<StanceInfo_t>>(Schema.GetOffset(0x322EE1B7D5687289));
+    get => ref _Handle.AsRef<CUtlVector<StanceInfo_t>>(_FootStanceInfoOffset.Value);
   }
+  private static readonly Lazy<nint> _StanceSourceNodeOffset = new(() => Schema.GetOffset(0x322EE1B7D25DA07A), LazyThreadSafetyMode.None);
+
   public CAnimUpdateNodeRef StanceSourceNode {
-    get => new CAnimUpdateNodeRefImpl(_Handle + Schema.GetOffset(0x322EE1B7D25DA07A));
+    get => new CAnimUpdateNodeRefImpl(_Handle + _StanceSourceNodeOffset.Value);
   }
+  private static readonly Lazy<nint> _ParameterOffset = new(() => Schema.GetOffset(0x322EE1B70C7008F6), LazyThreadSafetyMode.None);
+
   public CAnimParamHandle Parameter {
-    get => new CAnimParamHandleImpl(_Handle + Schema.GetOffset(0x322EE1B70C7008F6));
+    get => new CAnimParamHandleImpl(_Handle + _ParameterOffset.Value);
   }
+  private static readonly Lazy<nint> _ModeOffset = new(() => Schema.GetOffset(0x322EE1B71050A633), LazyThreadSafetyMode.None);
+
   public ref StanceOverrideMode Mode {
-    get => ref _Handle.AsRef<StanceOverrideMode>(Schema.GetOffset(0x322EE1B71050A633));
+    get => ref _Handle.AsRef<StanceOverrideMode>(_ModeOffset.Value);
   }
 
 

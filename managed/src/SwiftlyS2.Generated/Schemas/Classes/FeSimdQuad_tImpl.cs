@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class FeSimdQuad_tImpl : SchemaClass, FeSimdQuad_t {
   public FeSimdQuad_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NodeOffset = new(() => Schema.GetOffset(0xB82B061DCD6694B9), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Node {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xB82B061DCD6694B9));
+    get => new SchemaUntypedField(_Handle + _NodeOffset.Value);
   }
+  private static readonly Lazy<nint> _F4SlackOffset = new(() => Schema.GetOffset(0xB82B061DBBFE3561), LazyThreadSafetyMode.None);
+
   public ref fltx4 F4Slack {
-    get => ref _Handle.AsRef<fltx4>(Schema.GetOffset(0xB82B061DBBFE3561));
+    get => ref _Handle.AsRef<fltx4>(_F4SlackOffset.Value);
   }
   public ISchemaFixedArray<FourVectors> Shape {
     get => new SchemaFixedArray<FourVectors>(_Handle, 0xB82B061DE159551A, 4, 48, 16);

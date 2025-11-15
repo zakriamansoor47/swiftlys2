@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class RnVertex_tImpl : SchemaClass, RnVertex_t {
   public RnVertex_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EdgeOffset = new(() => Schema.GetOffset(0xA2F56A80E2949FC8), LazyThreadSafetyMode.None);
+
   public ref byte Edge {
-    get => ref _Handle.AsRef<byte>(Schema.GetOffset(0xA2F56A80E2949FC8));
+    get => ref _Handle.AsRef<byte>(_EdgeOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class MoodAnimation_tImpl : SchemaClass, MoodAnimation_t {
   public MoodAnimation_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x8982458763D22D49), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Name {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x8982458763D22D49));
+    get => new SchemaUntypedField(_Handle + _NameOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightOffset = new(() => Schema.GetOffset(0x898245877B81E7AB), LazyThreadSafetyMode.None);
+
   public ref float Weight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x898245877B81E7AB));
+    get => ref _Handle.AsRef<float>(_WeightOffset.Value);
   }
 
 

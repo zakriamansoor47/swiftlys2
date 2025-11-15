@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class CEnvGlobalImpl : CLogicalEntityImpl, CEnvGlobal {
   public CEnvGlobalImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OutCounterOffset = new(() => Schema.GetOffset(0xC5E41E3E69415251), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField OutCounter {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xC5E41E3E69415251));
+    get => new SchemaUntypedField(_Handle + _OutCounterOffset.Value);
   }
+  private static readonly Lazy<nint> _GlobalstateOffset = new(() => Schema.GetOffset(0xC5E41E3E77A86653), LazyThreadSafetyMode.None);
+
   public string Globalstate {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xC5E41E3E77A86653));
+      var ptr = _Handle.Read<nint>(_GlobalstateOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xC5E41E3E77A86653, value);
+    set => Schema.SetString(_Handle, _GlobalstateOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TriggermodeOffset = new(() => Schema.GetOffset(0xC5E41E3E845DF22C), LazyThreadSafetyMode.None);
+
   public ref int Triggermode {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC5E41E3E845DF22C));
+    get => ref _Handle.AsRef<int>(_TriggermodeOffset.Value);
   }
+  private static readonly Lazy<nint> _InitialstateOffset = new(() => Schema.GetOffset(0xC5E41E3E1E997294), LazyThreadSafetyMode.None);
+
   public ref int Initialstate {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC5E41E3E1E997294));
+    get => ref _Handle.AsRef<int>(_InitialstateOffset.Value);
   }
+  private static readonly Lazy<nint> _CounterOffset = new(() => Schema.GetOffset(0xC5E41E3EA311A543), LazyThreadSafetyMode.None);
+
   public ref int Counter {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC5E41E3EA311A543));
+    get => ref _Handle.AsRef<int>(_CounterOffset.Value);
   }
 
 

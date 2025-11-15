@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,24 +17,34 @@ internal partial class C_INIT_InitialVelocityFromHitboxImpl : CParticleFunctionI
   public C_INIT_InitialVelocityFromHitboxImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VelocityMinOffset = new(() => Schema.GetOffset(0x48F25F17FDB3D7E4), LazyThreadSafetyMode.None);
+
   public ref float VelocityMin {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x48F25F17FDB3D7E4));
+    get => ref _Handle.AsRef<float>(_VelocityMinOffset.Value);
   }
+  private static readonly Lazy<nint> _VelocityMaxOffset = new(() => Schema.GetOffset(0x48F25F170BC775A6), LazyThreadSafetyMode.None);
+
   public ref float VelocityMax {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x48F25F170BC775A6));
+    get => ref _Handle.AsRef<float>(_VelocityMaxOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0x48F25F173F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x48F25F173F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
+  private static readonly Lazy<nint> _HitboxSetNameOffset = new(() => Schema.GetOffset(0x48F25F176A21BB0E), LazyThreadSafetyMode.None);
+
   public string HitboxSetName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x48F25F176A21BB0E);
+      var ptr = _Handle + _HitboxSetNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x48F25F176A21BB0E, value, 128);
+    set => Schema.SetFixedString(_Handle, _HitboxSetNameOffset.Value, value, 128);
   } 
+  private static readonly Lazy<nint> _UseBonesOffset = new(() => Schema.GetOffset(0x48F25F1710D1938B), LazyThreadSafetyMode.None);
+
   public ref bool UseBones {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x48F25F1710D1938B));
+    get => ref _Handle.AsRef<bool>(_UseBonesOffset.Value);
   }
 
 

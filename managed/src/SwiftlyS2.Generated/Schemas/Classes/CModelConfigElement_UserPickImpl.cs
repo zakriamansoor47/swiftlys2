@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CModelConfigElement_UserPickImpl : CModelConfigElementImp
   public CModelConfigElement_UserPickImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ChoicesOffset = new(() => Schema.GetOffset(0x9AB617A69E9959BF), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> Choices {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0x9AB617A69E9959BF));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_ChoicesOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class AggregateLODSetup_tImpl : SchemaClass, AggregateLODSetup_
   public AggregateLODSetup_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _LODOriginOffset = new(() => Schema.GetOffset(0xA931690332EC7486), LazyThreadSafetyMode.None);
+
   public ref Vector LODOrigin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xA931690332EC7486));
+    get => ref _Handle.AsRef<Vector>(_LODOriginOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxObjectScaleOffset = new(() => Schema.GetOffset(0xA9316903D0DAF878), LazyThreadSafetyMode.None);
+
   public ref float MaxObjectScale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xA9316903D0DAF878));
+    get => ref _Handle.AsRef<float>(_MaxObjectScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _SwitchDistancesOffset = new(() => Schema.GetOffset(0xA9316903E49F3FC3), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> SwitchDistances {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0xA9316903E49F3FC3));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_SwitchDistancesOffset.Value);
   }
 
 

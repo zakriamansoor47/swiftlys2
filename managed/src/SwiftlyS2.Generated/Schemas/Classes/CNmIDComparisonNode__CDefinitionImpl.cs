@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmIDComparisonNode__CDefinitionImpl : CNmBoolValueNode__
   public CNmIDComparisonNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0xE0D928B595E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xE0D928B595E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ComparisonOffset = new(() => Schema.GetOffset(0xE0D928B5897F8DE4), LazyThreadSafetyMode.None);
+
   public ref CNmIDComparisonNode__Comparison_t Comparison {
-    get => ref _Handle.AsRef<CNmIDComparisonNode__Comparison_t>(Schema.GetOffset(0xE0D928B5897F8DE4));
+    get => ref _Handle.AsRef<CNmIDComparisonNode__Comparison_t>(_ComparisonOffset.Value);
   }
+  private static readonly Lazy<nint> _ComparisionIDsOffset = new(() => Schema.GetOffset(0xE0D928B5E68D53FD), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField ComparisionIDs {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xE0D928B5E68D53FD));
+    get => new SchemaUntypedField(_Handle + _ComparisionIDsOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPulseCell_Outflow_ScriptedSequence__CursorState_tImpl : 
   public CPulseCell_Outflow_ScriptedSequence__CursorState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScriptedSequenceOffset = new(() => Schema.GetOffset(0xA508823E4DD9D67A), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> ScriptedSequence {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xA508823E4DD9D67A));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_ScriptedSequenceOffset.Value);
   }
 
 

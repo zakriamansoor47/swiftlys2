@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CCSPlayer_ItemServicesImpl : CPlayer_ItemServicesImpl, CC
   public CCSPlayer_ItemServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _HasDefuserOffset = new(() => Schema.GetOffset(0x6BB85EAD5AF87AF5), LazyThreadSafetyMode.None);
+
   public ref bool HasDefuser {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6BB85EAD5AF87AF5));
+    get => ref _Handle.AsRef<bool>(_HasDefuserOffset.Value);
   }
+  private static readonly Lazy<nint> _HasHelmetOffset = new(() => Schema.GetOffset(0x6BB85EAD4240B6F6), LazyThreadSafetyMode.None);
+
   public ref bool HasHelmet {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6BB85EAD4240B6F6));
+    get => ref _Handle.AsRef<bool>(_HasHelmetOffset.Value);
   }
 
   public void HasDefuserUpdated() {

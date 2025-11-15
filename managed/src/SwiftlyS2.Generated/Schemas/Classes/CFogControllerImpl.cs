@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CFogControllerImpl : CBaseEntityImpl, CFogController {
   public CFogControllerImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FogOffset = new(() => Schema.GetOffset(0x719804B29014635F), LazyThreadSafetyMode.None);
+
   public fogparams_t Fog {
-    get => new fogparams_tImpl(_Handle + Schema.GetOffset(0x719804B29014635F));
+    get => new fogparams_tImpl(_Handle + _FogOffset.Value);
   }
+  private static readonly Lazy<nint> _UseAnglesOffset = new(() => Schema.GetOffset(0x719804B2434C3DB4), LazyThreadSafetyMode.None);
+
   public ref bool UseAngles {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x719804B2434C3DB4));
+    get => ref _Handle.AsRef<bool>(_UseAnglesOffset.Value);
   }
+  private static readonly Lazy<nint> _ChangedVariablesOffset = new(() => Schema.GetOffset(0x719804B2BC173F39), LazyThreadSafetyMode.None);
+
   public ref int ChangedVariables {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x719804B2BC173F39));
+    get => ref _Handle.AsRef<int>(_ChangedVariablesOffset.Value);
   }
 
   public void FogUpdated() {

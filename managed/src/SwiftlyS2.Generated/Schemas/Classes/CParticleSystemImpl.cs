@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,36 +17,54 @@ internal partial class CParticleSystemImpl : CBaseModelEntityImpl, CParticleSyst
   public CParticleSystemImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SnapshotFileNameOffset = new(() => Schema.GetOffset(0x8F6D2B258D2636C1), LazyThreadSafetyMode.None);
+
   public string SnapshotFileName {
     get {
-      var ptr = _Handle + Schema.GetOffset(0x8F6D2B258D2636C1);
+      var ptr = _Handle + _SnapshotFileNameOffset.Value;
       return Schema.GetString(ptr);
     }
-    set => Schema.SetFixedString(_Handle, 0x8F6D2B258D2636C1, value, 512);
+    set => Schema.SetFixedString(_Handle, _SnapshotFileNameOffset.Value, value, 512);
   } 
+  private static readonly Lazy<nint> _ActiveOffset = new(() => Schema.GetOffset(0x8F6D2B258334208F), LazyThreadSafetyMode.None);
+
   public ref bool Active {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8F6D2B258334208F));
+    get => ref _Handle.AsRef<bool>(_ActiveOffset.Value);
   }
+  private static readonly Lazy<nint> _FrozenOffset = new(() => Schema.GetOffset(0x8F6D2B25119A2BE3), LazyThreadSafetyMode.None);
+
   public ref bool Frozen {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8F6D2B25119A2BE3));
+    get => ref _Handle.AsRef<bool>(_FrozenOffset.Value);
   }
+  private static readonly Lazy<nint> _FreezeTransitionDurationOffset = new(() => Schema.GetOffset(0x8F6D2B259CE29C67), LazyThreadSafetyMode.None);
+
   public ref float FreezeTransitionDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8F6D2B259CE29C67));
+    get => ref _Handle.AsRef<float>(_FreezeTransitionDurationOffset.Value);
   }
+  private static readonly Lazy<nint> _StopTypeOffset = new(() => Schema.GetOffset(0x8F6D2B2513397259), LazyThreadSafetyMode.None);
+
   public ref int StopType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8F6D2B2513397259));
+    get => ref _Handle.AsRef<int>(_StopTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _AnimateDuringGameplayPauseOffset = new(() => Schema.GetOffset(0x8F6D2B25A4EB73F5), LazyThreadSafetyMode.None);
+
   public ref bool AnimateDuringGameplayPause {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8F6D2B25A4EB73F5));
+    get => ref _Handle.AsRef<bool>(_AnimateDuringGameplayPauseOffset.Value);
   }
+  private static readonly Lazy<nint> _EffectIndexOffset = new(() => Schema.GetOffset(0x8F6D2B253C93DC73), LazyThreadSafetyMode.None);
+
   public ref CStrongHandle<InfoForResourceTypeIParticleSystemDefinition> EffectIndex {
-    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIParticleSystemDefinition>>(Schema.GetOffset(0x8F6D2B253C93DC73));
+    get => ref _Handle.AsRef<CStrongHandle<InfoForResourceTypeIParticleSystemDefinition>>(_EffectIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0x8F6D2B2567FE9DC4), LazyThreadSafetyMode.None);
+
   public GameTime_t StartTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0x8F6D2B2567FE9DC4));
+    get => new GameTime_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _PreSimTimeOffset = new(() => Schema.GetOffset(0x8F6D2B25CD67F64E), LazyThreadSafetyMode.None);
+
   public ref float PreSimTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8F6D2B25CD67F64E));
+    get => ref _Handle.AsRef<float>(_PreSimTimeOffset.Value);
   }
   public ISchemaFixedArray<Vector> ServerControlPoints {
     get => new SchemaFixedArray<Vector>(_Handle, 0x8F6D2B2561386048, 4, 12, 4);
@@ -55,43 +75,63 @@ internal partial class CParticleSystemImpl : CBaseModelEntityImpl, CParticleSyst
   public ISchemaFixedArray<CHandle<CBaseEntity>> ControlPointEnts {
     get => new SchemaFixedArray<CHandle<CBaseEntity>>(_Handle, 0x8F6D2B25ECA36598, 64, 4, 4);
   }
+  private static readonly Lazy<nint> _NoSaveOffset = new(() => Schema.GetOffset(0x8F6D2B257507B947), LazyThreadSafetyMode.None);
+
   public ref bool NoSave {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8F6D2B257507B947));
+    get => ref _Handle.AsRef<bool>(_NoSaveOffset.Value);
   }
+  private static readonly Lazy<nint> _NoFreezeOffset = new(() => Schema.GetOffset(0x8F6D2B256015A661), LazyThreadSafetyMode.None);
+
   public ref bool NoFreeze {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8F6D2B256015A661));
+    get => ref _Handle.AsRef<bool>(_NoFreezeOffset.Value);
   }
+  private static readonly Lazy<nint> _NoRampOffset = new(() => Schema.GetOffset(0x8F6D2B25AD7F8116), LazyThreadSafetyMode.None);
+
   public ref bool NoRamp {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8F6D2B25AD7F8116));
+    get => ref _Handle.AsRef<bool>(_NoRampOffset.Value);
   }
+  private static readonly Lazy<nint> _StartActiveOffset = new(() => Schema.GetOffset(0x8F6D2B25953CBC21), LazyThreadSafetyMode.None);
+
   public ref bool StartActive {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x8F6D2B25953CBC21));
+    get => ref _Handle.AsRef<bool>(_StartActiveOffset.Value);
   }
+  private static readonly Lazy<nint> _EffectNameOffset = new(() => Schema.GetOffset(0x8F6D2B2582D2BFC7), LazyThreadSafetyMode.None);
+
   public string EffectName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x8F6D2B2582D2BFC7));
+      var ptr = _Handle.Read<nint>(_EffectNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x8F6D2B2582D2BFC7, value);
+    set => Schema.SetString(_Handle, _EffectNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ControlPointNamesOffset = new(() => Schema.GetOffset(0x8F6D2B258DBFEC78), LazyThreadSafetyMode.None);
+
   public string ControlPointNames {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x8F6D2B258DBFEC78));
+      var ptr = _Handle.Read<nint>(_ControlPointNamesOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x8F6D2B258DBFEC78, value);
+    set => Schema.SetString(_Handle, _ControlPointNamesOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _DataCPOffset = new(() => Schema.GetOffset(0x8F6D2B258DC46F82), LazyThreadSafetyMode.None);
+
   public ref int DataCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8F6D2B258DC46F82));
+    get => ref _Handle.AsRef<int>(_DataCPOffset.Value);
   }
+  private static readonly Lazy<nint> _DataCPValueOffset = new(() => Schema.GetOffset(0x8F6D2B250AC27507), LazyThreadSafetyMode.None);
+
   public ref Vector DataCPValue {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x8F6D2B250AC27507));
+    get => ref _Handle.AsRef<Vector>(_DataCPValueOffset.Value);
   }
+  private static readonly Lazy<nint> _TintCPOffset = new(() => Schema.GetOffset(0x8F6D2B2554940ABB), LazyThreadSafetyMode.None);
+
   public ref int TintCP {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x8F6D2B2554940ABB));
+    get => ref _Handle.AsRef<int>(_TintCPOffset.Value);
   }
+  private static readonly Lazy<nint> _TintOffset = new(() => Schema.GetOffset(0x8F6D2B25CEA8BB7D), LazyThreadSafetyMode.None);
+
   public ref Color Tint {
-    get => ref _Handle.AsRef<Color>(Schema.GetOffset(0x8F6D2B25CEA8BB7D));
+    get => ref _Handle.AsRef<Color>(_TintOffset.Value);
   }
 
   public void SnapshotFileNameUpdated() {

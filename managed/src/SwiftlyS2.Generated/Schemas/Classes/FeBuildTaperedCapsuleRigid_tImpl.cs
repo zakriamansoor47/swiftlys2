@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class FeBuildTaperedCapsuleRigid_tImpl : FeTaperedCapsuleRigid_
   public FeBuildTaperedCapsuleRigid_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PriorityOffset = new(() => Schema.GetOffset(0x444BEEFEE7EFB335), LazyThreadSafetyMode.None);
+
   public ref int Priority {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x444BEEFEE7EFB335));
+    get => ref _Handle.AsRef<int>(_PriorityOffset.Value);
   }
+  private static readonly Lazy<nint> _VertexMapHashOffset = new(() => Schema.GetOffset(0x444BEEFE06BCA0A3), LazyThreadSafetyMode.None);
+
   public ref uint VertexMapHash {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x444BEEFE06BCA0A3));
+    get => ref _Handle.AsRef<uint>(_VertexMapHashOffset.Value);
   }
+  private static readonly Lazy<nint> _AntitunnelGroupBitsOffset = new(() => Schema.GetOffset(0x444BEEFEA5C6E91A), LazyThreadSafetyMode.None);
+
   public ref uint AntitunnelGroupBits {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x444BEEFEA5C6E91A));
+    get => ref _Handle.AsRef<uint>(_AntitunnelGroupBitsOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CCommentaryAutoImpl : CBaseEntityImpl, CCommentaryAuto {
   public CCommentaryAutoImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OnCommentaryNewGameOffset = new(() => Schema.GetOffset(0x5BB39498C3245D97), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnCommentaryNewGame {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x5BB39498C3245D97));
+    get => new CEntityIOOutputImpl(_Handle + _OnCommentaryNewGameOffset.Value);
   }
+  private static readonly Lazy<nint> _OnCommentaryMidGameOffset = new(() => Schema.GetOffset(0x5BB39498A1777FCB), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnCommentaryMidGame {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x5BB39498A1777FCB));
+    get => new CEntityIOOutputImpl(_Handle + _OnCommentaryMidGameOffset.Value);
   }
+  private static readonly Lazy<nint> _OnCommentaryMultiplayerSpawnOffset = new(() => Schema.GetOffset(0x5BB3949819FDEEB2), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnCommentaryMultiplayerSpawn {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x5BB3949819FDEEB2));
+    get => new CEntityIOOutputImpl(_Handle + _OnCommentaryMultiplayerSpawnOffset.Value);
   }
 
 

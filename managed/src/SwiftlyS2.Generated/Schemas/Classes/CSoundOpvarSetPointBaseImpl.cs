@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,48 +17,66 @@ internal partial class CSoundOpvarSetPointBaseImpl : CBaseEntityImpl, CSoundOpva
   public CSoundOpvarSetPointBaseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DisabledOffset = new(() => Schema.GetOffset(0x6C95A3E03A7C5965), LazyThreadSafetyMode.None);
+
   public ref bool Disabled {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6C95A3E03A7C5965));
+    get => ref _Handle.AsRef<bool>(_DisabledOffset.Value);
   }
+  private static readonly Lazy<nint> _SourceOffset = new(() => Schema.GetOffset(0x6C95A3E033D3CD82), LazyThreadSafetyMode.None);
+
   public ref CHandle<CEntityInstance> Source {
-    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(Schema.GetOffset(0x6C95A3E033D3CD82));
+    get => ref _Handle.AsRef<CHandle<CEntityInstance>>(_SourceOffset.Value);
   }
+  private static readonly Lazy<nint> _SourceEntityNameOffset = new(() => Schema.GetOffset(0x6C95A3E06C1387C0), LazyThreadSafetyMode.None);
+
   public string SourceEntityName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6C95A3E06C1387C0));
+      var ptr = _Handle.Read<nint>(_SourceEntityNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6C95A3E06C1387C0, value);
+    set => Schema.SetString(_Handle, _SourceEntityNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _LastPositionOffset = new(() => Schema.GetOffset(0x6C95A3E0A5B68002), LazyThreadSafetyMode.None);
+
   public ref Vector LastPosition {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x6C95A3E0A5B68002));
+    get => ref _Handle.AsRef<Vector>(_LastPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _StackNameOffset = new(() => Schema.GetOffset(0x6C95A3E03B3E9CD4), LazyThreadSafetyMode.None);
+
   public string StackName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6C95A3E03B3E9CD4));
+      var ptr = _Handle.Read<nint>(_StackNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6C95A3E03B3E9CD4, value);
+    set => Schema.SetString(_Handle, _StackNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _OperatorNameOffset = new(() => Schema.GetOffset(0x6C95A3E0F6140996), LazyThreadSafetyMode.None);
+
   public string OperatorName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6C95A3E0F6140996));
+      var ptr = _Handle.Read<nint>(_OperatorNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6C95A3E0F6140996, value);
+    set => Schema.SetString(_Handle, _OperatorNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _OpvarNameOffset = new(() => Schema.GetOffset(0x6C95A3E02CAEFF3C), LazyThreadSafetyMode.None);
+
   public string OpvarName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x6C95A3E02CAEFF3C));
+      var ptr = _Handle.Read<nint>(_OpvarNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x6C95A3E02CAEFF3C, value);
+    set => Schema.SetString(_Handle, _OpvarNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _OpvarIndexOffset = new(() => Schema.GetOffset(0x6C95A3E0BC170C34), LazyThreadSafetyMode.None);
+
   public ref int OpvarIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x6C95A3E0BC170C34));
+    get => ref _Handle.AsRef<int>(_OpvarIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _UseAutoCompareOffset = new(() => Schema.GetOffset(0x6C95A3E0E8C88ED2), LazyThreadSafetyMode.None);
+
   public ref bool UseAutoCompare {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x6C95A3E0E8C88ED2));
+    get => ref _Handle.AsRef<bool>(_UseAutoCompareOffset.Value);
   }
 
   public void StackNameUpdated() {

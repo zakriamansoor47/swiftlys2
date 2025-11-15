@@ -52,7 +52,7 @@ public:
     virtual void Initialize(int playerid) = 0;
     virtual void Shutdown() = 0;
 
-    virtual void SendMsg(MessageType type, const std::string& message) = 0;
+    virtual void SendMsg(MessageType type, const std::string& message, int duration) = 0;
 
     virtual bool IsFakeClient() = 0;
     virtual bool IsAuthorized() = 0;

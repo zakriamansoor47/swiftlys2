@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CCSPlayerController_ActionTrackingServicesImpl : CPlayerC
   public CCSPlayerController_ActionTrackingServicesImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PerRoundStatsOffset = new(() => Schema.GetOffset(0x96DF63C17C8AAE9F), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CSPerRoundStats_t> PerRoundStats {
-    get => ref _Handle.AsRef<CUtlVector<CSPerRoundStats_t>>(Schema.GetOffset(0x96DF63C17C8AAE9F));
+    get => ref _Handle.AsRef<CUtlVector<CSPerRoundStats_t>>(_PerRoundStatsOffset.Value);
   }
+  private static readonly Lazy<nint> _MatchStatsOffset = new(() => Schema.GetOffset(0x96DF63C11729A24D), LazyThreadSafetyMode.None);
+
   public CSMatchStats_t MatchStats {
-    get => new CSMatchStats_tImpl(_Handle + Schema.GetOffset(0x96DF63C11729A24D));
+    get => new CSMatchStats_tImpl(_Handle + _MatchStatsOffset.Value);
   }
+  private static readonly Lazy<nint> _NumRoundKillsOffset = new(() => Schema.GetOffset(0x96DF63C1C6B90825), LazyThreadSafetyMode.None);
+
   public ref int NumRoundKills {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x96DF63C1C6B90825));
+    get => ref _Handle.AsRef<int>(_NumRoundKillsOffset.Value);
   }
+  private static readonly Lazy<nint> _NumRoundKillsHeadshotsOffset = new(() => Schema.GetOffset(0x96DF63C196C53F70), LazyThreadSafetyMode.None);
+
   public ref int NumRoundKillsHeadshots {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x96DF63C196C53F70));
+    get => ref _Handle.AsRef<int>(_NumRoundKillsHeadshotsOffset.Value);
   }
+  private static readonly Lazy<nint> _TotalRoundDamageDealtOffset = new(() => Schema.GetOffset(0x96DF63C19CF13FA6), LazyThreadSafetyMode.None);
+
   public ref float TotalRoundDamageDealt {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x96DF63C19CF13FA6));
+    get => ref _Handle.AsRef<float>(_TotalRoundDamageDealtOffset.Value);
   }
 
   public void PerRoundStatsUpdated() {

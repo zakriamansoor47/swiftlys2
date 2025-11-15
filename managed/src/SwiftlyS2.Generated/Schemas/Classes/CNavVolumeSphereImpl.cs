@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNavVolumeSphereImpl : CNavVolumeImpl, CNavVolumeSphere {
   public CNavVolumeSphereImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CenterOffset = new(() => Schema.GetOffset(0x8FB5B6B8C82A5908), LazyThreadSafetyMode.None);
+
   public ref Vector Center {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x8FB5B6B8C82A5908));
+    get => ref _Handle.AsRef<Vector>(_CenterOffset.Value);
   }
+  private static readonly Lazy<nint> _RadiusOffset = new(() => Schema.GetOffset(0x8FB5B6B85ACFC08D), LazyThreadSafetyMode.None);
+
   public ref float Radius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x8FB5B6B85ACFC08D));
+    get => ref _Handle.AsRef<float>(_RadiusOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CVoiceContainerSwitchImpl : CVoiceContainerBaseImpl, CVoi
   public CVoiceContainerSwitchImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SoundsToPlayOffset = new(() => Schema.GetOffset(0x79EA569BDCB5F70E), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CSoundContainerReference> SoundsToPlay {
-    get => ref _Handle.AsRef<CUtlVector<CSoundContainerReference>>(Schema.GetOffset(0x79EA569BDCB5F70E));
+    get => ref _Handle.AsRef<CUtlVector<CSoundContainerReference>>(_SoundsToPlayOffset.Value);
   }
 
 

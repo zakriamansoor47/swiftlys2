@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CPulse_ChunkImpl : SchemaClass, CPulse_Chunk {
   public CPulse_ChunkImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InstructionsOffset = new(() => Schema.GetOffset(0x816932094D358BC4), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<PGDInstruction_t, int> Instructions {
-    get => ref _Handle.AsRef<CUtlLeanVector<PGDInstruction_t, int>>(Schema.GetOffset(0x816932094D358BC4));
+    get => ref _Handle.AsRef<CUtlLeanVector<PGDInstruction_t, int>>(_InstructionsOffset.Value);
   }
+  private static readonly Lazy<nint> _RegistersOffset = new(() => Schema.GetOffset(0x81693209BB828A49), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<CPulse_RegisterInfo, int> Registers {
-    get => ref _Handle.AsRef<CUtlLeanVector<CPulse_RegisterInfo, int>>(Schema.GetOffset(0x81693209BB828A49));
+    get => ref _Handle.AsRef<CUtlLeanVector<CPulse_RegisterInfo, int>>(_RegistersOffset.Value);
   }
+  private static readonly Lazy<nint> _InstructionEditorIDsOffset = new(() => Schema.GetOffset(0x81693209236D8B64), LazyThreadSafetyMode.None);
+
   public ref CUtlLeanVector<PulseDocNodeID_t, int> InstructionEditorIDs {
-    get => ref _Handle.AsRef<CUtlLeanVector<PulseDocNodeID_t, int>>(Schema.GetOffset(0x81693209236D8B64));
+    get => ref _Handle.AsRef<CUtlLeanVector<PulseDocNodeID_t, int>>(_InstructionEditorIDsOffset.Value);
   }
 
 

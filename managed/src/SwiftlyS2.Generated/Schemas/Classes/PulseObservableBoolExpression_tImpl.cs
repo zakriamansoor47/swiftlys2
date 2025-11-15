@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class PulseObservableBoolExpression_tImpl : SchemaClass, PulseO
   public PulseObservableBoolExpression_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EvaluateConnectionOffset = new(() => Schema.GetOffset(0x420AB396176904EE), LazyThreadSafetyMode.None);
+
   public CPulse_OutflowConnection EvaluateConnection {
-    get => new CPulse_OutflowConnectionImpl(_Handle + Schema.GetOffset(0x420AB396176904EE));
+    get => new CPulse_OutflowConnectionImpl(_Handle + _EvaluateConnectionOffset.Value);
   }
+  private static readonly Lazy<nint> _DependentObservableVarsOffset = new(() => Schema.GetOffset(0x420AB396C3F55B8B), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PulseRuntimeVarIndex_t> DependentObservableVars {
-    get => ref _Handle.AsRef<CUtlVector<PulseRuntimeVarIndex_t>>(Schema.GetOffset(0x420AB396C3F55B8B));
+    get => ref _Handle.AsRef<CUtlVector<PulseRuntimeVarIndex_t>>(_DependentObservableVarsOffset.Value);
   }
+  private static readonly Lazy<nint> _DependentObservableBlackboardReferencesOffset = new(() => Schema.GetOffset(0x420AB3961EE1483A), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PulseRuntimeBlackboardReferenceIndex_t> DependentObservableBlackboardReferences {
-    get => ref _Handle.AsRef<CUtlVector<PulseRuntimeBlackboardReferenceIndex_t>>(Schema.GetOffset(0x420AB3961EE1483A));
+    get => ref _Handle.AsRef<CUtlVector<PulseRuntimeBlackboardReferenceIndex_t>>(_DependentObservableBlackboardReferencesOffset.Value);
   }
 
 

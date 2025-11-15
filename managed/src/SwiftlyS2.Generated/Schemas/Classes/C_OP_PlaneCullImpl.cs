@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_PlaneCullImpl : CParticleFunctionOperatorImpl, C_OP_
   public C_OP_PlaneCullImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _PlaneControlPointOffset = new(() => Schema.GetOffset(0x352AAF45E621E9BC), LazyThreadSafetyMode.None);
+
   public ref int PlaneControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x352AAF45E621E9BC));
+    get => ref _Handle.AsRef<int>(_PlaneControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _PlaneDirectionOffset = new(() => Schema.GetOffset(0x352AAF45B00A585A), LazyThreadSafetyMode.None);
+
   public ref Vector PlaneDirection {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x352AAF45B00A585A));
+    get => ref _Handle.AsRef<Vector>(_PlaneDirectionOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalSpaceOffset = new(() => Schema.GetOffset(0x352AAF4562418E6E), LazyThreadSafetyMode.None);
+
   public ref bool LocalSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x352AAF4562418E6E));
+    get => ref _Handle.AsRef<bool>(_LocalSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _PlaneOffsetOffset = new(() => Schema.GetOffset(0x352AAF45D394676C), LazyThreadSafetyMode.None);
+
   public ref float PlaneOffset {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x352AAF45D394676C));
+    get => ref _Handle.AsRef<float>(_PlaneOffsetOffset.Value);
   }
 
 

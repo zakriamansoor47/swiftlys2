@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CCachedPoseImpl : SchemaClass, CCachedPose {
   public CCachedPoseImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TransformsOffset = new(() => Schema.GetOffset(0x4B6C235988C82C58), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CTransform> Transforms {
-    get => ref _Handle.AsRef<CUtlVector<CTransform>>(Schema.GetOffset(0x4B6C235988C82C58));
+    get => ref _Handle.AsRef<CUtlVector<CTransform>>(_TransformsOffset.Value);
   }
+  private static readonly Lazy<nint> _MorphWeightsOffset = new(() => Schema.GetOffset(0x4B6C23596B6689BE), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> MorphWeights {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0x4B6C23596B6689BE));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_MorphWeightsOffset.Value);
   }
+  private static readonly Lazy<nint> _SequenceOffset = new(() => Schema.GetOffset(0x4B6C2359E0A0598E), LazyThreadSafetyMode.None);
+
   public HSequence Sequence {
-    get => new HSequenceImpl(_Handle + Schema.GetOffset(0x4B6C2359E0A0598E));
+    get => new HSequenceImpl(_Handle + _SequenceOffset.Value);
   }
+  private static readonly Lazy<nint> _CycleOffset = new(() => Schema.GetOffset(0x4B6C23590C77829F), LazyThreadSafetyMode.None);
+
   public ref float Cycle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x4B6C23590C77829F));
+    get => ref _Handle.AsRef<float>(_CycleOffset.Value);
   }
 
 

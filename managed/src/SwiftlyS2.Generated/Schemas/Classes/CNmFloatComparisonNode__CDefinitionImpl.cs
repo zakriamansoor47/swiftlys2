@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CNmFloatComparisonNode__CDefinitionImpl : CNmBoolValueNod
   public CNmFloatComparisonNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputValueNodeIdxOffset = new(() => Schema.GetOffset(0x48A96E9A95E89F27), LazyThreadSafetyMode.None);
+
   public ref short InputValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x48A96E9A95E89F27));
+    get => ref _Handle.AsRef<short>(_InputValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ComparandValueNodeIdxOffset = new(() => Schema.GetOffset(0x48A96E9AF7CFFAF6), LazyThreadSafetyMode.None);
+
   public ref short ComparandValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x48A96E9AF7CFFAF6));
+    get => ref _Handle.AsRef<short>(_ComparandValueNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ComparisonOffset = new(() => Schema.GetOffset(0x48A96E9A897F8DE4), LazyThreadSafetyMode.None);
+
   public ref CNmFloatComparisonNode__Comparison_t Comparison {
-    get => ref _Handle.AsRef<CNmFloatComparisonNode__Comparison_t>(Schema.GetOffset(0x48A96E9A897F8DE4));
+    get => ref _Handle.AsRef<CNmFloatComparisonNode__Comparison_t>(_ComparisonOffset.Value);
   }
+  private static readonly Lazy<nint> _EpsilonOffset = new(() => Schema.GetOffset(0x48A96E9A34090A67), LazyThreadSafetyMode.None);
+
   public ref float Epsilon {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x48A96E9A34090A67));
+    get => ref _Handle.AsRef<float>(_EpsilonOffset.Value);
   }
+  private static readonly Lazy<nint> _ComparisonValueOffset = new(() => Schema.GetOffset(0x48A96E9A4C176B7F), LazyThreadSafetyMode.None);
+
   public ref float ComparisonValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x48A96E9A4C176B7F));
+    get => ref _Handle.AsRef<float>(_ComparisonValueOffset.Value);
   }
 
 

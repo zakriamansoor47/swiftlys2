@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,19 +17,23 @@ internal partial class CPulseGameBlackboardImpl : CBaseEntityImpl, CPulseGameBla
   public CPulseGameBlackboardImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StrGraphNameOffset = new(() => Schema.GetOffset(0xF9A17A20C99E48AF), LazyThreadSafetyMode.None);
+
   public string StrGraphName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF9A17A20C99E48AF));
+      var ptr = _Handle.Read<nint>(_StrGraphNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF9A17A20C99E48AF, value);
+    set => Schema.SetString(_Handle, _StrGraphNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _StrStateBlobOffset = new(() => Schema.GetOffset(0xF9A17A2046708C2A), LazyThreadSafetyMode.None);
+
   public string StrStateBlob {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xF9A17A2046708C2A));
+      var ptr = _Handle.Read<nint>(_StrStateBlobOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xF9A17A2046708C2A, value);
+    set => Schema.SetString(_Handle, _StrStateBlobOffset.Value, value);
   } 
 
   public void StrGraphNameUpdated() {

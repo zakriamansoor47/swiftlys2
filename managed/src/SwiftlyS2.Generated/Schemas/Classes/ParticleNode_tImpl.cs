@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class ParticleNode_tImpl : SchemaClass, ParticleNode_t {
   public ParticleNode_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EntityOffset = new(() => Schema.GetOffset(0xBECF421C6EBADCB0), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Entity {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0xBECF421C6EBADCB0));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_EntityOffset.Value);
   }
+  private static readonly Lazy<nint> _IndexOffset = new(() => Schema.GetOffset(0xBECF421C8F270140), LazyThreadSafetyMode.None);
+
   public ParticleIndex_t Index {
-    get => new ParticleIndex_tImpl(_Handle + Schema.GetOffset(0xBECF421C8F270140));
+    get => new ParticleIndex_tImpl(_Handle + _IndexOffset.Value);
   }
+  private static readonly Lazy<nint> _StartTimeOffset = new(() => Schema.GetOffset(0xBECF421C67FE9DC4), LazyThreadSafetyMode.None);
+
   public GameTime_t StartTime {
-    get => new GameTime_tImpl(_Handle + Schema.GetOffset(0xBECF421C67FE9DC4));
+    get => new GameTime_tImpl(_Handle + _StartTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _GrowthDurationOffset = new(() => Schema.GetOffset(0xBECF421CF0D91F70), LazyThreadSafetyMode.None);
+
   public ref float GrowthDuration {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBECF421CF0D91F70));
+    get => ref _Handle.AsRef<float>(_GrowthDurationOffset.Value);
   }
+  private static readonly Lazy<nint> _GrowthOriginOffset = new(() => Schema.GetOffset(0xBECF421C4A651090), LazyThreadSafetyMode.None);
+
   public ref Vector GrowthOrigin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xBECF421C4A651090));
+    get => ref _Handle.AsRef<Vector>(_GrowthOriginOffset.Value);
   }
+  private static readonly Lazy<nint> _EndcapTimeOffset = new(() => Schema.GetOffset(0xBECF421CCF1342BD), LazyThreadSafetyMode.None);
+
   public ref float EndcapTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBECF421CCF1342BD));
+    get => ref _Handle.AsRef<float>(_EndcapTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _MarkedForDeleteOffset = new(() => Schema.GetOffset(0xBECF421C6C9EC48F), LazyThreadSafetyMode.None);
+
   public ref bool MarkedForDelete {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBECF421C6C9EC48F));
+    get => ref _Handle.AsRef<bool>(_MarkedForDeleteOffset.Value);
   }
 
 

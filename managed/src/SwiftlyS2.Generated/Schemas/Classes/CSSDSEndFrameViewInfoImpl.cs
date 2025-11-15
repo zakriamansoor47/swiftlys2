@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CSSDSEndFrameViewInfoImpl : SchemaClass, CSSDSEndFrameVie
   public CSSDSEndFrameViewInfoImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ViewIdOffset = new(() => Schema.GetOffset(0xE2792496AE3CB1A1), LazyThreadSafetyMode.None);
+
   public ref ulong ViewId {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0xE2792496AE3CB1A1));
+    get => ref _Handle.AsRef<ulong>(_ViewIdOffset.Value);
   }
+  private static readonly Lazy<nint> _ViewNameOffset = new(() => Schema.GetOffset(0xE2792496BA5BBDBB), LazyThreadSafetyMode.None);
+
   public string ViewName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xE2792496BA5BBDBB));
+      var ptr = _Handle.Read<nint>(_ViewNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xE2792496BA5BBDBB, value);
+    set => Schema.SetString(_Handle, _ViewNameOffset.Value, value);
   } 
 
 

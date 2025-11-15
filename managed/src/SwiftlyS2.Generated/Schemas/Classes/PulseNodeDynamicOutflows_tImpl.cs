@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class PulseNodeDynamicOutflows_tImpl : SchemaClass, PulseNodeDy
   public PulseNodeDynamicOutflows_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OutflowsOffset = new(() => Schema.GetOffset(0x3F600DF58F0AFDF8), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<PulseNodeDynamicOutflows_t__DynamicOutflow_t> Outflows {
-    get => ref _Handle.AsRef<CUtlVector<PulseNodeDynamicOutflows_t__DynamicOutflow_t>>(Schema.GetOffset(0x3F600DF58F0AFDF8));
+    get => ref _Handle.AsRef<CUtlVector<PulseNodeDynamicOutflows_t__DynamicOutflow_t>>(_OutflowsOffset.Value);
   }
 
 

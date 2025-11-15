@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CAnimBoneImpl : SchemaClass, CAnimBone {
   public CAnimBoneImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _NameOffset = new(() => Schema.GetOffset(0x891F6AB94D8F5786), LazyThreadSafetyMode.None);
+
   public ref CBufferString Name {
-    get => ref _Handle.AsRef<CBufferString>(Schema.GetOffset(0x891F6AB94D8F5786));
+    get => ref _Handle.AsRef<CBufferString>(_NameOffset.Value);
   }
+  private static readonly Lazy<nint> _ParentOffset = new(() => Schema.GetOffset(0x891F6AB92FF7A69D), LazyThreadSafetyMode.None);
+
   public ref int Parent {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x891F6AB92FF7A69D));
+    get => ref _Handle.AsRef<int>(_ParentOffset.Value);
   }
+  private static readonly Lazy<nint> _PosOffset = new(() => Schema.GetOffset(0x891F6AB944CEBEA9), LazyThreadSafetyMode.None);
+
   public ref Vector Pos {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x891F6AB944CEBEA9));
+    get => ref _Handle.AsRef<Vector>(_PosOffset.Value);
   }
+  private static readonly Lazy<nint> _QuatOffset = new(() => Schema.GetOffset(0x891F6AB9157658BE), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Quat {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x891F6AB9157658BE));
+    get => new SchemaUntypedField(_Handle + _QuatOffset.Value);
   }
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x891F6AB9C2A44391), LazyThreadSafetyMode.None);
+
   public ref float Scale {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x891F6AB9C2A44391));
+    get => ref _Handle.AsRef<float>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _AlignmentOffset = new(() => Schema.GetOffset(0x891F6AB9CA0E45D1), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Alignment {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x891F6AB9CA0E45D1));
+    get => new SchemaUntypedField(_Handle + _AlignmentOffset.Value);
   }
+  private static readonly Lazy<nint> _FlagsOffset = new(() => Schema.GetOffset(0x891F6AB9DC74A14C), LazyThreadSafetyMode.None);
+
   public ref int Flags {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x891F6AB9DC74A14C));
+    get => ref _Handle.AsRef<int>(_FlagsOffset.Value);
   }
 
 

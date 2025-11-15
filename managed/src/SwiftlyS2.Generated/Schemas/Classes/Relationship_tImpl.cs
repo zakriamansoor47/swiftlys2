@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class Relationship_tImpl : SchemaClass, Relationship_t {
   public Relationship_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DispositionOffset = new(() => Schema.GetOffset(0xD0FE62280D365234), LazyThreadSafetyMode.None);
+
   public ref Disposition_t Disposition {
-    get => ref _Handle.AsRef<Disposition_t>(Schema.GetOffset(0xD0FE62280D365234));
+    get => ref _Handle.AsRef<Disposition_t>(_DispositionOffset.Value);
   }
+  private static readonly Lazy<nint> _PriorityOffset = new(() => Schema.GetOffset(0xD0FE622894E4E309), LazyThreadSafetyMode.None);
+
   public ref int Priority {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD0FE622894E4E309));
+    get => ref _Handle.AsRef<int>(_PriorityOffset.Value);
   }
 
 

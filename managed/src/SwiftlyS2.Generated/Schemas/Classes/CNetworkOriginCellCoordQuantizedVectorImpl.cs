@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CNetworkOriginCellCoordQuantizedVectorImpl : SchemaClass,
   public CNetworkOriginCellCoordQuantizedVectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CellXOffset = new(() => Schema.GetOffset(0x2D24CA0B02D23477), LazyThreadSafetyMode.None);
+
   public ref ushort CellX {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x2D24CA0B02D23477));
+    get => ref _Handle.AsRef<ushort>(_CellXOffset.Value);
   }
+  private static readonly Lazy<nint> _CellYOffset = new(() => Schema.GetOffset(0x2D24CA0B01D232E4), LazyThreadSafetyMode.None);
+
   public ref ushort CellY {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x2D24CA0B01D232E4));
+    get => ref _Handle.AsRef<ushort>(_CellYOffset.Value);
   }
+  private static readonly Lazy<nint> _CellZOffset = new(() => Schema.GetOffset(0x2D24CA0B04D2379D), LazyThreadSafetyMode.None);
+
   public ref ushort CellZ {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x2D24CA0B04D2379D));
+    get => ref _Handle.AsRef<ushort>(_CellZOffset.Value);
   }
+  private static readonly Lazy<nint> _OutsideWorldOffset = new(() => Schema.GetOffset(0x2D24CA0B1AFE3ED4), LazyThreadSafetyMode.None);
+
   public ref ushort OutsideWorld {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x2D24CA0B1AFE3ED4));
+    get => ref _Handle.AsRef<ushort>(_OutsideWorldOffset.Value);
   }
+  private static readonly Lazy<nint> _XOffset = new(() => Schema.GetOffset(0x2D24CA0B8FEB7867), LazyThreadSafetyMode.None);
+
   public ref CNetworkedQuantizedFloat X {
-    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(Schema.GetOffset(0x2D24CA0B8FEB7867));
+    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(_XOffset.Value);
   }
+  private static readonly Lazy<nint> _YOffset = new(() => Schema.GetOffset(0x2D24CA0B8EEB76D4), LazyThreadSafetyMode.None);
+
   public ref CNetworkedQuantizedFloat Y {
-    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(Schema.GetOffset(0x2D24CA0B8EEB76D4));
+    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(_YOffset.Value);
   }
+  private static readonly Lazy<nint> _ZOffset = new(() => Schema.GetOffset(0x2D24CA0B91EB7B8D), LazyThreadSafetyMode.None);
+
   public ref CNetworkedQuantizedFloat Z {
-    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(Schema.GetOffset(0x2D24CA0B91EB7B8D));
+    get => ref _Handle.AsRef<CNetworkedQuantizedFloat>(_ZOffset.Value);
   }
 
   public void CellXUpdated() {

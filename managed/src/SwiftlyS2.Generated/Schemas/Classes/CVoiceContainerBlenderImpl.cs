@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CVoiceContainerBlenderImpl : CVoiceContainerBaseImpl, CVo
   public CVoiceContainerBlenderImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _FirstSoundOffset = new(() => Schema.GetOffset(0xB05752DD666B0138), LazyThreadSafetyMode.None);
+
   public CSoundContainerReference FirstSound {
-    get => new CSoundContainerReferenceImpl(_Handle + Schema.GetOffset(0xB05752DD666B0138));
+    get => new CSoundContainerReferenceImpl(_Handle + _FirstSoundOffset.Value);
   }
+  private static readonly Lazy<nint> _SecondSoundOffset = new(() => Schema.GetOffset(0xB05752DDA2BC3E5C), LazyThreadSafetyMode.None);
+
   public CSoundContainerReference SecondSound {
-    get => new CSoundContainerReferenceImpl(_Handle + Schema.GetOffset(0xB05752DDA2BC3E5C));
+    get => new CSoundContainerReferenceImpl(_Handle + _SecondSoundOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendFactorOffset = new(() => Schema.GetOffset(0xB05752DDFF4DA451), LazyThreadSafetyMode.None);
+
   public ref float BlendFactor {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xB05752DDFF4DA451));
+    get => ref _Handle.AsRef<float>(_BlendFactorOffset.Value);
   }
 
 

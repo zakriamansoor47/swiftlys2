@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CBloodImpl : CPointEntityImpl, CBlood {
   public CBloodImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SprayAnglesOffset = new(() => Schema.GetOffset(0x68CF460A2BDF444E), LazyThreadSafetyMode.None);
+
   public ref QAngle SprayAngles {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0x68CF460A2BDF444E));
+    get => ref _Handle.AsRef<QAngle>(_SprayAnglesOffset.Value);
   }
+  private static readonly Lazy<nint> _SprayDirOffset = new(() => Schema.GetOffset(0x68CF460A0A8A2531), LazyThreadSafetyMode.None);
+
   public ref Vector SprayDir {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x68CF460A0A8A2531));
+    get => ref _Handle.AsRef<Vector>(_SprayDirOffset.Value);
   }
+  private static readonly Lazy<nint> _AmountOffset = new(() => Schema.GetOffset(0x68CF460A187D1B1B), LazyThreadSafetyMode.None);
+
   public ref float Amount {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x68CF460A187D1B1B));
+    get => ref _Handle.AsRef<float>(_AmountOffset.Value);
   }
+  private static readonly Lazy<nint> _ColorOffset = new(() => Schema.GetOffset(0x68CF460AD7D017D8), LazyThreadSafetyMode.None);
+
   public ref BloodType Color {
-    get => ref _Handle.AsRef<BloodType>(Schema.GetOffset(0x68CF460AD7D017D8));
+    get => ref _Handle.AsRef<BloodType>(_ColorOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class CDirectPlaybackTagDataImpl : SchemaClass, CDirectPlayback
   public CDirectPlaybackTagDataImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SequenceNameOffset = new(() => Schema.GetOffset(0xAADCE162B4A24CB), LazyThreadSafetyMode.None);
+
   public string SequenceName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0xAADCE162B4A24CB));
+      var ptr = _Handle.Read<nint>(_SequenceNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0xAADCE162B4A24CB, value);
+    set => Schema.SetString(_Handle, _SequenceNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _TagsOffset = new(() => Schema.GetOffset(0xAADCE16B46C8540), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<TagSpan_t> Tags {
-    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(Schema.GetOffset(0xAADCE16B46C8540));
+    get => ref _Handle.AsRef<CUtlVector<TagSpan_t>>(_TagsOffset.Value);
   }
 
 

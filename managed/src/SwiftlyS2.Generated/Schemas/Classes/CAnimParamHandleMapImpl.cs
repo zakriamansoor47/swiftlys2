@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CAnimParamHandleMapImpl : SchemaClass, CAnimParamHandleMa
   public CAnimParamHandleMapImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ListOffset = new(() => Schema.GetOffset(0x82522A78CAD81C21), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField List {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0x82522A78CAD81C21));
+    get => new SchemaUntypedField(_Handle + _ListOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_BasicMovementImpl : CParticleFunctionOperatorImpl, C
   public C_OP_BasicMovementImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _GravityOffset = new(() => Schema.GetOffset(0xC8273B20790C70C5), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Gravity {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xC8273B20790C70C5));
+    get => new CParticleCollectionVecInputImpl(_Handle + _GravityOffset.Value);
   }
+  private static readonly Lazy<nint> _DragOffset = new(() => Schema.GetOffset(0xC8273B2050DA6497), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Drag {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0xC8273B2050DA6497));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _DragOffset.Value);
   }
+  private static readonly Lazy<nint> _MassControlsOffset = new(() => Schema.GetOffset(0xC8273B2039CBEACB), LazyThreadSafetyMode.None);
+
   public CParticleMassCalculationParameters MassControls {
-    get => new CParticleMassCalculationParametersImpl(_Handle + Schema.GetOffset(0xC8273B2039CBEACB));
+    get => new CParticleMassCalculationParametersImpl(_Handle + _MassControlsOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxConstraintPassesOffset = new(() => Schema.GetOffset(0xC8273B20D83D0CAB), LazyThreadSafetyMode.None);
+
   public ref int MaxConstraintPasses {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xC8273B20D83D0CAB));
+    get => ref _Handle.AsRef<int>(_MaxConstraintPassesOffset.Value);
   }
+  private static readonly Lazy<nint> _UseNewCodeOffset = new(() => Schema.GetOffset(0xC8273B207C6D1CDF), LazyThreadSafetyMode.None);
+
   public ref bool UseNewCode {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xC8273B207C6D1CDF));
+    get => ref _Handle.AsRef<bool>(_UseNewCodeOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_OP_RemapTransformToVelocityImpl : CParticleFunctionOper
   public C_OP_RemapTransformToVelocityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TransformInputOffset = new(() => Schema.GetOffset(0xC1A2CC64B3FDC289), LazyThreadSafetyMode.None);
+
   public CParticleTransformInput TransformInput {
-    get => new CParticleTransformInputImpl(_Handle + Schema.GetOffset(0xC1A2CC64B3FDC289));
+    get => new CParticleTransformInputImpl(_Handle + _TransformInputOffset.Value);
   }
 
 

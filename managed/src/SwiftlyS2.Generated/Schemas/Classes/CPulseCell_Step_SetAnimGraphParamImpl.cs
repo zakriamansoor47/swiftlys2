@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,12 +17,14 @@ internal partial class CPulseCell_Step_SetAnimGraphParamImpl : CPulseCell_BaseFl
   public CPulseCell_Step_SetAnimGraphParamImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ParamNameOffset = new(() => Schema.GetOffset(0x7727698D230FDA59), LazyThreadSafetyMode.None);
+
   public string ParamName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x7727698D230FDA59));
+      var ptr = _Handle.Read<nint>(_ParamNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x7727698D230FDA59, value);
+    set => Schema.SetString(_Handle, _ParamNameOffset.Value, value);
   } 
 
 

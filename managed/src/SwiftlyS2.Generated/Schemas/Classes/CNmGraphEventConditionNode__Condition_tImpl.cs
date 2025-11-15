@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmGraphEventConditionNode__Condition_tImpl : SchemaClass
   public CNmGraphEventConditionNode__Condition_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EventIDOffset = new(() => Schema.GetOffset(0xA3252A829D798A72), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol EventID {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0xA3252A829D798A72));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_EventIDOffset.Value);
   }
+  private static readonly Lazy<nint> _EventTypeConditionOffset = new(() => Schema.GetOffset(0xA3252A829BED2960), LazyThreadSafetyMode.None);
+
   public ref NmGraphEventTypeCondition_t EventTypeCondition {
-    get => ref _Handle.AsRef<NmGraphEventTypeCondition_t>(Schema.GetOffset(0xA3252A829BED2960));
+    get => ref _Handle.AsRef<NmGraphEventTypeCondition_t>(_EventTypeConditionOffset.Value);
   }
 
 

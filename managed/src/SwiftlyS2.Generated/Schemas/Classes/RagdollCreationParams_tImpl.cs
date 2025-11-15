@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class RagdollCreationParams_tImpl : SchemaClass, RagdollCreatio
   public RagdollCreationParams_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceOffset = new(() => Schema.GetOffset(0xAF0FCC44E530B0A8), LazyThreadSafetyMode.None);
+
   public ref Vector Force {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xAF0FCC44E530B0A8));
+    get => ref _Handle.AsRef<Vector>(_ForceOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceBoneOffset = new(() => Schema.GetOffset(0xAF0FCC44DDAC019E), LazyThreadSafetyMode.None);
+
   public ref int ForceBone {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAF0FCC44DDAC019E));
+    get => ref _Handle.AsRef<int>(_ForceBoneOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceCurrentWorldTransformOffset = new(() => Schema.GetOffset(0xAF0FCC443FC20379), LazyThreadSafetyMode.None);
+
   public ref bool ForceCurrentWorldTransform {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAF0FCC443FC20379));
+    get => ref _Handle.AsRef<bool>(_ForceCurrentWorldTransformOffset.Value);
   }
+  private static readonly Lazy<nint> _UseLRURetirementOffset = new(() => Schema.GetOffset(0xAF0FCC444DCF62FA), LazyThreadSafetyMode.None);
+
   public ref bool UseLRURetirement {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xAF0FCC444DCF62FA));
+    get => ref _Handle.AsRef<bool>(_UseLRURetirementOffset.Value);
   }
+  private static readonly Lazy<nint> _HealthToGrantOffset = new(() => Schema.GetOffset(0xAF0FCC4414E28C5C), LazyThreadSafetyMode.None);
+
   public ref int HealthToGrant {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xAF0FCC4414E28C5C));
+    get => ref _Handle.AsRef<int>(_HealthToGrantOffset.Value);
   }
 
 

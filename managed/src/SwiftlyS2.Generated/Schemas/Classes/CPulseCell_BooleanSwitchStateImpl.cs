@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CPulseCell_BooleanSwitchStateImpl : CPulseCell_BaseStateI
   public CPulseCell_BooleanSwitchStateImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ConditionOffset = new(() => Schema.GetOffset(0xB0380EFD5F2A883E), LazyThreadSafetyMode.None);
+
   public PulseObservableBoolExpression_t Condition {
-    get => new PulseObservableBoolExpression_tImpl(_Handle + Schema.GetOffset(0xB0380EFD5F2A883E));
+    get => new PulseObservableBoolExpression_tImpl(_Handle + _ConditionOffset.Value);
   }
+  private static readonly Lazy<nint> _SubGraphOffset = new(() => Schema.GetOffset(0xB0380EFD979BD817), LazyThreadSafetyMode.None);
+
   public CPulse_OutflowConnection SubGraph {
-    get => new CPulse_OutflowConnectionImpl(_Handle + Schema.GetOffset(0xB0380EFD979BD817));
+    get => new CPulse_OutflowConnectionImpl(_Handle + _SubGraphOffset.Value);
   }
+  private static readonly Lazy<nint> _WhenTrueOffset = new(() => Schema.GetOffset(0xB0380EFDB329ED61), LazyThreadSafetyMode.None);
+
   public CPulse_OutflowConnection WhenTrue {
-    get => new CPulse_OutflowConnectionImpl(_Handle + Schema.GetOffset(0xB0380EFDB329ED61));
+    get => new CPulse_OutflowConnectionImpl(_Handle + _WhenTrueOffset.Value);
   }
+  private static readonly Lazy<nint> _WhenFalseOffset = new(() => Schema.GetOffset(0xB0380EFD4DD1A01C), LazyThreadSafetyMode.None);
+
   public CPulse_OutflowConnection WhenFalse {
-    get => new CPulse_OutflowConnectionImpl(_Handle + Schema.GetOffset(0xB0380EFD4DD1A01C));
+    get => new CPulse_OutflowConnectionImpl(_Handle + _WhenFalseOffset.Value);
   }
 
 

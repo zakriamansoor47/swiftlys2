@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class PulseRuntimeBlackboardReferenceIndex_tImpl : SchemaClass,
   public PulseRuntimeBlackboardReferenceIndex_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xE01C0CE3DCB0894A), LazyThreadSafetyMode.None);
+
   public ref short Value {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0xE01C0CE3DCB0894A));
+    get => ref _Handle.AsRef<short>(_ValueOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_OP_RadiusDecayImpl : CParticleFunctionOperatorImpl, C_O
   public C_OP_RadiusDecayImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinRadiusOffset = new(() => Schema.GetOffset(0x119375431D07C7B7), LazyThreadSafetyMode.None);
+
   public ref float MinRadius {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x119375431D07C7B7));
+    get => ref _Handle.AsRef<float>(_MinRadiusOffset.Value);
   }
 
 

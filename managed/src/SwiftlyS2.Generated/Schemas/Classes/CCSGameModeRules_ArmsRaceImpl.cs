@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CCSGameModeRules_ArmsRaceImpl : CCSGameModeRulesImpl, CCS
   public CCSGameModeRules_ArmsRaceImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _WeaponSequenceOffset = new(() => Schema.GetOffset(0xDFFFC2FB1426444C), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlString> WeaponSequence {
-    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(Schema.GetOffset(0xDFFFC2FB1426444C));
+    get => ref _Handle.AsRef<CUtlVector<CUtlString>>(_WeaponSequenceOffset.Value);
   }
 
   public void WeaponSequenceUpdated() {

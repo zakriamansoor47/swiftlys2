@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,159 +17,235 @@ internal partial class CBasePropDoorImpl : CDynamicPropImpl, CBasePropDoor {
   public CBasePropDoorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AutoReturnDelayOffset = new(() => Schema.GetOffset(0x140EA8BE772B0615), LazyThreadSafetyMode.None);
+
   public ref float AutoReturnDelay {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x140EA8BE772B0615));
+    get => ref _Handle.AsRef<float>(_AutoReturnDelayOffset.Value);
   }
+  private static readonly Lazy<nint> _DoorListOffset = new(() => Schema.GetOffset(0x140EA8BE1E34E0D7), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CHandle<CBasePropDoor>> DoorList {
-    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePropDoor>>>(Schema.GetOffset(0x140EA8BE1E34E0D7));
+    get => ref _Handle.AsRef<CUtlVector<CHandle<CBasePropDoor>>>(_DoorListOffset.Value);
   }
+  private static readonly Lazy<nint> _HardwareTypeOffset = new(() => Schema.GetOffset(0x140EA8BEAA155C65), LazyThreadSafetyMode.None);
+
   public ref int HardwareType {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x140EA8BEAA155C65));
+    get => ref _Handle.AsRef<int>(_HardwareTypeOffset.Value);
   }
+  private static readonly Lazy<nint> _NeedsHardwareOffset = new(() => Schema.GetOffset(0x140EA8BE4748BCCE), LazyThreadSafetyMode.None);
+
   public ref bool NeedsHardware {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x140EA8BE4748BCCE));
+    get => ref _Handle.AsRef<bool>(_NeedsHardwareOffset.Value);
   }
+  private static readonly Lazy<nint> _DoorStateOffset = new(() => Schema.GetOffset(0x140EA8BE55D06645), LazyThreadSafetyMode.None);
+
   public ref DoorState_t DoorState {
-    get => ref _Handle.AsRef<DoorState_t>(Schema.GetOffset(0x140EA8BE55D06645));
+    get => ref _Handle.AsRef<DoorState_t>(_DoorStateOffset.Value);
   }
+  private static readonly Lazy<nint> _LockedOffset = new(() => Schema.GetOffset(0x140EA8BED08E97F3), LazyThreadSafetyMode.None);
+
   public ref bool Locked {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x140EA8BED08E97F3));
+    get => ref _Handle.AsRef<bool>(_LockedOffset.Value);
   }
+  private static readonly Lazy<nint> _NoNPCsOffset = new(() => Schema.GetOffset(0x140EA8BE237405C2), LazyThreadSafetyMode.None);
+
   public ref bool NoNPCs {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x140EA8BE237405C2));
+    get => ref _Handle.AsRef<bool>(_NoNPCsOffset.Value);
   }
+  private static readonly Lazy<nint> _ClosedPositionOffset = new(() => Schema.GetOffset(0x140EA8BEC93C638A), LazyThreadSafetyMode.None);
+
   public ref Vector ClosedPosition {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x140EA8BEC93C638A));
+    get => ref _Handle.AsRef<Vector>(_ClosedPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _ClosedAnglesOffset = new(() => Schema.GetOffset(0x140EA8BE53D26DF1), LazyThreadSafetyMode.None);
+
   public ref QAngle ClosedAngles {
-    get => ref _Handle.AsRef<QAngle>(Schema.GetOffset(0x140EA8BE53D26DF1));
+    get => ref _Handle.AsRef<QAngle>(_ClosedAnglesOffset.Value);
   }
+  private static readonly Lazy<nint> _BlockerOffset = new(() => Schema.GetOffset(0x140EA8BE21787A5F), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Blocker {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x140EA8BE21787A5F));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_BlockerOffset.Value);
   }
+  private static readonly Lazy<nint> _FirstBlockedOffset = new(() => Schema.GetOffset(0x140EA8BEF120E737), LazyThreadSafetyMode.None);
+
   public ref bool FirstBlocked {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x140EA8BEF120E737));
+    get => ref _Handle.AsRef<bool>(_FirstBlockedOffset.Value);
   }
+  private static readonly Lazy<nint> _LsOffset = new(() => Schema.GetOffset(0x140EA8BED3B05E88), LazyThreadSafetyMode.None);
+
   public locksound_t Ls {
-    get => new locksound_tImpl(_Handle + Schema.GetOffset(0x140EA8BED3B05E88));
+    get => new locksound_tImpl(_Handle + _LsOffset.Value);
   }
+  private static readonly Lazy<nint> _ForceClosedOffset = new(() => Schema.GetOffset(0x140EA8BE397D7E34), LazyThreadSafetyMode.None);
+
   public ref bool ForceClosed {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x140EA8BE397D7E34));
+    get => ref _Handle.AsRef<bool>(_ForceClosedOffset.Value);
   }
+  private static readonly Lazy<nint> _LatchWorldPositionOffset = new(() => Schema.GetOffset(0x140EA8BEEBC4A818), LazyThreadSafetyMode.None);
+
   public ref Vector LatchWorldPosition {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x140EA8BEEBC4A818));
+    get => ref _Handle.AsRef<Vector>(_LatchWorldPositionOffset.Value);
   }
+  private static readonly Lazy<nint> _ActivatorOffset = new(() => Schema.GetOffset(0x140EA8BEAB093BB2), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Activator {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x140EA8BEAB093BB2));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_ActivatorOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundMovingOffset = new(() => Schema.GetOffset(0x140EA8BE096B0232), LazyThreadSafetyMode.None);
+
   public string SoundMoving {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BE096B0232));
+      var ptr = _Handle.Read<nint>(_SoundMovingOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BE096B0232, value);
+    set => Schema.SetString(_Handle, _SoundMovingOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundOpenOffset = new(() => Schema.GetOffset(0x140EA8BE736F2FD4), LazyThreadSafetyMode.None);
+
   public string SoundOpen {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BE736F2FD4));
+      var ptr = _Handle.Read<nint>(_SoundOpenOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BE736F2FD4, value);
+    set => Schema.SetString(_Handle, _SoundOpenOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundCloseOffset = new(() => Schema.GetOffset(0x140EA8BE25C06648), LazyThreadSafetyMode.None);
+
   public string SoundClose {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BE25C06648));
+      var ptr = _Handle.Read<nint>(_SoundCloseOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BE25C06648, value);
+    set => Schema.SetString(_Handle, _SoundCloseOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundLockOffset = new(() => Schema.GetOffset(0x140EA8BE79ED369B), LazyThreadSafetyMode.None);
+
   public string SoundLock {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BE79ED369B));
+      var ptr = _Handle.Read<nint>(_SoundLockOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BE79ED369B, value);
+    set => Schema.SetString(_Handle, _SoundLockOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundUnlockOffset = new(() => Schema.GetOffset(0x140EA8BE784A9850), LazyThreadSafetyMode.None);
+
   public string SoundUnlock {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BE784A9850));
+      var ptr = _Handle.Read<nint>(_SoundUnlockOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BE784A9850, value);
+    set => Schema.SetString(_Handle, _SoundUnlockOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundLatchOffset = new(() => Schema.GetOffset(0x140EA8BE1128D286), LazyThreadSafetyMode.None);
+
   public string SoundLatch {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BE1128D286));
+      var ptr = _Handle.Read<nint>(_SoundLatchOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BE1128D286, value);
+    set => Schema.SetString(_Handle, _SoundLatchOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundPoundOffset = new(() => Schema.GetOffset(0x140EA8BE100E3D8E), LazyThreadSafetyMode.None);
+
   public string SoundPound {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BE100E3D8E));
+      var ptr = _Handle.Read<nint>(_SoundPoundOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BE100E3D8E, value);
+    set => Schema.SetString(_Handle, _SoundPoundOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundJiggleOffset = new(() => Schema.GetOffset(0x140EA8BEA6C5140C), LazyThreadSafetyMode.None);
+
   public string SoundJiggle {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BEA6C5140C));
+      var ptr = _Handle.Read<nint>(_SoundJiggleOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BEA6C5140C, value);
+    set => Schema.SetString(_Handle, _SoundJiggleOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _SoundLockedAnimOffset = new(() => Schema.GetOffset(0x140EA8BEF4D24043), LazyThreadSafetyMode.None);
+
   public string SoundLockedAnim {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BEF4D24043));
+      var ptr = _Handle.Read<nint>(_SoundLockedAnimOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BEF4D24043, value);
+    set => Schema.SetString(_Handle, _SoundLockedAnimOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _NumCloseAttemptsOffset = new(() => Schema.GetOffset(0x140EA8BEEE2FAC03), LazyThreadSafetyMode.None);
+
   public ref int NumCloseAttempts {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x140EA8BEEE2FAC03));
+    get => ref _Handle.AsRef<int>(_NumCloseAttemptsOffset.Value);
   }
+  private static readonly Lazy<nint> _PhysicsMaterialOffset = new(() => Schema.GetOffset(0x140EA8BEF6A7286B), LazyThreadSafetyMode.None);
+
   public ref CUtlStringToken PhysicsMaterial {
-    get => ref _Handle.AsRef<CUtlStringToken>(Schema.GetOffset(0x140EA8BEF6A7286B));
+    get => ref _Handle.AsRef<CUtlStringToken>(_PhysicsMaterialOffset.Value);
   }
+  private static readonly Lazy<nint> _SlaveNameOffset = new(() => Schema.GetOffset(0x140EA8BEAA484A63), LazyThreadSafetyMode.None);
+
   public string SlaveName {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x140EA8BEAA484A63));
+      var ptr = _Handle.Read<nint>(_SlaveNameOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x140EA8BEAA484A63, value);
+    set => Schema.SetString(_Handle, _SlaveNameOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _MasterOffset = new(() => Schema.GetOffset(0x140EA8BEB8DA1B0D), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBasePropDoor> Master {
-    get => ref _Handle.AsRef<CHandle<CBasePropDoor>>(Schema.GetOffset(0x140EA8BEB8DA1B0D));
+    get => ref _Handle.AsRef<CHandle<CBasePropDoor>>(_MasterOffset.Value);
   }
+  private static readonly Lazy<nint> _OnBlockedClosingOffset = new(() => Schema.GetOffset(0x140EA8BEEC8BC45F), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnBlockedClosing {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BEEC8BC45F));
+    get => new CEntityIOOutputImpl(_Handle + _OnBlockedClosingOffset.Value);
   }
+  private static readonly Lazy<nint> _OnBlockedOpeningOffset = new(() => Schema.GetOffset(0x140EA8BEF0BA7AA8), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnBlockedOpening {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BEF0BA7AA8));
+    get => new CEntityIOOutputImpl(_Handle + _OnBlockedOpeningOffset.Value);
   }
+  private static readonly Lazy<nint> _OnUnblockedClosingOffset = new(() => Schema.GetOffset(0x140EA8BEB150C15C), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnUnblockedClosing {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BEB150C15C));
+    get => new CEntityIOOutputImpl(_Handle + _OnUnblockedClosingOffset.Value);
   }
+  private static readonly Lazy<nint> _OnUnblockedOpeningOffset = new(() => Schema.GetOffset(0x140EA8BE1AC8E62F), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnUnblockedOpening {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BE1AC8E62F));
+    get => new CEntityIOOutputImpl(_Handle + _OnUnblockedOpeningOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFullyClosedOffset = new(() => Schema.GetOffset(0x140EA8BE75470294), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnFullyClosed {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BE75470294));
+    get => new CEntityIOOutputImpl(_Handle + _OnFullyClosedOffset.Value);
   }
+  private static readonly Lazy<nint> _OnFullyOpenOffset = new(() => Schema.GetOffset(0x140EA8BE21733AE4), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnFullyOpen {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BE21733AE4));
+    get => new CEntityIOOutputImpl(_Handle + _OnFullyOpenOffset.Value);
   }
+  private static readonly Lazy<nint> _OnCloseOffset = new(() => Schema.GetOffset(0x140EA8BEBE036874), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnClose {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BEBE036874));
+    get => new CEntityIOOutputImpl(_Handle + _OnCloseOffset.Value);
   }
+  private static readonly Lazy<nint> _OnOpenOffset = new(() => Schema.GetOffset(0x140EA8BE109A2278), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnOpen {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BE109A2278));
+    get => new CEntityIOOutputImpl(_Handle + _OnOpenOffset.Value);
   }
+  private static readonly Lazy<nint> _OnLockedUseOffset = new(() => Schema.GetOffset(0x140EA8BEFD62B6A1), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnLockedUse {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BEFD62B6A1));
+    get => new CEntityIOOutputImpl(_Handle + _OnLockedUseOffset.Value);
   }
+  private static readonly Lazy<nint> _OnAjarOpenOffset = new(() => Schema.GetOffset(0x140EA8BE70F36224), LazyThreadSafetyMode.None);
+
   public CEntityIOOutput OnAjarOpen {
-    get => new CEntityIOOutputImpl(_Handle + Schema.GetOffset(0x140EA8BE70F36224));
+    get => new CEntityIOOutputImpl(_Handle + _OnAjarOpenOffset.Value);
   }
 
   public void DoorStateUpdated() {

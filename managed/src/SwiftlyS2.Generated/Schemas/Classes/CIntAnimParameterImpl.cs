@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CIntAnimParameterImpl : CConcreteAnimParameterImpl, CIntA
   public CIntAnimParameterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _DefaultValueOffset = new(() => Schema.GetOffset(0xD1AA42D5BBE0341F), LazyThreadSafetyMode.None);
+
   public ref int DefaultValue {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD1AA42D5BBE0341F));
+    get => ref _Handle.AsRef<int>(_DefaultValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MinValueOffset = new(() => Schema.GetOffset(0xD1AA42D503F1334C), LazyThreadSafetyMode.None);
+
   public ref int MinValue {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD1AA42D503F1334C));
+    get => ref _Handle.AsRef<int>(_MinValueOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxValueOffset = new(() => Schema.GetOffset(0xD1AA42D5857E5426), LazyThreadSafetyMode.None);
+
   public ref int MaxValue {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD1AA42D5857E5426));
+    get => ref _Handle.AsRef<int>(_MaxValueOffset.Value);
   }
 
 

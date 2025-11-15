@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class ExtraVertexStreamOverride_tImpl : BaseSceneObjectOverride
   public ExtraVertexStreamOverride_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SubSceneObjectOffset = new(() => Schema.GetOffset(0x38857FE855C3CCBC), LazyThreadSafetyMode.None);
+
   public ref uint SubSceneObject {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x38857FE855C3CCBC));
+    get => ref _Handle.AsRef<uint>(_SubSceneObjectOffset.Value);
   }
+  private static readonly Lazy<nint> _DrawCallIndexOffset = new(() => Schema.GetOffset(0x38857FE8FA5614D5), LazyThreadSafetyMode.None);
+
   public ref uint DrawCallIndex {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x38857FE8FA5614D5));
+    get => ref _Handle.AsRef<uint>(_DrawCallIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _AdditionalMeshDrawPrimitiveFlagsOffset = new(() => Schema.GetOffset(0x38857FE8F0E57F2B), LazyThreadSafetyMode.None);
+
   public ref MeshDrawPrimitiveFlags_t AdditionalMeshDrawPrimitiveFlags {
-    get => ref _Handle.AsRef<MeshDrawPrimitiveFlags_t>(Schema.GetOffset(0x38857FE8F0E57F2B));
+    get => ref _Handle.AsRef<MeshDrawPrimitiveFlags_t>(_AdditionalMeshDrawPrimitiveFlagsOffset.Value);
   }
+  private static readonly Lazy<nint> _ExtraBufferBindingOffset = new(() => Schema.GetOffset(0x38857FE800630FD0), LazyThreadSafetyMode.None);
+
   public CRenderBufferBinding ExtraBufferBinding {
-    get => new CRenderBufferBindingImpl(_Handle + Schema.GetOffset(0x38857FE800630FD0));
+    get => new CRenderBufferBindingImpl(_Handle + _ExtraBufferBindingOffset.Value);
   }
 
 

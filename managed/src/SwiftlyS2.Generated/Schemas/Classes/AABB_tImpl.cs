@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class AABB_tImpl : SchemaClass, AABB_t {
   public AABB_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _MinBoundsOffset = new(() => Schema.GetOffset(0xC0D32A84114799FE), LazyThreadSafetyMode.None);
+
   public ref Vector MinBounds {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC0D32A84114799FE));
+    get => ref _Handle.AsRef<Vector>(_MinBoundsOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxBoundsOffset = new(() => Schema.GetOffset(0xC0D32A84C0B4CE60), LazyThreadSafetyMode.None);
+
   public ref Vector MaxBounds {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xC0D32A84C0B4CE60));
+    get => ref _Handle.AsRef<Vector>(_MaxBoundsOffset.Value);
   }
 
   public void MinBoundsUpdated() {

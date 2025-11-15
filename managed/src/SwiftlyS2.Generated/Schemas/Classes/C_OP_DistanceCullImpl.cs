@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class C_OP_DistanceCullImpl : CParticleFunctionOperatorImpl, C_
   public C_OP_DistanceCullImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ControlPointOffset = new(() => Schema.GetOffset(0x7252AA520D0DDF8C), LazyThreadSafetyMode.None);
+
   public ref int ControlPoint {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x7252AA520D0DDF8C));
+    get => ref _Handle.AsRef<int>(_ControlPointOffset.Value);
   }
+  private static readonly Lazy<nint> _PointOffsetOffset = new(() => Schema.GetOffset(0x7252AA52300E046E), LazyThreadSafetyMode.None);
+
   public ref Vector PointOffset {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x7252AA52300E046E));
+    get => ref _Handle.AsRef<Vector>(_PointOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _DistanceOffset = new(() => Schema.GetOffset(0x7252AA5200DC4A68), LazyThreadSafetyMode.None);
+
   public CParticleCollectionFloatInput Distance {
-    get => new CParticleCollectionFloatInputImpl(_Handle + Schema.GetOffset(0x7252AA5200DC4A68));
+    get => new CParticleCollectionFloatInputImpl(_Handle + _DistanceOffset.Value);
   }
+  private static readonly Lazy<nint> _CullInsideOffset = new(() => Schema.GetOffset(0x7252AA52293E00AD), LazyThreadSafetyMode.None);
+
   public ref bool CullInside {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x7252AA52293E00AD));
+    get => ref _Handle.AsRef<bool>(_CullInsideOffset.Value);
   }
+  private static readonly Lazy<nint> _AttributeOffset = new(() => Schema.GetOffset(0x7252AA527FE8DE0B), LazyThreadSafetyMode.None);
+
   public ParticleAttributeIndex_t Attribute {
-    get => new ParticleAttributeIndex_tImpl(_Handle + Schema.GetOffset(0x7252AA527FE8DE0B));
+    get => new ParticleAttributeIndex_tImpl(_Handle + _AttributeOffset.Value);
   }
 
 

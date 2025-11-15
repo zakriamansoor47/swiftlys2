@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,15 +17,19 @@ internal partial class VecInputMaterialVariable_tImpl : SchemaClass, VecInputMat
   public VecInputMaterialVariable_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StrVariableOffset = new(() => Schema.GetOffset(0x3A84C75DA52C3390), LazyThreadSafetyMode.None);
+
   public string StrVariable {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x3A84C75DA52C3390));
+      var ptr = _Handle.Read<nint>(_StrVariableOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x3A84C75DA52C3390, value);
+    set => Schema.SetString(_Handle, _StrVariableOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _InputOffset = new(() => Schema.GetOffset(0x3A84C75D1EA0ED5B), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Input {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0x3A84C75D1EA0ED5B));
+    get => new CParticleCollectionVecInputImpl(_Handle + _InputOffset.Value);
   }
 
 

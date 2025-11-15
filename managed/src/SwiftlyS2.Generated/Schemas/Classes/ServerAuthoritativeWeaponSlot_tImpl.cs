@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class ServerAuthoritativeWeaponSlot_tImpl : SchemaClass, Server
   public ServerAuthoritativeWeaponSlot_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ClassOffset = new(() => Schema.GetOffset(0x8AF3F5CAECD2A54A), LazyThreadSafetyMode.None);
+
   public ref ushort Class {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x8AF3F5CAECD2A54A));
+    get => ref _Handle.AsRef<ushort>(_ClassOffset.Value);
   }
+  private static readonly Lazy<nint> _SlotOffset = new(() => Schema.GetOffset(0x8AF3F5CAF5443C5E), LazyThreadSafetyMode.None);
+
   public ref ushort Slot {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x8AF3F5CAF5443C5E));
+    get => ref _Handle.AsRef<ushort>(_SlotOffset.Value);
   }
+  private static readonly Lazy<nint> _ItemDefIdxOffset = new(() => Schema.GetOffset(0x8AF3F5CA7BE26777), LazyThreadSafetyMode.None);
+
   public ref ushort ItemDefIdx {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0x8AF3F5CA7BE26777));
+    get => ref _Handle.AsRef<ushort>(_ItemDefIdxOffset.Value);
   }
 
   public void ClassUpdated() {

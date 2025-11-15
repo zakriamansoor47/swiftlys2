@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CNmReferencedGraphNode__CDefinitionImpl : CNmPoseNode__CD
   public CNmReferencedGraphNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ReferencedGraphIdxOffset = new(() => Schema.GetOffset(0x44045ED427B00199), LazyThreadSafetyMode.None);
+
   public ref short ReferencedGraphIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x44045ED427B00199));
+    get => ref _Handle.AsRef<short>(_ReferencedGraphIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _FallbackNodeIdxOffset = new(() => Schema.GetOffset(0x44045ED4AFA8F89E), LazyThreadSafetyMode.None);
+
   public ref short FallbackNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x44045ED4AFA8F89E));
+    get => ref _Handle.AsRef<short>(_FallbackNodeIdxOffset.Value);
   }
 
 

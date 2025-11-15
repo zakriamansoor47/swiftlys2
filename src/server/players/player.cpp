@@ -126,14 +126,16 @@ void CPlayer::Shutdown()
     }
 }
 
-void CPlayer::SendMsg(MessageType type, const std::string& message)
+extern INetworkMessages* networkMessages;
+
+void CPlayer::SendMsg(MessageType type, const std::string& message, int duration = 5000)
 {
     if (IsFakeClient()) return;
 
     if (type == MessageType::CenterHTML) {
         if (message == "") centerMessageEndTime = 0;
         else {
-            centerMessageEndTime = GetTime() + 5000;
+            centerMessageEndTime = GetTime() + duration;
             centerMessageText = message;
         }
     }
@@ -160,7 +162,6 @@ void CPlayer::SendMsg(MessageType type, const std::string& message)
             if (startsWithColor) msg = " " + msg;
         }
 
-        auto networkMessages = g_ifaceService.FetchInterface<INetworkMessages>(NETWORKMESSAGES_INTERFACE_VERSION);
         auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
 
         auto netmsg = networkMessages->FindNetworkMessagePartial("TextMsg");

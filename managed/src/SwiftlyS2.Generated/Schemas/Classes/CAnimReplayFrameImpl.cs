@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CAnimReplayFrameImpl : SchemaClass, CAnimReplayFrame {
   public CAnimReplayFrameImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _InputDataBlocksOffset = new(() => Schema.GetOffset(0xBED2F401F7E8195D), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CUtlBinaryBlock> InputDataBlocks {
-    get => ref _Handle.AsRef<CUtlVector<CUtlBinaryBlock>>(Schema.GetOffset(0xBED2F401F7E8195D));
+    get => ref _Handle.AsRef<CUtlVector<CUtlBinaryBlock>>(_InputDataBlocksOffset.Value);
   }
+  private static readonly Lazy<nint> _InstanceDataOffset = new(() => Schema.GetOffset(0xBED2F401AE26D9C2), LazyThreadSafetyMode.None);
+
   public ref CUtlBinaryBlock InstanceData {
-    get => ref _Handle.AsRef<CUtlBinaryBlock>(Schema.GetOffset(0xBED2F401AE26D9C2));
+    get => ref _Handle.AsRef<CUtlBinaryBlock>(_InstanceDataOffset.Value);
   }
+  private static readonly Lazy<nint> _StartingLocalToWorldTransformOffset = new(() => Schema.GetOffset(0xBED2F40140311BA5), LazyThreadSafetyMode.None);
+
   public ref CTransform StartingLocalToWorldTransform {
-    get => ref _Handle.AsRef<CTransform>(Schema.GetOffset(0xBED2F40140311BA5));
+    get => ref _Handle.AsRef<CTransform>(_StartingLocalToWorldTransformOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalToWorldTransformOffset = new(() => Schema.GetOffset(0xBED2F401AE75F5B9), LazyThreadSafetyMode.None);
+
   public ref CTransform LocalToWorldTransform {
-    get => ref _Handle.AsRef<CTransform>(Schema.GetOffset(0xBED2F401AE75F5B9));
+    get => ref _Handle.AsRef<CTransform>(_LocalToWorldTransformOffset.Value);
   }
+  private static readonly Lazy<nint> _TimeStampOffset = new(() => Schema.GetOffset(0xBED2F4014335BEE3), LazyThreadSafetyMode.None);
+
   public ref float TimeStamp {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBED2F4014335BEE3));
+    get => ref _Handle.AsRef<float>(_TimeStampOffset.Value);
   }
 
 

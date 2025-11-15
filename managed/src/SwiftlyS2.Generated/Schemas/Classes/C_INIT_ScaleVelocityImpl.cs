@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class C_INIT_ScaleVelocityImpl : CParticleFunctionInitializerIm
   public C_INIT_ScaleVelocityImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0xF226CCC35F596B51), LazyThreadSafetyMode.None);
+
   public CParticleCollectionVecInput Scale {
-    get => new CParticleCollectionVecInputImpl(_Handle + Schema.GetOffset(0xF226CCC35F596B51));
+    get => new CParticleCollectionVecInputImpl(_Handle + _ScaleOffset.Value);
   }
 
 

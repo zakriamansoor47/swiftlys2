@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CNmBoneMaskBlendNode__CDefinitionImpl : CNmBoneMaskValueN
   public CNmBoneMaskBlendNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SourceMaskNodeIdxOffset = new(() => Schema.GetOffset(0x551EA0BCFF243A47), LazyThreadSafetyMode.None);
+
   public ref short SourceMaskNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x551EA0BCFF243A47));
+    get => ref _Handle.AsRef<short>(_SourceMaskNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _TargetMaskNodeIdxOffset = new(() => Schema.GetOffset(0x551EA0BC74E90A6F), LazyThreadSafetyMode.None);
+
   public ref short TargetMaskNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x551EA0BC74E90A6F));
+    get => ref _Handle.AsRef<short>(_TargetMaskNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _BlendWeightValueNodeIdxOffset = new(() => Schema.GetOffset(0x551EA0BC2735A990), LazyThreadSafetyMode.None);
+
   public ref short BlendWeightValueNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x551EA0BC2735A990));
+    get => ref _Handle.AsRef<short>(_BlendWeightValueNodeIdxOffset.Value);
   }
 
 

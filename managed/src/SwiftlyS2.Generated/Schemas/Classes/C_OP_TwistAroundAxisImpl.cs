@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class C_OP_TwistAroundAxisImpl : CParticleFunctionForceImpl, C_
   public C_OP_TwistAroundAxisImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ForceAmountOffset = new(() => Schema.GetOffset(0xE1FA036870831A84), LazyThreadSafetyMode.None);
+
   public ref float ForceAmount {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xE1FA036870831A84));
+    get => ref _Handle.AsRef<float>(_ForceAmountOffset.Value);
   }
+  private static readonly Lazy<nint> _TwistAxisOffset = new(() => Schema.GetOffset(0xE1FA0368BEAAB521), LazyThreadSafetyMode.None);
+
   public ref Vector TwistAxis {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xE1FA0368BEAAB521));
+    get => ref _Handle.AsRef<Vector>(_TwistAxisOffset.Value);
   }
+  private static readonly Lazy<nint> _LocalSpaceOffset = new(() => Schema.GetOffset(0xE1FA036862418E6E), LazyThreadSafetyMode.None);
+
   public ref bool LocalSpace {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xE1FA036862418E6E));
+    get => ref _Handle.AsRef<bool>(_LocalSpaceOffset.Value);
   }
+  private static readonly Lazy<nint> _ControlPointNumberOffset = new(() => Schema.GetOffset(0xE1FA03683F31A6BD), LazyThreadSafetyMode.None);
+
   public ref int ControlPointNumber {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xE1FA03683F31A6BD));
+    get => ref _Handle.AsRef<int>(_ControlPointNumberOffset.Value);
   }
 
 

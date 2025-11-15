@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class C_OP_FadeAndKillForTracersImpl : CParticleFunctionOperato
   public C_OP_FadeAndKillForTracersImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StartFadeInTimeOffset = new(() => Schema.GetOffset(0x776267EF39639779), LazyThreadSafetyMode.None);
+
   public ref float StartFadeInTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x776267EF39639779));
+    get => ref _Handle.AsRef<float>(_StartFadeInTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndFadeInTimeOffset = new(() => Schema.GetOffset(0x776267EF36A35C84), LazyThreadSafetyMode.None);
+
   public ref float EndFadeInTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x776267EF36A35C84));
+    get => ref _Handle.AsRef<float>(_EndFadeInTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _StartFadeOutTimeOffset = new(() => Schema.GetOffset(0x776267EF6ABCF324), LazyThreadSafetyMode.None);
+
   public ref float StartFadeOutTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x776267EF6ABCF324));
+    get => ref _Handle.AsRef<float>(_StartFadeOutTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _EndFadeOutTimeOffset = new(() => Schema.GetOffset(0x776267EFFE87D7E7), LazyThreadSafetyMode.None);
+
   public ref float EndFadeOutTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x776267EFFE87D7E7));
+    get => ref _Handle.AsRef<float>(_EndFadeOutTimeOffset.Value);
   }
+  private static readonly Lazy<nint> _StartAlphaOffset = new(() => Schema.GetOffset(0x776267EF6A7A5D0B), LazyThreadSafetyMode.None);
+
   public ref float StartAlpha {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x776267EF6A7A5D0B));
+    get => ref _Handle.AsRef<float>(_StartAlphaOffset.Value);
   }
+  private static readonly Lazy<nint> _EndAlphaOffset = new(() => Schema.GetOffset(0x776267EF7A639CC0), LazyThreadSafetyMode.None);
+
   public ref float EndAlpha {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x776267EF7A639CC0));
+    get => ref _Handle.AsRef<float>(_EndAlphaOffset.Value);
   }
 
 

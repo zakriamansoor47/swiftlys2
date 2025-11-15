@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,23 +17,35 @@ internal partial class sky3dparams_tImpl : SchemaClass, sky3dparams_t {
   public sky3dparams_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ScaleOffset = new(() => Schema.GetOffset(0x49687CC482971C71), LazyThreadSafetyMode.None);
+
   public ref short Scale {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x49687CC482971C71));
+    get => ref _Handle.AsRef<short>(_ScaleOffset.Value);
   }
+  private static readonly Lazy<nint> _OriginOffset = new(() => Schema.GetOffset(0x49687CC4D97F9A4F), LazyThreadSafetyMode.None);
+
   public ref Vector Origin {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0x49687CC4D97F9A4F));
+    get => ref _Handle.AsRef<Vector>(_OriginOffset.Value);
   }
+  private static readonly Lazy<nint> _Clip3DSkyBoxNearToWorldFarOffset = new(() => Schema.GetOffset(0x49687CC482943804), LazyThreadSafetyMode.None);
+
   public ref bool Clip3DSkyBoxNearToWorldFar {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x49687CC482943804));
+    get => ref _Handle.AsRef<bool>(_Clip3DSkyBoxNearToWorldFarOffset.Value);
   }
+  private static readonly Lazy<nint> _Clip3DSkyBoxNearToWorldFarOffsetOffset = new(() => Schema.GetOffset(0x49687CC49D6E9441), LazyThreadSafetyMode.None);
+
   public ref float Clip3DSkyBoxNearToWorldFarOffset {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0x49687CC49D6E9441));
+    get => ref _Handle.AsRef<float>(_Clip3DSkyBoxNearToWorldFarOffsetOffset.Value);
   }
+  private static readonly Lazy<nint> _FogOffset = new(() => Schema.GetOffset(0x49687CC4A1F3723F), LazyThreadSafetyMode.None);
+
   public fogparams_t Fog {
-    get => new fogparams_tImpl(_Handle + Schema.GetOffset(0x49687CC4A1F3723F));
+    get => new fogparams_tImpl(_Handle + _FogOffset.Value);
   }
+  private static readonly Lazy<nint> _WorldGroupIDOffset = new(() => Schema.GetOffset(0x49687CC49414E3F3), LazyThreadSafetyMode.None);
+
   public ref uint WorldGroupID {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0x49687CC49414E3F3));
+    get => ref _Handle.AsRef<uint>(_WorldGroupIDOffset.Value);
   }
 
   public void ScaleUpdated() {

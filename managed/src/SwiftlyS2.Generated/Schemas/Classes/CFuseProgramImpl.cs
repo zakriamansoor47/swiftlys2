@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CFuseProgramImpl : SchemaClass, CFuseProgram {
   public CFuseProgramImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ProgramBufferOffset = new(() => Schema.GetOffset(0x81E69119349962E1), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<byte> ProgramBuffer {
-    get => ref _Handle.AsRef<CUtlVector<byte>>(Schema.GetOffset(0x81E69119349962E1));
+    get => ref _Handle.AsRef<CUtlVector<byte>>(_ProgramBufferOffset.Value);
   }
+  private static readonly Lazy<nint> _VariablesReadOffset = new(() => Schema.GetOffset(0x81E691194C160BEA), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<FuseVariableIndex_t> VariablesRead {
-    get => ref _Handle.AsRef<CUtlVector<FuseVariableIndex_t>>(Schema.GetOffset(0x81E691194C160BEA));
+    get => ref _Handle.AsRef<CUtlVector<FuseVariableIndex_t>>(_VariablesReadOffset.Value);
   }
+  private static readonly Lazy<nint> _VariablesWrittenOffset = new(() => Schema.GetOffset(0x81E69119E9491C49), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<FuseVariableIndex_t> VariablesWritten {
-    get => ref _Handle.AsRef<CUtlVector<FuseVariableIndex_t>>(Schema.GetOffset(0x81E69119E9491C49));
+    get => ref _Handle.AsRef<CUtlVector<FuseVariableIndex_t>>(_VariablesWrittenOffset.Value);
   }
+  private static readonly Lazy<nint> _MaxTempVarsUsedOffset = new(() => Schema.GetOffset(0x81E69119981A1518), LazyThreadSafetyMode.None);
+
   public ref int MaxTempVarsUsed {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x81E69119981A1518));
+    get => ref _Handle.AsRef<int>(_MaxTempVarsUsedOffset.Value);
   }
 
 

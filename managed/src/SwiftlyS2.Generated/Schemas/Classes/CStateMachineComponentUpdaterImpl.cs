@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CStateMachineComponentUpdaterImpl : CAnimComponentUpdater
   public CStateMachineComponentUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _StateMachineOffset = new(() => Schema.GetOffset(0x25255200BB7EEF2F), LazyThreadSafetyMode.None);
+
   public CAnimStateMachineUpdater StateMachine {
-    get => new CAnimStateMachineUpdaterImpl(_Handle + Schema.GetOffset(0x25255200BB7EEF2F));
+    get => new CAnimStateMachineUpdaterImpl(_Handle + _StateMachineOffset.Value);
   }
 
 

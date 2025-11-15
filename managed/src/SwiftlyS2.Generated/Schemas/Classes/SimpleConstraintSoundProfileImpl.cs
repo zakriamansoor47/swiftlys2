@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class SimpleConstraintSoundProfileImpl : SchemaClass, SimpleCon
   public SimpleConstraintSoundProfileImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _KeypointsOffset = new(() => Schema.GetOffset(0xB768AA94AE55150C), LazyThreadSafetyMode.None);
+
   public ref SimpleConstraintSoundProfile__SimpleConstraintsSoundProfileKeypoints_t Keypoints {
-    get => ref _Handle.AsRef<SimpleConstraintSoundProfile__SimpleConstraintsSoundProfileKeypoints_t>(Schema.GetOffset(0xB768AA94AE55150C));
+    get => ref _Handle.AsRef<SimpleConstraintSoundProfile__SimpleConstraintsSoundProfileKeypoints_t>(_KeypointsOffset.Value);
   }
   public ISchemaFixedArray<float> KeyPoints {
     get => new SchemaFixedArray<float>(_Handle, 0xB768AA9449DA0463, 2, 4, 4);

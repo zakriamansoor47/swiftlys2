@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CEmitTagActionUpdaterImpl : CAnimActionUpdaterImpl, CEmit
   public CEmitTagActionUpdaterImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _TagIndexOffset = new(() => Schema.GetOffset(0x13C6F616C2026AAD), LazyThreadSafetyMode.None);
+
   public ref int TagIndex {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0x13C6F616C2026AAD));
+    get => ref _Handle.AsRef<int>(_TagIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _IsZeroDurationOffset = new(() => Schema.GetOffset(0x13C6F61604008747), LazyThreadSafetyMode.None);
+
   public ref bool IsZeroDuration {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x13C6F61604008747));
+    get => ref _Handle.AsRef<bool>(_IsZeroDurationOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseServerCursorImpl : CPulseExecCursorImpl, CPulseServ
   public CPulseServerCursorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ActivatorOffset = new(() => Schema.GetOffset(0x4FFA7BD2AB093BB2), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Activator {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x4FFA7BD2AB093BB2));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_ActivatorOffset.Value);
   }
+  private static readonly Lazy<nint> _CallerOffset = new(() => Schema.GetOffset(0x4FFA7BD23F9735FC), LazyThreadSafetyMode.None);
+
   public ref CHandle<CBaseEntity> Caller {
-    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(Schema.GetOffset(0x4FFA7BD23F9735FC));
+    get => ref _Handle.AsRef<CHandle<CBaseEntity>>(_CallerOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CGeneralSpinImpl : CParticleFunctionOperatorImpl, CGenera
   public CGeneralSpinImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _SpinRateDegreesOffset = new(() => Schema.GetOffset(0xFC0422E2BF9AC820), LazyThreadSafetyMode.None);
+
   public ref int SpinRateDegrees {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xFC0422E2BF9AC820));
+    get => ref _Handle.AsRef<int>(_SpinRateDegreesOffset.Value);
   }
+  private static readonly Lazy<nint> _SpinRateMinDegreesOffset = new(() => Schema.GetOffset(0xFC0422E2F3639852), LazyThreadSafetyMode.None);
+
   public ref int SpinRateMinDegrees {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xFC0422E2F3639852));
+    get => ref _Handle.AsRef<int>(_SpinRateMinDegreesOffset.Value);
   }
+  private static readonly Lazy<nint> _SpinRateStopTimeOffset = new(() => Schema.GetOffset(0xFC0422E28365AFDE), LazyThreadSafetyMode.None);
+
   public ref float SpinRateStopTime {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xFC0422E28365AFDE));
+    get => ref _Handle.AsRef<float>(_SpinRateStopTimeOffset.Value);
   }
 
 

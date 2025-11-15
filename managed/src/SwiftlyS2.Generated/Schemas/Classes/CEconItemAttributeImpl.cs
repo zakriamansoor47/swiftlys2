@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,20 +17,30 @@ internal partial class CEconItemAttributeImpl : SchemaClass, CEconItemAttribute 
   public CEconItemAttributeImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _AttributeDefinitionIndexOffset = new(() => Schema.GetOffset(0xBB0F80FC8DAFCD73), LazyThreadSafetyMode.None);
+
   public ref ushort AttributeDefinitionIndex {
-    get => ref _Handle.AsRef<ushort>(Schema.GetOffset(0xBB0F80FC8DAFCD73));
+    get => ref _Handle.AsRef<ushort>(_AttributeDefinitionIndexOffset.Value);
   }
+  private static readonly Lazy<nint> _ValueOffset = new(() => Schema.GetOffset(0xBB0F80FC8DFCB984), LazyThreadSafetyMode.None);
+
   public ref float Value {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBB0F80FC8DFCB984));
+    get => ref _Handle.AsRef<float>(_ValueOffset.Value);
   }
+  private static readonly Lazy<nint> _InitialValueOffset = new(() => Schema.GetOffset(0xBB0F80FCE2DBFFF2), LazyThreadSafetyMode.None);
+
   public ref float InitialValue {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xBB0F80FCE2DBFFF2));
+    get => ref _Handle.AsRef<float>(_InitialValueOffset.Value);
   }
+  private static readonly Lazy<nint> _RefundableCurrencyOffset = new(() => Schema.GetOffset(0xBB0F80FC1021E694), LazyThreadSafetyMode.None);
+
   public ref int RefundableCurrency {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xBB0F80FC1021E694));
+    get => ref _Handle.AsRef<int>(_RefundableCurrencyOffset.Value);
   }
+  private static readonly Lazy<nint> _SetBonusOffset = new(() => Schema.GetOffset(0xBB0F80FCA5E9EA96), LazyThreadSafetyMode.None);
+
   public ref bool SetBonus {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0xBB0F80FCA5E9EA96));
+    get => ref _Handle.AsRef<bool>(_SetBonusOffset.Value);
   }
 
   public void AttributeDefinitionIndexUpdated() {

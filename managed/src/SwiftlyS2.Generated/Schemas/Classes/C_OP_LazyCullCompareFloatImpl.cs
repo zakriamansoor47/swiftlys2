@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class C_OP_LazyCullCompareFloatImpl : CParticleFunctionOperator
   public C_OP_LazyCullCompareFloatImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _Comparsion1Offset = new(() => Schema.GetOffset(0x9D0DCAD079865299), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Comparsion1 {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9D0DCAD079865299));
+    get => new CPerParticleFloatInputImpl(_Handle + _Comparsion1Offset.Value);
   }
+  private static readonly Lazy<nint> _Comparsion2Offset = new(() => Schema.GetOffset(0x9D0DCAD076864DE0), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput Comparsion2 {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9D0DCAD076864DE0));
+    get => new CPerParticleFloatInputImpl(_Handle + _Comparsion2Offset.Value);
   }
+  private static readonly Lazy<nint> _CullTimeOffset = new(() => Schema.GetOffset(0x9D0DCAD0AE2A76FA), LazyThreadSafetyMode.None);
+
   public CPerParticleFloatInput CullTime {
-    get => new CPerParticleFloatInputImpl(_Handle + Schema.GetOffset(0x9D0DCAD0AE2A76FA));
+    get => new CPerParticleFloatInputImpl(_Handle + _CullTimeOffset.Value);
   }
 
 

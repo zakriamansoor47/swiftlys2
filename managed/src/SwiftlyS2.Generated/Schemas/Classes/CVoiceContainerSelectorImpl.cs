@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class CVoiceContainerSelectorImpl : CVoiceContainerBaseImpl, CV
   public CVoiceContainerSelectorImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ModeOffset = new(() => Schema.GetOffset(0xF16C473A90FD5BB2), LazyThreadSafetyMode.None);
+
   public ref PlayBackMode_t Mode {
-    get => ref _Handle.AsRef<PlayBackMode_t>(Schema.GetOffset(0xF16C473A90FD5BB2));
+    get => ref _Handle.AsRef<PlayBackMode_t>(_ModeOffset.Value);
   }
+  private static readonly Lazy<nint> _SoundsToPlayOffset = new(() => Schema.GetOffset(0xF16C473ADCB5F70E), LazyThreadSafetyMode.None);
+
   public CSoundContainerReferenceArray SoundsToPlay {
-    get => new CSoundContainerReferenceArrayImpl(_Handle + Schema.GetOffset(0xF16C473ADCB5F70E));
+    get => new CSoundContainerReferenceArrayImpl(_Handle + _SoundsToPlayOffset.Value);
   }
+  private static readonly Lazy<nint> _ProbabilityWeightsOffset = new(() => Schema.GetOffset(0xF16C473A6DABFC99), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<float> ProbabilityWeights {
-    get => ref _Handle.AsRef<CUtlVector<float>>(Schema.GetOffset(0xF16C473A6DABFC99));
+    get => ref _Handle.AsRef<CUtlVector<float>>(_ProbabilityWeightsOffset.Value);
   }
 
 

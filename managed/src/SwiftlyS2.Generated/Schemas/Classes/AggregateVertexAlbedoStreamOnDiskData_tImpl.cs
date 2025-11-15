@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class AggregateVertexAlbedoStreamOnDiskData_tImpl : SchemaClass
   public AggregateVertexAlbedoStreamOnDiskData_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BufferDataOffset = new(() => Schema.GetOffset(0x2C9A1CB4ED884C43), LazyThreadSafetyMode.None);
+
   public ref CUtlBinaryBlock BufferData {
-    get => ref _Handle.AsRef<CUtlBinaryBlock>(Schema.GetOffset(0x2C9A1CB4ED884C43));
+    get => ref _Handle.AsRef<CUtlBinaryBlock>(_BufferDataOffset.Value);
   }
 
 

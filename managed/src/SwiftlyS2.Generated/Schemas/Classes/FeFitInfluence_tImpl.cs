@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,14 +17,20 @@ internal partial class FeFitInfluence_tImpl : SchemaClass, FeFitInfluence_t {
   public FeFitInfluence_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _VertexNodeOffset = new(() => Schema.GetOffset(0xF8271D2105342743), LazyThreadSafetyMode.None);
+
   public ref uint VertexNode {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xF8271D2105342743));
+    get => ref _Handle.AsRef<uint>(_VertexNodeOffset.Value);
   }
+  private static readonly Lazy<nint> _WeightOffset = new(() => Schema.GetOffset(0xF8271D21CFFC66CB), LazyThreadSafetyMode.None);
+
   public ref float Weight {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF8271D21CFFC66CB));
+    get => ref _Handle.AsRef<float>(_WeightOffset.Value);
   }
+  private static readonly Lazy<nint> _MatrixNodeOffset = new(() => Schema.GetOffset(0xF8271D2189590174), LazyThreadSafetyMode.None);
+
   public ref uint MatrixNode {
-    get => ref _Handle.AsRef<uint>(Schema.GetOffset(0xF8271D2189590174));
+    get => ref _Handle.AsRef<uint>(_MatrixNodeOffset.Value);
   }
 
 

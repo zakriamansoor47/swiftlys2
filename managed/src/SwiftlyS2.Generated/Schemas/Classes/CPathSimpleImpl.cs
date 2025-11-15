@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,18 +17,24 @@ internal partial class CPathSimpleImpl : CBaseEntityImpl, CPathSimple {
   public CPathSimpleImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _CPathQueryComponentOffset = new(() => Schema.GetOffset(0x10936CB34513F542), LazyThreadSafetyMode.None);
+
   public CPathQueryComponent CPathQueryComponent {
-    get => new CPathQueryComponentImpl(_Handle + Schema.GetOffset(0x10936CB34513F542));
+    get => new CPathQueryComponentImpl(_Handle + _CPathQueryComponentOffset.Value);
   }
+  private static readonly Lazy<nint> _PathStringOffset = new(() => Schema.GetOffset(0x10936CB36EC51AA7), LazyThreadSafetyMode.None);
+
   public string PathString {
     get {
-      var ptr = _Handle.Read<nint>(Schema.GetOffset(0x10936CB36EC51AA7));
+      var ptr = _Handle.Read<nint>(_PathStringOffset.Value);
       return Schema.GetString(ptr);
     }
-    set => Schema.SetString(_Handle, 0x10936CB36EC51AA7, value);
+    set => Schema.SetString(_Handle, _PathStringOffset.Value, value);
   } 
+  private static readonly Lazy<nint> _ClosedLoopOffset = new(() => Schema.GetOffset(0x10936CB37C20D1AB), LazyThreadSafetyMode.None);
+
   public ref bool ClosedLoop {
-    get => ref _Handle.AsRef<bool>(Schema.GetOffset(0x10936CB37C20D1AB));
+    get => ref _Handle.AsRef<bool>(_ClosedLoopOffset.Value);
   }
 
   public void CPathQueryComponentUpdated() {

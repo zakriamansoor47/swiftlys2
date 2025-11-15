@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CSSDSMsg_EndFrameImpl : SchemaClass, CSSDSMsg_EndFrame {
   public CSSDSMsg_EndFrameImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ViewsOffset = new(() => Schema.GetOffset(0x6F265E19E9FEAC51), LazyThreadSafetyMode.None);
+
   public ref CUtlVector<CSSDSEndFrameViewInfo> Views {
-    get => ref _Handle.AsRef<CUtlVector<CSSDSEndFrameViewInfo>>(Schema.GetOffset(0x6F265E19E9FEAC51));
+    get => ref _Handle.AsRef<CUtlVector<CSSDSEndFrameViewInfo>>(_ViewsOffset.Value);
   }
 
 

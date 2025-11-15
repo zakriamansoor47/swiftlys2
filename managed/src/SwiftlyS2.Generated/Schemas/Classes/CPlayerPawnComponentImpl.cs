@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class CPlayerPawnComponentImpl : SchemaClass, CPlayerPawnCompon
   public CPlayerPawnComponentImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> ___m_pChainEntityOffset = new(() => Schema.GetOffset(0x8B6AC9BCF63F0E7D), LazyThreadSafetyMode.None);
+
   public ref CNetworkVarChainer __m_pChainEntity {
-    get => ref _Handle.AsRef<CNetworkVarChainer>(Schema.GetOffset(0x8B6AC9BCF63F0E7D));
+    get => ref _Handle.AsRef<CNetworkVarChainer>(___m_pChainEntityOffset.Value);
   }
 
 

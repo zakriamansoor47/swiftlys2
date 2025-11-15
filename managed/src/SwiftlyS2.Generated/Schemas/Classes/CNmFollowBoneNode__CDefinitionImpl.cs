@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,17 +17,25 @@ internal partial class CNmFollowBoneNode__CDefinitionImpl : CNmPassthroughNode__
   public CNmFollowBoneNode__CDefinitionImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _BoneOffset = new(() => Schema.GetOffset(0x51BD725C8020F02F), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol Bone {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x51BD725C8020F02F));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_BoneOffset.Value);
   }
+  private static readonly Lazy<nint> _FollowTargetBoneOffset = new(() => Schema.GetOffset(0x51BD725C38216D8B), LazyThreadSafetyMode.None);
+
   public ref CGlobalSymbol FollowTargetBone {
-    get => ref _Handle.AsRef<CGlobalSymbol>(Schema.GetOffset(0x51BD725C38216D8B));
+    get => ref _Handle.AsRef<CGlobalSymbol>(_FollowTargetBoneOffset.Value);
   }
+  private static readonly Lazy<nint> _EnabledNodeIdxOffset = new(() => Schema.GetOffset(0x51BD725CF7CDF5E9), LazyThreadSafetyMode.None);
+
   public ref short EnabledNodeIdx {
-    get => ref _Handle.AsRef<short>(Schema.GetOffset(0x51BD725CF7CDF5E9));
+    get => ref _Handle.AsRef<short>(_EnabledNodeIdxOffset.Value);
   }
+  private static readonly Lazy<nint> _ModeOffset = new(() => Schema.GetOffset(0x51BD725C90FD5BB2), LazyThreadSafetyMode.None);
+
   public ref NmFollowBoneMode_t Mode {
-    get => ref _Handle.AsRef<NmFollowBoneMode_t>(Schema.GetOffset(0x51BD725C90FD5BB2));
+    get => ref _Handle.AsRef<NmFollowBoneMode_t>(_ModeOffset.Value);
   }
 
 

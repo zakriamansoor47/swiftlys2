@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,11 +17,15 @@ internal partial class CPulseCell_Outflow_CycleShuffled__InstanceState_tImpl : S
   public CPulseCell_Outflow_CycleShuffled__InstanceState_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _ShuffleOffset = new(() => Schema.GetOffset(0xD33F67BD200E9ACE), LazyThreadSafetyMode.None);
+
   public SchemaUntypedField Shuffle {
-    get => new SchemaUntypedField(_Handle + Schema.GetOffset(0xD33F67BD200E9ACE));
+    get => new SchemaUntypedField(_Handle + _ShuffleOffset.Value);
   }
+  private static readonly Lazy<nint> _NextShuffleOffset = new(() => Schema.GetOffset(0xD33F67BD741282A5), LazyThreadSafetyMode.None);
+
   public ref int NextShuffle {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xD33F67BD741282A5));
+    get => ref _Handle.AsRef<int>(_NextShuffleOffset.Value);
   }
 
 

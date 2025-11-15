@@ -174,6 +174,8 @@ void CSDKSchema::Load()
 
 	logger->Info("SDK", fmt::format("Finished loading {} SDK enums.\n", enums_count));
 
+	schemaSystem->PrintSchemaStats("");
+
 	WriteJSON(g_SwiftlyCore.GetCorePath() + "gamedata/cs2/sdk.json", sdkJson);
 }
 

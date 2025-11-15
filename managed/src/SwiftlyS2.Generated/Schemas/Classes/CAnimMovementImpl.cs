@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,26 +17,40 @@ internal partial class CAnimMovementImpl : SchemaClass, CAnimMovement {
   public CAnimMovementImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _EndframeOffset = new(() => Schema.GetOffset(0xF78C2AA2BD8E2D9B), LazyThreadSafetyMode.None);
+
   public ref int Endframe {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xF78C2AA2BD8E2D9B));
+    get => ref _Handle.AsRef<int>(_EndframeOffset.Value);
   }
+  private static readonly Lazy<nint> _MotionflagsOffset = new(() => Schema.GetOffset(0xF78C2AA22261973E), LazyThreadSafetyMode.None);
+
   public ref int Motionflags {
-    get => ref _Handle.AsRef<int>(Schema.GetOffset(0xF78C2AA22261973E));
+    get => ref _Handle.AsRef<int>(_MotionflagsOffset.Value);
   }
+  private static readonly Lazy<nint> _V0Offset = new(() => Schema.GetOffset(0xF78C2AA2954A47FB), LazyThreadSafetyMode.None);
+
   public ref float V0 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF78C2AA2954A47FB));
+    get => ref _Handle.AsRef<float>(_V0Offset.Value);
   }
+  private static readonly Lazy<nint> _V1Offset = new(() => Schema.GetOffset(0xF78C2AA2944A4668), LazyThreadSafetyMode.None);
+
   public ref float V1 {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF78C2AA2944A4668));
+    get => ref _Handle.AsRef<float>(_V1Offset.Value);
   }
+  private static readonly Lazy<nint> _AngleOffset = new(() => Schema.GetOffset(0xF78C2AA2AD544418), LazyThreadSafetyMode.None);
+
   public ref float Angle {
-    get => ref _Handle.AsRef<float>(Schema.GetOffset(0xF78C2AA2AD544418));
+    get => ref _Handle.AsRef<float>(_AngleOffset.Value);
   }
+  private static readonly Lazy<nint> _VectorOffset = new(() => Schema.GetOffset(0xF78C2AA28F89E802), LazyThreadSafetyMode.None);
+
   public ref Vector Vector {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xF78C2AA28F89E802));
+    get => ref _Handle.AsRef<Vector>(_VectorOffset.Value);
   }
+  private static readonly Lazy<nint> _PositionOffset = new(() => Schema.GetOffset(0xF78C2AA2934F4E0A), LazyThreadSafetyMode.None);
+
   public ref Vector Position {
-    get => ref _Handle.AsRef<Vector>(Schema.GetOffset(0xF78C2AA2934F4E0A));
+    get => ref _Handle.AsRef<Vector>(_PositionOffset.Value);
   }
 
 

@@ -2,6 +2,8 @@
 #pragma warning disable CS0108
 #nullable enable
 
+using System;
+using System.Threading;
 using SwiftlyS2.Core.Schemas;
 using SwiftlyS2.Shared.Schemas;
 using SwiftlyS2.Shared.SchemaDefinitions;
@@ -15,8 +17,10 @@ internal partial class vphysics_save_cphysicsbody_tImpl : RnBodyDesc_tImpl, vphy
   public vphysics_save_cphysicsbody_tImpl(nint handle) : base(handle) {
   }
 
+  private static readonly Lazy<nint> _OldPointerOffset = new(() => Schema.GetOffset(0xC6818B0AA60623F3), LazyThreadSafetyMode.None);
+
   public ref ulong OldPointer {
-    get => ref _Handle.AsRef<ulong>(Schema.GetOffset(0xC6818B0AA60623F3));
+    get => ref _Handle.AsRef<ulong>(_OldPointerOffset.Value);
   }
 
 
