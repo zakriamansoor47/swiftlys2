@@ -9,17 +9,17 @@ public abstract class BasePlugin : IPlugin
 
   protected ISwiftlyCore Core { get; private init; }
 
-  public BasePlugin(ISwiftlyCore core)
+  public BasePlugin( ISwiftlyCore core )
   {
 
     Core = core;
 
-    AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+    AppDomain.CurrentDomain.UnhandledException += ( sender, e ) =>
     {
       Core.Logger.LogCritical(e.ExceptionObject as Exception, "CRITICAL: Unhandled exception in plugin. Aborting.");
     };
 
-    TaskScheduler.UnobservedTaskException += (sender, e) =>
+    TaskScheduler.UnobservedTaskException += ( sender, e ) =>
     {
       Core.Logger.LogCritical(e.Exception, "CRITICAL: Unobserved task exception in plugin. Aborting.");
       e.SetObserved();
@@ -29,11 +29,15 @@ public abstract class BasePlugin : IPlugin
     Console.SetError(new ConsoleRedirector());
   }
 
-  public virtual void ConfigureSharedInterface(IInterfaceManager interfaceManager) { }
+  public virtual void ConfigureSharedInterface( IInterfaceManager interfaceManager ) { }
 
-  public virtual void UseSharedInterface(IInterfaceManager interfaceManager) { }
+  public virtual void UseSharedInterface( IInterfaceManager interfaceManager ) { }
 
-  public abstract void Load(bool hotReload);
+  public virtual void OnSharedInterfaceInjected( IInterfaceManager interfaceManager ) { }
+
+  public virtual void OnAllPluginsLoaded() { }
+
+  public abstract void Load( bool hotReload );
 
   public abstract void Unload();
 }

@@ -232,6 +232,11 @@ internal class PluginManager
     {
         LoadPluginsFromFolder(_RootDirService.GetPluginsRoot());
         RebuildSharedServices();
+
+        _Plugins
+            .Where(p => p.Status == PluginStatus.Loaded)
+            .ToList()
+            .ForEach(p => p.Plugin!.OnAllPluginsLoaded());
     }
 
     public List<PluginContext> GetPlugins()
@@ -243,17 +248,15 @@ internal class PluginManager
     {
         _InterfaceManager.Dispose();
 
-        _Plugins
+        var loadedPlugins = _Plugins
             .Where(p => p.Status == PluginStatus.Loaded)
-            .ToList()
-            .ForEach(p => p.Plugin!.ConfigureSharedInterface(_InterfaceManager));
+            .ToList();
 
+        loadedPlugins.ForEach(p => p.Plugin?.ConfigureSharedInterface(_InterfaceManager));
         _InterfaceManager.Build();
 
-        _Plugins
-            .Where(p => p.Status == PluginStatus.Loaded)
-            .ToList()
-            .ForEach(p => p.Plugin!.UseSharedInterface(_InterfaceManager));
+        loadedPlugins.ForEach(p => p.Plugin?.UseSharedInterface(_InterfaceManager));
+        loadedPlugins.ForEach(p => p.Plugin?.OnSharedInterfaceInjected(_InterfaceManager));
     }
 
     public PluginContext? LoadPlugin( string dir, bool hotReload )

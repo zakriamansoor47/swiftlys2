@@ -96,6 +96,10 @@
         "linux": 20
     },
     /* From sdk */
+    "IServerGameDLL::PreWorldUpdate": {
+        "windows": 15,
+        "linux": 15
+    },
     "IServerGameDLL::GameFrame": {
         "windows": 19,
         "linux": 19

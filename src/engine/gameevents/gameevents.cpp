@@ -62,6 +62,9 @@ int g_uLoadEventFromFileHookID = 0;
 IGameEventManager2* g_gameEventManager = nullptr;
 IVFunctionHook* g_GameFrameHookEventManager = nullptr;
 
+IVFunctionHook* g_PreworldUpdateHook = nullptr;
+void PreworldUpdateHook(void* _this, bool simulate);
+
 IVFunctionHook* g_pStartupServerEventHook = nullptr;
 void StartupServerEventHook(void* _this, const GameSessionConfiguration_t& config, ISource2WorldSession* a, const char* b);
 
@@ -104,6 +107,10 @@ void CEventManager::Initialize(std::string game_name)
     g_GameFrameHookEventManager->SetHookFunction(servervtable, gamedata->GetOffsets()->Fetch("IServerGameDLL::GameFrame"), reinterpret_cast<void*>(GameFrameEventManager), true);
     g_GameFrameHookEventManager->Enable();
 
+    g_PreworldUpdateHook = hooksmanager->CreateVFunctionHook();
+    g_PreworldUpdateHook->SetHookFunction(servervtable, gamedata->GetOffsets()->Fetch("IServerGameDLL::PreWorldUpdate"), reinterpret_cast<void*>(PreworldUpdateHook), true);
+    g_PreworldUpdateHook->Enable();
+
     RegisterGameEventListener("round_start");
     AddGameEventFireListener([](std::string event_name, IGameEvent* event, bool& dont_broadcast) -> int {
         if (event_name == "round_start") {
@@ -145,6 +152,16 @@ void CEventManager::Shutdown()
         hooksmanager->DestroyVFunctionHook(g_pFireEventHook);
         g_pFireEventHook = nullptr;
     }
+}
+
+extern void* g_pOnPreworldUpdateCallback;
+
+void PreworldUpdateHook(void* _this, bool simulate)
+{
+    reinterpret_cast<decltype(&PreworldUpdateHook)>(g_PreworldUpdateHook->GetOriginal())(_this, simulate);
+
+    if(g_pOnPreworldUpdateCallback)
+        reinterpret_cast<void(*)(bool)>(g_pOnPreworldUpdateCallback)(simulate);
 }
 
 void GameFrameEventManager(void* _this, bool simulate, bool first, bool last)

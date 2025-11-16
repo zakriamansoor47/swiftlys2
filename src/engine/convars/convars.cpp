@@ -501,7 +501,7 @@ void CConvarManager::SetClientConvar(int playerid, const std::string& cvar_name,
 {
     static auto gameEventSystem = g_ifaceService.FetchInterface<IGameEventSystem>(GAMEEVENTSYSTEM_INTERFACE_VERSION);
 
-    const auto netmsg = networkMessages->FindNetworkMessagePartial("SetConVar");
+    const auto netmsg = networkMessages->FindNetworkMessageById(6);
     auto msg = netmsg->AllocateMessage()->ToPB<CNETMsg_SetConVar>();
 
     CMsg_CVars_CVar* cvar = msg->mutable_convars()->add_cvars();

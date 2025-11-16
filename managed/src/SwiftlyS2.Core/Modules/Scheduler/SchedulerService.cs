@@ -34,6 +34,11 @@ internal class SchedulerService : ISchedulerService, IDisposable
     SchedulerManager.NextTick(task, _lifecycleCts.Token);
   }
 
+  public void NextWorldUpdate( Action task )
+  {
+    SchedulerManager.NextWorldUpdate(task, _lifecycleCts.Token);
+  }
+
   public CancellationTokenSource Delay( int delayTick, Action task )
   {
     CleanFinishedTimers();

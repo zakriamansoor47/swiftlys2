@@ -13,6 +13,12 @@ public class EventDelegates
   public delegate void OnTick();
 
   /// <summary>
+  /// Called when the world is updated. This happens even in hibernation.
+  /// This callback is a hot path, be careful with it and don't do anything expensive.
+  /// </summary>
+  public delegate void OnWorldUpdate();
+
+  /// <summary>
   /// Called when Steam API is activated.
   /// </summary>
   public delegate void OnSteamAPIActivated();

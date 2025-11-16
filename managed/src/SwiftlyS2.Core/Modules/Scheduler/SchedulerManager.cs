@@ -30,6 +30,36 @@ internal static class SchedulerManager
   // Next-tick tasks keyed by guid so services can remove them before they run
   private static readonly List<(Action action, CancellationToken ownerToken)> _nextTickTasks = new();
 
+  private static readonly List<(Action action, CancellationToken ownerToken)> _nextWorldUpdateTasks = new();
+
+  public static void OnWorldUpdate()
+  {
+    List<(Action action, CancellationToken ownerToken)> nextWorldUpdateActions;
+
+    lock (_lock)
+    {
+      nextWorldUpdateActions = _nextWorldUpdateTasks.ToList();
+      _nextWorldUpdateTasks.Clear();
+    }
+
+    if (nextWorldUpdateActions.Count > 0)
+    {
+      foreach (var tuple in nextWorldUpdateActions)
+      {
+        if (tuple.ownerToken.IsCancellationRequested) continue;
+        try
+        {
+          tuple.action();
+        }
+        catch (Exception ex)
+        {
+          if (!GlobalExceptionHandler.Handle(ex)) return;
+          AnsiConsole.WriteException(ex);
+        }
+      }
+    }
+  }
+
   public static void OnTick()
   {
     List<(Action action, CancellationToken ownerToken)> nextTickActions;
@@ -119,6 +149,14 @@ internal static class SchedulerManager
     lock (_lock)
     {
       _nextTickTasks.Add((task, ownerToken));
+    }
+  }
+
+  public static void NextWorldUpdate( Action task, CancellationToken ownerToken )
+  {
+    lock (_lock)
+    {
+      _nextWorldUpdateTasks.Add((task, ownerToken));
     }
   }
 

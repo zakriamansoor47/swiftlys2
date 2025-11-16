@@ -2,7 +2,8 @@ using SwiftlyS2.Shared.Natives;
 
 namespace SwiftlyS2.Shared.NetMessages;
 
-public interface INetMessage<T> where T : INetMessage<T>, ITypedProtobuf<T>, IDisposable {
+public interface INetMessage<T> where T : INetMessage<T>, ITypedProtobuf<T>, IDisposable
+{
 
   public static abstract int MessageId { get; }
   public static abstract string MessageName { get; }
@@ -11,6 +12,7 @@ public interface INetMessage<T> where T : INetMessage<T>, ITypedProtobuf<T>, IDi
 
   /// <summary>
   /// Sends the net message with current recipient filter.
+  /// </summary>
   public void Send();
 
   /// <summary>
@@ -22,6 +24,6 @@ public interface INetMessage<T> where T : INetMessage<T>, ITypedProtobuf<T>, IDi
   /// Sends the net message to the specified player.
   /// </summary>
   /// <param name="playerId">The player ID.</param>
-  public void SendToPlayer(int playerId);
+  public void SendToPlayer( int playerId );
 
 }

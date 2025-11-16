@@ -170,4 +170,14 @@ internal static class NativeEvents
     {
         _RegisterOnPrecacheResourceCallback(callback);
     }
+
+    private unsafe static delegate* unmanaged<nint, void> _RegisterOnPreworldUpdateCallback;
+
+    /// <summary>
+    /// bool simulating
+    /// </summary>
+    public unsafe static void RegisterOnPreworldUpdateCallback(nint callback)
+    {
+        _RegisterOnPreworldUpdateCallback(callback);
+    }
 }

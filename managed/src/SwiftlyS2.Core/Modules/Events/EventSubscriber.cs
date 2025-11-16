@@ -26,6 +26,7 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
   }
 
   public event EventDelegates.OnTick? OnTick;
+  public event EventDelegates.OnWorldUpdate? OnWorldUpdate;
 
   public event EventDelegates.OnClientConnected? OnClientConnected;
 
@@ -76,6 +77,23 @@ internal class EventSubscriber : IEventSubscriber, IDisposable
     finally
     {
       _Profiler.StopRecording("Event::OnTick");
+    }
+  }
+
+  public void InvokeOnWorldUpdate()
+  {
+    try
+    {
+      _Profiler.StartRecording("Event::OnWorldUpdate");
+      OnWorldUpdate?.Invoke();
+    }
+    catch (Exception e)
+    {
+      if (GlobalExceptionHandler.Handle(e)) _Logger.LogError(e, "Error invoking OnWorldUpdate.");
+    }
+    finally
+    {
+      _Profiler.StopRecording("Event::OnWorldUpdate");
     }
   }
 
