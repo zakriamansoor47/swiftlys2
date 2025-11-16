@@ -311,6 +311,11 @@ internal class PluginManager
           .Where(p => p.Status == PluginStatus.Loaded)
           .ToList()
           .ForEach(p => p.Plugin!.UseSharedInterface(_InterfaceManager));
+
+        _Plugins
+            .Where(p => p.Status == PluginStatus.Loaded)
+            .ToList()
+            .ForEach(p => p.Plugin!.OnSharedInterfaceInjected(_InterfaceManager));
     }
 
 
