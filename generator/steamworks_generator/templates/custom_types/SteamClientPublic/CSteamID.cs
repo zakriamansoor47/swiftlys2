@@ -217,14 +217,6 @@ namespace SwiftlyS2.Shared.SteamAPI
 		{
 			return (EUniverse)((m_SteamID >> 56) & 0xFFul);
 		}
-		
-		public string ToSteamIdOnline()
-		{
-			var num = m_SteamID - 76561197960265728L;
-			var value = num % 2;
-			var value2 = num / 2;
-			return $"STEAM_1:{value}:{value2}";
-		}
 
 
 		public bool IsValid()
