@@ -341,10 +341,11 @@ IPlayer* CPlayerManager::RegisterPlayer(int playerid)
     if (g_Players[playerid] != nullptr)
         UnregisterPlayer(playerid);
 
-    g_Players[playerid] = new CPlayer();
-    g_Players[playerid]->Initialize(playerid);
+    auto player = new CPlayer();
+    player->Initialize(playerid);
+    g_Players[playerid] = player;
 
-    return g_Players[playerid];
+    return player;
 }
 
 void CPlayerManager::UnregisterPlayer(int playerid)
@@ -356,11 +357,13 @@ void CPlayerManager::UnregisterPlayer(int playerid)
 
     static auto vgui = g_ifaceService.FetchInterface<IVGUI>(VGUI_INTERFACE_VERSION);
 
-    vgui->UnregisterForPlayer(g_Players[playerid]);
-
-    g_Players[playerid]->Shutdown();
-    delete g_Players[playerid];
+    auto player = g_Players[playerid];
     g_Players[playerid] = nullptr;
+
+    vgui->UnregisterForPlayer(player);
+
+    player->Shutdown();
+    delete player;
 }
 
 IPlayer* CPlayerManager::GetPlayer(int playerid)

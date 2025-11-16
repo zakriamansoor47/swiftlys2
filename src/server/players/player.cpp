@@ -122,8 +122,6 @@ void CPlayer::Shutdown()
     if (centerMessageEvent)
     {
         static auto eventmanager = g_ifaceService.FetchInterface<IEventManager>(GAMEEVENTMANAGER_INTERFACE_VERSION);
-        if (!eventmanager)
-            return;
         eventmanager->GetGameEventManager()->FreeEvent(centerMessageEvent);
         centerMessageEvent = nullptr;
     }
@@ -305,8 +303,6 @@ std::string& CPlayer::GetLanguage()
 void* CPlayer::GetController()
 {
     static auto entsystem = g_ifaceService.FetchInterface<IEntitySystem>(ENTITYSYSTEM_INTERFACE_VERSION);
-    if (!entsystem)
-        return nullptr;
 
     auto entitySystem = entsystem->GetEntitySystem();
     if (!entitySystem)
@@ -319,8 +315,6 @@ void* CPlayer::GetController()
 void* CPlayer::GetPawn()
 {
     static auto schema = g_ifaceService.FetchInterface<ISDKSchema>(SDKSCHEMA_INTERFACE_VERSION);
-    if (!schema)
-        return nullptr;
 
     auto controller = GetController();
     if (!controller)
@@ -337,8 +331,6 @@ void* CPlayer::GetPawn()
 void* CPlayer::GetPlayerPawn()
 {
     static auto schema = g_ifaceService.FetchInterface<ISDKSchema>(SDKSCHEMA_INTERFACE_VERSION);
-    if (!schema)
-        return nullptr;
 
     auto controller = GetController();
     if (!controller)
@@ -411,12 +403,7 @@ typedef IGameEventListener2* (*GetLegacyGameEventListener)(CPlayerSlot slot);
 void CPlayer::Think()
 {
     static auto gamedata = g_ifaceService.FetchInterface<IGameDataManager>(GAMEDATA_INTERFACE_VERSION);
-    if (!gamedata)
-        return;
     static auto eventmanager = g_ifaceService.FetchInterface<IEventManager>(GAMEEVENTMANAGER_INTERFACE_VERSION);
-    if (!eventmanager)
-        return;
-
     static auto pListenerSig = gamedata->GetSignatures()->Fetch("LegacyGameEventListener");
     if (pListenerSig)
     {
@@ -458,12 +445,7 @@ void CPlayer::Think()
     auto pawn = GetPawn();
 
     static auto sdkschema = g_ifaceService.FetchInterface<ISDKSchema>(SDKSCHEMA_INTERFACE_VERSION);
-    if (!sdkschema)
-        return;
-
     static auto vgui = g_ifaceService.FetchInterface<IVGUI>(VGUI_INTERFACE_VERSION);
-    if (!vgui)
-        return;
 
     if (pawn)
     {
