@@ -17,6 +17,11 @@ public interface IEngineService
     public string Map { get; }
 
     /// <summary>
+    /// Gets the Workshop ID of the current map.
+    /// </summary>
+    public string WorkshopId { get; }
+
+    /// <summary>
     /// Gets a reference to the global variables structure.
     /// </summary>
     public ref CGlobalVars GlobalVars { get; }

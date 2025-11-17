@@ -24,6 +24,8 @@ internal class EngineService : IEngineService
 
     public string Map => GlobalVars.MapName.Value;
 
+    public string WorkshopId => NativeEngineHelpers.GetWorkshopId();
+
     public int MaxPlayers => GlobalVars.MaxClients;
 
     public float CurrentTime => GlobalVars.CurrentTime;

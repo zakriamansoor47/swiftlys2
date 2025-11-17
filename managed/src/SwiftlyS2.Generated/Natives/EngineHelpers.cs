@@ -169,4 +169,18 @@ internal static class NativeEngineHelpers {
       return retString;
     }
   }
+
+  private unsafe static delegate* unmanaged<byte*, int> _GetWorkshopId;
+
+  public unsafe static string GetWorkshopId() {
+    var ret = _GetWorkshopId(null);
+    var pool = ArrayPool<byte>.Shared;
+    var retBuffer = pool.Rent(ret + 1);
+    fixed (byte* retBufferPtr = retBuffer) {
+      ret = _GetWorkshopId(retBufferPtr);
+      var retString = Encoding.UTF8.GetString(retBufferPtr, ret);
+      pool.Return(retBuffer);
+      return retString;
+    }
+  }
 }

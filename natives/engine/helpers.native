@@ -12,3 +12,4 @@ string GetMenuSettings = void
 ptr GetGlobalVars = void
 string GetCSGODirectoryPath = void
 string GetGameDirectoryPath = void
+string GetWorkshopId = void
