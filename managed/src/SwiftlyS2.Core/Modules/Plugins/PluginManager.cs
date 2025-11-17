@@ -67,7 +67,7 @@ internal class PluginManager
                     ?.Metadata?.Id;
                 if (!string.IsNullOrWhiteSpace(pluginId))
                 {
-                    ReloadPlugin(pluginId);
+                    ReloadPlugin(pluginId, true);
                 }
             }
             catch (Exception ex)
@@ -90,6 +90,153 @@ internal class PluginManager
 
         LoadExports();
         LoadPlugins();
+    }
+
+    public IReadOnlyList<PluginContext> GetPlugins() => plugins.AsReadOnly();
+
+    public PluginContext? LoadPlugin( string dir, bool hotReload, bool silent = false )
+    {
+        PluginContext? FailWithError( PluginContext context, string message )
+        {
+            if (!silent)
+            {
+                logger.LogWarning("{Message}", message);
+            }
+            context.Status = PluginStatus.Error;
+            return null;
+        }
+
+        var context = new PluginContext { PluginDirectory = dir, Status = PluginStatus.Loading };
+        plugins.Add(context);
+
+        var entrypointDll = Path.Combine(dir, Path.GetFileName(dir) + ".dll");
+        if (!File.Exists(entrypointDll))
+        {
+            return FailWithError(context, $"Plugin entrypoint DLL not found: {Path.Combine(dir, Path.GetFileName(dir))}.dll");
+        }
+
+        var currentContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly());
+        var loader = PluginLoader.CreateFromAssemblyFile(
+            entrypointDll,
+            [typeof(BasePlugin), .. sharedTypes],
+            config =>
+            {
+                config.IsUnloadable = config.LoadInMemory = true;
+                if (currentContext != null)
+                {
+                    (config.DefaultContext, config.PreferSharedTypes) = (currentContext, true);
+                }
+            }
+        );
+
+        var pluginType = loader.LoadDefaultAssembly()
+            .GetTypes()
+            .FirstOrDefault(t => t.IsSubclassOf(typeof(BasePlugin)));
+        if (pluginType == null)
+        {
+            return FailWithError(context, $"Plugin type not found: {Path.Combine(dir, Path.GetFileName(dir))}.dll");
+        }
+
+        var metadata = pluginType.GetCustomAttribute<PluginMetadata>();
+        if (metadata == null)
+        {
+            return FailWithError(context, $"Plugin metadata not found: {Path.Combine(dir, Path.GetFileName(dir))}.dll");
+        }
+
+        context.Metadata = metadata;
+        dataDirectoryService.EnsurePluginDataDirectory(metadata.Id);
+
+        var pluginDir = Path.GetDirectoryName(entrypointDll)!;
+        var dataDir = dataDirectoryService.GetPluginDataDirectory(metadata.Id);
+        var core = new SwiftlyCore(metadata.Id, pluginDir, metadata, pluginType, rootProvider, dataDir);
+
+        core.InitializeType(pluginType);
+        var plugin = (BasePlugin)Activator.CreateInstance(pluginType, [core])!;
+        core.InitializeObject(plugin);
+
+        try
+        {
+            plugin.Load(hotReload);
+            context.Status = PluginStatus.Loaded;
+            context.Core = core;
+            context.Plugin = plugin;
+            context.Loader = loader;
+            return context;
+        }
+        catch (Exception e)
+        {
+            _ = GlobalExceptionHandler.Handle(e);
+
+            try
+            {
+                plugin.Unload();
+                loader?.Dispose();
+                core?.Dispose();
+            }
+            catch { }
+
+            return FailWithError(context, $"Error loading plugin {Path.Combine(dir, Path.GetFileName(dir))}.dll");
+        }
+    }
+
+    public bool UnloadPluginById( string id, bool silent = false )
+    {
+        var context = plugins
+            .Where(p => p.Status != PluginStatus.Unloaded)
+            .FirstOrDefault(p => p.Metadata?.Id == id);
+
+        try
+        {
+            context?.Dispose();
+            context?.Loader?.Dispose();
+            context?.Core?.Dispose();
+            context!.Status = PluginStatus.Unloaded;
+            return true;
+        }
+        catch
+        {
+            if (!silent)
+            {
+                logger.LogWarning("Error unloading plugin: {Id}", id);
+            }
+            return false;
+        }
+    }
+
+    public bool LoadPluginById( string id, bool silent = false )
+    {
+        var context = plugins
+            .Where(p => p.Status == PluginStatus.Unloaded || p.Status == PluginStatus.Error)
+            .FirstOrDefault(p => p.Metadata?.Id == id);
+
+        if (context != null)
+        {
+            _ = plugins.Remove(context);
+            _ = LoadPlugin(context.PluginDirectory!, true, silent);
+            RebuildSharedServices();
+            return true;
+        }
+        else
+        {
+            RebuildSharedServices();
+            return false;
+        }
+    }
+
+    public void ReloadPlugin( string id, bool silent = false )
+    {
+        logger.LogInformation("Reloading plugin {Id}", id);
+
+        _ = UnloadPluginById(id, silent);
+
+        if (!LoadPluginById(id, silent))
+        {
+            logger.LogError("Failed to reload plugin {Id}", id);
+        }
+        else
+        {
+            logger.LogInformation("Reloaded plugin {Id}", id);
+        }
     }
 
     private void LoadExports()
@@ -218,11 +365,6 @@ internal class PluginManager
             .ForEach(p => p.Plugin!.OnAllPluginsLoaded());
     }
 
-    public List<PluginContext> GetPlugins()
-    {
-        return plugins;
-    }
-
     private void RebuildSharedServices()
     {
         interfaceManager.Dispose();
@@ -236,150 +378,5 @@ internal class PluginManager
 
         loadedPlugins.ForEach(p => p.Plugin?.UseSharedInterface(interfaceManager));
         loadedPlugins.ForEach(p => p.Plugin?.OnSharedInterfaceInjected(interfaceManager));
-    }
-
-    public PluginContext? LoadPlugin( string dir, bool hotReload )
-    {
-        PluginContext context = new() {
-            PluginDirectory = dir,
-            Status = PluginStatus.Loading,
-        };
-        plugins.Add(context);
-
-        var entrypointDll = Path.Combine(dir, Path.GetFileName(dir) + ".dll");
-
-        if (!File.Exists(entrypointDll))
-        {
-            logger.LogWarning("Plugin entrypoint DLL not found: {Path}", entrypointDll);
-            context.Status = PluginStatus.Error;
-            return null;
-        }
-
-        var loader = PluginLoader.CreateFromAssemblyFile(
-            assemblyFile: entrypointDll,
-            sharedTypes: [typeof(BasePlugin), .. sharedTypes],
-            config =>
-            {
-                config.IsUnloadable = true;
-                config.LoadInMemory = true;
-                var currentContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly());
-                if (currentContext != null)
-                {
-                    config.DefaultContext = currentContext;
-                    config.PreferSharedTypes = true;
-                }
-            }
-        );
-
-        var assembly = loader.LoadDefaultAssembly();
-        var pluginType = assembly.GetTypes().FirstOrDefault(t => t.IsSubclassOf(typeof(BasePlugin)));
-        if (pluginType == null)
-        {
-            logger.LogWarning("Plugin type not found: {Path}", entrypointDll);
-            context.Status = PluginStatus.Error;
-            return null;
-        }
-
-        var metadata = pluginType.GetCustomAttribute<PluginMetadata>();
-        if (metadata == null)
-        {
-            logger.LogWarning("Plugin metadata not found: {Path}", entrypointDll);
-            context.Status = PluginStatus.Error;
-            return null;
-        }
-
-        context.Metadata = metadata;
-        dataDirectoryService.EnsurePluginDataDirectory(metadata.Id);
-
-        var core = new SwiftlyCore(metadata.Id, Path.GetDirectoryName(entrypointDll)!, metadata, pluginType, rootProvider, dataDirectoryService.GetPluginDataDirectory(metadata.Id));
-        core.InitializeType(pluginType);
-        var plugin = (BasePlugin)Activator.CreateInstance(pluginType, [core])!;
-        core.InitializeObject(plugin);
-
-        try
-        {
-            plugin.Load(hotReload);
-        }
-        catch (Exception e)
-        {
-            if (!GlobalExceptionHandler.Handle(e))
-            {
-                context.Status = PluginStatus.Error;
-                return null;
-            }
-            logger.LogWarning(e, "Error loading plugin {Path}", entrypointDll);
-            try
-            {
-                plugin.Unload();
-                loader?.Dispose();
-                core?.Dispose();
-            }
-            catch (Exception)
-            {
-            }
-            context.Status = PluginStatus.Error;
-            return null;
-        }
-
-        context.Status = PluginStatus.Loaded;
-        context.Core = core;
-        context.Plugin = plugin;
-        context.Loader = loader;
-        return context;
-    }
-
-    public bool UnloadPlugin( string id )
-    {
-        var context = plugins
-            .Where(p => p.Status == PluginStatus.Loaded)
-            .FirstOrDefault(p => p.Metadata?.Id == id);
-
-        if (context == null)
-        {
-            logger.LogWarning("Plugin not found or not loaded: {Id}", id);
-            return false;
-        }
-
-        context.Dispose();
-        context.Status = PluginStatus.Unloaded;
-        return true;
-    }
-
-    public bool LoadPluginById( string id )
-    {
-        var context = plugins
-            .Where(p => p.Status == PluginStatus.Unloaded)
-            .FirstOrDefault(p => p.Metadata?.Id == id);
-
-        var result = false;
-        if (context != null)
-        {
-            var directory = context.PluginDirectory!;
-            _ = plugins.Remove(context);
-            _ = LoadPlugin(directory, true);
-            result = true;
-        }
-
-        RebuildSharedServices();
-        return result;
-    }
-
-    public void ReloadPlugin( string id )
-    {
-        logger.LogInformation("Reloading plugin {Id}", id);
-
-        if (!UnloadPlugin(id))
-        {
-            logger.LogWarning("Plugin not found or not loaded: {Id}", id);
-            return;
-        }
-
-        if (!LoadPluginById(id))
-        {
-            logger.LogWarning("Failed to load plugin {Id}", id);
-            return;
-        }
-
-        logger.LogInformation("Reloaded plugin {Id}", id);
     }
 }

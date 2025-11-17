@@ -272,7 +272,7 @@ GitHub: https://github.com/swiftly-solution/swiftlys2");
           _Logger.LogWarning("Usage: sw plugins unload <pluginId>");
           return;
         }
-        _PluginManager.UnloadPlugin(args[2]);
+        _PluginManager.UnloadPluginById(args[2]);
         break;
       case "reload":
         if (args.Length < 3)
@@ -280,7 +280,7 @@ GitHub: https://github.com/swiftly-solution/swiftlys2");
           _Logger.LogWarning("Usage: sw plugins reload <pluginId>");
           return;
         }
-        _PluginManager.ReloadPlugin(args[2]);
+        _PluginManager.ReloadPlugin(args[2], true);
         break;
       default:
         _Logger.LogWarning("Unknown command");
