@@ -637,11 +637,29 @@ public class TestPlugin : BasePlugin
 
     //     Core.Menus.OpenMenu(player, settingsMenu);
     // }
+
     [Command("ed")]
     public void EndRoundCommand( ICommandContext _ )
     {
         var gameRules = Core.EntitySystem.GetGameRules()!;
         gameRules.TerminateRound(RoundEndReason.CTsWin, 10.0f);
+    }
+
+    [Command("sizecheck")]
+    public void SizeCheckCommand( ICommandContext _ )
+    {
+        unsafe
+        {
+            var moveDataSize = sizeof(CMoveData);
+            var moveDataBaseSize = sizeof(CMoveDataBase);
+            var subtickMoveSize = sizeof(SubtickMove);
+            var touchListSize = sizeof(TouchListT);
+
+            Console.WriteLine($"CMoveData size: {moveDataSize} bytes");
+            Console.WriteLine($"CMoveDataBase size: {moveDataBaseSize} bytes");
+            Console.WriteLine($"SubtickMove size: {subtickMoveSize} bytes");
+            Console.WriteLine($"TouchListT size: {touchListSize} bytes");
+        }
     }
 
     [Command("tm")]
