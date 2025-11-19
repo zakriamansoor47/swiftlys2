@@ -20,6 +20,15 @@ public partial interface CCSGameRules
     public void TerminateRound( RoundEndReason reason, float delay );
 
     /// <summary>
+    /// Ends the current round with the specified reason after an optional delay
+    /// </summary>
+    /// <param name="reason">The reason for ending the round</param>
+    /// <param name="delay">The delay before ending the round</param>
+    /// <param name="teamId">The team id to end the round for</param>
+    /// <param name="unk01">Unknown parameter</param>
+    public void TerminateRound( RoundEndReason reason, float delay, uint teamId, uint unk01 = 0 );
+
+    /// <summary>
     /// Add wins to the Terrorist team
     /// </summary>
     /// <param name="wins">The number of wins to add</param>

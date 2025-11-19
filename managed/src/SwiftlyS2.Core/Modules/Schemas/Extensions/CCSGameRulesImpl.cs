@@ -14,7 +14,12 @@ internal partial class CCSGameRulesImpl : CCSGameRules
 
     public void TerminateRound( EndReason reason, float delay )
     {
-        GameFunctions.TerminateRound(Address, (uint)reason, delay);
+        GameFunctions.TerminateRound(Address, (uint)reason, delay, 0, 0);
+    }
+
+    public void TerminateRound( EndReason reason, float delay, uint teamId, uint unk01 )
+    {
+        GameFunctions.TerminateRound(Address, (uint)reason, delay, teamId, unk01);
     }
 
     public void AddTerroristWins( short wins )
@@ -25,7 +30,7 @@ internal partial class CCSGameRulesImpl : CCSGameRules
     public void AddTerroristWins( short wins, float delay )
     {
         GameFunctions.AddTerroristWins(Address, wins);
-        TerminateRound(EndReason.TerroristsWin, delay);
+        TerminateRound(EndReason.TerroristsWin, delay, 2, 1);
     }
 
     public void AddCTWins( short wins )
@@ -36,6 +41,6 @@ internal partial class CCSGameRulesImpl : CCSGameRules
     public void AddCTWins( short wins, float delay )
     {
         GameFunctions.AddCTWins(Address, wins);
-        TerminateRound(EndReason.CTsWin, delay);
+        TerminateRound(EndReason.CTsWin, delay, 3, 1);
     }
 }
