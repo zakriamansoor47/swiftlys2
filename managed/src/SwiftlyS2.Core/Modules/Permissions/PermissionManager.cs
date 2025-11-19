@@ -251,4 +251,14 @@ internal class PermissionManager : IPermissionManager
 
     _queryCache = _queryCache.Clear();
   }
+
+  public void ClearPermission( ulong playerId )
+  {
+    lock (_lock)
+    {
+      _temporaryPlayerPermissions.Remove(playerId);
+    }
+
+    _queryCache = _queryCache.Clear();
+  }
 }
