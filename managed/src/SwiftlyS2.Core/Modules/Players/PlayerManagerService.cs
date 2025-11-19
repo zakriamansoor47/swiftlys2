@@ -164,6 +164,39 @@ internal class PlayerManagerService : IPlayerManagerService
         return allPlayers;
     }
 
+    public IEnumerable<IPlayer> GetBots()
+    {
+        return GetAllPlayers().Where(p => p.IsFakeClient);
+    }
+    public IEnumerable<IPlayer> GetAlive()
+    {
+        return GetAllPlayers().Where(p => p.Pawn?.LifeState == (byte)LifeState_t.LIFE_ALIVE);
+    }
+    public IEnumerable<IPlayer> GetCT()
+    {
+        return GetAllPlayers().Where(p => p.Pawn?.TeamNum == (int)Team.CT);
+    }
+    public IEnumerable<IPlayer> GetT()
+    {
+        return GetAllPlayers().Where(p => p.Pawn?.TeamNum == (int)Team.T);
+    }
+    public IEnumerable<IPlayer> GetSpectators()
+    {
+        return GetAllPlayers().Where(p => p.Pawn?.TeamNum == (int)Team.Spectator);
+    }
+    public IEnumerable<IPlayer> GetInTeam( Team team )
+    {
+        return GetAllPlayers().Where(p => p.Pawn?.TeamNum == (int)team);
+    }
+    public IEnumerable<IPlayer> GetTAlive()
+    {
+        return GetAllPlayers().Where(p => p.Pawn?.TeamNum == (int)Team.T && p.Pawn?.LifeState == (byte)LifeState_t.LIFE_ALIVE);
+    }
+    public IEnumerable<IPlayer> GetCTAlive()
+    {
+        return GetAllPlayers().Where(p => p.Pawn?.TeamNum == (int)Team.CT && p.Pawn?.LifeState == (byte)LifeState_t.LIFE_ALIVE);
+    }
+
     public void SendMessage( MessageType kind, string message, int htmlDuration = 5000 )
     {
         NativePlayerManager.SendMessage((int)kind, message, htmlDuration);

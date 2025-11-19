@@ -93,6 +93,48 @@ public interface IPlayerManagerService
     public IEnumerable<IPlayer> GetAllPlayers();
 
     /// <summary>
+    /// Retrieves all bot players currently online.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all online bot players.</returns>
+    public IEnumerable<IPlayer> GetBots();
+    /// <summary>
+    /// Retrieves all alive players currently online.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all alive players currently online.</returns>
+    public IEnumerable<IPlayer> GetAlive();
+    /// <summary>
+    /// Retrieves all CT players currently online.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all CT players currently online.</returns>
+    public IEnumerable<IPlayer> GetCT();
+    /// <summary>
+    /// Retrieves all T players currently online.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all T players currently online.</returns>
+    public IEnumerable<IPlayer> GetT();
+    /// <summary>
+    /// Retrieves all spectator players currently online.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all spectator players currently online.</returns>
+    public IEnumerable<IPlayer> GetSpectators();
+    /// <summary>
+    /// Retrieves all players in the specified team.
+    /// </summary>
+    /// <param name="team">The team for which to retrieve players.</param>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all players in the specified team.</returns>
+    public IEnumerable<IPlayer> GetInTeam( Team team );
+    /// <summary>
+    /// Retrieves all alive T players currently online.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all alive T players currently online.</returns>
+    public IEnumerable<IPlayer> GetTAlive();
+    /// <summary>
+    /// Retrieves all alive CT players currently online.
+    /// </summary>
+    /// <returns>An enumerable collection of <see cref="IPlayer"/> instances representing all alive CT players currently online.</returns>
+    public IEnumerable<IPlayer> GetCTAlive();
+
+    /// <summary>
     /// Finds targetted players based on the provided search criteria.
     /// </summary>
     /// <param name="player">The player initiating the search.</param>
