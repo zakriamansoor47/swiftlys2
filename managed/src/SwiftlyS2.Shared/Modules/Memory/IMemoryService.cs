@@ -88,4 +88,24 @@ public interface IMemoryService
   /// <returns>The schema class.</returns>
   T ToSchemaClass<T>(nint address) where T : class, ISchemaClass<T>;
 
+  /// <summary>
+  /// Allocate a block of memory.
+  /// </summary>
+  /// <param name="size">The size of the memory block to allocate.</param>
+  /// <returns>The address of the allocated memory block.</returns>
+  nint Alloc(ulong size);
+
+  /// <summary>
+  /// Free a block of memory.
+  /// </summary>
+  /// <param name="pointer">The address of the memory block to free.</param>
+  void Free(nint pointer);
+
+  /// <summary>
+  /// Resize a block of memory.
+  /// </summary>
+  /// <param name="pointer">The address of the memory block to resize.</param>
+  /// <param name="newSize">The new size of the memory block.</param>
+  /// <returns>The address of the resized memory block.</returns>
+  nint Resize(nint pointer, ulong newSize);
 }

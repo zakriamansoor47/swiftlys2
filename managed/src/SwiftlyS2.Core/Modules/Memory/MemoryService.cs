@@ -140,6 +140,21 @@ internal class MemoryService : IMemoryService, IDisposable
     return T.From(address);
   }
 
+  public nint Alloc(ulong size)
+  {
+    return NativeAllocator.Alloc(size);
+  }
+
+  public void Free(nint pointer)
+  {
+    NativeAllocator.Free(pointer);
+  }
+
+  public nint Resize(nint pointer, ulong newSize)
+  {
+    return NativeAllocator.Resize(pointer, newSize);
+  }
+
   public void Dispose()
   {
     foreach (var function in _UnmanagedFunctions)

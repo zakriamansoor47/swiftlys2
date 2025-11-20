@@ -37,7 +37,7 @@ internal class GameService : IGameService
         match->TerroristScoreSecondHalf = 0;
         match->TerroristScoreOvertime = 0;
         match->TerroristScoreTotal = 0;
-        match->Phase = (int)GamePhase.GAMEPHASE_PLAYING_STANDARD;
+        match->Phase = GamePhase.GAMEPHASE_PLAYING_STANDARD;
 
         gameRules.TotalRoundsPlayed = 0;
         gameRules.OvertimePlaying = 0;
@@ -54,7 +54,7 @@ internal class GameService : IGameService
         var match = GetCCSMatchPtr();
         var gameRules = GetGameRules();
 
-        match->Phase = (int)phase;
+        match->Phase = phase;
 
         gameRules.GamePhaseEnum = phase;
         gameRules.GamePhaseUpdated();
@@ -117,11 +117,11 @@ internal class GameService : IGameService
         {
             match->TerroristScoreOvertime += (short)score;
         }
-        else if (match->Phase == (int)GamePhase.GAMEPHASE_PLAYING_FIRST_HALF)
+        else if (match->Phase == GamePhase.GAMEPHASE_PLAYING_FIRST_HALF)
         {
             match->TerroristScoreFirstHalf += (short)score;
         }
-        else if (match->Phase == (int)GamePhase.GAMEPHASE_PLAYING_SECOND_HALF)
+        else if (match->Phase == GamePhase.GAMEPHASE_PLAYING_SECOND_HALF)
         {
             match->TerroristScoreSecondHalf += (short)score;
         }
@@ -139,11 +139,11 @@ internal class GameService : IGameService
         {
             match->CTScoreOvertime += (short)score;
         }
-        else if (match->Phase == (int)GamePhase.GAMEPHASE_PLAYING_FIRST_HALF)
+        else if (match->Phase == GamePhase.GAMEPHASE_PLAYING_FIRST_HALF)
         {
             match->CTScoreFirstHalf += (short)score;
         }
-        else if (match->Phase == (int)GamePhase.GAMEPHASE_PLAYING_SECOND_HALF)
+        else if (match->Phase == GamePhase.GAMEPHASE_PLAYING_SECOND_HALF)
         {
             match->CTScoreSecondHalf += (short)score;
         }

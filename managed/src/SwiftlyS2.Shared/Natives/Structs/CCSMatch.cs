@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using SwiftlyS2.Shared.Misc;
 
 namespace SwiftlyS2.Shared.Natives;
 
@@ -16,8 +17,8 @@ public struct CCSMatch
     public short TerroristScoreSecondHalf;
     public short TerroristScoreOvertime;
     public short TerroristScoreTotal;
-    public short Unknown;
-    public int Phase;
+    private readonly short _padding;
+    public GamePhase Phase;
 
     /// <summary>
     /// Returns a formatted string representation of the match data.
