@@ -15,3 +15,4 @@ ptr GetFirstActiveEntity = void
 uint64 HookEntityOutput = string className, string outputName, ptr callback // CEntityIOOutput*, string outputName, CEntityInstance* activator, CEntityInstance* caller, float delay -> int (HookResult)
 void UnhookEntityOutput = uint64 hookid
 ptr GetEntityByIndex = uint32 index
+bool IsValid = void

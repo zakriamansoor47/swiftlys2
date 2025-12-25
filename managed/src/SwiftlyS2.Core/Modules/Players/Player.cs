@@ -139,12 +139,33 @@ internal class Player : IPlayer
         return SchedulerManager.QueueOrNow(() => TakeDamage(damageInfo));
     }
 
+    public void TakeDamage( float damage, DamageTypes_t damageType, CBaseEntity? inflictor = null, CBaseEntity? attacker = null, CBaseEntity? ability = null )
+    {
+        var info = new CTakeDamageInfo(damage, damageType, inflictor, attacker, ability);
+        TakeDamage(info);
+    }
+
+    public Task TakeDamageAsync( float damage, DamageTypes_t damageType, CBaseEntity? inflictor = null, CBaseEntity? attacker = null, CBaseEntity? ability = null )
+    {
+        return SchedulerManager.QueueOrNow(() => TakeDamage(damage, damageType, inflictor, attacker, ability));
+    }
+
     public void Teleport( Vector pos, QAngle angle, Vector velocity )
     {
-        NativePlayer.Teleport(Slot, pos, angle, velocity);
+        Pawn!.Teleport(pos, angle, velocity);
+    }
+
+    public void Teleport( Vector? pos = null, QAngle? angle = null, Vector? velocity = null )
+    {
+        Pawn!.Teleport(pos, angle, velocity);
     }
 
     public Task TeleportAsync( Vector pos, QAngle angle, Vector velocity )
+    {
+        return SchedulerManager.QueueOrNow(() => Teleport(pos, angle, velocity));
+    }
+
+    public Task TeleportAsync( Vector? pos = null, QAngle? angle = null, Vector? velocity = null )
     {
         return SchedulerManager.QueueOrNow(() => Teleport(pos, angle, velocity));
     }

@@ -1,6 +1,6 @@
 /************************************************************************************************
  * SwiftlyS2 is a scripting framework for Source2-based games.
- * Copyright (C) 2025 Swiftly Solution SRL via Sava Andrei-Sebastian and it's contributors
+ * Copyright (C) 2023-2026 Swiftly Solution SRL via Sava Andrei-Sebastian and it's contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -173,6 +173,11 @@ void* Bridge_EngineHelpers_GetGlobalVars()
     return engine->GetServerGlobals();
 }
 
+void* Bridge_EngineHelpers_GetNetworkGameServer()
+{
+    return g_ifaceService.FetchInterface<INetworkServerService>(NETWORKSERVERSERVICE_INTERFACE_VERSION)->GetIGameServer();
+}
+
 int Bridge_EngineHelpers_GetIP(char* out)
 {
     auto networksystem = g_ifaceService.FetchInterface<INetworkSystem>(NETWORKSYSTEM_INTERFACE_VERSION);
@@ -206,3 +211,4 @@ DEFINE_NATIVE("EngineHelpers.GetGlobalVars", Bridge_EngineHelpers_GetGlobalVars)
 DEFINE_NATIVE("EngineHelpers.GetCSGODirectoryPath", Bridge_EngineHelpers_GetCSGODirectoryPath);
 DEFINE_NATIVE("EngineHelpers.GetGameDirectoryPath", Bridge_EngineHelpers_GetGameDirectoryPath);
 DEFINE_NATIVE("EngineHelpers.GetWorkshopId", Bridge_EngineHelpers_GetWorkshopId);
+DEFINE_NATIVE("EngineHelpers.GetNetworkGameServer", Bridge_EngineHelpers_GetNetworkGameServer);

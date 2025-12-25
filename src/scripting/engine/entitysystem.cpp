@@ -1,6 +1,6 @@
 /************************************************************************************************
  * SwiftlyS2 is a scripting framework for Source2-based games.
- * Copyright (C) 2025 Swiftly Solution SRL via Sava Andrei-Sebastian and it's contributors
+ * Copyright (C) 2023-2026 Swiftly Solution SRL via Sava Andrei-Sebastian and it's contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -121,6 +121,12 @@ void* Bridge_EntitySystem_GetEntityByIndex(uint32_t index)
     return entsystem->GetEntitySystem()->GetEntityInstance(CEntityIndex(index));
 }
 
+bool Bridge_EntitySystem_IsValid()
+{
+    static auto entsystem = g_ifaceService.FetchInterface<IEntitySystem>(ENTITYSYSTEM_INTERFACE_VERSION);
+    return entsystem->GetEntitySystem() != nullptr;
+}
+
 DEFINE_NATIVE("EntitySystem.Spawn", Bridge_EntitySystem_Spawn);
 DEFINE_NATIVE("EntitySystem.Despawn", Bridge_EntitySystem_Despawn);
 DEFINE_NATIVE("EntitySystem.CreateEntityByName", Bridge_EntitySystem_CreateEntityByName);
@@ -136,3 +142,4 @@ DEFINE_NATIVE("EntitySystem.GetFirstActiveEntity", Bridge_EntitySystem_GetFirstA
 DEFINE_NATIVE("EntitySystem.HookEntityOutput", Bridge_EntitySystem_HookEntityOutput);
 DEFINE_NATIVE("EntitySystem.UnhookEntityOutput", Bridge_EntitySystem_UnhookEntityOutput);
 DEFINE_NATIVE("EntitySystem.GetEntityByIndex", Bridge_EntitySystem_GetEntityByIndex);
+DEFINE_NATIVE("EntitySystem.IsValid", Bridge_EntitySystem_IsValid);

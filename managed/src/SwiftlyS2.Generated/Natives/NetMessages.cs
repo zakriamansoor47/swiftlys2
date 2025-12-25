@@ -9,7 +9,6 @@ using SwiftlyS2.Shared.Natives;
 namespace SwiftlyS2.Core.Natives;
 
 internal static class NativeNetMessages {
-  private static int _MainThreadID;
 
   private unsafe static delegate* unmanaged<int, nint> _AllocateNetMessageByID;
 
@@ -1120,10 +1119,16 @@ internal static class NativeNetMessages {
     }
   }
 
+  private unsafe static delegate* unmanaged<nint, void> _Clear;
+
+  public unsafe static void Clear(nint netmsg) {
+    _Clear(netmsg);
+  }
+
   private unsafe static delegate* unmanaged<nint, int, int, void> _SendMessage;
 
   public unsafe static void SendMessage(nint netmsg, int msgid, int playerid) {
-    if (Thread.CurrentThread.ManagedThreadId != _MainThreadID) {
+    if (!NativeBinding.IsMainThread) {
       throw new InvalidOperationException("This method can only be called from the main thread.");
     }
     _SendMessage(netmsg, msgid, playerid);
@@ -1135,7 +1140,7 @@ internal static class NativeNetMessages {
   /// each bit in player_mask represents a playerid
   /// </summary>
   public unsafe static void SendMessageToPlayers(nint netmsg, int msgid, ulong playermask) {
-    if (Thread.CurrentThread.ManagedThreadId != _MainThreadID) {
+    if (!NativeBinding.IsMainThread) {
       throw new InvalidOperationException("This method can only be called from the main thread.");
     }
     _SendMessageToPlayers(netmsg, msgid, playermask);

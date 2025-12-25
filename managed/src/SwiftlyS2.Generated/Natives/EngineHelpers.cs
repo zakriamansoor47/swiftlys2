@@ -9,7 +9,6 @@ using SwiftlyS2.Shared.Natives;
 namespace SwiftlyS2.Core.Natives;
 
 internal static class NativeEngineHelpers {
-  private static int _MainThreadID;
 
   private unsafe static delegate* unmanaged<byte*, int> _GetIP;
 
@@ -46,7 +45,7 @@ internal static class NativeEngineHelpers {
   private unsafe static delegate* unmanaged<byte*, void> _ExecuteCommand;
 
   public unsafe static void ExecuteCommand(string command) {
-    if (Thread.CurrentThread.ManagedThreadId != _MainThreadID) {
+    if (!NativeBinding.IsMainThread) {
       throw new InvalidOperationException("This method can only be called from the main thread.");
     }
     var pool = ArrayPool<byte>.Shared;
@@ -142,6 +141,13 @@ internal static class NativeEngineHelpers {
 
   public unsafe static nint GetGlobalVars() {
     var ret = _GetGlobalVars();
+    return ret;
+  }
+
+  private unsafe static delegate* unmanaged<nint> _GetNetworkGameServer;
+
+  public unsafe static nint GetNetworkGameServer() {
+    var ret = _GetNetworkGameServer();
     return ret;
   }
 

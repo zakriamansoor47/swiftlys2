@@ -9,7 +9,6 @@ using SwiftlyS2.Shared.Natives;
 namespace SwiftlyS2.Core.Natives;
 
 internal static class NativeCore {
-  private static int _MainThreadID;
 
   private unsafe static delegate* unmanaged<byte> _PluginManualLoadState;
 
@@ -30,5 +29,12 @@ internal static class NativeCore {
       pool.Return(retBuffer);
       return retString;
     }
+  }
+
+  private unsafe static delegate* unmanaged<byte> _EnableProfilerByDefault;
+
+  public unsafe static bool EnableProfilerByDefault() {
+    var ret = _EnableProfilerByDefault();
+    return ret == 1;
   }
 }

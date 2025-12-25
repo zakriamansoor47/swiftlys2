@@ -33,6 +33,16 @@ internal class PlayerManagerService : IPlayerManagerService
         return new Player(playerid);
     }
 
+    public IPlayer? GetPlayerFromController( CBasePlayerController controller )
+    {
+        return GetPlayer((int)(controller.Index - 1));
+    }
+
+    public IPlayer? GetPlayerFromPawn( CBasePlayerPawn pawn )
+    {
+        return pawn.Controller.Value is not { IsValid: true } controller ? null : GetPlayerFromController(controller);
+    }
+
     public bool IsPlayerOnline( int playerid )
     {
         return NativePlayerManager.IsPlayerOnline(playerid);
@@ -122,7 +132,7 @@ internal class PlayerManagerService : IPlayerManagerService
                 var ccsgamerules = new CCSGameRulesImpl(NativeEntitySystem.GetGameRules());
                 var pickerEntity = ccsgamerules.FindPickerEntity<CCSPlayerPawn>(player.Controller);
 
-                if (pickerEntity != null && pickerEntity.DesignerName == "player")
+                if (pickerEntity != null && pickerEntity.IsValid && pickerEntity.DesignerName == "player")
                 {
                     var entIndex = pickerEntity.OriginalController.Value?.Entity?.EntityHandle.EntityIndex;
                     if (entIndex.HasValue)

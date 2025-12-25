@@ -9,6 +9,8 @@ using SwiftlyS2.Core.Natives;
 using SwiftlyS2.Core.Services;
 using SwiftlyS2.Shared.Plugins;
 using SwiftlyS2.Core.Modules.Plugins;
+using System.Runtime.InteropServices;
+using SwiftlyS2.Core.Events;
 
 namespace SwiftlyS2.Core.Plugins;
 
@@ -54,8 +56,13 @@ internal class PluginManager : IPluginManager
         };
         this.fileWatcher.Changed += ( sender, e ) =>
         {
-            static async Task WaitForFileAccess( CancellationToken token, string filePath, int maxRetries = 10, int initialDelayMs = 50 )
+            static async Task WaitForFileAccess( CancellationToken token, string filePath, int maxRetries = 10, int initialDelayMs = 50, ILogger<PluginManager> logger = null )
             {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    logger.LogWarning("Detected Linux OS, a 5 second delay for reload.");
+                    await Task.Delay(5000, token);
+                }
                 for (var i = 1; i <= maxRetries && !token.IsCancellationRequested; i++)
                 {
                     try
@@ -86,7 +93,8 @@ internal class PluginManager : IPluginManager
                     return;
                 }
 
-                var directoryName = Path.GetFileName(Path.GetDirectoryName(e.FullPath)) ?? string.Empty;
+                var pluginDirectory = Path.GetDirectoryName(e.FullPath) ?? string.Empty;
+                var directoryName = Path.GetFileName(pluginDirectory) ?? string.Empty;
                 var fileName = Path.GetFileNameWithoutExtension(e.FullPath);
                 if (string.IsNullOrWhiteSpace(directoryName) || !fileName.Equals(directoryName))
                 {
@@ -97,6 +105,26 @@ internal class PluginManager : IPluginManager
                 {
                     _ = fileLastChange.AddOrUpdate(directoryName, DateTime.UtcNow, ( _, _ ) => DateTime.UtcNow);
 
+                    var context = plugins.Find(x => pluginDirectory.Equals(x.PluginDirectory, StringComparison.CurrentCultureIgnoreCase));
+                    if (context != null)
+                    {
+                        var plugin = context.Plugin;
+                        if (plugin != null)
+                        {
+                            var method = plugin.ReloadMethod;
+                            if (method == PluginReloadMethod.OnMapChange)
+                            {
+                                context.NeedReloadOnMapStart = true;
+                                logger.LogInformation("Found plugin file update, it will be reloaded on next map start: {name}", directoryName);
+                                return;
+                            }
+                            if (method == PluginReloadMethod.OnlyByCommand)
+                            {
+                                logger.LogInformation("Found plugin file update, but its auto hot-reload is disabled: {name}", directoryName);
+                                return;
+                            }
+                        }
+                    }
                     if (fileReloadTokens.TryRemove(directoryName, out var oldCts))
                     {
                         oldCts.Cancel();
@@ -111,7 +139,7 @@ internal class PluginManager : IPluginManager
                     {
                         try
                         {
-                            await WaitForFileAccess(cts.Token, e.FullPath);
+                            await WaitForFileAccess(cts.Token, e.FullPath, logger: logger);
                             Console.WriteLine("\n");
                             if (ReloadPluginByDllName(directoryName, true))
                             {
@@ -149,6 +177,23 @@ internal class PluginManager : IPluginManager
             return loadingAssemblyName.Equals("SwiftlyS2.CS2", StringComparison.OrdinalIgnoreCase)
                 ? Assembly.GetExecutingAssembly()
                 : AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => loadingAssemblyName == a.GetName().Name);
+        };
+        EventPublisher.InternalOnMapLoad += () =>
+        {
+            var array = plugins.Where(x => x.NeedReloadOnMapStart).ToArray();
+            foreach (var p in array)
+            {
+                p.NeedReloadOnMapStart = false;
+                var directoryName = Path.GetFileName(p.PluginDirectory) ?? string.Empty;
+                if (ReloadPluginByDllName(directoryName, true))
+                {
+                    logger.LogInformation("Reloaded plugin on map start: {Format}", directoryName);
+                }
+                else
+                {
+                    logger.LogWarning("Failed to reload plugin: {Format}", directoryName);
+                }
+            }
         };
     }
 
@@ -216,10 +261,7 @@ internal class PluginManager : IPluginManager
         }
         catch
         {
-            if (!silent)
-            {
-                logger.LogWarning("Failed to unload plugin by id: {Id}", id);
-            }
+            logger.LogWarning("Failed to unload plugin by id: {Id}", id);
             if (context != null)
             {
                 context.Status = PluginStatus.Indeterminate;
@@ -237,10 +279,7 @@ internal class PluginManager : IPluginManager
         var pluginDir = FindPluginDirectoryByDllName(dllName);
         if (string.IsNullOrWhiteSpace(pluginDir))
         {
-            if (!silent)
-            {
-                logger.LogWarning("Failed to find plugin by name: {DllName}", dllName);
-            }
+            logger.LogWarning("Failed to find plugin by name: {DllName}", dllName);
             return false;
         }
 
@@ -250,10 +289,7 @@ internal class PluginManager : IPluginManager
 
         if (string.IsNullOrWhiteSpace(context?.Metadata?.Id))
         {
-            if (!silent)
-            {
-                logger.LogWarning("Failed to find plugin by name: {DllName}", dllName);
-            }
+            logger.LogWarning("Failed to find plugin by name: {DllName}", dllName);
             return false;
         }
 
@@ -268,10 +304,7 @@ internal class PluginManager : IPluginManager
 
         if (string.IsNullOrWhiteSpace(context?.PluginDirectory))
         {
-            if (!silent)
-            {
-                logger.LogWarning("Failed to load plugin by id: {Id}", id);
-            }
+            logger.LogWarning("Failed to load plugin by id: {Id}", id);
             return false;
         }
 
@@ -283,10 +316,7 @@ internal class PluginManager : IPluginManager
         var pluginDir = FindPluginDirectoryByDllName(dllName);
         if (string.IsNullOrWhiteSpace(pluginDir))
         {
-            if (!silent)
-            {
-                logger.LogWarning("Failed to load plugin by name: {DllName}", dllName);
-            }
+            logger.LogWarning("Failed to load plugin by name: {DllName}", dllName);
             return false;
         }
 
@@ -317,10 +347,7 @@ internal class PluginManager : IPluginManager
             {
                 return false;
             }
-            if (!silent)
-            {
-                logger.LogWarning("Failed to load plugin by name: {Path}", pluginDir);
-            }
+            logger.LogWarning(e, "Failed to load plugin by name: {Path}", pluginDir);
             if (newContext != null)
             {
                 newContext.Status = PluginStatus.Indeterminate;
@@ -435,7 +462,7 @@ internal class PluginManager : IPluginManager
 
             try
             {
-                var context = LoadPlugin(pluginDir, true, silent: false);
+                var context = LoadPlugin(pluginDir, false, silent: false);
                 if (context?.Status == PluginStatus.Loaded)
                 {
                     logger.LogInformation(
@@ -480,10 +507,7 @@ internal class PluginManager : IPluginManager
     {
         PluginContext? FailWithError( PluginContext context, string message )
         {
-            if (!silent)
-            {
-                logger.LogWarning("{Message}", message);
-            }
+            logger.LogWarning("{Message}", message);
             context.Status = PluginStatus.Error;
             return null;
         }

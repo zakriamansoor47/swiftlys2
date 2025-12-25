@@ -15,12 +15,11 @@ internal class PluginConfigurationService : IPluginConfigurationService
   private CoreContext _Id { get; init; }
   private IConfigurationManager? _Manager { get; set; }
 
-  public bool BasePathExists
-  {
+  public bool BasePathExists {
     get => Path.Exists(BasePath);
   }
 
-  public PluginConfigurationService(CoreContext id, ConfigurationService configurationService)
+  public PluginConfigurationService( CoreContext id, ConfigurationService configurationService )
   {
     _Id = id;
     _ConfigurationService = configurationService;
@@ -38,12 +37,12 @@ internal class PluginConfigurationService : IPluginConfigurationService
     return dir;
   }
 
-  public string GetConfigPath(string name)
+  public string GetConfigPath( string name )
   {
     return Path.Combine(GetRoot(), name);
   }
 
-  public IPluginConfigurationService InitializeWithTemplate(string name, string templatePath)
+  public IPluginConfigurationService InitializeWithTemplate( string name, string templatePath )
   {
 
     var configPath = GetConfigPath(name);
@@ -58,7 +57,6 @@ internal class PluginConfigurationService : IPluginConfigurationService
     {
       Directory.CreateDirectory(dir);
     }
-    File.Create(configPath).Close();
 
     var templateAbsPath = Path.Combine(_Id.BaseDirectory, "resources", "templates", templatePath);
 
@@ -71,7 +69,7 @@ internal class PluginConfigurationService : IPluginConfigurationService
     return this;
   }
 
-  public IPluginConfigurationService InitializeJsonWithModel<T>(string name, string sectionName) where T : class, new()
+  public IPluginConfigurationService InitializeJsonWithModel<T>( string name, string sectionName ) where T : class, new()
   {
 
     var configPath = GetConfigPath(name);
@@ -89,13 +87,11 @@ internal class PluginConfigurationService : IPluginConfigurationService
 
     var config = new T();
 
-    var wrapped = new Dictionary<string, object?>
-    {
+    var wrapped = new Dictionary<string, object?> {
       [sectionName] = config
     };
 
-    var options = new JsonSerializerOptions
-    {
+    var options = new JsonSerializerOptions {
       WriteIndented = true,
       IncludeFields = true,
       PropertyNamingPolicy = null
@@ -107,7 +103,7 @@ internal class PluginConfigurationService : IPluginConfigurationService
     return this;
   }
 
-  public IPluginConfigurationService InitializeTomlWithModel<T>(string name, string sectionName) where T : class, new()
+  public IPluginConfigurationService InitializeTomlWithModel<T>( string name, string sectionName ) where T : class, new()
   {
 
     var configPath = GetConfigPath(name);
@@ -125,27 +121,29 @@ internal class PluginConfigurationService : IPluginConfigurationService
 
     var config = new T();
 
-    var wrapped = new Dictionary<string, object?>
-    {
+    var wrapped = new Dictionary<string, object?> {
       [sectionName] = config
     };
 
-    var tomlString = Toml.FromModel(wrapped);
+    var tomlModelOptions = new TomlModelOptions {
+      ConvertPropertyName = name => name,
+      IgnoreMissingProperties = true
+    };
+
+    var tomlString = Toml.FromModel(wrapped, tomlModelOptions);
     File.WriteAllText(configPath, tomlString);
 
     return this;
   }
 
-  public IPluginConfigurationService Configure(Action<IConfigurationBuilder> configure)
+  public IPluginConfigurationService Configure( Action<IConfigurationBuilder> configure )
   {
     configure(Manager);
     return this;
   }
 
-  public IConfigurationManager Manager
-  {
-    get
-    {
+  public IConfigurationManager Manager {
+    get {
       if (!BasePathExists)
       {
         throw new Exception("Base path does not exist in file system. Please call InitializeWithTemplate, InitializeJsonWithModel or InitializeTomlWithModel before using the Manager.");

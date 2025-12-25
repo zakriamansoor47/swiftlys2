@@ -4,7 +4,7 @@ using SwiftlyS2.Shared.Misc;
 
 namespace SwiftlyS2.Shared.SchemaDefinitions;
 
-public partial interface CEntityInstance
+public partial interface CEntityInstance : IEquatable<CEntityInstance>
 {
 
 
